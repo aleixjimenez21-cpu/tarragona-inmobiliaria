@@ -1,0 +1,2769 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aleix Jiménez — Real Estate Operator · Tarragona</title>
+  <meta name="description" content="Descubre qué decisión tomar con tu vivienda en Tarragona. Análisis gratuito, sin compromiso. Vender, alquilar, reformar o esperar: te oriento con datos reales." />
+  <meta name="author" content="Aleix Jiménez" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: { 950:'#06070c', 900:'#0b0c14', 800:'#10111b', 700:'#16182a' },
+            gold: { 300:'#e8cc7a', 400:'#d4b84e', 500:'#c9a84c', 600:'#b8963d' },
+            ice:  { 400:'#60a5fa', 500:'#4f9ef8' },
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="leaflet.css" />
+  <script src="leaflet.js"></script>
+</head>
+
+<body>
+<div id="cursor-glow"></div>
+
+<!-- ═══════════════════════════════════════════════
+     1. NAVBAR
+═══════════════════════════════════════════════ -->
+<nav id="nav">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="#inicio" class="flex items-center gap-3">
+      <div class="nav-monogram">AJ</div>
+      <div class="leading-none">
+        <div class="font-['Space_Grotesk'] font-semibold text-sm text-[var(--text-1)] tracking-tight">Aleix Jiménez</div>
+        <div class="text-[10px] font-medium text-[var(--text-3)] tracking-[0.1em] uppercase mt-0.5">Real Estate Operator</div>
+      </div>
+    </a>
+
+    <!-- Desktop links -->
+    <div class="hidden lg:flex items-center gap-7">
+      <a href="#inicio"      class="nav-link">Inicio</a>
+      <a href="#proceso"     class="nav-link">Cómo funciona</a>
+      <a href="#calculadora" class="nav-link">Diagnóstico</a>
+      <a href="#servicios"   class="nav-link">Servicios</a>
+      <a href="#faq"         class="nav-link">FAQ</a>
+      <a href="#contacto"    class="nav-link">Contacto</a>
+    </div>
+
+    <!-- CTA desktop -->
+    <a href="#calculadora" class="hidden lg:inline-flex btn-gold text-xs py-2.5 px-5">
+      Iniciar diagnóstico
+    </a>
+
+    <!-- Hamburger -->
+    <button id="hamburger" class="lg:hidden p-2 rounded-lg" aria-label="Menú" onclick="toggleMenu()">
+      <svg id="icon-open" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="text-[var(--text-1)]">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+      <svg id="icon-close" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="text-[var(--text-1)] hidden">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-nav">
+    <div class="max-w-6xl mx-auto px-5 py-4 flex flex-col gap-1">
+      <a href="#inicio"      class="btn-ghost py-2.5 text-sm" onclick="closeMenu()">Inicio</a>
+      <a href="#proceso"     class="btn-ghost py-2.5 text-sm" onclick="closeMenu()">Cómo funciona</a>
+      <a href="#calculadora" class="btn-ghost py-2.5 text-sm" onclick="closeMenu()">Diagnóstico</a>
+      <a href="#servicios"   class="btn-ghost py-2.5 text-sm" onclick="closeMenu()">Servicios</a>
+      <a href="#faq"         class="btn-ghost py-2.5 text-sm" onclick="closeMenu()">FAQ</a>
+      <a href="#contacto"    class="btn-ghost py-2.5 text-sm" onclick="closeMenu()">Contacto</a>
+      <div class="pt-2 border-t border-[var(--border)] mt-2">
+        <a href="#calculadora" class="btn-gold w-full justify-center py-3 text-sm" onclick="closeMenu()">Iniciar diagnóstico</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════
+     2. HERO
+═══════════════════════════════════════════════ -->
+<section id="inicio">
+  <!-- Backgrounds -->
+  <div class="hero-grid-bg"></div>
+  <div class="hero-diag-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <!-- Panel glow spot -->
+  <div class="hero-panel-glow"></div>
+
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 w-full py-20 md:py-24 relative z-10">
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+      <!-- ── LEFT: Copy ───────────────────────────── -->
+      <div>
+        <!-- Badge -->
+        <div class="hero-badge-wrap reveal mb-7">
+          <span class="badge">
+            <span class="dot"></span>
+            Operador inmobiliario privado · Tarragona
+          </span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="reveal d1 font-['Space_Grotesk'] text-[2.2rem] sm:text-[2.9rem] lg:text-[3.4rem] font-extrabold leading-[1.08] tracking-tight mb-6">
+          No decidas qué hacer<br/>
+          con tu vivienda sin<br/>
+          <span class="text-gold">leer primero<br class="hidden sm:block"/> la operación.</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="reveal d2 text-[var(--text-2)] text-base sm:text-[1.05rem] leading-relaxed mb-9 max-w-lg">
+          El precio es solo un número. Lo que importa es entender si vender, alquilar, reformar o esperar es la decisión correcta para <span class="text-[var(--text-1)] font-medium">tu inmueble, tu zona y tu momento.</span>
+        </p>
+
+        <!-- CTAs -->
+        <div class="reveal d3 flex flex-col sm:flex-row gap-3 mb-10">
+          <a href="#calculadora" class="btn-gold">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            Empezar diagnóstico
+          </a>
+          <a href="#proceso" class="btn-outline text-sm">
+            Ver cómo funciona
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+        </div>
+
+        <!-- Proof strip -->
+        <div class="reveal d4 flex flex-wrap gap-x-6 gap-y-3 pt-7 border-t border-[var(--border)]">
+          <div>
+            <div class="font-['Space_Grotesk'] text-[1.6rem] font-bold text-[var(--text-1)]">37</div>
+            <div class="text-[var(--text-3)] text-xs mt-0.5">Municipios con datos reales de mercado 2024–2025</div>
+          </div>
+          <div class="w-px bg-[var(--border)]"></div>
+          <div>
+            <div class="font-['Space_Grotesk'] text-[1.05rem] font-bold text-[var(--text-1)] leading-tight">Tarragona · Costa Daurada</div>
+            <div class="text-[var(--text-3)] text-xs mt-0.5">Zona de operación</div>
+          </div>
+          <div class="w-px bg-[var(--border)]"></div>
+          <div>
+            <div class="font-['Space_Grotesk'] text-[1.05rem] font-bold text-[var(--text-1)] leading-tight">Diagnóstico gratuito</div>
+            <div class="text-[var(--text-3)] text-xs mt-0.5">Sin compromiso de venta</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── RIGHT: Architectural visual ──────────── -->
+      <div class="hidden lg:block">
+        <div class="hv2-scene">
+
+          <span class="hv2-corner hv2-tl"></span>
+          <span class="hv2-corner hv2-tr"></span>
+          <span class="hv2-corner hv2-bl"></span>
+          <span class="hv2-corner hv2-br"></span>
+
+          <div class="hv2-scanline" aria-hidden="true"></div>
+          <div class="hv2-scanglow" aria-hidden="true"></div>
+
+          <svg class="hv2-svg" viewBox="0 0 500 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="bldGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(201,168,76,0.07)"/>
+                <stop offset="100%" stop-color="rgba(201,168,76,0.01)"/>
+              </linearGradient>
+            </defs>
+
+            <line x1="0" y1="400" x2="500" y2="400" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+            <line x1="0" y1="300" x2="500" y2="300" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
+            <line x1="0" y1="200" x2="500" y2="200" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
+            <line x1="0" y1="100" x2="500" y2="100" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
+
+            <!-- B1 far left short -->
+            <rect class="hv2-bld hv2-b1" x="8" y="270" width="60" height="130" fill="url(#bldGrad)" stroke="rgba(201,168,76,0.22)" stroke-width="1" rx="1"/>
+            <rect class="hv2-win wd1"  x="18"  y="283" width="14" height="9" rx="1"/>
+            <rect class="hv2-win wd2"  x="38"  y="283" width="14" height="9" rx="1"/>
+            <rect class="hv2-win wd3"  x="18"  y="300" width="14" height="9" rx="1"/>
+            <rect class="hv2-win wd4"  x="38"  y="300" width="14" height="9" rx="1"/>
+            <rect class="hv2-win wd5"  x="18"  y="317" width="14" height="9" rx="1"/>
+            <rect class="hv2-win wd6"  x="38"  y="317" width="14" height="9" rx="1"/>
+            <rect class="hv2-win wd7"  x="18"  y="334" width="14" height="9" rx="1"/>
+            <rect class="hv2-win wd8"  x="38"  y="334" width="14" height="9" rx="1"/>
+
+            <!-- B2 left medium -->
+            <rect class="hv2-bld hv2-b2" x="84" y="130" width="80" height="270" fill="url(#bldGrad)" stroke="rgba(201,168,76,0.26)" stroke-width="1" rx="1"/>
+            <rect class="hv2-win wd9"  x="95"  y="145" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd10" x="123" y="145" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd11" x="95"  y="167" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd12" x="123" y="167" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd13" x="95"  y="189" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd14" x="123" y="189" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd15" x="95"  y="211" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd16" x="123" y="211" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd17" x="95"  y="233" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd18" x="123" y="233" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd19" x="95"  y="255" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd20" x="123" y="255" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd21" x="95"  y="277" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd22" x="123" y="277" width="22" height="13" rx="1"/>
+
+            <!-- B3 center tallest -->
+            <rect class="hv2-bld hv2-b3" x="180" y="28" width="102" height="372" fill="url(#bldGrad)" stroke="rgba(201,168,76,0.38)" stroke-width="1.3" rx="1"/>
+            <rect class="hv2-win wd23" x="192" y="46"  width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd24" x="220" y="46"  width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd25" x="248" y="46"  width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd26" x="192" y="68"  width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd27" x="220" y="68"  width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd28" x="248" y="68"  width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd29" x="192" y="90"  width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd30" x="220" y="90"  width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd31" x="248" y="90"  width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd32" x="192" y="112" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd33" x="220" y="112" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd34" x="248" y="112" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd35" x="192" y="134" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd36" x="220" y="134" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd37" x="248" y="134" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd38" x="192" y="156" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd39" x="220" y="156" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd40" x="248" y="156" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd41" x="192" y="178" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd42" x="220" y="178" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd43" x="248" y="178" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd44" x="192" y="200" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd45" x="220" y="200" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd46" x="248" y="200" width="22" height="13" rx="1"/>
+
+            <!-- B4 center-right -->
+            <rect class="hv2-bld hv2-b4" x="298" y="98" width="84" height="302" fill="url(#bldGrad)" stroke="rgba(201,168,76,0.29)" stroke-width="1" rx="1"/>
+            <rect class="hv2-win wd47" x="310" y="114" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd48" x="340" y="114" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd49" x="310" y="136" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd50" x="340" y="136" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd51" x="310" y="158" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd52" x="340" y="158" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd53" x="310" y="180" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd54" x="340" y="180" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd55" x="310" y="202" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd56" x="340" y="202" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd57" x="310" y="224" width="22" height="13" rx="1"/>
+            <rect class="hv2-win wd58" x="340" y="224" width="22" height="13" rx="1"/>
+
+            <!-- B5 right medium -->
+            <rect class="hv2-bld hv2-b5" x="398" y="178" width="68" height="222" fill="url(#bldGrad)" stroke="rgba(201,168,76,0.22)" stroke-width="1" rx="1"/>
+            <rect class="hv2-win wd59" x="409" y="192" width="18" height="11" rx="1"/>
+            <rect class="hv2-win wd60" x="433" y="192" width="18" height="11" rx="1"/>
+            <rect class="hv2-win wd61" x="409" y="212" width="18" height="11" rx="1"/>
+            <rect class="hv2-win wd62" x="433" y="212" width="18" height="11" rx="1"/>
+            <rect class="hv2-win wd63" x="409" y="232" width="18" height="11" rx="1"/>
+            <rect class="hv2-win wd64" x="433" y="232" width="18" height="11" rx="1"/>
+            <rect class="hv2-win wd65" x="409" y="252" width="18" height="11" rx="1"/>
+            <rect class="hv2-win wd66" x="433" y="252" width="18" height="11" rx="1"/>
+            <rect class="hv2-win wd67" x="409" y="272" width="18" height="11" rx="1"/>
+            <rect class="hv2-win wd68" x="433" y="272" width="18" height="11" rx="1"/>
+
+            <!-- Antenna -->
+            <line x1="231" y1="28" x2="231" y2="6" stroke="rgba(201,168,76,0.5)" stroke-width="1"/>
+            <circle cx="231" cy="5" r="3" fill="rgba(201,168,76,0.9)" class="hv2-antenna"/>
+          </svg>
+
+          <div class="hv2-status">
+            <span class="hv2-status-dot"></span>
+            <span class="hv2-status-text">Analizando mercado &middot; Tarragona</span>
+            <span class="hv2-status-badge">EN VIVO</span>
+          </div>
+
+        </div>
+      </div>
+  </div>
+
+  <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[var(--bg-0)] to-transparent pointer-events-none"></div>
+</section>
+
+
+<div class="sec-divider" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════════════
+     PROBLEMA — SCENARIO TIMELINE
+═══════════════════════════════════════════════ -->
+<section id="problema" class="st-section">
+
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <div class="reveal">
+      <div class="label-xs section-label mb-3">El dilema del propietario</div>
+      <h2 class="text-3xl sm:text-[2.4rem] font-bold leading-tight mb-2">
+        Cinco caminos. <span class="text-gold">Cada uno tiene su historia.</span>
+      </h2>
+      <p class="text-[var(--text-2)] text-base max-w-xl">Selecciona tu escenario y descubre exactamente qué ocurre: fases, plazos y resultado real.</p>
+    </div>
+
+    <!-- Scenario tabs -->
+    <div class="st-tabs" id="st-tabs">
+      <button class="st-tab st-tab-active" data-panel="st-vender" onclick="stSelect(this)" style="--tc:#c9a84c">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+        Vender
+      </button>
+      <button class="st-tab" data-panel="st-alquilar" onclick="stSelect(this)" style="--tc:#34d399">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        Alquilar
+      </button>
+      <button class="st-tab" data-panel="st-reformar" onclick="stSelect(this)" style="--tc:#a78bfa">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Reformar
+      </button>
+      <button class="st-tab" data-panel="st-esperar" onclick="stSelect(this)" style="--tc:#4f9ef8">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Esperar
+      </button>
+      <button class="st-tab" data-panel="st-nose" onclick="stSelect(this)" style="--tc:rgba(255,255,255,0.5)">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        No sé
+      </button>
+    </div>
+  </div>
+
+  <!-- PANELS WRAPPER -->
+  <div class="st-panels-wrap">
+
+    <!-- ① VENDER -->
+    <div class="st-panel st-panel-active" id="st-vender" style="--sc:#c9a84c;--sc-rgb:201,168,76">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <div class="st-timeline">
+          <div class="st-tl-track"><div class="st-tl-fill"></div></div>
+          <div class="st-phases">
+
+            <div class="st-phase">
+              <div class="st-ph-time">Semana 1</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                </div>
+                <h4>Valoración</h4>
+                <p>ACM comparativo, precio óptimo y estrategia de salida al mercado</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">Mes 1</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <h4>Marketing</h4>
+                <p>Fotografía profesional, home staging y activación en red de compradores</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">Mes 2</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <h4>Visitas y oferta</h4>
+                <p>8–15 visitas cualificadas · Primera oferta en semana 3–6 · Negociación controlada</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">Mes 3</div>
+              <div class="st-ph-dot st-ph-dot-last"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <h4>Firma y cobro</h4>
+                <p>Arras, notaría, transmisión. Liquidez total en tu cuenta</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="st-result">
+          <div class="st-result-left">
+            <div class="st-result-eyebrow">Resultado típico en Tarragona</div>
+            <div class="st-result-metric">~60 días</div>
+            <div class="st-result-label">hasta la firma con precio de mercado</div>
+          </div>
+          <div class="st-result-right">
+            <div class="st-result-stat">+8–12%</div>
+            <div class="st-result-statlabel">más que venta sin estrategia</div>
+          </div>
+          <a href="#calculadora" class="st-result-cta">Calcular mi precio <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② ALQUILAR -->
+    <div class="st-panel" id="st-alquilar" style="--sc:#34d399;--sc-rgb:52,211,153">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <div class="st-timeline">
+          <div class="st-tl-track"><div class="st-tl-fill"></div></div>
+          <div class="st-phases">
+
+            <div class="st-phase">
+              <div class="st-ph-time">Semana 1</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+                </div>
+                <h4>Análisis de mercado</h4>
+                <p>Precio óptimo de alquiler por zona, demanda real y perfil del inquilino ideal</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">Mes 1</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                </div>
+                <h4>Preparación</h4>
+                <p>Pequeños arreglos, fotografía profesional y anuncio en plataformas seleccionadas</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">Mes 2</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+                <h4>Selección del inquilino</h4>
+                <p>Filtro de solvencia, verificación de referencias y contrato homologado</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">Mensual</div>
+              <div class="st-ph-dot st-ph-dot-last"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                </div>
+                <h4>Ingresos recurrentes</h4>
+                <p>Cobro puntual, gestión de incidencias y revisión anual del precio</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="st-result">
+          <div class="st-result-left">
+            <div class="st-result-eyebrow">Rentabilidad bruta media en Tarragona</div>
+            <div class="st-result-metric">5–7%</div>
+            <div class="st-result-label">rendimiento bruto anual sobre el valor</div>
+          </div>
+          <div class="st-result-right">
+            <div class="st-result-stat">+30%</div>
+            <div class="st-result-statlabel">adicional con alquiler de temporada</div>
+          </div>
+          <a href="#calculadora" class="st-result-cta">Ver mi rentabilidad <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ REFORMAR -->
+    <div class="st-panel" id="st-reformar" style="--sc:#a78bfa;--sc-rgb:167,139,250">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <div class="st-timeline">
+          <div class="st-tl-track"><div class="st-tl-fill"></div></div>
+          <div class="st-phases">
+
+            <div class="st-phase">
+              <div class="st-ph-time">Semana 1</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </div>
+                <h4>Diagnóstico</h4>
+                <p>Qué reformar para maximizar el retorno: cocina, baños, instalaciones. Coste vs revalorización</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">Mes 1</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <h4>Proyecto y permisos</h4>
+                <p>Arquitecto técnico, licencias si aplica, selección de industriales de confianza</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">Mes 2–4</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                </div>
+                <h4>Ejecución</h4>
+                <p>Supervisión continua, control de plazos y calidad. Media 6–8 semanas reales de obra</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">Post-obra</div>
+              <div class="st-ph-dot st-ph-dot-last"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                </div>
+                <h4>Revalorización</h4>
+                <p>Inmueble renovado · Precio actualizado a mercado · Nueva campaña de venta o alquiler</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="st-result">
+          <div class="st-result-left">
+            <div class="st-result-eyebrow">Retorno medio de la reforma en venta</div>
+            <div class="st-result-metric">+8–15%</div>
+            <div class="st-result-label">de revalorización sobre el precio inicial</div>
+          </div>
+          <div class="st-result-right">
+            <div class="st-result-stat">3:1</div>
+            <div class="st-result-statlabel">retorno medio €€ invertidos vs ganados</div>
+          </div>
+          <a href="#calculadora" class="st-result-cta">¿Vale la pena en mi caso? <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ④ ESPERAR -->
+    <div class="st-panel" id="st-esperar" style="--sc:#4f9ef8;--sc-rgb:79,158,248">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <div class="st-timeline">
+          <div class="st-tl-track"><div class="st-tl-fill"></div></div>
+          <div class="st-phases">
+
+            <div class="st-phase">
+              <div class="st-ph-time">Hoy</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <h4>Análisis de posición</h4>
+                <p>Precio actual, tendencia de los últimos 12 meses y demanda real en tu zona</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">6 meses</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                </div>
+                <h4>Proyección de mercado</h4>
+                <p>Evolución prevista de precios, tipos de interés y nuevas construcciones en tu zona</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">1 año</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <h4>Escenario proyectado</h4>
+                <p>+3–5% esperado en zonas prime · Dependiente del ciclo de tipos y demanda extranjera</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">Decisión</div>
+              <div class="st-ph-dot st-ph-dot-last"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <h4>Momento óptimo</h4>
+                <p>Entrada al mercado en el punto de mayor demanda según el ciclo local</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="st-result">
+          <div class="st-result-left">
+            <div class="st-result-eyebrow">El coste real de esperar</div>
+            <div class="st-result-metric">~200€/mes</div>
+            <div class="st-result-label">coste de oportunidad estimado por cada mes sin vender</div>
+          </div>
+          <div class="st-result-right">
+            <div class="st-result-stat">±3%</div>
+            <div class="st-result-statlabel">variación de precio en 12 meses (Tarragona)</div>
+          </div>
+          <a href="#calculadora" class="st-result-cta">Analizar mi caso <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑤ NO SÉ -->
+    <div class="st-panel" id="st-nose" style="--sc:rgba(255,255,255,0.55);--sc-rgb:200,200,200">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <div class="st-timeline">
+          <div class="st-tl-track"><div class="st-tl-fill"></div></div>
+          <div class="st-phases">
+
+            <div class="st-phase">
+              <div class="st-ph-time">Hoy</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                </div>
+                <h4>Diagnóstico inicial</h4>
+                <p>30 minutos de conversación para entender tu situación, objetivos reales y restricciones</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">Semana 1</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <h4>Análisis de opciones</h4>
+                <p>Informe personalizado con 2–3 escenarios adaptados a tu caso específico con datos reales</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">Semana 2</div>
+              <div class="st-ph-dot"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+                </div>
+                <h4>Decisión informada</h4>
+                <p>Recomendación clara con datos del mercado local. Sin presión. Con transparencia total</p>
+              </div>
+            </div>
+
+            <div class="st-phase">
+              <div class="st-ph-time">Ejecución</div>
+              <div class="st-ph-dot st-ph-dot-last"></div>
+              <div class="st-ph-card">
+                <div class="st-ph-icon">
+                  <svg width="18" height="18" fill="none" stroke="var(--sc)" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <h4>Plan en marcha</h4>
+                <p>El camino que decidas juntos, con seguimiento puntual y resultados medibles</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="st-result">
+          <div class="st-result-left">
+            <div class="st-result-eyebrow">Lo que obtienes al final del proceso</div>
+            <div class="st-result-metric">Claridad</div>
+            <div class="st-result-label">La decisión correcta para tu caso, no el caso genérico</div>
+          </div>
+          <div class="st-result-right">
+            <div class="st-result-stat">100%</div>
+            <div class="st-result-statlabel">personalizado a tu situación real</div>
+          </div>
+          <a href="#calculadora" class="st-result-cta">Empezar diagnóstico <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+  function stSelect(btn){
+    document.querySelectorAll('.st-tab').forEach(function(t){ t.classList.remove('st-tab-active'); });
+    btn.classList.add('st-tab-active');
+    var targetId = btn.getAttribute('data-panel');
+    document.querySelectorAll('.st-panel').forEach(function(p){ p.classList.remove('st-panel-active'); });
+    var panel = document.getElementById(targetId);
+    panel.classList.add('st-panel-active');
+    // restart fill animation
+    var fill = panel.querySelector('.st-tl-fill');
+    if(fill){ fill.style.animation='none'; fill.offsetHeight; fill.style.animation=''; }
+    // restart phase animations
+    panel.querySelectorAll('.st-phase').forEach(function(ph){ ph.style.animation='none'; ph.offsetHeight; ph.style.animation=''; });
+  }
+  </script>
+</section>
+
+
+<!-- ANALIZA — RADAR INTERACTIVO -->
+<section id="analiza" class="ra-section">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <div class="ra-layout">
+
+      <!-- Radar SVG -->
+      <div class="ra-chart-col reveal">
+        <svg class="ra-svg" viewBox="0 0 500 500" id="ra-svg" aria-hidden="true">
+          <!-- Grid rings -->
+          <circle class="ra-ring" cx="250" cy="250" r="46.25"/>
+          <circle class="ra-ring" cx="250" cy="250" r="92.5"/>
+          <circle class="ra-ring" cx="250" cy="250" r="138.75"/>
+          <circle class="ra-ring" cx="250" cy="250" r="185"/>
+          <!-- Percentage labels on rings -->
+          <text class="ra-ring-lbl" x="254" y="205">25%</text>
+          <text class="ra-ring-lbl" x="254" y="158">50%</text>
+          <text class="ra-ring-lbl" x="254" y="112">75%</text>
+          <!-- Axes + polygon + dots + labels injected by JS -->
+          <g id="ra-axes"></g>
+          <polygon id="ra-poly" class="ra-poly" points=""/>
+          <g id="ra-dots"></g>
+          <g id="ra-labels"></g>
+        </svg>
+        <div class="ra-chart-caption">Hover sobre cualquier factor para explorarlo</div>
+      </div>
+
+      <!-- Info panel -->
+      <div class="ra-info-col reveal d1">
+        <div class="label-xs section-label mb-4">Análisis diferencial</div>
+        <h2 class="text-3xl sm:text-[2.4rem] font-bold leading-tight mb-3">
+          Más que una<br/>estimación <span class="text-gold">de precio</span>
+        </h2>
+        <p class="text-[var(--text-2)] text-sm leading-relaxed mb-8">
+          El precio es un resultado. El análisis cruza diez factores reales para entender qué decisión tiene más sentido para tu inmueble y situación.
+        </p>
+
+        <!-- Default idle state -->
+        <div id="ra-idle" class="ra-idle">
+          <div class="ra-idle-row">
+            <div class="ra-idle-num">10</div>
+            <div class="ra-idle-sub">factores<br/>cruzados</div>
+          </div>
+          <div class="ra-idle-hint">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/></svg>
+            Explora el radar
+          </div>
+        </div>
+
+        <!-- Active factor state -->
+        <div id="ra-active" class="ra-active" style="display:none">
+          <div class="ra-ac-idx" id="ra-ac-idx">01</div>
+          <h3 class="ra-ac-name" id="ra-ac-name"></h3>
+          <p class="ra-ac-desc" id="ra-ac-desc"></p>
+          <div class="ra-ac-bar-wrap">
+            <div class="ra-ac-bar-header">
+              <span class="ra-ac-bar-label">Impacto en el análisis</span>
+              <span class="ra-ac-pct" id="ra-ac-pct"></span>
+            </div>
+            <div class="ra-ac-track">
+              <div class="ra-ac-fill" id="ra-ac-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#calculadora" class="btn-gold mt-8 inline-flex items-center gap-2">
+          Obtener mi diagnóstico
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <p class="text-[var(--text-3)] text-xs mt-3">Menos de 5 minutos · Sin compromiso</p>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    var FACTORS = [
+      { name:'Mercado',          short:'Mercado',     desc:'Tendencia real de precios y demanda activa en tu zona durante los últimos 12 meses.',      w:0.92 },
+      { name:'Ubicación',        short:'Ubicación',   desc:'Barrio, accesos, servicios cercanos y análisis de comparables en un radio de 500m.',        w:0.88 },
+      { name:'Estado',           short:'Estado',      desc:'Impacto cuantificado del estado de conservación del inmueble sobre el precio final.',        w:0.80 },
+      { name:'Precio deseado',   short:'P. deseado',  desc:'Ajuste del precio objetivo frente a la horquilla real de mercado para no quemar el activo.', w:0.75 },
+      { name:'Urgencia',         short:'Urgencia',    desc:'Cómo el plazo disponible cambia radicalmente la estrategia y el precio de salida óptimo.',   w:0.85 },
+      { name:'Motivación',       short:'Motivación',  desc:'El motivo detrás de la operación define si conviene actuar rápido, esperar o reformar.',      w:0.70 },
+      { name:'Pot. reforma',     short:'Reforma',     desc:'Análisis de si una inversión en reforma mejora económicamente la operación o no.',            w:0.65 },
+      { name:'Perf. comprador',  short:'Comprador',   desc:'Quién compra realmente en tu zona, qué busca y cuánto está dispuesto a pagar por ello.',      w:0.78 },
+      { name:'Liquidez',         short:'Liquidez',    desc:'Tiempo medio real de venta en tu zona. Un activo que tarda más pierde posición negociadora.', w:0.82 },
+      { name:'Riesgo',           short:'Riesgo',      desc:'Factores externos como oferta nueva, cambios normativos o tipos que pueden afectar la op.',   w:0.90 },
+    ];
+    var NS = 'http://www.w3.org/2000/svg';
+    var CX = 250, CY = 250, MR = 185, N = FACTORS.length;
+
+    function ang(i){ return (-Math.PI/2) + i*(2*Math.PI/N); }
+    function ptAt(i, r){ return [+(CX + r*Math.cos(ang(i))).toFixed(2), +(CY + r*Math.sin(ang(i))).toFixed(2)]; }
+    function mkEl(tag, attrs){
+      var e = document.createElementNS(NS, tag);
+      for(var k in attrs) e.setAttribute(k, attrs[k]);
+      return e;
+    }
+
+    var svg    = document.getElementById('ra-svg');
+    var axesG  = document.getElementById('ra-axes');
+    var dotsG  = document.getElementById('ra-dots');
+    var lblsG  = document.getElementById('ra-labels');
+    var poly   = document.getElementById('ra-poly');
+    var pts    = [];
+
+    FACTORS.forEach(function(f, i){
+      // Axis line
+      var op = ptAt(i, MR);
+      axesG.appendChild(mkEl('line',{ x1:CX, y1:CY, x2:op[0], y2:op[1], class:'ra-axis' }));
+
+      // Polygon vertex
+      var vp = ptAt(i, MR * f.w);
+      pts.push(vp[0]+','+vp[1]);
+
+      // Dot
+      var dot = mkEl('circle',{ cx:vp[0], cy:vp[1], r:'5', class:'ra-dot', 'data-i':i });
+      dot.addEventListener('mouseenter', function(){ show(i); });
+      dot.addEventListener('mouseleave', hide);
+      dot.addEventListener('touchstart', function(e){ e.preventDefault(); show(i); }, { passive:false });
+      dotsG.appendChild(dot);
+
+      // Label (use short name for SVG)
+      var lp = ptAt(i, MR + 32);
+      var ax = lp[0] < CX - 12 ? 'end' : lp[0] > CX + 12 ? 'start' : 'middle';
+      var base = lp[1] < CY - 12 ? 'auto' : lp[1] > CY + 12 ? 'hanging' : 'middle';
+      var lbl = mkEl('text',{ x:lp[0], y:lp[1], class:'ra-lbl', 'text-anchor':ax, 'dominant-baseline':base, 'data-i':i });
+      lbl.textContent = f.short;
+      lbl.addEventListener('mouseenter', function(){ show(i); });
+      lbl.addEventListener('mouseleave', hide);
+      lblsG.appendChild(lbl);
+    });
+
+    poly.setAttribute('points', pts.join(' '));
+
+    function show(i){
+      var f = FACTORS[i];
+      document.getElementById('ra-idle').style.display = 'none';
+      var ac = document.getElementById('ra-active');
+      ac.style.display = 'block';
+      document.getElementById('ra-ac-idx').textContent  = (i+1<10?'0':'')+(i+1);
+      document.getElementById('ra-ac-name').textContent = f.name;
+      document.getElementById('ra-ac-desc').textContent = f.desc;
+      document.getElementById('ra-ac-fill').style.width = Math.round(f.w*100)+'%';
+      document.getElementById('ra-ac-pct').textContent  = Math.round(f.w*100)+'%';
+      dotsG.querySelectorAll('.ra-dot').forEach(function(d,j){ d.classList.toggle('ra-dot-hi', j===i); });
+      lblsG.querySelectorAll('.ra-lbl').forEach(function(l,j){ l.classList.toggle('ra-lbl-hi', j===i); });
+      axesG.querySelectorAll('.ra-axis').forEach(function(a,j){ a.classList.toggle('ra-axis-hi', j===i); });
+    }
+    function hide(){
+      document.getElementById('ra-idle').style.display = '';
+      document.getElementById('ra-active').style.display = 'none';
+      dotsG.querySelectorAll('.ra-dot').forEach(function(d){ d.classList.remove('ra-dot-hi'); });
+      lblsG.querySelectorAll('.ra-lbl').forEach(function(l){ l.classList.remove('ra-lbl-hi'); });
+      axesG.querySelectorAll('.ra-axis').forEach(function(a){ a.classList.remove('ra-axis-hi'); });
+    }
+  })();
+  </script>
+</section>
+
+
+<!-- PROCESO -->
+<section id="proceso" class="py-24 sm:py-28 bg-[var(--bg-1)] relative overflow-hidden">
+  <div class="absolute top-1/2 right-0 w-[300px] h-[300px] rounded-full filter blur-[80px] opacity-10 pointer-events-none -translate-y-1/2" style="background:var(--gold)"></div>
+  <div class="max-w-4xl mx-auto px-5 sm:px-8 relative z-10">
+    <div class="text-center mb-16 reveal">
+      <div class="label-xs section-label mb-4">El proceso</div>
+      <h2 class="text-3xl sm:text-[2.4rem] font-bold mb-4">Cómo funciona</h2>
+      <p class="text-[var(--text-2)] text-sm sm:text-base leading-relaxed max-w-xl mx-auto">Cinco pasos desde que me contactas hasta que la operación está activa.</p>
+    </div>
+
+    <div class="proc-timeline">
+      <div class="proc-step reveal">
+        <div class="proc-num"><span>1</span></div>
+        <div class="proc-content">
+          <div class="proc-title">Rellenas el diagnóstico</div>
+          <p class="proc-desc">Cinco minutos. Me cuentas qué tienes, en qué zona está y qué quieres hacer. Sin tecnicismos.</p>
+        </div>
+      </div>
+      <div class="proc-step reveal d1">
+        <div class="proc-num"><span>2</span></div>
+        <div class="proc-content">
+          <div class="proc-title">El sistema interpreta tu caso</div>
+          <p class="proc-desc">La calculadora genera una estimación de valor y un análisis inicial basado en datos reales de tu municipio.</p>
+        </div>
+      </div>
+      <div class="proc-step reveal d2">
+        <div class="proc-num"><span>3</span></div>
+        <div class="proc-content">
+          <div class="proc-title">Reviso vivienda, zona y situación</div>
+          <p class="proc-desc">Analizo los datos a fondo: el mercado real de tu zona, el estado del inmueble y tu situación personal. Sin automatismos.</p>
+        </div>
+      </div>
+      <div class="proc-step reveal d3">
+        <div class="proc-num"><span>4</span></div>
+        <div class="proc-content">
+          <div class="proc-title">Definimos la mejor vía</div>
+          <p class="proc-desc">Vender, alquilar, reformar o esperar. Te presento las opciones con números reales detrás. La decisión es siempre tuya.</p>
+        </div>
+      </div>
+      <div class="proc-step reveal d4">
+        <div class="proc-num"><span>5</span></div>
+        <div class="proc-content">
+          <div class="proc-title">Si encaja, activamos la operación</div>
+          <p class="proc-desc">Si decides actuar y quieres que te acompañe, me encargo de todo: posicionamiento, compradores, negociación y cierre.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-14 reveal">
+      <a href="#calculadora" class="btn-gold">Iniciar diagnóstico</a>
+    </div>
+  </div>
+</section>
+
+
+<div class="sec-divider" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════════════
+     MAPA TERRITORIAL
+═══════════════════════════════════════════════ -->
+<section id="zonas" class="py-24 sm:py-32 relative overflow-hidden bg-[var(--bg-0)]">
+
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute top-1/2 left-1/3 w-[500px] h-[500px] -translate-y-1/2 opacity-10 rounded-full filter blur-[100px]" style="background:var(--electric)"></div>
+    <div class="absolute bottom-0 right-1/4 w-[350px] h-[350px] opacity-8 rounded-full filter blur-[80px]" style="background:var(--gold)"></div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 relative z-10">
+
+    <!-- Header -->
+    <div class="max-w-2xl mb-14 reveal">
+      <div class="label-xs section-label mb-4">Análisis territorial</div>
+      <h2 class="text-3xl sm:text-[2.4rem] font-bold mb-4">
+        Lectura territorial<br/><span class="text-gold">de Tarragona</span>
+      </h2>
+      <p class="text-[var(--text-2)] text-sm sm:text-base leading-relaxed">
+        No todas las zonas se comportan igual. La decisión correcta cambia según la demanda, el tipo de comprador, la liquidez y el potencial de cada mercado.
+      </p>
+    </div>
+
+    <!-- Map + Panel -->
+    <div class="zone-layout">
+
+      <!-- Leaflet Map -->
+      <div id="leaflet-map" class="zone-map-wrap" style="height:520px;"></div>
+
+      <!-- Info panel -->
+      <div id="zone-panel" class="zone-panel">
+        <div id="zone-default" class="zp-default">
+          <div class="zp-default-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <p class="zp-default-text">Haz clic en cualquier municipio del mapa para ver el análisis de mercado.</p>
+          <div class="zp-legend">
+            <div class="zp-leg-item"><span class="zp-leg-dot" style="background:#c9a84c"></span>Costa / Premium</div>
+            <div class="zp-leg-item"><span class="zp-leg-dot" style="background:#4f9ef8"></span>Urbano</div>
+            <div class="zp-leg-item"><span class="zp-leg-dot" style="background:#34d399"></span>Turístico</div>
+            <div class="zp-leg-item"><span class="zp-leg-dot" style="background:#a78bfa"></span>Interior</div>
+          </div>
+        </div>
+        <div id="zone-data" class="zp-data hidden"></div>
+      </div>
+
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      if (typeof L === 'undefined') { console.error('Leaflet not loaded'); return; }
+      var mapEl = document.getElementById('leaflet-map');
+      if (!mapEl) { console.error('Map element not found'); return; }
+
+      const MAP_MUNIS = [
+        { key:'tarragona',    lat:41.1189, lng:1.2445,  label:'Tarragona',              type:'urbano',   ppm2:'2.094',  demand:'Media-alta', demandLv:3, buyer:'Familias, perfiles profesionales y compradores locales', potential:'Venta y alquiler estable', potType:'venta', risk:'Salir con precio por encima del mercado', size:18 },
+        { key:'reus',         lat:41.1558, lng:1.1046,  label:'Reus',                   type:'urbano',   ppm2:'1.500',  demand:'Media',      demandLv:2, buyer:'Familias y compradores de primera vivienda', potential:'Venta competitiva y alquiler creciente', potType:'venta', risk:'Exceso de oferta en algunas zonas', size:15 },
+        { key:'salou',        lat:41.0747, lng:1.1453,  label:'Salou',                  type:'turistico',ppm2:'2.313',  demand:'Alta',       demandLv:3, buyer:'Inversores, segunda residencia y alquiler turístico', potential:'Alquiler y venta a inversor', potType:'alquiler', risk:'Estacionalidad y regulación turística', size:14 },
+        { key:'cambrils',     lat:41.0667, lng:1.0588,  label:'Cambrils',               type:'costa',    ppm2:'2.500',  demand:'Media-alta', demandLv:3, buyer:'Familias, segunda residencia y comprador nacional', potential:'Venta con buen posicionamiento', potType:'venta', risk:'Precio de salida demasiado alto', size:14 },
+        { key:'altafulla',    lat:41.1333, lng:1.3667,  label:'Altafulla',              type:'costa',    ppm2:'2.833',  demand:'Alta',       demandLv:3, buyer:'Segunda residencia premium y turismo de calidad', potential:'Venta premium y alquiler vacacional', potType:'alquiler', risk:'Mercado pequeño con poca rotación', size:10 },
+        { key:'torredembarra',lat:41.1446, lng:1.3980,  label:'Torredembarra',          type:'costa',    ppm2:'2.050',  demand:'Media-alta', demandLv:2, buyer:'Segunda residencia y familias', potential:'Venta y alquiler de temporada', potType:'venta', risk:'Competencia en producto similar', size:11 },
+        { key:'calafell',     lat:41.1983, lng:1.5699,  label:'Calafell',               type:'costa',    ppm2:'1.850',  demand:'Media-alta', demandLv:2, buyer:'Segunda residencia y familias', potential:'Venta y alquiler de temporada', potType:'venta', risk:'Competencia en producto similar', size:11 },
+        { key:'el-vendrell',  lat:41.2175, lng:1.5341,  label:'El Vendrell',            type:'urbano',   ppm2:'1.550',  demand:'Media',      demandLv:2, buyer:'Familias y compradores de presupuesto medio', potential:'Venta competitiva', potType:'venta', risk:'Sensibilidad al precio', size:11 },
+        { key:'cunit',        lat:41.2025, lng:1.6310,  label:'Cunit',                  type:'costa',    ppm2:'1.750',  demand:'Media',      demandLv:2, buyer:'Segunda residencia económica', potential:'Alquiler de temporada', potType:'alquiler', risk:'Baja liquidez fuera de temporada', size:9 },
+        { key:'vila-seca',    lat:41.1000, lng:1.1516,  label:'Vila-seca',              type:'urbano',   ppm2:'1.605',  demand:'Media',      demandLv:2, buyer:'Trabajadores, familias y compradores locales', potential:'Venta y alquiler', potType:'venta', risk:'Poca diferenciación del inmueble', size:10 },
+        { key:'la-pineda',    lat:41.0817, lng:1.1599,  label:'La Pineda',              type:'turistico',ppm2:'1.900',  demand:'Media-alta', demandLv:2, buyer:'Inversores y turismo', potential:'Alquiler vacacional', potType:'alquiler', risk:'Estacionalidad', size:9 },
+        { key:'roda-de-bera', lat:41.1742, lng:1.4856,  label:'Roda de Berà',           type:'costa',    ppm2:'1.950',  demand:'Media',      demandLv:2, buyer:'Segunda residencia y familias', potential:'Venta y alquiler de temporada', potType:'venta', risk:'Mercado estacional', size:9 },
+        { key:'creixell',     lat:41.1573, lng:1.4398,  label:'Creixell',               type:'costa',    ppm2:'1.900',  demand:'Media',      demandLv:1, buyer:'Segunda residencia', potential:'Alquiler de verano', potType:'alquiler', risk:'Baja demanda en invierno', size:8 },
+        { key:'mont-roig',    lat:41.0616, lng:0.9667,  label:'Mont-roig del Camp',     type:'costa',    ppm2:'1.650',  demand:'Media',      demandLv:2, buyer:'Familias y segunda residencia (Miami Platja)', potential:'Alquiler y venta', potType:'alquiler', risk:'Gran dispersión de precios entre zonas', size:10 },
+        { key:'vandellos',    lat:41.0014, lng:0.8630,  label:'Vandellòs i Hospitalet', type:'costa',    ppm2:'1.800',  demand:'Media',      demandLv:2, buyer:'Segunda residencia y compradores de oportunidad', potential:'Venta con plus de costa', potType:'venta', risk:'Lejanía de servicios', size:10 },
+        { key:'ametlla-de-mar',lat:40.8726,lng:0.7900,  label:"L'Ametlla de Mar",       type:'costa',    ppm2:'1.700',  demand:'Media',      demandLv:2, buyer:'Segunda residencia náutica', potential:'Alquiler vacacional premium', potType:'alquiler', risk:'Mercado nicho', size:9 },
+        { key:'ampolla',      lat:40.8122, lng:0.6812,  label:"L'Ampolla",              type:'costa',    ppm2:'1.600',  demand:'Media',      demandLv:1, buyer:'Segunda residencia y naturaleza', potential:'Alquiler Delta', potType:'alquiler', risk:'Mercado muy específico', size:8 },
+        { key:'tortosa',      lat:40.8121, lng:0.5217,  label:'Tortosa',                type:'interior', ppm2:'1.100',  demand:'Media-baja', demandLv:1, buyer:'Comprador local e inversor selectivo', potential:'Reforma y oportunidad de precio', potType:'reforma', risk:'Menor liquidez y tiempos largos', size:12 },
+        { key:'amposta',      lat:40.7099, lng:0.5804,  label:'Amposta',                type:'interior', ppm2:'1.013',  demand:'Media-baja', demandLv:1, buyer:'Comprador local', potential:'Venta realista o alquiler estable', potType:'venta', risk:'Tiempos de venta más largos', size:10 },
+        { key:'sant-carles',  lat:40.6234, lng:0.5934,  label:'Sant Carles de la Ràpita',type:'costa',   ppm2:'1.250',  demand:'Media',      demandLv:2, buyer:'Segunda residencia costera y gastronomía', potential:'Alquiler turístico creciente', potType:'alquiler', risk:'Infraestructura turística limitada', size:10 },
+        { key:'alcanar',      lat:40.5560, lng:0.5138,  label:'Alcanar',                type:'interior', ppm2:'1.100',  demand:'Media-baja', demandLv:1, buyer:'Comprador local y turismo familiar', potential:'Venta y alquiler costa', potType:'venta', risk:'Mercado local y reducido', size:8 },
+        { key:'deltebre',     lat:40.7233, lng:0.6433,  label:'Deltebre',               type:'interior', ppm2:'900',    demand:'Baja',       demandLv:1, buyer:'Turismo de naturaleza y local', potential:'Alquiler rural y ecoturismo', potType:'alquiler', risk:'Demanda muy reducida', size:8 },
+        { key:'ulldecona',    lat:40.5991, lng:0.4671,  label:'Ulldecona',              type:'interior', ppm2:'950',    demand:'Baja',       demandLv:1, buyer:'Comprador local', potential:'Venta a precio ajustado', potType:'venta', risk:'Baja liquidez', size:8 },
+        { key:'roquetes',     lat:40.8366, lng:0.4971,  label:'Roquetes',               type:'interior', ppm2:'900',    demand:'Baja',       demandLv:1, buyer:'Comprador local', potential:'Primera vivienda económica', potType:'venta', risk:'Dependencia de Tortosa', size:8 },
+        { key:'santa-barbara',lat:40.7097, lng:0.4644,  label:'Santa Bàrbara',          type:'interior', ppm2:'707',    demand:'Muy baja',   demandLv:1, buyer:'Local únicamente', potential:'Venta a precio mínimo', potType:'venta', risk:'Mercado mínimo', size:7 },
+        { key:'valls',        lat:41.2849, lng:1.2490,  label:'Valls',                  type:'interior', ppm2:'964',    demand:'Media',      demandLv:1, buyer:'Primera vivienda local y familias', potential:'Venta estable', potType:'venta', risk:'Poca proyección de precio', size:10 },
+        { key:'montblanc',    lat:41.3812, lng:1.1576,  label:'Montblanc',              type:'interior', ppm2:'1.300',  demand:'Media',      demandLv:2, buyer:'Turismo cultural y segunda residencia', potential:'Venta premium nicho histórico', potType:'venta', risk:'Mercado muy específico', size:9 },
+        { key:'constanti',    lat:41.1400, lng:1.2038,  label:'Constantí',              type:'interior', ppm2:'1.063',  demand:'Media',      demandLv:1, buyer:'Trabajadores y primera vivienda', potential:'Alquiler estable', potType:'alquiler', risk:'Zona tensionada', size:9 },
+        { key:'el-catllar',   lat:41.1806, lng:1.2222,  label:'El Catllar',             type:'interior', ppm2:'1.050',  demand:'Media-baja', demandLv:1, buyer:'Primera vivienda local', potential:'Venta a precio ajustado', potType:'venta', risk:'Mercado reducido', size:7 },
+        { key:'alcover',      lat:41.2735, lng:1.1726,  label:'Alcover',                type:'interior', ppm2:'1.050',  demand:'Media-baja', demandLv:1, buyer:'Primera vivienda', potential:'Venta tranquila', potType:'venta', risk:'Poca liquidez', size:7 },
+        { key:'la-selva',     lat:41.2206, lng:1.1352,  label:'La Selva del Camp',      type:'interior', ppm2:'1.100',  demand:'Media',      demandLv:1, buyer:'Trasvase de Reus', potential:'Venta y alquiler estable', potType:'venta', risk:'Dependencia de Reus', size:8 },
+        { key:'riudoms',      lat:41.1205, lng:1.0559,  label:'Riudoms',                type:'interior', ppm2:'1.000',  demand:'Media-baja', demandLv:1, buyer:'Local y agrícola', potential:'Venta tranquila', potType:'venta', risk:'Mercado muy local', size:7 },
+        { key:'gandesa',      lat:41.0504, lng:0.4529,  label:'Gandesa',                type:'interior', ppm2:'850',    demand:'Muy baja',   demandLv:1, buyer:'Local y enoturismo', potential:'Alquiler rural nicho', potType:'alquiler', risk:'Mercado mínimo', size:8 },
+        { key:'mora-d-ebre',  lat:41.0889, lng:0.6380,  label:"Mora d'Ebre",            type:'interior', ppm2:'870',    demand:'Muy baja',   demandLv:1, buyer:'Local únicamente', potential:'Venta a precio mínimo', potType:'venta', risk:'Demanda muy limitada', size:7 },
+        { key:'horta-de-sant-joan',lat:40.9577,lng:0.3233,label:'Horta de Sant Joan',   type:'interior', ppm2:'800',    demand:'Baja',       demandLv:1, buyer:'Turismo cultural (Picasso)', potential:'Alquiler rural y turismo', potType:'alquiler', risk:'Nicho muy pequeño', size:7 },
+        { key:'prades',       lat:41.2968, lng:1.0054,  label:'Prades',                 type:'interior', ppm2:'850',    demand:'Baja',       demandLv:1, buyer:'Turismo rural', potential:'Alquiler rural', potType:'alquiler', risk:'Mercado mínimo', size:7 },
+        { key:'santa-coloma-de-queralt',lat:41.5278,lng:1.3891,label:'Santa Coloma de Queralt',type:'interior',ppm2:'800',demand:'Muy baja',demandLv:1,buyer:'Local únicamente',potential:'Venta a precio mínimo',potType:'venta',risk:'Mercado mínimo',size:7},
+      ];
+
+      const COLOR = { costa:'#c9a84c', urbano:'#4f9ef8', turistico:'#34d399', interior:'#a78bfa' };
+      const DEMAND_COLOR = { 3:'#34d399', 2:'#c9a84c', 1:'#f87171' };
+
+      const map = L.map('leaflet-map', {
+        center: [41.05, 0.90],
+        zoom: 9,
+        zoomControl: false,
+        attributionControl: false,
+      });
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19,
+        subdomains: 'abcd',
+      }).addTo(map);
+
+      L.control.zoom({ position:'bottomright' }).addTo(map);
+      L.control.attribution({ position:'bottomleft', prefix:'© CartoDB · OpenStreetMap' }).addTo(map);
+
+      let activeMarker = null;
+
+      MAP_MUNIS.forEach(function(m) {
+        const r = m.size;
+        const col = COLOR[m.type] || '#c9a84c';
+        const html = `
+          <div style="
+            width:${r*2}px;height:${r*2}px;border-radius:50%;
+            background:${col};
+            box-shadow:0 0 ${r+4}px ${col},0 0 ${r*2+4}px ${col}44;
+            border:2px solid ${col}88;
+            cursor:pointer;transition:transform .15s,box-shadow .15s;
+            position:relative;
+          ">
+            <div style="
+              position:absolute;inset:-6px;border-radius:50%;
+              border:1px solid ${col}33;
+              animation:mPulse 2.4s ease-in-out infinite;
+            "></div>
+          </div>`;
+        const icon = L.divIcon({ html, className:'', iconSize:[r*2,r*2], iconAnchor:[r,r] });
+        const marker = L.marker([m.lat, m.lng], { icon }).addTo(map);
+
+        marker.on('click', function() {
+          if (activeMarker) {
+            const prev = activeMarker._muniData;
+            const pr = prev.size;
+            const pc = COLOR[prev.type] || '#c9a84c';
+            activeMarker.setIcon(L.divIcon({
+              html:`<div style="width:${pr*2}px;height:${pr*2}px;border-radius:50%;background:${pc};box-shadow:0 0 ${pr+4}px ${pc},0 0 ${pr*2+4}px ${pc}44;border:2px solid ${pc}88;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;"><div style="position:absolute;inset:-6px;border-radius:50%;border:1px solid ${pc}33;animation:mPulse 2.4s ease-in-out infinite;"></div></div>`,
+              className:'', iconSize:[pr*2,pr*2], iconAnchor:[pr,pr]
+            }));
+          }
+          const sr = r + 4;
+          marker.setIcon(L.divIcon({
+            html:`<div style="width:${sr*2}px;height:${sr*2}px;border-radius:50%;background:${col};box-shadow:0 0 ${sr+8}px ${col},0 0 ${sr*2+8}px ${col}88;border:2px solid ${col};cursor:pointer;transform:scale(1.1);transition:transform .15s,box-shadow .15s;position:relative;"><div style="position:absolute;inset:-8px;border-radius:50%;border:1px solid ${col}66;animation:mPulse 1.6s ease-in-out infinite;"></div></div>`,
+            className:'', iconSize:[sr*2,sr*2], iconAnchor:[sr,sr]
+          }));
+          activeMarker = marker;
+          activeMarker._muniData = m;
+          showZonePanel(m);
+        });
+
+        marker._muniData = m;
+      });
+
+      function showZonePanel(m) {
+        document.getElementById('zone-default').classList.add('hidden');
+        const el = document.getElementById('zone-data');
+        el.classList.remove('hidden');
+        const col = COLOR[m.type] || '#c9a84c';
+        const dCol = DEMAND_COLOR[m.demandLv] || '#c9a84c';
+        const typeLabel = { costa:'Costa · Premium', urbano:'Urbano consolidado', turistico:'Turístico e inversor', interior:'Interior' }[m.type] || m.type;
+        const potLabel  = { venta:'Venta', alquiler:'Alquiler', reforma:'Reforma' }[m.potType] || m.potType;
+        el.innerHTML = `
+          <div class="zp-name">${m.label}</div>
+          <div class="zp-tag" style="background:${col}22;color:${col};border-color:${col}44">${typeLabel}</div>
+          <div class="zp-row"><span class="zp-k">DEMANDA</span><span class="zp-v-badge" style="color:${dCol}">${m.demand}</span></div>
+          <div class="zp-bar-wrap"><div class="zp-bar-track"><div class="zp-bar-fill" style="width:${m.demandLv/3*100}%;background:${dCol}"></div></div></div>
+          <div class="zp-row"><span class="zp-k">PERFIL COMPRADOR</span></div>
+          <div class="zp-detail">${m.buyer}</div>
+          <div class="zp-row mt-2"><span class="zp-k">POTENCIAL PRINCIPAL</span></div>
+          <div class="zp-detail zp-potential" style="color:${col}">${m.potential}</div>
+          <div class="zp-row mt-2"><span class="zp-k">RIESGO PRINCIPAL</span></div>
+          <div class="zp-detail zp-risk">${m.risk}</div>
+          <div class="zp-footer">
+            <div><span class="zp-price-label">PRECIO MEDIO</span><div class="zp-price">${m.ppm2} €/m²</div></div>
+            <a href="#calculadora" class="zp-cta" onclick="if(window.QS){QS.d.municipio='${m.key}';document.getElementById('municipio-select').value='${m.key}';if(window.updateBarrioSelect)updateBarrioSelect('${m.key}');if(window.updateSummaryPanel)updateSummaryPanel();}">Analizar esta zona</a>
+          </div>`;
+      }
+
+      setTimeout(function(){ map.invalidateSize(); }, 300);
+    });
+    </script>
+
+  </div>
+</section>
+
+
+<div class="sec-divider sec-divider-gold" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════════════
+     6. CALCULADORA
+═══════════════════════════════════════════════ -->
+<section id="calculadora" class="py-24 sm:py-32 relative overflow-hidden">
+
+  <div class="absolute top-[280px] left-1/2 -translate-x-1/2 w-[700px] h-[400px] opacity-10 pointer-events-none">
+    <div class="w-full h-full rounded-full filter blur-[140px]" style="background:var(--gold)"></div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 relative z-10">
+
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <div class="label-xs section-label reveal mb-4">Diagnóstico inmobiliario privado · 5 pasos</div>
+      <h2 class="reveal d1 text-3xl sm:text-[2.4rem] font-bold mb-5">
+        Diagnóstico inmobiliario<br/>
+        <span class="text-gold">privado</span>
+      </h2>
+      <p class="reveal d2 text-sm sm:text-base leading-relaxed" style="color:rgba(255,255,255,0.72);">
+        Introduce los datos clave de tu vivienda y recibe una lectura inicial sobre precio, estrategia, riesgo y la mejor decisión probable para tu caso concreto.
+      </p>
+    </div>
+
+    <!-- ══ QUIZ CONTAINER ══════════════════════════════ -->
+    <div class="calc-layout">
+
+      <!-- ─ SIDEBAR SUMMARY ─────────────────────────── -->
+      <aside class="calc-sidebar" id="calc-sidebar">
+        <div class="cs-title">Tu propiedad</div>
+        <div class="cs-rows">
+          <div class="cs-row"><span class="cs-k">Municipio</span><span class="cs-v" id="cs-municipio-val">—</span></div>
+          <div class="cs-row"><span class="cs-k">Tipo</span><span class="cs-v" id="cs-tipo-val">—</span></div>
+          <div class="cs-row"><span class="cs-k">Superficie</span><span class="cs-v" id="cs-m2-val">—</span></div>
+          <div class="cs-row"><span class="cs-k">Estado</span><span class="cs-v" id="cs-estado-val">—</span></div>
+          <div class="cs-row"><span class="cs-k">Objetivo</span><span class="cs-v" id="cs-objetivo-val">—</span></div>
+          <div class="cs-row"><span class="cs-k">Plazo</span><span class="cs-v" id="cs-plazo-val">—</span></div>
+        </div>
+        <p class="cs-hint">Los datos se actualizan a medida que avanzas en el diagnóstico.</p>
+      </aside>
+
+      <div id="quiz-wrap" class="glass reveal overflow-hidden">
+
+      <!-- ─ PROGRESS BAR ──────────────────────────── -->
+      <div class="quiz-progress">
+        <!-- Mobile label -->
+        <div id="quiz-step-label" class="text-xs text-[var(--text-3)] mb-3 sm:hidden">Paso 1 de 5 — Mercado</div>
+        <!-- Dots row -->
+        <div class="qdots-row">
+          <div class="qdot active" data-step="1"><span>1</span></div>
+          <div class="qline"><div class="qline-fill"></div></div>
+          <div class="qdot" data-step="2"><span>2</span></div>
+          <div class="qline"><div class="qline-fill"></div></div>
+          <div class="qdot" data-step="3"><span>3</span></div>
+          <div class="qline"><div class="qline-fill"></div></div>
+          <div class="qdot" data-step="4"><span>4</span></div>
+          <div class="qline"><div class="qline-fill"></div></div>
+          <div class="qdot" data-step="5"><span>5</span></div>
+        </div>
+        <!-- Labels (desktop) -->
+        <div class="qdot-labels hidden sm:flex mt-2">
+          <span>Ubicación</span><span style="flex:1"></span>
+          <span>Activo</span><span style="flex:1"></span>
+          <span>Estrategia</span><span style="flex:1"></span>
+          <span>Contacto</span><span style="flex:1"></span>
+          <span>Diagnóstico</span>
+        </div>
+      </div>
+
+      <!-- ─ ERROR MESSAGE ─────────────────────────── -->
+      <div id="quiz-error" class="hidden mx-7 mt-5 text-sm text-red-400 bg-red-400/8 border border-red-400/20 rounded-lg px-4 py-2.5"></div>
+
+      <!-- ══════════════════════════════════════════ -->
+      <!-- STEP 1 — UBICACIÓN DEL INMUEBLE            -->
+      <!-- ══════════════════════════════════════════ -->
+      <div class="quiz-step qactive quiz-body" id="step-1">
+        <div class="quiz-step-tag">Ubicación del inmueble</div>
+        <p class="quiz-q-title">¿Dónde está la propiedad?</p>
+        <p class="quiz-q-sub">Cuanto más precisa sea la ubicación, mejor podrá ajustarse la lectura inicial. Si no quieres indicar la dirección exacta, puedes dejarla en blanco y seleccionar solo municipio y zona.</p>
+
+        <!-- Municipio (obligatorio) -->
+        <div class="quiz-section">
+          <span class="quiz-section-label">Municipio / Ciudad <span class="text-red-400/60">*</span></span>
+          <select id="municipio-select" class="c-input" onchange="QS.d.municipio = this.value; updateSummaryPanel(); updateBarrioSelect(this.value)">
+            <option value="">— Selecciona el municipio —</option>
+            <optgroup label="Tarragonès — Costa">
+              <option value="altafulla">Altafulla</option>
+              <option value="salou">Salou</option>
+              <option value="torredembarra">Torredembarra</option>
+              <option value="roda-de-bera">Roda de Berà</option>
+              <option value="creixell">Creixell</option>
+              <option value="vila-seca">Vila-seca</option>
+              <option value="la-pineda">La Pineda (Vila-seca)</option>
+            </optgroup>
+            <optgroup label="Tarragonès — Tarragona ciudad">
+              <option value="tarragona-parte-alta">Tarragona - Parte Alta</option>
+              <option value="tarragona-eixample">Tarragona - Eixample</option>
+              <option value="tarragona">Tarragona - General</option>
+              <option value="tarragona-bonavista">Tarragona - Bonavista</option>
+            </optgroup>
+            <optgroup label="Tarragonès — Interior">
+              <option value="constanti">Constantí</option>
+              <option value="el-catllar">El Catllar</option>
+            </optgroup>
+            <optgroup label="Baix Camp — Costa">
+              <option value="cambrils">Cambrils</option>
+              <option value="vandellos">Vandellòs i L'Hospitalet</option>
+              <option value="ametlla-de-mar">L'Ametlla de Mar</option>
+              <option value="mont-roig">Mont-roig del Camp</option>
+            </optgroup>
+            <optgroup label="Baix Camp — Interior">
+              <option value="reus">Reus</option>
+              <option value="la-selva">La Selva del Camp</option>
+              <option value="riudoms">Riudoms</option>
+              <option value="prades">Prades</option>
+            </optgroup>
+            <optgroup label="Baix Penedès">
+              <option value="calafell">Calafell</option>
+              <option value="cunit">Cunit</option>
+              <option value="el-vendrell">El Vendrell</option>
+            </optgroup>
+            <optgroup label="Alt Camp">
+              <option value="valls">Valls</option>
+              <option value="alcover">Alcover</option>
+            </optgroup>
+            <optgroup label="Conca de Barberà">
+              <option value="montblanc">Montblanc</option>
+              <option value="santa-coloma-de-queralt">Santa Coloma de Queralt</option>
+            </optgroup>
+            <optgroup label="Baix Ebre — Costa">
+              <option value="ampolla">L'Ampolla</option>
+            </optgroup>
+            <optgroup label="Baix Ebre — Interior">
+              <option value="tortosa">Tortosa</option>
+              <option value="deltebre">Deltebre</option>
+              <option value="roquetes">Roquetes</option>
+            </optgroup>
+            <optgroup label="Montsià — Costa">
+              <option value="sant-carles">Sant Carles de la Ràpita</option>
+              <option value="alcanar">Alcanar</option>
+            </optgroup>
+            <optgroup label="Montsià — Interior">
+              <option value="amposta">Amposta</option>
+              <option value="ulldecona">Ulldecona</option>
+              <option value="santa-barbara">Santa Bàrbara</option>
+            </optgroup>
+            <optgroup label="Terra Alta">
+              <option value="gandesa">Gandesa</option>
+              <option value="horta-de-sant-joan">Horta de Sant Joan</option>
+            </optgroup>
+            <optgroup label="Ribera d'Ebre">
+              <option value="mora-d-ebre">Mora d'Ebre</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <!-- Zona / Barrio — selector dinámico -->
+        <div class="quiz-section">
+          <span class="quiz-section-label">
+            Zona o barrio
+            <span class="loc-rec-badge">Recomendado</span>
+          </span>
+          <select id="barrio-select" class="c-input" onchange="QS.d.zona = this.value" disabled>
+            <option value="">— Selecciona primero el municipio —</option>
+          </select>
+          <p class="loc-field-hint">Al indicar la zona se mejora la precisión del análisis de mercado.</p>
+        </div>
+
+        <!-- Bloque dirección exacta (opcional) -->
+        <div class="loc-addr-block">
+          <div class="loc-addr-header">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="flex-shrink-0 opacity-60"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>Dirección exacta</span>
+            <span class="loc-optional-pill">opcional</span>
+          </div>
+          <p class="loc-privacy">La dirección exacta solo se usa para mejorar la orientación inicial. No se comparte ni se publica.</p>
+
+          <div class="quiz-section" style="margin-bottom:12px;">
+            <span class="quiz-section-label">Nombre de la calle</span>
+            <input type="text" placeholder="Ej: Rambla Nova, Carrer Ample, Avinguda Roma…" class="c-input" oninput="QS.d.calle = this.value" />
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-3 quiz-section" style="margin-bottom:12px;">
+            <div>
+              <span class="quiz-section-label">Número / portal</span>
+              <input type="text" placeholder="Ej: 24, 3B, Portal 2…" class="c-input" oninput="QS.d.numero = this.value" />
+            </div>
+            <div>
+              <span class="quiz-section-label">Piso / puerta</span>
+              <input type="text" placeholder="Ej: 2º 1ª, Ático, Bajo…" class="c-input" oninput="QS.d.piso = this.value" />
+            </div>
+          </div>
+
+          <div>
+            <span class="quiz-section-label">Código postal</span>
+            <input type="text" placeholder="Ej: 43001" class="c-input loc-cp-input" maxlength="5" oninput="QS.d.codigoPostal = this.value" />
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════ -->
+      <!-- STEP 2 — VIVIENDA                         -->
+      <!-- ══════════════════════════════════════════ -->
+      <div class="quiz-step quiz-body" id="step-2">
+        <div class="quiz-step-tag">Análisis técnico del activo</div>
+        <p class="quiz-q-title">Cuéntame cómo es la vivienda</p>
+        <p class="quiz-q-sub">Cuantos más datos, más precisa será la estimación.</p>
+
+        <!-- Tipo -->
+        <div class="quiz-section">
+          <span class="quiz-section-label">Tipo de vivienda <span class="text-red-400/60">*</span></span>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+            <button type="button" class="q-card" data-group="tipo" onclick="qCard(this,'tipo','piso')">
+              <div class="q-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg></div>
+              <div><div class="q-card-label">Piso</div></div>
+            </button>
+            <button type="button" class="q-card" data-group="tipo" onclick="qCard(this,'tipo','casa')">
+              <div class="q-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>
+              <div><div class="q-card-label">Casa</div></div>
+            </button>
+            <button type="button" class="q-card" data-group="tipo" onclick="qCard(this,'tipo','atico')">
+              <div class="q-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg></div>
+              <div><div class="q-card-label">Ático</div></div>
+            </button>
+            <button type="button" class="q-card" data-group="tipo" onclick="qCard(this,'tipo','duplex')">
+              <div class="q-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4M4 17h12m0 0l-4-4m4 4l-4 4"/></svg></div>
+              <div><div class="q-card-label">Dúplex</div></div>
+            </button>
+            <button type="button" class="q-card" data-group="tipo" onclick="qCard(this,'tipo','chalet')">
+              <div class="q-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M3 7l9-4 9 4M4 7v14M20 7v14M9 21V12h6v9"/></svg></div>
+              <div><div class="q-card-label">Chalet</div></div>
+            </button>
+          </div>
+        </div>
+
+        <!-- m² + Counters -->
+        <div class="grid sm:grid-cols-3 gap-5 quiz-section">
+          <div>
+            <span class="quiz-section-label">Metros cuadrados <span class="text-red-400/60">*</span></span>
+            <input type="number" placeholder="Ej: 90" min="20" max="1000" class="c-input" oninput="QS.d.m2 = this.value; updateSummaryPanel()" />
+          </div>
+          <div>
+            <span class="quiz-section-label">Habitaciones</span>
+            <div class="q-counter-row mt-2">
+              <button type="button" class="q-ctr-btn" onclick="qCounter('habitaciones',-1,1,8)">−</button>
+              <span class="q-ctr-val" id="ctr-habitaciones">3</span>
+              <button type="button" class="q-ctr-btn" onclick="qCounter('habitaciones',1,1,8)">+</button>
+            </div>
+          </div>
+          <div>
+            <span class="quiz-section-label">Baños</span>
+            <div class="q-counter-row mt-2">
+              <button type="button" class="q-ctr-btn" onclick="qCounter('banos',-1,1,5)">−</button>
+              <span class="q-ctr-val" id="ctr-banos">1</span>
+              <button type="button" class="q-ctr-btn" onclick="qCounter('banos',1,1,5)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Año + Planta -->
+        <div class="grid sm:grid-cols-2 gap-4 quiz-section">
+          <div>
+            <span class="quiz-section-label">Año de construcción aprox.</span>
+            <select class="c-input" onchange="QS.d.anio = this.value">
+              <option value="">— Selecciona —</option>
+              <option value="2015+">2015 o más reciente</option>
+              <option value="2000-14">2000 – 2014</option>
+              <option value="1980-99">1980 – 1999</option>
+              <option value="1960-79">1960 – 1979</option>
+              <option value="antes60">Antes de 1960</option>
+            </select>
+          </div>
+          <div>
+            <span class="quiz-section-label">Planta</span>
+            <select class="c-input" onchange="QS.d.planta = this.value">
+              <option value="1a3" selected>1ª – 3ª planta</option>
+              <option value="bajo">Bajo / Semisótano</option>
+              <option value="4a6">4ª – 6ª planta</option>
+              <option value="7mas">7ª o superior</option>
+              <option value="atico">Ático</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Ascensor -->
+        <div class="quiz-section">
+          <span class="quiz-section-label">Ascensor</span>
+          <div class="grid grid-cols-2 gap-2.5 max-w-xs">
+            <button type="button" class="q-card" data-group="ascensor" onclick="qCard(this,'ascensor','si')">
+              <div class="q-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="q-card-label">Sí</div>
+            </button>
+            <button type="button" class="q-card" data-group="ascensor" onclick="qCard(this,'ascensor','no')">
+              <div class="q-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="text-[var(--text-3)]"><path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="q-card-label">No</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Estado -->
+        <div class="quiz-section">
+          <span class="quiz-section-label">Estado del inmueble <span class="text-red-400/60">*</span></span>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <button type="button" class="q-card" data-group="estado" onclick="qCard(this,'estado','nueva')">
+              <div class="q-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg></div>
+              <div><div class="q-card-label">Obra nueva</div><div class="q-card-sub">Reciente o estrenar</div></div>
+            </button>
+            <button type="button" class="q-card" data-group="estado" onclick="qCard(this,'estado','bueno')">
+              <div class="q-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+              <div><div class="q-card-label">Buen estado</div><div class="q-card-sub">Habitable, sin reformar</div></div>
+            </button>
+            <button type="button" class="q-card" data-group="estado" onclick="qCard(this,'estado','reformar')">
+              <div class="q-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+              <div><div class="q-card-label">A reformar</div><div class="q-card-sub">Necesita actualizarse</div></div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Extras -->
+        <div class="quiz-section mb-0">
+          <span class="quiz-section-label">Extras (selecciona todos los que apliquen)</span>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" class="q-tag" data-extra="terraza" onclick="qMulti(this,'terraza')">Terraza / Balcón</button>
+            <button type="button" class="q-tag" data-extra="parking" onclick="qMulti(this,'parking')">Parking</button>
+            <button type="button" class="q-tag" data-extra="jardin"  onclick="qMulti(this,'jardin')">Jardín</button>
+            <button type="button" class="q-tag" data-extra="piscina" onclick="qMulti(this,'piscina')">Piscina</button>
+            <button type="button" class="q-tag" data-extra="vistas"  onclick="qMulti(this,'vistas')">Vistas</button>
+            <button type="button" class="q-tag" data-extra="ninguno" onclick="qMulti(this,'ninguno')">Ninguno</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════ -->
+      <!-- STEP 3 — SITUACIÓN DEL PROPIETARIO        -->
+      <!-- ══════════════════════════════════════════ -->
+      <div class="quiz-step quiz-body" id="step-3">
+        <div class="quiz-step-tag">Análisis de urgencia y estrategia</div>
+        <p class="quiz-q-title">Tu situación como propietario</p>
+        <p class="quiz-q-sub">Esto me permite orientarte hacia la opción que realmente te conviene.</p>
+
+        <!-- Intención -->
+        <div class="quiz-section">
+          <span class="quiz-section-label">¿Qué quieres hacer? <span class="text-red-400/60">*</span></span>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <button type="button" class="q-card" data-group="intencion" onclick="qCard(this,'intencion','vender')">
+              <div class="q-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+              <div><div class="q-card-label">Vender</div><div class="q-card-sub">Quiero cerrar la venta</div></div>
+            </button>
+            <button type="button" class="q-card" data-group="intencion" onclick="qCard(this,'intencion','alquilar')">
+              <div class="q-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg></div>
+              <div><div class="q-card-label">Alquilar</div><div class="q-card-sub">Quiero ingresos recurrentes</div></div>
+            </button>
+            <button type="button" class="q-card" data-group="intencion" onclick="qCard(this,'intencion','reformar')">
+              <div class="q-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg></div>
+              <div><div class="q-card-label">Reformar primero</div><div class="q-card-sub">Para vender o alquilar mejor</div></div>
+            </button>
+            <button type="button" class="q-card" data-group="intencion" onclick="qCard(this,'intencion','valorar')">
+              <div class="q-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+              <div><div class="q-card-label">Solo quiero valorar</div><div class="q-card-sub">Sin decidir todavía</div></div>
+            </button>
+            <button type="button" class="q-card sm:col-span-2" data-group="intencion" onclick="qCard(this,'intencion','nose')">
+              <div class="q-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+              <div><div class="q-card-label">No lo sé aún</div><div class="q-card-sub">Quiero ver las opciones primero</div></div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Plazo -->
+        <div class="quiz-section">
+          <span class="quiz-section-label">Plazo previsto</span>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" class="q-tag" data-group="plazo" onclick="qCard(this,'plazo','inmediato')">Inmediato</button>
+            <button type="button" class="q-tag" data-group="plazo" onclick="qCard(this,'plazo','1a3')">1–3 meses</button>
+            <button type="button" class="q-tag" data-group="plazo" onclick="qCard(this,'plazo','3a6')">3–6 meses</button>
+            <button type="button" class="q-tag" data-group="plazo" onclick="qCard(this,'plazo','6a12')">6–12 meses</button>
+            <button type="button" class="q-tag" data-group="plazo" onclick="qCard(this,'plazo','sinprisa')">Sin prisa</button>
+          </div>
+        </div>
+
+        <!-- Motivo -->
+        <div class="quiz-section">
+          <span class="quiz-section-label">Motivo principal</span>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <button type="button" class="q-card" data-group="motivo" onclick="qCard(this,'motivo','cambio')">
+              <div class="q-icon"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>
+              <div class="q-card-label text-xs">Cambio de vivienda</div>
+            </button>
+            <button type="button" class="q-card" data-group="motivo" onclick="qCard(this,'motivo','herencia')">
+              <div class="q-icon"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>
+              <div class="q-card-label text-xs">Herencia</div>
+            </button>
+            <button type="button" class="q-card" data-group="motivo" onclick="qCard(this,'motivo','inversion')">
+              <div class="q-icon"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div>
+              <div class="q-card-label text-xs">Inversión</div>
+            </button>
+            <button type="button" class="q-card" data-group="motivo" onclick="qCard(this,'motivo','necesidad')">
+              <div class="q-icon"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div>
+              <div class="q-card-label text-xs">Necesidad económica</div>
+            </button>
+            <button type="button" class="q-card" data-group="motivo" onclick="qCard(this,'motivo','divorcio')">
+              <div class="q-icon"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg></div>
+              <div class="q-card-label text-xs">Divorcio / Separación</div>
+            </button>
+            <button type="button" class="q-card" data-group="motivo" onclick="qCard(this,'motivo','traslado')">
+              <div class="q-icon"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+              <div class="q-card-label text-xs">Traslado</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Precio deseado -->
+        <div class="quiz-section">
+          <span class="quiz-section-label">Precio que tienes en mente <span class="text-[var(--text-3)] font-normal normal-case tracking-normal">(opcional)</span></span>
+          <input type="number" placeholder="Ej: 180000" class="c-input" oninput="QS.d.precioDeseado = this.value" />
+          <p class="text-xs text-[var(--text-3)] mt-1.5">Si está muy por encima del mercado, te lo digo.</p>
+        </div>
+
+        <!-- Hipoteca + Inmobiliaria -->
+        <div class="grid sm:grid-cols-2 gap-5 quiz-section mb-0">
+          <div>
+            <span class="quiz-section-label">Hipoteca pendiente</span>
+            <div class="flex flex-col gap-2">
+              <button type="button" class="q-card" data-group="hipoteca" onclick="qCard(this,'hipoteca','no')">
+                <div class="q-card-label text-xs">Sin hipoteca</div>
+              </button>
+              <button type="button" class="q-card" data-group="hipoteca" onclick="qCard(this,'hipoteca','poca')">
+                <div class="q-card-label text-xs">Poca (&lt;30% del valor)</div>
+              </button>
+              <button type="button" class="q-card" data-group="hipoteca" onclick="qCard(this,'hipoteca','media')">
+                <div class="q-card-label text-xs">Media (30–60%)</div>
+              </button>
+              <button type="button" class="q-card" data-group="hipoteca" onclick="qCard(this,'hipoteca','alta')">
+                <div class="q-card-label text-xs">Alta (&gt;60% del valor)</div>
+              </button>
+            </div>
+          </div>
+          <div>
+            <span class="quiz-section-label">¿Tienes inmobiliaria?</span>
+            <div class="flex flex-col gap-2">
+              <button type="button" class="q-card" data-group="inmobiliaria" onclick="qCard(this,'inmobiliaria','ninguna')">
+                <div class="q-card-label text-xs">No, ninguna</div>
+              </button>
+              <button type="button" class="q-card" data-group="inmobiliaria" onclick="qCard(this,'inmobiliaria','sinexclusiva')">
+                <div class="q-card-label text-xs">Sí, sin exclusiva</div>
+              </button>
+              <button type="button" class="q-card" data-group="inmobiliaria" onclick="qCard(this,'inmobiliaria','exclusiva')">
+                <div class="q-card-label text-xs">Sí, con exclusiva</div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════ -->
+      <!-- STEP 4 — CONTACTO                         -->
+      <!-- ══════════════════════════════════════════ -->
+      <div class="quiz-step quiz-body" id="step-4">
+        <div class="quiz-step-tag">Solicitud de diagnóstico personalizado</div>
+        <p class="quiz-q-title">Un momento, me presento</p>
+        <p class="quiz-q-sub">Déjame tus datos para enviarte el análisis completo y, si lo deseas, hablamos.</p>
+
+        <div class="grid sm:grid-cols-2 gap-4 quiz-section">
+          <div>
+            <span class="quiz-section-label">Nombre <span class="text-red-400/60">*</span></span>
+            <input type="text" placeholder="Tu nombre" class="c-input" oninput="QS.d.nombre = this.value" />
+          </div>
+          <div>
+            <span class="quiz-section-label">Email <span class="text-red-400/60">*</span></span>
+            <input type="email" placeholder="tu@email.com" class="c-input" oninput="QS.d.email = this.value" />
+          </div>
+        </div>
+
+        <div class="quiz-section">
+          <span class="quiz-section-label">Teléfono <span class="text-[var(--text-3)] font-normal normal-case tracking-normal">(recomendado — respuesta más rápida)</span></span>
+          <input type="tel" placeholder="+34 600 000 000" class="c-input" oninput="QS.d.telefono = this.value" />
+        </div>
+
+        <div class="quiz-section">
+          <span class="quiz-section-label">Prefiero que me contacten por</span>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" class="q-tag" data-group="preferencia" onclick="qCard(this,'preferenciaContacto','llamada')">📞 Llamada</button>
+            <button type="button" class="q-tag" data-group="preferencia" onclick="qCard(this,'preferenciaContacto','whatsapp')">💬 WhatsApp</button>
+            <button type="button" class="q-tag" data-group="preferencia" onclick="qCard(this,'preferenciaContacto','email')">📧 Email</button>
+          </div>
+        </div>
+
+        <div class="quiz-section">
+          <span class="quiz-section-label">Mi relación con el inmueble</span>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" class="q-card" data-group="relacion" onclick="qCard(this,'relacion','propietario')">
+              <div class="q-card-label text-xs">Soy el propietario</div>
+            </button>
+            <button type="button" class="q-card" data-group="relacion" onclick="qCard(this,'relacion','familiar')">
+              <div class="q-card-label text-xs">Familiar del propietario</div>
+            </button>
+            <button type="button" class="q-card" data-group="relacion" onclick="qCard(this,'relacion','gestor')">
+              <div class="q-card-label text-xs">Gestor / Administrador</div>
+            </button>
+            <button type="button" class="q-card" data-group="relacion" onclick="qCard(this,'relacion','otro')">
+              <div class="q-card-label text-xs">Otro</div>
+            </button>
+          </div>
+        </div>
+
+        <div class="quiz-section mb-0">
+          <span class="quiz-section-label">Comentarios adicionales <span class="text-[var(--text-3)] font-normal normal-case tracking-normal">(opcional)</span></span>
+          <textarea rows="3" placeholder="Cuéntame cualquier detalle relevante sobre la propiedad o tu situación..." class="c-input resize-none" oninput="QS.d.comentarios = this.value"></textarea>
+        </div>
+
+        <div class="quiz-privacy-note">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="flex-shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          Tus datos son confidenciales. Solo los uso para responderte a ti. Sin llamadas comerciales ni cesión a terceros.
+        </div>
+
+        <div class="quiz-what-next">
+          <div class="qwn-title">Qué ocurre cuando termines</div>
+          <div class="qwn-items">
+            <div class="qwn-item"><span class="qwn-num">1</span>Recibes el diagnóstico preliminar en pantalla ahora mismo</div>
+            <div class="qwn-item"><span class="qwn-num">2</span>Reviso tu caso y te respondo en menos de 2 horas con mi lectura del mercado</div>
+            <div class="qwn-item"><span class="qwn-num">3</span>Si tiene sentido para los dos, agendamos una reunión sin ningún compromiso</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════ -->
+      <!-- STEP 5 — INFORME ORIENTATIVO              -->
+      <!-- ══════════════════════════════════════════ -->
+      <div class="quiz-step quiz-body" id="step-5">
+
+        <!-- Report header -->
+        <div class="flex items-start justify-between gap-4 flex-wrap mb-5 pb-5 border-b border-[var(--border)]">
+          <div>
+            <div class="label-xs mb-1">Diagnóstico inmobiliario · Informe orientativo</div>
+            <p class="quiz-q-title mb-1">Primera lectura de tu caso</p>
+            <p id="r-timestamp" class="text-[var(--text-3)] text-xs">—</p>
+          </div>
+          <div class="flex flex-col items-end gap-1">
+            <div id="r-tier" class="tier-badge tier-warm">Análisis completado</div>
+          </div>
+        </div>
+
+        <!-- ── CAPSULE: lectura rápida ──────────────── -->
+        <div class="result-capsule mb-6">
+          <div class="rc-item">
+            <div class="rc-k">Recomendación</div>
+            <div class="rc-v text-gold" id="rc-rec">—</div>
+          </div>
+          <div class="rc-sep"></div>
+          <div class="rc-item">
+            <div class="rc-k">Estimación de valor</div>
+            <div class="rc-v" id="rc-price">—</div>
+          </div>
+          <div class="rc-sep hidden sm:block"></div>
+          <div class="rc-item hidden sm:flex">
+            <div class="rc-k">Confianza del análisis</div>
+            <div class="rc-v" id="rc-conf">—</div>
+          </div>
+        </div>
+
+        <!-- ── SECCIÓN A: Valoración ───────────────── -->
+        <div class="report-section">
+          <div class="report-section-hdr">
+            <span>A — Valoración orientativa</span>
+            <span class="text-[var(--text-3)]">No es tasación oficial</span>
+          </div>
+          <div class="report-section-body">
+            <div class="r-main-card mb-4">
+              <span class="r-label">Valor de venta estimado</span>
+              <div id="r-price" class="r-num text-gold mb-2">—</div>
+              <div id="r-range" class="text-[var(--text-2)] text-sm mb-5">—</div>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="glass px-3 py-2.5 rounded-lg">
+                  <div class="text-[10px] text-[var(--text-3)] uppercase tracking-wider mb-1">€/m² aplicado</div>
+                  <div id="r-ppm2" class="font-['Space_Grotesk'] font-bold text-[var(--text-1)] text-sm">—</div>
+                </div>
+                <div class="glass px-3 py-2.5 rounded-lg">
+                  <div class="text-[10px] text-[var(--text-3)] uppercase tracking-wider mb-1">Datos de referencia</div>
+                  <div id="r-conf-pct" class="text-[10px] font-semibold text-[var(--gold)] mb-1.5 leading-snug">—</div>
+                  <div class="conf-track"><div id="r-conf-bar" class="conf-fill"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="glass px-4 py-3 rounded-xl">
+              <div class="text-[10px] text-[var(--text-3)] uppercase tracking-wider mb-1">Alquiler mensual estimado</div>
+              <div id="r-rent" class="font-['Space_Grotesk'] font-bold text-[#dbbe6a] text-lg mb-0.5">—</div>
+              <div id="r-rent-range" class="text-[var(--text-3)] text-xs">—</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SECCIÓN B: Diagnóstico de mercado ───── -->
+        <div class="report-section">
+          <div class="report-section-hdr">
+            <span>B — Diagnóstico de mercado</span>
+          </div>
+          <div class="report-section-body">
+            <!-- Indicators -->
+            <div class="mb-5">
+              <div class="market-row">
+                <span class="market-row-label">Demanda</span>
+                <div class="ind-track"><div id="r-demand-bar" class="ind-fill"></div></div>
+                <span id="r-demand-label" class="market-row-value">—</span>
+              </div>
+              <div class="market-row">
+                <span class="market-row-label">Liquidez</span>
+                <div class="ind-track"><div id="r-liquidity-bar" class="ind-fill"></div></div>
+                <span id="r-liquidity-label" class="market-row-value">—</span>
+              </div>
+              <div class="market-row">
+                <span class="market-row-label">Estado</span>
+                <div class="ind-track"><div id="r-state-bar" class="ind-fill"></div></div>
+                <span id="r-state-label" class="market-row-value">—</span>
+              </div>
+              <div class="market-row">
+                <span class="market-row-label">Precio</span>
+                <div class="ind-track"><div id="r-price-bar" class="ind-fill"></div></div>
+                <span id="r-price-label" class="market-row-value">—</span>
+              </div>
+            </div>
+            <!-- Dynamic text -->
+            <div id="r-diag-text"></div>
+          </div>
+        </div>
+
+        <!-- Overprice warning -->
+        <div id="r-overprice" class="warn-card mb-4 hidden"></div>
+
+        <!-- ── SECCIÓN C: Recomendación ────────────── -->
+        <div class="report-section">
+          <div class="report-section-hdr">C — Recomendación principal</div>
+          <div class="report-section-body">
+            <div class="rec-highlight">
+              <div class="rec-sub">Mejor opción detectada</div>
+              <div id="r-rec-label" class="rec-title">—</div>
+              <p id="r-rec-tag" class="text-[var(--text-2)] text-xs mt-2 leading-relaxed">—</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SECCIÓN D: Estrategia ───────────────── -->
+        <div class="report-section">
+          <div class="report-section-hdr">D — Estrategia sugerida</div>
+          <div class="report-section-body">
+
+            <div class="flex items-start gap-3 py-3 border-b border-[var(--border)]">
+              <div class="strategy-icon flex-shrink-0">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div>
+                <div class="strategy-label">Precio de salida recomendado</div>
+                <div id="r-rec-price" class="font-['Space_Grotesk'] font-bold text-[var(--gold)] text-base">—</div>
+                <p class="text-[var(--text-3)] text-[10px] leading-relaxed mt-1.5">Basado en comparables de mercado 2024–2025 en tu zona. Puede variar según estado real del inmueble y negociación.</p>
+              </div>
+            </div>
+
+            <div class="py-3 border-b border-[var(--border)]">
+              <div class="strategy-label mb-2">Qué mejorar antes de publicar</div>
+              <ul id="r-improvements" class="space-y-0"></ul>
+            </div>
+
+            <!-- Reforma ROI block — rendered by JS -->
+            <div id="r-reforma-block" class="hidden"></div>
+
+            <div class="flex items-start gap-3 py-3 border-b border-[var(--border)]">
+              <div class="strategy-icon flex-shrink-0">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              </div>
+              <div>
+                <div class="strategy-label">Perfil de comprador</div>
+                <p id="r-buyer-profile" class="strategy-value">—</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 py-3 border-b border-[var(--border)]">
+              <div class="strategy-icon flex-shrink-0">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+              </div>
+              <div>
+                <div class="strategy-label">Cómo llegar al comprador</div>
+                <p id="r-approach" class="strategy-value">—</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 py-3 border-b border-[var(--border)]">
+              <div class="strategy-icon flex-shrink-0" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.2)">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="text-[#f87171]"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+              </div>
+              <div>
+                <div class="strategy-label">Riesgo principal</div>
+                <p id="r-main-risk" class="strategy-value">—</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 pt-3">
+              <div class="strategy-icon flex-shrink-0" style="background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.2)">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="text-[#34d399]"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              </div>
+              <div>
+                <div class="strategy-label">Siguiente paso recomendado</div>
+                <p id="r-next-step" class="strategy-value">—</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── SECCIÓN E: Perfil de decisión ────────────── -->
+        <div class="report-section">
+          <div class="report-section-hdr">E — Tu perfil de decisión</div>
+          <div class="report-section-body">
+            <div class="grid grid-cols-2 gap-x-6 gap-y-1 mb-5">
+              <div class="lp-row">
+                <span class="lp-row-label">Urgencia</span>
+                <div class="score-dots" id="lp-urgency-dots"></div>
+              </div>
+              <div class="lp-row">
+                <span class="lp-row-label">Precio realista</span>
+                <div class="score-dots" id="lp-realism-dots"></div>
+              </div>
+              <div class="lp-row">
+                <span class="lp-row-label">Motivación</span>
+                <div class="score-dots" id="lp-motivation-dots"></div>
+              </div>
+              <div class="lp-row">
+                <span class="lp-row-label">Accesibilidad</span>
+                <div class="score-dots" id="lp-contact-dots"></div>
+              </div>
+            </div>
+            <div class="glass p-4 rounded-xl">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold text-[var(--text-1)]" id="lp-tier-label">—</span>
+              </div>
+              <div class="conf-track mb-2"><div id="lp-score-bar" class="conf-fill"></div></div>
+              <p id="lp-tier-explanation" class="text-[var(--text-3)] text-xs leading-relaxed">—</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SECCIÓN F: Análisis de potencial ────────── -->
+        <div class="report-section">
+          <div class="report-section-hdr">F — Análisis de potencial</div>
+          <div class="report-section-body">
+            <div class="rb-grid">
+              <div class="rb-row">
+                <span class="rb-label">Liquidez</span>
+                <div class="rb-track"><div id="rb-liquidez" class="rb-fill rb-fill-green"></div></div>
+                <span id="rb-liquidez-val" class="rb-val">—</span>
+              </div>
+              <div class="rb-row">
+                <span class="rb-label">Riesgo sobreprecio</span>
+                <div class="rb-track"><div id="rb-riesgo" class="rb-fill rb-fill-red"></div></div>
+                <span id="rb-riesgo-val" class="rb-val">—</span>
+              </div>
+              <div class="rb-row">
+                <span class="rb-label">Potencial venta</span>
+                <div class="rb-track"><div id="rb-venta" class="rb-fill rb-fill-gold"></div></div>
+                <span id="rb-venta-val" class="rb-val">—</span>
+              </div>
+              <div class="rb-row">
+                <span class="rb-label">Potencial alquiler</span>
+                <div class="rb-track"><div id="rb-alquiler" class="rb-fill rb-fill-blue"></div></div>
+                <span id="rb-alquiler-val" class="rb-val">—</span>
+              </div>
+              <div class="rb-row">
+                <span class="rb-label">Potencial reforma</span>
+                <div class="rb-track"><div id="rb-reforma" class="rb-fill rb-fill-purple"></div></div>
+                <span id="rb-reforma-val" class="rb-val">—</span>
+              </div>
+              <div class="rb-row">
+                <span class="rb-label">Urgencia estratégica</span>
+                <div class="rb-track"><div id="rb-urgencia" class="rb-fill rb-fill-orange"></div></div>
+                <span id="rb-urgencia-val" class="rb-val">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SECCIÓN F2: Vender vs Alquilar ────────────── -->
+        <div class="report-section">
+          <div class="report-section-hdr">¿Qué te conviene más: vender o alquilar?</div>
+          <div class="report-section-body">
+            <div class="vs-grid">
+
+              <!-- Bloque VENDER -->
+              <div class="vs-block vs-block-sell">
+                <div class="vs-block-header">
+                  <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  Vender
+                </div>
+                <div class="vs-rows">
+                  <div class="vs-row"><span class="vs-k">Precio estimado</span><span id="vs-sell-price" class="vs-v">—</span></div>
+                  <div class="vs-row"><span class="vs-k">Neto tras gastos (~8%)</span><span id="vs-sell-net" class="vs-v">—</span></div>
+                  <div class="vs-row"><span class="vs-k">Tiempo estimado venta</span><span id="vs-sell-days" class="vs-v">—</span></div>
+                  <div class="vs-row vs-row-last"><span class="vs-k">Mejor momento</span><span id="vs-sell-moment" class="vs-v vs-v-highlight">—</span></div>
+                </div>
+              </div>
+
+              <!-- Bloque ALQUILAR -->
+              <div class="vs-block vs-block-rent">
+                <div class="vs-block-header">
+                  <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="text-[var(--electric)]"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                  Alquilar
+                </div>
+                <div class="vs-rows">
+                  <div class="vs-row"><span class="vs-k">Alquiler mensual</span><span id="vs-rent-month" class="vs-v">—</span></div>
+                  <div class="vs-row"><span class="vs-k">Ingresos anuales brutos</span><span id="vs-rent-annual" class="vs-v">—</span></div>
+                  <div class="vs-row"><span class="vs-k">Años para recuperar valor</span><span id="vs-rent-years" class="vs-v">—</span></div>
+                  <div class="vs-row vs-row-last"><span class="vs-k">Rentabilidad bruta</span><span id="vs-rent-yield" class="vs-v vs-v-highlight">—</span></div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Recomendación automática -->
+            <div id="vs-recommendation" class="vs-rec">—</div>
+          </div>
+        </div>
+
+        <!-- ── SECCIÓN G: Plan de 7 días ──────────────── -->
+        <div class="report-section">
+          <div class="report-section-hdr">G — Plan de acción (próximos 7 días)</div>
+          <div class="report-section-body">
+            <div id="r-plan-7" class="day-plan"></div>
+          </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <p class="text-[var(--text-3)] text-[11px] leading-relaxed mb-6">
+          Estimación orientativa basada en precios reales del mercado de Tarragona y provincia (2024–2025). No tiene validez legal ni bancaria. Para tasaciones con efectos legales o bancarios (hipoteca, herencia, etc.) es necesario un tasador homologado por el Banco de España.
+        </p>
+
+        <!-- CTAs -->
+        <div class="flex flex-col gap-3">
+          <a href="https://calendly.com/aleix-proptech/30min" target="_blank" class="btn-gold justify-center py-4 text-sm font-semibold">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            Solicitar análisis personalizado
+          </a>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <a id="r-whatsapp" href="https://wa.me/34600000000" target="_blank" class="btn-outline justify-center py-3 text-sm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.091.535 4.06 1.472 5.772L0 24l6.386-1.448A11.928 11.928 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 01-5.001-1.37l-.357-.214-3.796.861.875-3.694-.234-.378A9.79 9.79 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z"/></svg>
+              WhatsApp · Hablar ahora
+            </a>
+            <a href="https://calendly.com/aleix-proptech/30min" target="_blank" class="btn-outline justify-center py-3 text-sm">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              Agendar llamada
+            </a>
+          </div>
+        </div>
+
+        <p class="text-[var(--text-3)] text-[11px] text-center mt-4">
+          <button onclick="resetQuiz()" class="text-[var(--gold)] hover:underline bg-transparent border-none cursor-pointer text-[11px] font-medium">
+            Reiniciar diagnóstico
+          </button>
+        </p>
+      </div>
+
+      <!-- ─ NAV BUTTONS ───────────────────────────── -->
+      <div class="quiz-nav">
+        <button id="quiz-prev" onclick="quizPrev()" class="btn-outline text-sm py-2.5 px-5" style="visibility:hidden">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          Anterior
+        </button>
+        <button id="quiz-next" onclick="quizNext()" class="btn-gold text-sm py-2.5 px-6">
+          Siguiente
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+    </div><!-- /quiz-wrap -->
+
+    </div><!-- /calc-layout -->
+
+  </div><!-- /max-w -->
+
+</section>
+
+
+<div class="sec-divider" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════════════
+     7. SERVICIOS / CONFIANZA
+═══════════════════════════════════════════════ -->
+<!-- SERVICIOS — ACORDEÓN EDITORIAL -->
+<section id="servicios" class="sv-section">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8">
+
+    <div class="sv-header reveal">
+      <div class="label-xs section-label mb-3">Servicios</div>
+      <h2 class="text-3xl sm:text-[2.6rem] font-bold leading-tight">Cómo puedo <span class="text-gold">ayudarte</span></h2>
+      <p class="text-[var(--text-2)] text-sm mt-3 max-w-lg">No ofrezco servicios estándar. Cada operación es distinta y la estrategia se adapta a tu caso concreto.</p>
+    </div>
+
+    <div class="sv-list" id="sv-list">
+
+      <!-- 01 -->
+      <div class="sv-item sv-open" style="--sc:#4f9ef8">
+        <button class="sv-head" onclick="svToggle(this)" aria-expanded="true">
+          <span class="sv-num">01</span>
+          <div class="sv-head-body">
+            <div class="sv-meta-row">
+              <span class="sv-tag">Análisis</span>
+            </div>
+            <span class="sv-name">Diagnóstico estratégico</span>
+          </div>
+          <span class="sv-icon-wrap">
+            <svg class="sv-minus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+            <svg class="sv-plus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          </span>
+        </button>
+        <div class="sv-body">
+          <div class="sv-body-inner">
+            <p class="sv-desc">Antes de cualquier decisión, entiendo tu caso completo: zona, estado actual del inmueble, mercado local y objetivos reales. Sin este paso, cualquier otra acción es ruido.</p>
+            <ul class="sv-bullets">
+              <li>Análisis completo de zona, estado y mercado local</li>
+              <li>Identificación del camino más rentable para tu situación</li>
+              <li>La base sin la que ninguna otra decisión tiene sentido</li>
+            </ul>
+            <a href="#calculadora" class="sv-cta">Empezar diagnóstico <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 -->
+      <div class="sv-item" style="--sc:#c9a84c">
+        <button class="sv-head" onclick="svToggle(this)" aria-expanded="false">
+          <span class="sv-num">02</span>
+          <div class="sv-head-body">
+            <div class="sv-meta-row"><span class="sv-tag">Datos</span></div>
+            <span class="sv-name">Valoración orientativa</span>
+          </div>
+          <span class="sv-icon-wrap">
+            <svg class="sv-minus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+            <svg class="sv-plus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          </span>
+        </button>
+        <div class="sv-body">
+          <div class="sv-body-inner">
+            <p class="sv-desc">Precio estimado basado en datos reales de mercado, no en portales genéricos ni en esperanzas propias. Con horquilla real, nivel de confianza y tiempo estimado de absorción por zona.</p>
+            <ul class="sv-bullets">
+              <li>Precio con horquilla real, no estimación de portal</li>
+              <li>Basado en comparables reales de los últimos 6 meses</li>
+              <li>Tiempo de absorción esperado según demanda actual</li>
+            </ul>
+            <a href="#calculadora" class="sv-cta">Ver mi valoración <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 -->
+      <div class="sv-item" style="--sc:#c9a84c">
+        <button class="sv-head" onclick="svToggle(this)" aria-expanded="false">
+          <span class="sv-num">03</span>
+          <div class="sv-head-body">
+            <div class="sv-meta-row"><span class="sv-tag">Venta</span><span class="sv-featured-chip">Principal</span></div>
+            <span class="sv-name">Estrategia de venta</span>
+          </div>
+          <span class="sv-icon-wrap">
+            <svg class="sv-minus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+            <svg class="sv-plus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          </span>
+        </button>
+        <div class="sv-body">
+          <div class="sv-body-inner">
+            <p class="sv-desc">Cómo presentar, posicionar y publicar tu vivienda para venderla al mejor precio en el menor tiempo. El precio de salida lo define todo: ni muy alto que espanta, ni muy bajo que regala.</p>
+            <ul class="sv-bullets">
+              <li>Precio de salida que no quema el activo ni lo regala</li>
+              <li>Presentación, fotografía profesional y posicionamiento</li>
+              <li>Media de 30–60 días hasta firma en la provincia de Tarragona</li>
+            </ul>
+            <a href="#calculadora" class="sv-cta">Calcular mi precio de venta <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 -->
+      <div class="sv-item" style="--sc:#34d399">
+        <button class="sv-head" onclick="svToggle(this)" aria-expanded="false">
+          <span class="sv-num">04</span>
+          <div class="sv-head-body">
+            <div class="sv-meta-row"><span class="sv-tag">Compradores</span></div>
+            <span class="sv-name">Red de compradores</span>
+          </div>
+          <span class="sv-icon-wrap">
+            <svg class="sv-minus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+            <svg class="sv-plus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          </span>
+        </button>
+        <div class="sv-body">
+          <div class="sv-body-inner">
+            <p class="sv-desc">Acceso directo a compradores activos e inversores antes de publicar en portales. Más velocidad, más discreción y menos negociación desde una posición de debilidad.</p>
+            <ul class="sv-bullets">
+              <li>Compradores activos antes de cualquier publicación pública</li>
+              <li>Velocidad y discreción garantizadas en todo el proceso</li>
+              <li>Menos portales significa menos negociación a la baja</li>
+            </ul>
+            <a href="#calculadora" class="sv-cta">Hablar de mi propiedad <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05 -->
+      <div class="sv-item" style="--sc:#a78bfa">
+        <button class="sv-head" onclick="svToggle(this)" aria-expanded="false">
+          <span class="sv-num">05</span>
+          <div class="sv-head-body">
+            <div class="sv-meta-row"><span class="sv-tag">Inversión</span></div>
+            <span class="sv-name">Inversores y perfiles patrimoniales</span>
+          </div>
+          <span class="sv-icon-wrap">
+            <svg class="sv-minus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+            <svg class="sv-plus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          </span>
+        </button>
+        <div class="sv-body">
+          <div class="sv-body-inner">
+            <p class="sv-desc">Para propiedades con potencial de rentabilidad: perfiles que buscan activos con retorno real, no simplemente una vivienda para habitar. Con análisis de rentabilidad incluido.</p>
+            <ul class="sv-bullets">
+              <li>Perfiles de inversión cualificados y con capacidad real</li>
+              <li>Análisis de rentabilidad bruta y neta incluido</li>
+              <li>Especialmente orientado a zonas costeras y urbanas prime</li>
+            </ul>
+            <a href="#calculadora" class="sv-cta">Analizar potencial inversor <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06 -->
+      <div class="sv-item" style="--sc:#a78bfa">
+        <button class="sv-head" onclick="svToggle(this)" aria-expanded="false">
+          <span class="sv-num">06</span>
+          <div class="sv-head-body">
+            <div class="sv-meta-row"><span class="sv-tag">Reforma</span></div>
+            <span class="sv-name">Reforma antes de vender</span>
+          </div>
+          <span class="sv-icon-wrap">
+            <svg class="sv-minus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+            <svg class="sv-plus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          </span>
+        </button>
+        <div class="sv-body">
+          <div class="sv-body-inner">
+            <p class="sv-desc">Analizo si una reforma previa mejora la operación económicamente. Con números reales: coste estimado, incremento de precio esperado y plazo de recuperación de la inversión.</p>
+            <ul class="sv-bullets">
+              <li>Coste estimado vs revalorización esperada con datos reales</li>
+              <li>Red de industriales de confianza para ejecución</li>
+              <li>Solo lo recomiendo si la operación lo justifica con claridad</li>
+            </ul>
+            <a href="#calculadora" class="sv-cta">Calcular si me conviene reformar <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 07 -->
+      <div class="sv-item" style="--sc:#4f9ef8">
+        <button class="sv-head" onclick="svToggle(this)" aria-expanded="false">
+          <span class="sv-num">07</span>
+          <div class="sv-head-body">
+            <div class="sv-meta-row"><span class="sv-tag">Alquiler</span></div>
+            <span class="sv-name">Análisis de alquiler</span>
+          </div>
+          <span class="sv-icon-wrap">
+            <svg class="sv-minus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+            <svg class="sv-plus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          </span>
+        </button>
+        <div class="sv-body">
+          <div class="sv-body-inner">
+            <p class="sv-desc">Rentabilidad real en tu zona, perfil de inquilino óptimo y estrategia de gestión. La diferencia entre alquilar bien y alquilar mal puede ser de varios cientos de euros al mes.</p>
+            <ul class="sv-bullets">
+              <li>Rentabilidad bruta y neta real, no la cifra optimista del portal</li>
+              <li>Perfil de inquilino ideal y estrategia de selección y contrato</li>
+              <li>Comparativa alquiler tradicional vs alquiler de temporada</li>
+            </ul>
+            <a href="#calculadora" class="sv-cta">Calcular mi rentabilidad <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 08 -->
+      <div class="sv-item" style="--sc:#c9a84c">
+        <button class="sv-head" onclick="svToggle(this)" aria-expanded="false">
+          <span class="sv-num">08</span>
+          <div class="sv-head-body">
+            <div class="sv-meta-row"><span class="sv-tag">Red</span></div>
+            <span class="sv-name">Conexión profesional</span>
+          </div>
+          <span class="sv-icon-wrap">
+            <svg class="sv-minus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+            <svg class="sv-plus" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          </span>
+        </button>
+        <div class="sv-body">
+          <div class="sv-body-inner">
+            <p class="sv-desc">Si necesitas abogado especializado, tasador homologado, gestor o arquitecto técnico, tengo la red para conectarte sin perder tiempo buscando a ciegas con resultados inciertos.</p>
+            <ul class="sv-bullets">
+              <li>Abogados, tasadores y gestores especializados en inmuebles</li>
+              <li>Red contrastada por operaciones reales, no recomendaciones genéricas</li>
+              <li>Sin pérdida de tiempo en búsqueda ni en prueba y error</li>
+            </ul>
+            <a href="#calculadora" class="sv-cta">Contactar <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+  function svToggle(btn){
+    var item = btn.closest('.sv-item');
+    var isOpen = item.classList.contains('sv-open');
+    document.querySelectorAll('#sv-list .sv-item').forEach(function(i){ i.classList.remove('sv-open'); i.querySelector('button').setAttribute('aria-expanded','false'); });
+    if(!isOpen){ item.classList.add('sv-open'); btn.setAttribute('aria-expanded','true'); }
+  }
+  </script>
+</section>
+
+
+<!-- DIFERENCIADORES — TABLA VERSUS -->
+<section id="diferenciadores" class="vs-section">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8">
+
+    <!-- Header -->
+    <div class="vs-header reveal">
+      <div class="label-xs section-label mb-3">Posicionamiento</div>
+      <h2 class="text-3xl sm:text-[2.5rem] font-bold leading-tight mb-3">
+        No trabajo tu vivienda<br class="hidden sm:block"/> como un anuncio. La trato<br class="hidden sm:block"/> como una <span class="text-gold">operación.</span>
+      </h2>
+      <p class="text-[var(--text-2)] text-sm leading-relaxed max-w-lg mt-4">
+        La diferencia no está en el precio de la comisión. Está en cómo se piensa el problema desde el principio.
+      </p>
+    </div>
+
+    <!-- Versus table -->
+    <div class="vs-table reveal d1">
+
+      <!-- Column headers -->
+      <div class="vs-thead">
+        <div class="vs-col-num"></div>
+        <div class="vs-col-a">
+          <div class="vs-badge vs-badge-no">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            Agencia estándar
+          </div>
+        </div>
+        <div class="vs-col-b">
+          <div class="vs-badge vs-badge-yes">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            Aleix Jiménez
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 01 -->
+      <div class="vs-row">
+        <div class="vs-col-num">01</div>
+        <div class="vs-col-a">
+          <span class="vs-label">Primer paso</span>
+          <p>Publicar en portales cuanto antes — el anuncio como punto de partida</p>
+        </div>
+        <div class="vs-col-b">
+          <span class="vs-label">Primer paso</span>
+          <p>Entender si vender, alquilar, reformar o esperar es lo que realmente te conviene</p>
+        </div>
+      </div>
+
+      <!-- Row 02 -->
+      <div class="vs-row">
+        <div class="vs-col-num">02</div>
+        <div class="vs-col-a">
+          <span class="vs-label">Precio</span>
+          <p>El precio que el propietario quiere escuchar para cerrar el encargo</p>
+        </div>
+        <div class="vs-col-b">
+          <span class="vs-label">Precio</span>
+          <p>El precio que el mercado paga de verdad, con horquilla real y comparables de los últimos 6 meses</p>
+        </div>
+      </div>
+
+      <!-- Row 03 -->
+      <div class="vs-row">
+        <div class="vs-col-num">03</div>
+        <div class="vs-col-a">
+          <span class="vs-label">Estrategia</span>
+          <p>Portal, fotografía estándar y a esperar visitas sin preparación previa</p>
+        </div>
+        <div class="vs-col-b">
+          <span class="vs-label">Estrategia</span>
+          <p>Precio de salida + presentación profesional + canal adecuado al perfil real del comprador</p>
+        </div>
+      </div>
+
+      <!-- Row 04 -->
+      <div class="vs-row">
+        <div class="vs-col-num">04</div>
+        <div class="vs-col-a">
+          <span class="vs-label">Compradores</span>
+          <p>Portal público, visitas abiertas y negociación desde una posición de debilidad</p>
+        </div>
+        <div class="vs-col-b">
+          <span class="vs-label">Compradores</span>
+          <p>Red de compradores activos antes de publicar. Más velocidad, más discreción, mejor posición negociadora</p>
+        </div>
+      </div>
+
+      <!-- Row 05 -->
+      <div class="vs-row">
+        <div class="vs-col-num">05</div>
+        <div class="vs-col-a">
+          <span class="vs-label">Reforma</span>
+          <p>Se vende como está o se recomienda reformar sin analizar si es rentable</p>
+        </div>
+        <div class="vs-col-b">
+          <span class="vs-label">Reforma</span>
+          <p>Solo si los números lo justifican: coste estimado vs revalorización real. 5.000€ bien invertidos pueden valer 20.000€ en precio</p>
+        </div>
+      </div>
+
+      <!-- Row 06 -->
+      <div class="vs-row">
+        <div class="vs-col-num">06</div>
+        <div class="vs-col-a">
+          <span class="vs-label">Objetivo</span>
+          <p>Cerrar la venta cuanto antes — su incentivo es la comisión, no tu resultado final</p>
+        </div>
+        <div class="vs-col-b">
+          <span class="vs-label">Objetivo</span>
+          <p>Que tomes la decisión correcta para tu caso, aunque esa decisión no sea vender ahora</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer CTA -->
+    <div class="vs-footer reveal d2">
+      <p class="text-[var(--text-3)] text-sm mb-5">La diferencia se nota desde la primera conversación.</p>
+      <a href="#calculadora" class="btn-gold">Empezar diagnóstico</a>
+    </div>
+
+  </div>
+</section>
+
+
+<div class="sec-divider" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════════════
+     8. FAQ
+═══════════════════════════════════════════════ -->
+<section id="faq" class="py-24 sm:py-32 bg-[var(--bg-1)] relative overflow-hidden">
+  <div class="absolute top-0 left-1/3 w-[500px] h-[400px] rounded-full filter blur-[120px] opacity-6 pointer-events-none" style="background:var(--electric)"></div>
+  <div class="max-w-3xl mx-auto px-5 sm:px-8 relative z-10">
+
+    <div class="mb-14 reveal">
+      <div class="label-xs section-label mb-4">Antes de decidir</div>
+      <h2 class="text-3xl sm:text-[2.4rem] font-bold mb-4">Preguntas antes de<br/><span class="text-gold">tomar una decisión</span></h2>
+      <p class="text-[var(--text-2)] text-sm sm:text-base leading-relaxed max-w-xl">
+        Antes de valorar, vender o reformar, es normal tener dudas. Aquí tienes las respuestas clave.
+      </p>
+    </div>
+
+    <div class="faq-list faq-premium reveal d1">
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-num">01</span>
+          <span class="faq-question">¿Tiene coste hacer el diagnóstico?</span>
+          <svg class="faq-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        </button>
+        <div class="faq-body">
+          <div class="faq-body-inner"><p>No. El diagnóstico inicial es gratuito y orientativo. Sirve para entender tu situación, detectar posibles caminos y ver si tiene sentido avanzar hacia un análisis más personalizado.</p></div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-num">02</span>
+          <span class="faq-question">¿Esto es una tasación oficial?</span>
+          <svg class="faq-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        </button>
+        <div class="faq-body">
+          <div class="faq-body-inner"><p>No. Es una estimación orientativa basada en datos del inmueble, zona, estado y situación del propietario. No sustituye una tasación homologada, pero sí puede ayudarte a tomar una mejor decisión antes de moverte.</p></div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-num">03</span>
+          <span class="faq-question">¿Qué pasa si ya tengo inmobiliaria?</span>
+          <svg class="faq-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        </button>
+        <div class="faq-body">
+          <div class="faq-body-inner"><p>Se puede revisar tu caso, pero si tienes exclusiva activa habrá que respetar las condiciones firmadas. El diagnóstico puede ayudarte igualmente a entender si la estrategia actual está bien enfocada.</p></div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-num">04</span>
+          <span class="faq-question">¿Puedes ayudarme si quiero reformar antes de vender?</span>
+          <svg class="faq-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        </button>
+        <div class="faq-body">
+          <div class="faq-body-inner"><p>Sí. En algunos casos una mejora o reforma puntual puede aumentar el atractivo del inmueble, reducir objeciones y mejorar la salida al mercado. No siempre conviene reformar, por eso se analiza caso por caso.</p></div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-num">05</span>
+          <span class="faq-question">¿Qué ocurre después de enviar mis datos?</span>
+          <svg class="faq-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        </button>
+        <div class="faq-body">
+          <div class="faq-body-inner"><p>Recibirás una primera lectura orientativa y, si el caso tiene sentido, podré revisar tu situación con más detalle para proponerte una vía clara: vender, alquilar, reformar, esperar o preparar mejor la salida al mercado.</p></div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-num">06</span>
+          <span class="faq-question">¿Qué diferencia este sistema de una inmobiliaria tradicional?</span>
+          <svg class="faq-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        </button>
+        <div class="faq-body">
+          <div class="faq-body-inner"><p>Opero en Tarragona, Costa Daurada y principales municipios de la provincia. Si tu propiedad está en la zona, puedo analizarla. Si está fuera, te lo digo con honestidad antes de empezar. La idea no es publicar tu vivienda sin más: primero se analiza qué decisión tiene más sentido. Trabajo la operación con diagnóstico, estrategia y siguiente paso claro.</p></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="text-center mt-14 reveal">
+      <p class="text-[var(--text-2)] text-sm mb-5">¿Tienes alguna duda que no está aquí?</p>
+      <a href="#contacto" class="btn-outline text-sm">Hablar directamente con Aleix</a>
+    </div>
+
+  </div>
+</section>
+
+
+<div class="sec-divider" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════════════
+     CONTACTO — 3 Canales
+═══════════════════════════════════════════════ -->
+<section id="contacto" class="ct-section">
+
+  <div class="max-w-5xl mx-auto px-5 sm:px-8">
+
+    <!-- Header -->
+    <div class="ct-header reveal">
+      <div class="label-xs section-label mb-3">Contacto directo</div>
+      <h2 class="text-3xl sm:text-[2.4rem] font-bold leading-tight mb-3">
+        Elige cómo <span class="text-gold">hablamos</span>
+      </h2>
+      <p class="text-[var(--text-2)] text-sm max-w-md mx-auto">Sin formularios que no lee nadie. Elige el canal que te resulte más cómodo — respondo en menos de 2 horas.</p>
+    </div>
+
+    <!-- 3 channels -->
+    <div class="ct-channels reveal d1">
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/34600000000?text=Hola+Aleix%2C+he+revisado+tu+web+y+quiero+que+revises+mi+caso+con+m%C3%A1s+detalle."
+         target="_blank" rel="noopener" class="ct-channel" style="--cc:#25d366">
+        <div class="ct-ch-top">
+          <div class="ct-ch-num">01</div>
+          <div class="ct-ch-avail" style="color:#25d366;border-color:rgba(37,211,102,0.25);background:rgba(37,211,102,0.07)">
+            <span class="ct-ch-dot" style="background:#25d366"></span>Respuesta &lt; 2 horas
+          </div>
+        </div>
+        <div class="ct-ch-icon" style="background:rgba(37,211,102,0.08);border-color:rgba(37,211,102,0.2)">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </div>
+        <div class="ct-ch-name">WhatsApp directo</div>
+        <div class="ct-ch-desc">La vía más rápida. Cuéntame el caso en tu primer mensaje y te respondo en minutos.</div>
+        <div class="ct-ch-cta">Escribir ahora <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></div>
+      </a>
+
+      <!-- Llamada -->
+      <a href="https://calendly.com/aleix-proptech/30min" target="_blank" rel="noopener"
+         class="ct-channel" style="--cc:#c9a84c">
+        <div class="ct-ch-top">
+          <div class="ct-ch-num">02</div>
+          <div class="ct-ch-avail" style="color:#c9a84c;border-color:rgba(201,168,76,0.25);background:rgba(201,168,76,0.07)">
+            <span class="ct-ch-dot" style="background:#c9a84c"></span>Agenda en &lt; 24h
+          </div>
+        </div>
+        <div class="ct-ch-icon" style="background:rgba(201,168,76,0.08);border-color:rgba(201,168,76,0.2)">
+          <svg width="26" height="26" fill="none" stroke="#c9a84c" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        </div>
+        <div class="ct-ch-name">Llamada o videollamada</div>
+        <div class="ct-ch-desc">30 minutos para revisar tu caso sin prisas. Reserva el hueco que más te convenga.</div>
+        <div class="ct-ch-cta">Agendar llamada <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></div>
+      </a>
+
+      <!-- Email -->
+      <a href="mailto:aleix.proptech@gmail.com" class="ct-channel" style="--cc:#4f9ef8">
+        <div class="ct-ch-top">
+          <div class="ct-ch-num">03</div>
+          <div class="ct-ch-avail" style="color:#4f9ef8;border-color:rgba(79,158,248,0.25);background:rgba(79,158,248,0.07)">
+            <span class="ct-ch-dot" style="background:#4f9ef8"></span>Respuesta mismo día
+          </div>
+        </div>
+        <div class="ct-ch-icon" style="background:rgba(79,158,248,0.08);border-color:rgba(79,158,248,0.2)">
+          <svg width="26" height="26" fill="none" stroke="#4f9ef8" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </div>
+        <div class="ct-ch-name">Email directo</div>
+        <div class="ct-ch-desc">Si prefieres explicarte con calma por escrito. Te respondo el mismo día laborable.</div>
+        <div class="ct-ch-cta">aleix.proptech@gmail.com <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></div>
+      </a>
+
+    </div>
+
+    <!-- Trust strip -->
+    <div class="ct-trust reveal d2">
+      <div class="ct-trust-item">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Diagnóstico sin compromiso
+      </div>
+      <div class="ct-trust-sep"></div>
+      <div class="ct-trust-item">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Sin presión comercial
+      </div>
+      <div class="ct-trust-sep"></div>
+      <div class="ct-trust-item">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        Datos nunca compartidos con terceros
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     CIERRE FINAL — Split editorial
+═══════════════════════════════════════════════ -->
+<section id="cta-final" class="cf-section">
+
+  <!-- Decoración de fondo -->
+  <div class="cf-bg-word" aria-hidden="true">TARRAGONA</div>
+  <div class="cf-bg-glow" aria-hidden="true"></div>
+
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 relative z-10">
+    <div class="cf-layout">
+
+      <!-- ── Izquierda: Manifiesto ── -->
+      <div class="cf-left reveal">
+        <div class="label-xs section-label mb-5">El siguiente paso</div>
+        <h2 class="cf-headline">
+          No necesitas<br>
+          una inmobiliaria.<br>
+          Necesitas a alguien<br>
+          que <em class="text-gold not-italic">trabaje para ti.</em>
+        </h2>
+        <p class="cf-sub">Gestión honesta, datos reales y resultados medibles. Sin letra pequeña.</p>
+
+        <!-- Stats -->
+        <div class="cf-stats">
+          <div class="cf-stat">
+            <span class="cf-stat-num">+40</span>
+            <span class="cf-stat-label">propietarios<br>asesorados</span>
+          </div>
+          <div class="cf-stat-sep" aria-hidden="true"></div>
+          <div class="cf-stat">
+            <span class="cf-stat-num">0</span>
+            <span class="cf-stat-label">comisiones<br>ocultas</span>
+          </div>
+          <div class="cf-stat-sep" aria-hidden="true"></div>
+          <div class="cf-stat">
+            <span class="cf-stat-num">&lt;2h</span>
+            <span class="cf-stat-label">tiempo de<br>respuesta</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Derecha: Tarjeta de acción ── -->
+      <div class="cf-right reveal d1">
+        <div class="cf-card">
+
+          <div class="cf-card-label">Empieza gratis · sin registro</div>
+          <h3 class="cf-card-title">¿Cuánto vale<br>tu propiedad?</h3>
+          <p class="cf-card-body">Usa la calculadora y obtén una estimación real en menos de 3 minutos. Sin compromiso — si tienes dudas, hablamos.</p>
+
+          <!-- Pasos -->
+          <div class="cf-steps">
+            <div class="cf-step">
+              <span class="cf-step-n">1</span>
+              Introduce superficie, zona y estado
+            </div>
+            <div class="cf-step">
+              <span class="cf-step-n">2</span>
+              Obtén valoración de venta + rentabilidad
+            </div>
+            <div class="cf-step">
+              <span class="cf-step-n">3</span>
+              Contacta si quieres una valoración oficial
+            </div>
+          </div>
+
+          <!-- CTA principal -->
+          <a href="#calculadora" class="cf-cta-primary">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            Empezar diagnóstico gratis
+          </a>
+
+          <!-- CTA secundario WhatsApp -->
+          <a href="https://wa.me/34600000000?text=Hola+Aleix%2C+he+revisado+tu+web+y+quiero+hablar+sobre+mi+propiedad."
+             target="_blank" rel="noopener" class="cf-cta-secondary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            O escríbeme por WhatsApp
+          </a>
+
+          <div class="cf-card-trust">Sin registro · 100% confidencial · Respondo hoy</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="sec-divider sec-divider-gold" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════════════
+     9. FOOTER
+═══════════════════════════════════════════════ -->
+<footer class="bg-[var(--bg-0)] border-t border-[var(--border)] pt-12 pb-8">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+
+    <div class="grid sm:grid-cols-4 gap-10 mb-10">
+
+      <!-- Brand -->
+      <div class="sm:col-span-2">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="nav-monogram">AJ</div>
+          <div>
+            <div class="font-['Space_Grotesk'] font-bold text-sm text-[var(--text-1)]">Aleix Jiménez</div>
+            <div class="text-[10px] text-[var(--text-3)] tracking-[0.1em] uppercase">Real Estate Operator · Tarragona</div>
+          </div>
+        </div>
+        <p class="text-[var(--text-3)] text-xs leading-relaxed mb-4 max-w-xs">
+          Diagnóstico inmobiliario orientativo para propietarios de Tarragona y Costa Daurada. Vender, alquilar, reformar o esperar: primero se analiza, después se decide.
+        </p>
+        <p class="text-[var(--text-3)] text-[10px] leading-relaxed italic max-w-xs">
+          Las estimaciones son orientativas y no constituyen tasación oficial.
+        </p>
+      </div>
+
+      <!-- Nav -->
+      <div>
+        <div class="footer-col-title">Navegación</div>
+        <ul class="space-y-2">
+          <li><a href="#calculadora" class="footer-link">Diagnóstico</a></li>
+          <li><a href="#proceso"     class="footer-link">Cómo funciona</a></li>
+          <li><a href="#servicios"   class="footer-link">Servicios</a></li>
+          <li><a href="#zonas"       class="footer-link">Mapa de zonas</a></li>
+          <li><a href="#faq"         class="footer-link">Preguntas</a></li>
+          <li><a href="#contacto"    class="footer-link">Contacto</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <div class="footer-col-title">Contactar</div>
+        <ul class="space-y-2">
+          <li>
+            <a href="https://wa.me/34600000000?text=Hola+Aleix%2C+quiero+hablar+sobre+mi+propiedad" target="_blank" class="footer-link flex items-center gap-2">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" class="flex-shrink-0 opacity-50"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.091.535 4.06 1.472 5.772L0 24l6.386-1.448A11.928 11.928 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 01-5.001-1.37l-.357-.214-3.796.861.875-3.694-.234-.378A9.79 9.79 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z"/></svg>
+              WhatsApp
+            </a>
+          </li>
+          <li>
+            <a href="https://calendly.com/aleix-proptech/30min" target="_blank" class="footer-link flex items-center gap-2">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="flex-shrink-0 opacity-50"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              Agendar llamada
+            </a>
+          </li>
+          <li><a href="mailto:aleix.proptech@gmail.com" class="footer-link">aleix.proptech@gmail.com</a></li>
+          <li class="footer-link opacity-60 cursor-default">Tarragona · Costa Daurada</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="border-t border-[var(--border)] pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <p class="text-[var(--text-3)] text-[11px]">© 2025 Aleix Jiménez · Real Estate Operator · Tarragona</p>
+      <p class="text-[var(--text-3)] text-[10px]">Estimaciones orientativas · No constituyen tasación oficial</p>
+    </div>
+
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════ -->
+<script src="integrations.js"></script>
+<script src="quiz.js"></script>
+<script src="effects.js"></script>
+<script>
+// ── Navbar ─────────────────────────────────────────────
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+}, { passive: true });
+
+// ── Mobile menu ────────────────────────────────────────
+let menuOpen = false;
+function toggleMenu() {
+  menuOpen = !menuOpen;
+  document.getElementById('mobile-nav').classList.toggle('open', menuOpen);
+  document.getElementById('icon-open').classList.toggle('hidden', menuOpen);
+  document.getElementById('icon-close').classList.toggle('hidden', !menuOpen);
+}
+function closeMenu() {
+  menuOpen = false;
+  document.getElementById('mobile-nav').classList.remove('open');
+  document.getElementById('icon-open').classList.remove('hidden');
+  document.getElementById('icon-close').classList.add('hidden');
+}
+
+// ── FAQ accordion ──────────────────────────────────────
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ── Contact form ───────────────────────────────────────
+function submitContact(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type=submit]');
+  const orig = btn.innerHTML;
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+  setTimeout(() => {
+    document.getElementById('form-ok').classList.remove('hidden');
+    e.target.reset();
+    btn.innerHTML = orig;
+    btn.disabled = false;
+    setTimeout(() => document.getElementById('form-ok').classList.add('hidden'), 6000);
+  }, 1200);
+}
+</script>
+
+</body>
+</html>

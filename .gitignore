@@ -1,0 +1,7 @@
+node_modules/
+.claude/
+preview_barrios.png
+preview_barrios2.png
+preview_calc.png
+preview_step1.png
+package-lock.json
