@@ -71,7 +71,7 @@ const BARRIOS = {
   'creixell':               ['Creixell Platja / Costa','Centre / Interior'],
   'vila-seca':              ['La Pineda','Centre Vila-seca','La Plana'],
   'la-pineda':              ['La Pineda','Centre Vila-seca'],
-  'reus':                   ['Centre + Eixample Premium','Eixample Exterior / Nou Eixample','Carrilet / Estació Bus','Ponent / Passeig Prim','Fortuny / Migjorn','Barri Centre Històric','Llevant / Zona Est','Mas Abelló / Barris Nord'],
+  'reus':                   ['Centre + Eixample Premium','Eixample Exterior / Nou Eixample','Carrilet / Estació Bus','Ponent / Passeig Prim','Fortuny / Migjorn','Barri Centre Històric','Llevant / Zona Est','Mas Abelló / Barris Nord','Blancafort / Urbanitzacions Xalets'],
   'el-vendrell':            ['Centre','Comarruga / El Francàs','Sant Salvador','Zona Residencial Periferia'],
   'valls':                  ['Centre Històric','Eixample / Zona Nova','Barris Perifèrics'],
   'vandellos':              ["L'Hospitalet de l'Infant Centro",'Urbanització Ametlla / Costa','Vandellòs / Interior'],
@@ -359,6 +359,7 @@ const REUS_ZONAS = {
   'Barri Centre Històric':         { base:1650, alqM2:10.2, alqMin:816,  alqMax:2100 },
   'Llevant / Zona Est':            { base:1300, alqM2:8.0,  alqMin:640,  alqMax:1650 },
   'Mas Abelló / Barris Nord':      { base:1150, alqM2:7.2,  alqMin:576,  alqMax:1480 },
+  'Blancafort / Urbanitzacions Xalets': { base:1580, alqM2:8.5, alqMin:650, alqMax:1800, nota:'Urbanización residencial de chalets con parcela. Mercado específico de comprador con perfil alto.' },
 };
 
 // ─── 2. MULTIPLIERS ────────────────────────────────────────
@@ -918,11 +919,32 @@ function runCalculation() {
     totalExtras += valor;
   });
 
-  // Parcela / jardín (casas/chalets)
+  // Parcela / jardín (casas/chalets) — coef y cap escalonados para chalets grandes
   if (d.jardinM2 && d.jardinM2 > 0) {
-    const parcelaCap = m.tourist ? 80000 : m.urban ? 55000 : 40000;
-    const parcelaVal = snap(Math.min(d.jardinM2 * baseM2 * 0.15, parcelaCap), 100);
-    extrasItems.push({ extra: 'jardin_exacto', exacta: true, m2: d.jardinM2, baseM2, coef: 0.15, valor: parcelaVal });
+    const parcM2 = d.jardinM2;
+    const isChalet = d.tipo === 'chalet';
+    let parcelaVal, parcelaCap, parcelaItem;
+
+    if (isChalet && parcM2 > 2000) {
+      // Cap ampliado para parcelas grandes de chalet
+      parcelaCap = m.tourist ? 250000 : m.urban ? 180000 : 120000;
+      if (parcM2 > 5000) {
+        // Rendimiento decreciente: primeros 5.000m² a ×0.12, resto a ×0.08
+        const val1 = 5000 * baseM2 * 0.12;
+        const val2 = (parcM2 - 5000) * baseM2 * 0.08;
+        parcelaVal = snap(Math.min(val1 + val2, parcelaCap), 100);
+        parcelaItem = { extra: 'jardin_exacto', exacta: true, m2: parcM2, baseM2, coef: 0.12, splitAt: 5000, coef2: 0.08, valor: parcelaVal };
+      } else {
+        parcelaVal = snap(Math.min(parcM2 * baseM2 * 0.12, parcelaCap), 100);
+        parcelaItem = { extra: 'jardin_exacto', exacta: true, m2: parcM2, baseM2, coef: 0.12, valor: parcelaVal };
+      }
+    } else {
+      // Regla estándar
+      parcelaCap = m.tourist ? 80000 : m.urban ? 55000 : 40000;
+      parcelaVal = snap(Math.min(parcM2 * baseM2 * 0.15, parcelaCap), 100);
+      parcelaItem = { extra: 'jardin_exacto', exacta: true, m2: parcM2, baseM2, coef: 0.15, valor: parcelaVal };
+    }
+    extrasItems.push(parcelaItem);
     totalExtras += parcelaVal;
   }
 
@@ -1095,7 +1117,10 @@ function generateDiagnosis(d, m, base, desired, reforma) {
   // Build diagnosis paragraphs
   const paragraphs = [];
 
-  if (m.nota) {
+  const reusZonaDiag = (d.municipio === 'reus' && d.zona && REUS_ZONAS[d.zona]) ? REUS_ZONAS[d.zona] : null;
+  if (reusZonaDiag && reusZonaDiag.nota) {
+    paragraphs.push(reusZonaDiag.nota);
+  } else if (m.nota) {
     paragraphs.push(m.nota);
   } else if (tourist) {
     paragraphs.push(`${m.label} es una zona con demanda turística activa. El mercado combina compradores nacionales con perfiles internacionales (mercados nórdico, inglés y alemán) y cuenta con demanda inversora orientada al alquiler vacacional. Esto aporta liquidez elevada y precio por metro cuadrado superior a la media provincial.`);
@@ -1533,7 +1558,9 @@ function renderResults() {
           let mainLine;
           if (e.exacta) {
             mainLine = e.extra === 'jardin_exacto'
-              ? `+ Parcela ${e.m2}m² (${e.m2} × ${e.baseM2}€ × ${e.coef}): +${eur(e.valor)}`
+              ? (e.splitAt
+                  ? `+ Parcela ${e.m2}m² (${e.splitAt.toLocaleString('es-ES')}×${e.baseM2}€×${e.coef} + ${(e.m2-e.splitAt).toLocaleString('es-ES')}×${e.baseM2}€×${e.coef2}): +${eur(e.valor)}`
+                  : `+ Parcela ${e.m2}m² (${e.m2} × ${e.baseM2}€ × ${e.coef}): +${eur(e.valor)}`)
               : `+ Terraza ${e.m2}m² (${e.m2} × ${e.baseM2}€ × 0.25): +${eur(e.valor)}`;
           } else {
             const label = (EXTRA_LABELS[e.extra] || e.extra).padEnd(22);
