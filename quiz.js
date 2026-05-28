@@ -386,10 +386,10 @@ const YEAR_MULT  = { '2015+':1.06, '2000-14':1.00, '1980-99':0.96, '1960-79':0.9
 // Fuente: Parametros_Calculadora_Tarragona_2026.xlsx — Hoja 04
 const EXTRAS_PCT = {
   // Terraza — categorías (balcon_pequeno→terraza_premium) o terraza_exacta (cálculo directo)
-  'balcon_pequeno':  0.06,
-  'terraza_mediana': 0.14,
-  'terraza_grande':  0.20,
-  'terraza_premium': 0.25,
+  'balcon_pequeno':  0.03,
+  'terraza_mediana': 0.07,
+  'terraza_grande':  0.11,
+  'terraza_premium': 0.15,
   // Otros extras
   'parking':  0.07,
   'jardin':   0.13,
@@ -698,10 +698,10 @@ function runCalculation() {
   const valorBase = m2 * ppm2;
 
   // Extras como porcentaje con descuento escalonado (100% / 85% / 70%)
-  // terraza_exacta usa m²_terraza × precio_m2_zona × 0.35 en lugar de porcentaje
+  // terraza_exacta usa m²_terraza × precio_m2_zona × 0.25 en lugar de porcentaje
   const extras = (d.extras || []).filter(e => e !== 'ninguno');
   const effectivePct = (e) => {
-    if (e === 'terraza_exacta' && d.terrazaM2) return (d.terrazaM2 * baseM2 * 0.35) / valorBase;
+    if (e === 'terraza_exacta' && d.terrazaM2) return (d.terrazaM2 * baseM2 * 0.25) / valorBase;
     return EXTRAS_PCT[e] || 0;
   };
   const extrasOrdenados = [...extras].sort((a, b) => effectivePct(b) - effectivePct(a));
@@ -711,12 +711,18 @@ function runCalculation() {
     const factor = idx === 0 ? 1.00 : idx === 1 ? 0.85 : 0.70;
     let valor, item;
     if (extra === 'terraza_exacta' && d.terrazaM2) {
-      valor = snap(d.terrazaM2 * baseM2 * 0.35 * factor, 100);
-      item = { extra, exacta: true, m2: d.terrazaM2, baseM2, valor };
+      valor = snap(d.terrazaM2 * baseM2 * 0.25 * factor, 100);
+      item = { extra, exacta: true, m2: d.terrazaM2, baseM2, coef: 0.25, valor };
     } else {
       const pct = EXTRAS_PCT[extra] || 0;
       valor = snap(valorBase * pct * factor, 100);
       item = { extra, pct: Math.round(pct * 100 * factor), valor };
+    }
+    // Cap máximo terraza según tipo de zona
+    if (TERRAZA_TYPES.includes(extra)) {
+      const terrazaCap = m.tourist ? 45000 : m.urban ? 35000 : 25000;
+      valor = Math.min(valor, terrazaCap);
+      item.valor = valor;
     }
     totalExtras += valor;
     extrasItems.push(item);
@@ -1301,7 +1307,7 @@ function renderResults() {
   if (dsg) {
     const extraLines = dsg.extrasItems.length
       ? dsg.extrasItems.map(e => {
-          if (e.exacta) return `+ Terraza ${e.m2}m² (${e.m2} × ${e.baseM2}€ × 0.35): +${eur(e.valor)}`;
+          if (e.exacta) return `+ Terraza ${e.m2}m² (${e.m2} × ${e.baseM2}€ × 0.25): +${eur(e.valor)}`;
           const label = EXTRA_LABELS[e.extra] || e.extra;
           return `+ ${label.padEnd(24)} (+${e.pct}%): +${eur(e.valor)}`;
         }).join('\n')
