@@ -1454,8 +1454,49 @@
         <!-- Extras -->
         <div class="quiz-section mb-0">
           <span class="quiz-section-label">Extras (selecciona todos los que apliquen)</span>
+
+          <!-- Terraza: Pregunta A -->
+          <div class="mb-3">
+            <p class="text-sm font-medium text-[var(--text-2)] mb-2">¿Tiene espacio exterior?</p>
+            <div class="flex flex-wrap gap-2" id="terraza-pregA">
+              <button type="button" class="q-tag" id="terraza-no-btn" onclick="selectTerrazaA(this,'no')">No tiene exterior</button>
+              <button type="button" class="q-tag" id="terraza-si-btn" onclick="selectTerrazaA(this,'si')">Sí tiene exterior</button>
+            </div>
+          </div>
+
+          <!-- Terraza: Pregunta B (oculta hasta elegir Sí) -->
+          <div id="terraza-pregB" class="hidden mb-3">
+            <p class="text-sm font-medium text-[var(--text-2)] mb-2">¿Cómo describirías el espacio exterior?</p>
+            <div class="flex flex-col gap-2" id="terraza-opciones">
+              <button type="button" class="q-tag text-left" id="topt-balcon_pequeno" onclick="selectTerrazaTipo(this,'balcon_pequeno')">
+                Solo cabe una silla o dos
+                <span class="block text-xs text-[var(--text-3)] font-normal mt-0.5">Balcón pequeño (&lt;4m²)</span>
+              </button>
+              <button type="button" class="q-tag text-left" id="topt-terraza_mediana" onclick="selectTerrazaTipo(this,'terraza_mediana')">
+                Caben mesa y sillas para comer fuera
+                <span class="block text-xs text-[var(--text-3)] font-normal mt-0.5">Terraza mediana (4–14m²)</span>
+              </button>
+              <button type="button" class="q-tag text-left" id="topt-terraza_grande" onclick="selectTerrazaTipo(this,'terraza_grande')">
+                Zona de estar amplia, podrías poner un sofá
+                <span class="block text-xs text-[var(--text-3)] font-normal mt-0.5">Terraza grande (15–29m²)</span>
+              </button>
+              <button type="button" class="q-tag text-left" id="topt-terraza_premium" onclick="selectTerrazaTipo(this,'terraza_premium')">
+                Espacio muy grande, tipo ático o solárium
+                <span class="block text-xs text-[var(--text-3)] font-normal mt-0.5">Terraza premium (30m² o más)</span>
+              </button>
+              <button type="button" class="q-tag text-left" id="topt-terraza_exacta" onclick="selectTerrazaTipo(this,'terraza_exacta')">
+                Sé los metros exactos
+                <span class="block text-xs text-[var(--text-3)] font-normal mt-0.5">Introduce los m² de terraza</span>
+              </button>
+            </div>
+            <div id="terraza-metros-wrap" class="hidden mt-2">
+              <input type="number" class="c-input" id="terraza-m2-input" placeholder="m² de terraza" min="1" max="500"
+                     oninput="setTerrazaM2(this.value)" style="max-width:160px;">
+            </div>
+          </div>
+
+          <!-- Otros extras -->
           <div class="flex flex-wrap gap-2">
-            <button type="button" class="q-tag" data-extra="terraza" onclick="qMulti(this,'terraza')">Terraza / Balcón</button>
             <button type="button" class="q-tag" data-extra="parking" onclick="qMulti(this,'parking')">Parking</button>
             <button type="button" class="q-tag" data-extra="jardin"  onclick="qMulti(this,'jardin')">Jardín</button>
             <button type="button" class="q-tag" data-extra="piscina" onclick="qMulti(this,'piscina')">Piscina</button>

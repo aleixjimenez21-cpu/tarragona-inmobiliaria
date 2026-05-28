@@ -385,11 +385,26 @@ const YEAR_MULT  = { '2015+':1.06, '2000-14':1.00, '1980-99':0.96, '1960-79':0.9
 // Descuento escalonado: 1º→100%, 2º→85%, 3º+→70%
 // Fuente: Parametros_Calculadora_Tarragona_2026.xlsx — Hoja 04
 const EXTRAS_PCT = {
-  'terraza':  0.14,
+  // Terraza — categorías (balcon_pequeno→terraza_premium) o terraza_exacta (cálculo directo)
+  'balcon_pequeno':  0.06,
+  'terraza_mediana': 0.14,
+  'terraza_grande':  0.20,
+  'terraza_premium': 0.25,
+  // Otros extras
   'parking':  0.07,
   'jardin':   0.13,
   'piscina':  0.04,
   'vistas':   0.13,
+};
+
+const TERRAZA_TYPES = ['balcon_pequeno','terraza_mediana','terraza_grande','terraza_premium','terraza_exacta'];
+
+const EXTRA_LABELS = {
+  balcon_pequeno:  'Balcón pequeño <4m²',
+  terraza_mediana: 'Terraza mediana 4-14m²',
+  terraza_grande:  'Terraza grande 15-29m²',
+  terraza_premium: 'Terraza premium 30m²+',
+  parking: 'Parking', jardin: 'Jardín', piscina: 'Piscina', vistas: 'Vistas',
 };
 
 // ─── 3. STATE ──────────────────────────────────────────────
@@ -399,7 +414,7 @@ const QS = {
   d: {
     municipio:'', zona:'', calle:'', numero:'', piso:'', codigoPostal:'',
     tipo:'', m2:'', habitaciones:3, banos:1,
-    anio:'', planta:'1a3', ascensor:'', estado:'', extras:[],
+    anio:'', planta:'1a3', ascensor:'', estado:'', extras:[], terrazaM2: null,
     intencion:'', plazo:'', motivo:'',
     precioDeseado:'', hipoteca:'', inmobiliaria:'',
     nombre:'', email:'', telefono:'',
@@ -603,6 +618,39 @@ function qMulti(el, value) {
   }
 }
 
+function selectTerrazaA(btn, choice) {
+  document.querySelectorAll('#terraza-pregA .q-tag').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const pregB = document.getElementById('terraza-pregB');
+  if (choice === 'si') {
+    pregB.classList.remove('hidden');
+  } else {
+    pregB.classList.add('hidden');
+    document.querySelectorAll('#terraza-opciones .q-tag').forEach(b => b.classList.remove('selected'));
+    document.getElementById('terraza-metros-wrap').classList.add('hidden');
+    QS.d.extras = (QS.d.extras || []).filter(e => !TERRAZA_TYPES.includes(e));
+    QS.d.terrazaM2 = null;
+  }
+}
+
+function selectTerrazaTipo(btn, tipo) {
+  document.querySelectorAll('#terraza-opciones .q-tag').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  QS.d.extras = (QS.d.extras || []).filter(e => !TERRAZA_TYPES.includes(e));
+  QS.d.extras.push(tipo);
+  const metrosWrap = document.getElementById('terraza-metros-wrap');
+  if (tipo === 'terraza_exacta') {
+    metrosWrap.classList.remove('hidden');
+  } else {
+    metrosWrap.classList.add('hidden');
+    QS.d.terrazaM2 = null;
+  }
+}
+
+function setTerrazaM2(val) {
+  QS.d.terrazaM2 = parseFloat(val) || null;
+}
+
 function qCounter(field, delta, min, max) {
   const val = Math.max(min, Math.min(max, (parseInt(QS.d[field]) || min) + delta));
   QS.d[field] = val;
@@ -650,13 +698,28 @@ function runCalculation() {
   const valorBase = m2 * ppm2;
 
   // Extras como porcentaje con descuento escalonado (100% / 85% / 70%)
+  // terraza_exacta usa m²_terraza × precio_m2_zona × 0.35 en lugar de porcentaje
   const extras = (d.extras || []).filter(e => e !== 'ninguno');
-  const extrasOrdenados = [...extras].sort((a, b) => (EXTRAS_PCT[b] || 0) - (EXTRAS_PCT[a] || 0));
+  const effectivePct = (e) => {
+    if (e === 'terraza_exacta' && d.terrazaM2) return (d.terrazaM2 * baseM2 * 0.35) / valorBase;
+    return EXTRAS_PCT[e] || 0;
+  };
+  const extrasOrdenados = [...extras].sort((a, b) => effectivePct(b) - effectivePct(a));
   let totalExtras = 0;
+  const extrasItems = [];
   extrasOrdenados.forEach((extra, idx) => {
-    const pct = EXTRAS_PCT[extra] || 0;
     const factor = idx === 0 ? 1.00 : idx === 1 ? 0.85 : 0.70;
-    totalExtras += valorBase * pct * factor;
+    let valor, item;
+    if (extra === 'terraza_exacta' && d.terrazaM2) {
+      valor = snap(d.terrazaM2 * baseM2 * 0.35 * factor, 100);
+      item = { extra, exacta: true, m2: d.terrazaM2, baseM2, valor };
+    } else {
+      const pct = EXTRAS_PCT[extra] || 0;
+      valor = snap(valorBase * pct * factor, 100);
+      item = { extra, pct: Math.round(pct * 100 * factor), valor };
+    }
+    totalExtras += valor;
+    extrasItems.push(item);
   });
 
   let base = snap(valorBase + totalExtras, 500);
@@ -693,12 +756,7 @@ function runCalculation() {
     m2,
     ppm2,
     valorBase: snap(valorBase, 500),
-    extrasItems: extrasOrdenados.map((extra, idx) => {
-      const pct = EXTRAS_PCT[extra] || 0;
-      const factor = idx === 0 ? 1.00 : idx === 1 ? 0.85 : 0.70;
-      const valor = snap(valorBase * pct * factor, 100);
-      return { extra, pct: Math.round(pct * 100 * factor), valor };
-    }),
+    extrasItems,
     totalExtras: snap(totalExtras, 500),
   };
 
@@ -1242,7 +1300,11 @@ function renderResults() {
   const dsg = r.desglose;
   if (dsg) {
     const extraLines = dsg.extrasItems.length
-      ? dsg.extrasItems.map(e => `+ ${e.extra.padEnd(10)} (+${e.pct}%): +${eur(e.valor)}`).join('\n')
+      ? dsg.extrasItems.map(e => {
+          if (e.exacta) return `+ Terraza ${e.m2}m² (${e.m2} × ${e.baseM2}€ × 0.35): +${eur(e.valor)}`;
+          const label = EXTRA_LABELS[e.extra] || e.extra;
+          return `+ ${label.padEnd(24)} (+${e.pct}%): +${eur(e.valor)}`;
+        }).join('\n')
       : '  (sin extras)';
     const desgloseHtml = `<pre style="font-size:11px;line-height:1.7;white-space:pre-wrap;">Valor base (${dsg.m2}m² × ${dsg.baseM2}€/m²):  ${eur(dsg.valorBase)}\n${extraLines}\n${'─'.repeat(42)}\nValor estimado:                    ${eur(r.base)}\nHorquilla:          ${eur(r.lo)} — ${eur(r.hi)}\nPrecio de salida:                  ${eur(r.precioSalida)}</pre>`;
     setHTML('r-desglose-body', desgloseHtml);
