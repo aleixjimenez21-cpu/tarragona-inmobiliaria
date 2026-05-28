@@ -446,6 +446,7 @@ const EXTRA_LABELS = {
   reforma_reciente:   'Reforma reciente <3 años',
   suelos_deteriorados:'Suelos deteriorados',
   segunda_parking:    '2ª plaza parking',
+  jardin_exacto:      'Jardín',
 };
 
 // Municipios costeros donde aplica la licencia turística
@@ -472,7 +473,7 @@ const QS = {
   d: {
     municipio:'', zona:'', calle:'', numero:'', piso:'', codigoPostal:'',
     tipo:'', m2:'', habitaciones:3, banos:1,
-    anio:'', planta:'1a3', ascensor:'', estado:'', extras:[], terrazaM2: null,
+    anio:'', planta:'1a3', ascensor:'', estado:'', extras:[], terrazaM2: null, jardinM2: null,
     intencion:'', plazo:'', motivo:'',
     precioDeseado:'', hipoteca:'', inmobiliaria:'',
     nombre:'', email:'', telefono:'',
@@ -741,7 +742,41 @@ function selectTerrazaTipo(btn, tipo) {
 }
 
 function setTerrazaM2(val) {
-  QS.d.terrazaM2 = parseFloat(val) || null;
+  const m2 = parseFloat(val) || null;
+  const tipo = QS.d.tipo;
+  const errEl   = document.getElementById('terraza-m2-error');
+  const redirEl = document.getElementById('terraza-jardin-redirect');
+  if (errEl)   errEl.classList.add('hidden');
+  if (redirEl) redirEl.classList.add('hidden');
+  QS.d.terrazaM2 = null;
+  QS.d.jardinM2  = null;
+
+  if (!m2 || m2 <= 0) return;
+
+  // Cap absoluto: más de 200m² es un error
+  if (m2 > 200) {
+    if (errEl) errEl.classList.remove('hidden');
+    return;
+  }
+
+  // Casa / chalet con exterior > 80m²: redirigir a jardín
+  if ((tipo === 'casa' || tipo === 'chalet') && m2 > 80) {
+    if (redirEl) redirEl.classList.remove('hidden');
+    return;
+  }
+
+  // Piso / ático / dúplex: cap silencioso a 150m²
+  const cap = (tipo === 'piso' || tipo === 'atico' || tipo === 'duplex') ? 150 : 200;
+  const capped = Math.min(m2, cap);
+  if (capped < m2) {
+    const inputEl = document.getElementById('terraza-m2-input');
+    if (inputEl) inputEl.value = capped;
+  }
+  QS.d.terrazaM2 = capped;
+}
+
+function setJardinM2(val) {
+  QS.d.jardinM2 = parseFloat(val) || null;
 }
 
 function qCounter(field, delta, min, max) {
@@ -834,6 +869,13 @@ function runCalculation() {
     extrasItems.push({ extra, basePct: Math.round(pct * 100), penalty: true, valor });
     totalExtras += valor;
   });
+
+  // Jardín exacto (casas/chalets con espacio exterior > 80m²)
+  if (d.jardinM2 && d.jardinM2 > 0) {
+    const jardinVal = snap(Math.min(d.jardinM2 * baseM2 * 0.20, 50000), 100);
+    extrasItems.push({ extra: 'jardin_exacto', exacta: true, m2: d.jardinM2, baseM2, coef: 0.20, valor: jardinVal });
+    totalExtras += jardinVal;
+  }
 
   let base = snap(valorBase + totalExtras, 500);
   const hm = getHorquillaMults(d.municipio);
@@ -1416,7 +1458,9 @@ function renderResults() {
       ? dsg.extrasItems.map(e => {
           let mainLine;
           if (e.exacta) {
-            mainLine = `+ Terraza ${e.m2}m² (${e.m2} × ${e.baseM2}€ × 0.25): +${eur(e.valor)}`;
+            mainLine = e.extra === 'jardin_exacto'
+              ? `+ Jardín ${e.m2}m² (${e.m2} × ${e.baseM2}€ × 0.20): +${eur(e.valor)}`
+              : `+ Terraza ${e.m2}m² (${e.m2} × ${e.baseM2}€ × 0.25): +${eur(e.valor)}`;
           } else {
             const label = (EXTRA_LABELS[e.extra] || e.extra).padEnd(22);
             if (e.penalty) {

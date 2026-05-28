@@ -1490,8 +1490,16 @@
               </button>
             </div>
             <div id="terraza-metros-wrap" class="hidden mt-2">
-              <input type="number" class="c-input" id="terraza-m2-input" placeholder="m² de terraza" min="1" max="500"
+              <input type="number" class="c-input" id="terraza-m2-input" placeholder="m² de terraza" min="1" max="200"
                      oninput="setTerrazaM2(this.value)" style="max-width:160px;">
+              <p id="terraza-m2-error" class="hidden text-xs text-red-400 mt-1.5">
+                Revisa los metros — parece un valor muy elevado para una terraza.
+              </p>
+              <div id="terraza-jardin-redirect" class="hidden mt-3 p-3 rounded-lg border border-[var(--border)] bg-[var(--surface-2)]">
+                <p class="text-sm text-[var(--text-2)] mb-2">En casas y chalets el espacio exterior grande se valora como jardín. ¿Cuántos m² de jardín tiene la propiedad?</p>
+                <input type="number" class="c-input" id="jardin-m2-input" placeholder="m² de jardín" min="1" max="5000"
+                       oninput="setJardinM2(this.value)" style="max-width:160px;">
+              </div>
             </div>
           </div>
 
