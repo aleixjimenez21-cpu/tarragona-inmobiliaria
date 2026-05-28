@@ -1397,10 +1397,12 @@
             <span class="quiz-section-label">Planta</span>
             <select class="c-input" onchange="QS.d.planta = this.value">
               <option value="1a3" selected>1ª – 3ª planta</option>
-              <option value="bajo">Bajo / Semisótano</option>
+              <option value="bajo">Bajo interior (sin salida)</option>
+              <option value="pb_jardin">Bajo con jardín / terraza</option>
+              <option value="entreplanta">Entreplanta</option>
               <option value="4a6">4ª – 6ª planta</option>
               <option value="7mas">7ª o superior</option>
-              <option value="atico">Ático</option>
+              <option value="atico">Ático / Última planta</option>
             </select>
           </div>
         </div>
@@ -1421,18 +1423,30 @@
         <!-- Estado -->
         <div class="quiz-section">
           <span class="quiz-section-label">Estado del inmueble <span class="text-red-400/60">*</span></span>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
             <button type="button" class="q-card" data-group="estado" onclick="qCard(this,'estado','nueva')">
               <div class="q-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg></div>
-              <div><div class="q-card-label">Obra nueva</div><div class="q-card-sub">Reciente o estrenar</div></div>
+              <div><div class="q-card-label">Obra nueva</div><div class="q-card-sub">Reciente o estrenar · ×1.22</div></div>
+            </button>
+            <button type="button" class="q-card" data-group="estado" onclick="qCard(this,'estado','reformado')">
+              <div class="q-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+              <div><div class="q-card-label">Reformado</div><div class="q-card-sub">Integral &lt;5 años · ×1.15</div></div>
             </button>
             <button type="button" class="q-card" data-group="estado" onclick="qCard(this,'estado','bueno')">
               <div class="q-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-              <div><div class="q-card-label">Buen estado</div><div class="q-card-sub">Habitable, sin reformar</div></div>
+              <div><div class="q-card-label">Buen estado</div><div class="q-card-sub">Post-1980 sin reformar · ×1.00</div></div>
+            </button>
+            <button type="button" class="q-card" data-group="estado" onclick="qCard(this,'estado','bueno_pre80')">
+              <div class="q-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+              <div><div class="q-card-label">Buen estado pre-1980</div><div class="q-card-sub">Instalaciones antiguas · ×0.90</div></div>
             </button>
             <button type="button" class="q-card" data-group="estado" onclick="qCard(this,'estado','reformar')">
               <div class="q-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--gold)]"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-              <div><div class="q-card-label">A reformar</div><div class="q-card-sub">Necesita actualizarse</div></div>
+              <div><div class="q-card-label">A reformar</div><div class="q-card-sub">Habitable, necesita reforma · ×0.82</div></div>
+            </button>
+            <button type="button" class="q-card" data-group="estado" onclick="qCard(this,'estado','deteriorado')">
+              <div class="q-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" class="text-[var(--text-3)]"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></div>
+              <div><div class="q-card-label">Muy deteriorado</div><div class="q-card-sub">Solo valor suelo · ×0.68</div></div>
             </button>
           </div>
         </div>
@@ -1706,6 +1720,22 @@
               <div id="r-rent" class="font-['Space_Grotesk'] font-bold text-[#dbbe6a] text-lg mb-0.5">—</div>
               <div id="r-rent-range" class="text-[var(--text-3)] text-xs">—</div>
             </div>
+
+            <!-- Precio de salida según plazo -->
+            <div class="glass px-4 py-3 rounded-xl mt-3">
+              <div class="text-[10px] text-[var(--text-3)] uppercase tracking-wider mb-1">Precio de salida recomendado</div>
+              <div id="r-precio-salida" class="font-['Space_Grotesk'] font-bold text-[var(--gold)] text-lg mb-0.5">—</div>
+              <div id="r-precio-salida-plazo" class="text-[var(--text-3)] text-xs">Ajustado según plazo seleccionado</div>
+            </div>
+
+            <!-- Desglose del cálculo (expandible) -->
+            <details class="mt-3 glass rounded-xl overflow-hidden" id="r-desglose-details">
+              <summary class="px-4 py-3 cursor-pointer text-xs text-[var(--text-3)] hover:text-[var(--gold)] transition-colors select-none flex items-center gap-2">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 11h.01M12 11h.01M15 11h.01M4 19h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                Ver cálculo detallado
+              </summary>
+              <div id="r-desglose-body" class="px-4 pb-4 text-xs text-[var(--text-2)] font-mono leading-relaxed border-t border-[var(--border)] pt-3 mt-0">—</div>
+            </details>
           </div>
         </div>
 

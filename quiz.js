@@ -11,46 +11,46 @@
 // alqM2=€/m²/mes · alqMin/alqMax=€/mes totales (referencia piso 80m²)
 // Fuente: Estudio_Alquiler_Tarragona_2025.xlsx
 const MUNI = {
-  'altafulla':                   { label:'Altafulla',                   comarca:'Tarragonès',      zona:'Costa Premium',           base:2833, min:2200, max:3600, alqM2:13.5,  alqMin:840,  alqMax:1440, conf:0.90, tourist:true,  urban:false, mPiso:1.05, mCasa:0.95, mAtico:1.15, mNueva:1.25, mReformar:0.78, xTerraza:3500, xParking:4000, xJardin:5000, xPiscina:8000, xVistas:4000 },
-  'salou':                       { label:'Salou',                       comarca:'Tarragonès',      zona:'Costa Alta',              base:2313, min:1800, max:3000, alqM2:10.5,  alqMin:600,  alqMax:1280, conf:0.93, tourist:true,  urban:false, mPiso:1.05, mCasa:0.90, mAtico:1.15, mNueva:1.25, mReformar:0.75, xTerraza:3000, xParking:3500, xJardin:4500, xPiscina:9000, xVistas:5000 },
-  'cambrils':                    { label:'Cambrils',                    comarca:'Baix Camp',       zona:'Costa Alta',              base:2500, min:1900, max:3200, alqM2:11.48, alqMin:640,  alqMax:1320, conf:0.93, tourist:true,  urban:false, mPiso:1.05, mCasa:0.92, mAtico:1.13, mNueva:1.22, mReformar:0.76, xTerraza:2800, xParking:3500, xJardin:5000, xPiscina:8500, xVistas:4500 },
-  'torredembarra':               { label:'Torredembarra',               comarca:'Tarragonès',      zona:'Costa Alta',              base:2050, min:1600, max:2700, alqM2:10.0,  alqMin:560,  alqMax:1160, conf:0.90, tourist:true,  urban:false, mPiso:1.04, mCasa:0.93, mAtico:1.12, mNueva:1.22, mReformar:0.77, xTerraza:2500, xParking:3000, xJardin:4500, xPiscina:7000, xVistas:3500 },
-  'tarragona':                   { label:'Tarragona',                   comarca:'Tarragonès',      zona:'Capital Provincial',      base:2094, min:1500, max:2800, alqM2:10.42, alqMin:600,  alqMax:1120, conf:0.90, tourist:false, urban:true,  mPiso:1.00, mCasa:0.88, mAtico:1.10, mNueva:1.20, mReformar:0.78, xTerraza:2000, xParking:2800, xJardin:4000, xPiscina:6000, xVistas:3000 },
-  'roda-de-bera':                { label:'Roda de Berà',                comarca:'Tarragonès',      zona:'Costa Media-Alta',        base:1950, min:1500, max:2600, alqM2:9.5,   alqMin:520,  alqMax:1080, conf:0.87, tourist:true,  urban:false, mPiso:1.03, mCasa:0.92, mAtico:1.12, mNueva:1.20, mReformar:0.78, xTerraza:2000, xParking:2800, xJardin:4000, xPiscina:6500, xVistas:3000 },
-  'creixell':                    { label:'Creixell',                    comarca:'Tarragonès',      zona:'Costa Media-Alta',        base:1900, min:1400, max:2500, alqM2:9.0,   alqMin:480,  alqMax:1040, conf:0.87, tourist:true,  urban:false, mPiso:1.02, mCasa:0.93, mAtico:1.10, mNueva:1.18, mReformar:0.79, xTerraza:1800, xParking:2500, xJardin:3800, xPiscina:6000, xVistas:2800 },
-  'cunit':                       { label:'Cunit',                       comarca:'Baix Penedès',    zona:'Costa Media-Alta',        base:1750, min:1300, max:2300, alqM2:9.0,   alqMin:480,  alqMax:1040, conf:0.84, tourist:true,  urban:false, mPiso:1.02, mCasa:0.93, mAtico:1.10, mNueva:1.18, mReformar:0.79, xTerraza:1800, xParking:2500, xJardin:3500, xPiscina:5500, xVistas:2500 },
-  'calafell':                    { label:'Calafell',                    comarca:'Baix Penedès',    zona:'Costa Media-Alta',        base:1850, min:1400, max:2500, alqM2:9.5,   alqMin:520,  alqMax:1120, conf:0.90, tourist:true,  urban:false, mPiso:1.03, mCasa:0.92, mAtico:1.12, mNueva:1.20, mReformar:0.78, xTerraza:2000, xParking:2800, xJardin:4200, xPiscina:6500, xVistas:3200 },
-  'tarragona-parte-alta':        { label:'Tarragona - Parte Alta',      comarca:'Tarragonès',      zona:'Capital - Zona Premium',  base:2400, min:1800, max:3200, alqM2:12.15, alqMin:680,  alqMax:1600, conf:0.90, tourist:false, urban:true,  mPiso:1.00, mCasa:0.88, mAtico:1.15, mNueva:1.25, mReformar:0.76, xTerraza:2000, xParking:3000, xJardin:4500, xPiscina:7000, xVistas:3500 },
-  'tarragona-eixample':          { label:'Tarragona - Eixample',        comarca:'Tarragonès',      zona:'Capital - Zona Buena',    base:1900, min:1400, max:2500, alqM2:11.25, alqMin:590,  alqMax:1460, conf:0.90, tourist:false, urban:true,  mPiso:1.00, mCasa:0.88, mAtico:1.10, mNueva:1.20, mReformar:0.78, xTerraza:2000, xParking:2500, xJardin:3800, xPiscina:5500, xVistas:2800 },
-  'tarragona-bonavista':         { label:'Tarragona - Bonavista',       comarca:'Tarragonès',      zona:'Capital - Zona Media',    base:1400, min:1050, max:1850, alqM2:8.23,  alqMin:420,  alqMax:1050, conf:0.84, tourist:false, urban:true,  mPiso:0.96, mCasa:0.86, mAtico:1.04, mNueva:1.15, mReformar:0.80, xTerraza:1500, xParking:2000, xJardin:3000, xPiscina:4000, xVistas:2000 },
-  'vila-seca':                   { label:'Vila-seca',                   comarca:'Tarragonès',      zona:'Costa Media',             base:1605, min:1200, max:2100, alqM2:8.5,   alqMin:464,  alqMax:1000, conf:0.87, tourist:true,  urban:false, mPiso:1.02, mCasa:0.90, mAtico:1.10, mNueva:1.18, mReformar:0.79, xTerraza:1800, xParking:2200, xJardin:3500, xPiscina:5500, xVistas:2500 },
-  'la-pineda':                   { label:'La Pineda (Vila-seca)',        comarca:'Tarragonès',      zona:'Costa Media-Alta',        base:1900, min:1500, max:2500, alqM2:11.0,  alqMin:640,  alqMax:1500, conf:0.90, tourist:true,  urban:false, mPiso:1.05, mCasa:0.92, mAtico:1.13, mNueva:1.22, mReformar:0.77, xTerraza:2200, xParking:2800, xJardin:4500, xPiscina:7000, xVistas:3500 },
-  'vandellos':                   { label:'Vandellòs i L\'Hospitalet',   comarca:'Baix Camp',       zona:'Costa Media',             base:1800, min:1300, max:2600, alqM2:9.0,   alqMin:480,  alqMax:1080, conf:0.90, tourist:true,  urban:false, mPiso:1.03, mCasa:0.92, mAtico:1.12, mNueva:1.22, mReformar:0.77, xTerraza:1800, xParking:2500, xJardin:4000, xPiscina:7000, xVistas:3000 },
-  'ametlla-de-mar':              { label:'L\'Ametlla de Mar',           comarca:'Baix Ebre',       zona:'Costa Media',             base:1700, min:1250, max:2300, alqM2:8.8,   alqMin:464,  alqMax:1000, conf:0.84, tourist:true,  urban:false, mPiso:1.02, mCasa:0.92, mAtico:1.10, mNueva:1.20, mReformar:0.78, xTerraza:1800, xParking:2400, xJardin:4000, xPiscina:6000, xVistas:3000 },
-  'ampolla':                     { label:'L\'Ampolla',                  comarca:'Baix Ebre',       zona:'Costa Media',             base:1600, min:1200, max:2200, alqM2:8.5,   alqMin:440,  alqMax:960,  conf:0.84, tourist:true,  urban:false, mPiso:1.01, mCasa:0.92, mAtico:1.08, mNueva:1.18, mReformar:0.79, xTerraza:1600, xParking:2200, xJardin:3500, xPiscina:5500, xVistas:2500 },
-  'mont-roig':                   { label:'Mont-roig del Camp',          comarca:'Baix Camp',       zona:'Costa Media',             base:1650, min:1200, max:2300, alqM2:8.5,   alqMin:440,  alqMax:1000, conf:0.84, tourist:true,  urban:false, mPiso:1.02, mCasa:0.93, mAtico:1.10, mNueva:1.20, mReformar:0.78, xTerraza:1700, xParking:2200, xJardin:3800, xPiscina:6000, xVistas:2800 },
-  'el-vendrell':                 { label:'El Vendrell',                 comarca:'Baix Penedès',    zona:'Interior Bueno',          base:1550, min:1150, max:2000, alqM2:9.1,   alqMin:480,  alqMax:1040, conf:0.87, tourist:false, urban:false, mPiso:1.00, mCasa:0.90, mAtico:1.08, mNueva:1.18, mReformar:0.79, xTerraza:1500, xParking:2000, xJardin:3500, xPiscina:5000, xVistas:2200 },
-  'reus':                        { label:'Reus',                        comarca:'Baix Camp',       zona:'Interior Bueno',          base:1500, min:1200, max:2000, alqM2:8.8,   alqMin:464,  alqMax:1000, conf:0.84, tourist:false, urban:true,  mPiso:0.98, mCasa:0.88, mAtico:1.06, mNueva:1.15, mReformar:0.80, xTerraza:1200, xParking:1800, xJardin:3000, xPiscina:4500, xVistas:2000 },
-  'montblanc':                   { label:'Montblanc',                   comarca:'Conca de Barberà',zona:'Interior Bueno',          base:1300, min:950,  max:1750, alqM2:7.0,   alqMin:360,  alqMax:800,  conf:0.84, tourist:false, urban:false, mPiso:0.97, mCasa:0.90, mAtico:1.05, mNueva:1.14, mReformar:0.81, xTerraza:1000, xParking:1500, xJardin:2500, xPiscina:3500, xVistas:1500 },
-  'valls':                       { label:'Valls',                       comarca:'Alt Camp',        zona:'Interior Bueno',          base:964,  min:700,  max:1300, alqM2:6.5,   alqMin:336,  alqMax:760,  conf:0.84, tourist:false, urban:false, mPiso:0.96, mCasa:0.88, mAtico:1.04, mNueva:1.12, mReformar:0.81, xTerraza:1000, xParking:1400, xJardin:2500, xPiscina:3500, xVistas:1500 },
-  'alcover':                     { label:'Alcover',                     comarca:'Alt Camp',        zona:'Interior Bueno',          base:1050, min:750,  max:1400, alqM2:6.0,   alqMin:304,  alqMax:720,  conf:0.81, tourist:false, urban:false, mPiso:0.96, mCasa:0.90, mAtico:1.03, mNueva:1.12, mReformar:0.82, xTerraza:800,  xParking:1200, xJardin:2000, xPiscina:3000, xVistas:1200 },
-  'la-selva':                    { label:'La Selva del Camp',           comarca:'Baix Camp',       zona:'Interior Bueno',          base:1100, min:800,  max:1500, alqM2:6.5,   alqMin:336,  alqMax:760,  conf:0.84, tourist:false, urban:false, mPiso:0.97, mCasa:0.90, mAtico:1.04, mNueva:1.13, mReformar:0.81, xTerraza:900,  xParking:1300, xJardin:2200, xPiscina:3200, xVistas:1300 },
-  'riudoms':                     { label:'Riudoms',                     comarca:'Baix Camp',       zona:'Interior Bueno',          base:1000, min:700,  max:1350, alqM2:5.8,   alqMin:280,  alqMax:680,  conf:0.81, tourist:false, urban:false, mPiso:0.96, mCasa:0.90, mAtico:1.03, mNueva:1.12, mReformar:0.82, xTerraza:800,  xParking:1200, xJardin:2000, xPiscina:3000, xVistas:1100 },
-  'constanti':                   { label:'Constantí',                   comarca:'Tarragonès',      zona:'Interior Bueno',          base:1063, min:750,  max:1400, alqM2:6.2,   alqMin:320,  alqMax:720,  conf:0.84, tourist:false, urban:false, mPiso:0.96, mCasa:0.88, mAtico:1.04, mNueva:1.13, mReformar:0.81, xTerraza:900,  xParking:1300, xJardin:2200, xPiscina:3200, xVistas:1300 },
-  'el-catllar':                  { label:'El Catllar',                  comarca:'Tarragonès',      zona:'Interior Bueno',          base:1050, min:750,  max:1400, alqM2:6.0,   alqMin:304,  alqMax:680,  conf:0.81, tourist:false, urban:false, mPiso:0.96, mCasa:0.90, mAtico:1.03, mNueva:1.12, mReformar:0.82, xTerraza:800,  xParking:1200, xJardin:2000, xPiscina:3000, xVistas:1100 },
-  'tortosa':                     { label:'Tortosa',                     comarca:'Baix Ebre',       zona:'Terres de l\'Ebre',       base:1100, min:800,  max:1500, alqM2:6.5,   alqMin:336,  alqMax:760,  conf:0.84, tourist:false, urban:false, mPiso:0.97, mCasa:0.90, mAtico:1.04, mNueva:1.13, mReformar:0.81, xTerraza:900,  xParking:1300, xJardin:2200, xPiscina:3000, xVistas:1300 },
-  'amposta':                     { label:'Amposta',                     comarca:'Montsià',         zona:'Terres de l\'Ebre',       base:1013, min:720,  max:1350, alqM2:6.0,   alqMin:304,  alqMax:720,  conf:0.81, tourist:false, urban:false, mPiso:0.96, mCasa:0.89, mAtico:1.03, mNueva:1.12, mReformar:0.82, xTerraza:800,  xParking:1200, xJardin:2000, xPiscina:2800, xVistas:1100 },
-  'sant-carles':                 { label:'Sant Carles de la Ràpita',    comarca:'Montsià',         zona:'Terres de l\'Ebre - Costa',base:1250, min:900, max:1700, alqM2:7.0,   alqMin:360,  alqMax:840,  conf:0.84, tourist:true,  urban:false, mPiso:0.97, mCasa:0.91, mAtico:1.05, mNueva:1.14, mReformar:0.81, xTerraza:1000, xParking:1500, xJardin:2500, xPiscina:4000, xVistas:1500 },
-  'alcanar':                     { label:'Alcanar',                     comarca:'Montsià',         zona:'Terres de l\'Ebre - Costa',base:1100, min:780, max:1500, alqM2:6.2,   alqMin:320,  alqMax:760,  conf:0.81, tourist:true,  urban:false, mPiso:0.96, mCasa:0.90, mAtico:1.04, mNueva:1.13, mReformar:0.82, xTerraza:900,  xParking:1300, xJardin:2200, xPiscina:3500, xVistas:1300 },
-  'deltebre':                    { label:'Deltebre',                    comarca:'Baix Ebre',       zona:'Terres de l\'Ebre',       base:900,  min:620,  max:1200, alqM2:5.5,   alqMin:256,  alqMax:640,  conf:0.78, tourist:false, urban:false, mPiso:0.95, mCasa:0.90, mAtico:1.02, mNueva:1.10, mReformar:0.83, xTerraza:700,  xParking:1000, xJardin:1800, xPiscina:2500, xVistas:900  },
-  'ulldecona':                   { label:'Ulldecona',                   comarca:'Montsià',         zona:'Interior Sur',            base:950,  min:650,  max:1300, alqM2:5.8,   alqMin:280,  alqMax:680,  conf:0.78, tourist:false, urban:false, mPiso:0.95, mCasa:0.90, mAtico:1.02, mNueva:1.10, mReformar:0.83, xTerraza:700,  xParking:1000, xJardin:1800, xPiscina:2500, xVistas:900  },
-  'roquetes':                    { label:'Roquetes',                    comarca:'Baix Ebre',       zona:'Interior Sur',            base:900,  min:620,  max:1250, alqM2:5.5,   alqMin:256,  alqMax:640,  conf:0.78, tourist:false, urban:false, mPiso:0.95, mCasa:0.89, mAtico:1.02, mNueva:1.10, mReformar:0.83, xTerraza:700,  xParking:1000, xJardin:1800, xPiscina:2500, xVistas:900  },
-  'santa-barbara':               { label:'Santa Bàrbara',               comarca:'Montsià',         zona:'Interior Bajo',           base:707,  min:480,  max:980,  alqM2:4.5,   alqMin:224,  alqMax:520,  conf:0.75, tourist:false, urban:false, mPiso:0.93, mCasa:0.90, mAtico:1.00, mNueva:1.08, mReformar:0.84, xTerraza:500,  xParking:800,  xJardin:1500, xPiscina:2000, xVistas:700  },
-  'horta-de-sant-joan':          { label:'Horta de Sant Joan',          comarca:'Terra Alta',      zona:'Interior Bajo',           base:800,  min:550,  max:1100, alqM2:4.8,   alqMin:240,  alqMax:560,  conf:0.75, tourist:false, urban:false, mPiso:0.94, mCasa:0.91, mAtico:1.01, mNueva:1.09, mReformar:0.84, xTerraza:600,  xParking:900,  xJardin:1600, xPiscina:2200, xVistas:800  },
-  'prades':                      { label:'Prades',                      comarca:'Baix Camp',       zona:'Interior Bajo',           base:850,  min:580,  max:1200, alqM2:5.0,   alqMin:240,  alqMax:600,  conf:0.75, tourist:false, urban:false, mPiso:0.94, mCasa:0.92, mAtico:1.01, mNueva:1.09, mReformar:0.83, xTerraza:650,  xParking:950,  xJardin:1700, xPiscina:2500, xVistas:900  },
-  'gandesa':                     { label:'Gandesa',                     comarca:'Terra Alta',      zona:'Interior Bajo',           base:850,  min:580,  max:1200, alqM2:5.0,   alqMin:240,  alqMax:600,  conf:0.75, tourist:false, urban:false, mPiso:0.94, mCasa:0.91, mAtico:1.01, mNueva:1.09, mReformar:0.84, xTerraza:600,  xParking:900,  xJardin:1600, xPiscina:2200, xVistas:800  },
-  'mora-d-ebre':                 { label:'Mora d\'Ebre',                comarca:'Ribera d\'Ebre',  zona:'Interior Bajo',           base:870,  min:580,  max:1200, alqM2:5.2,   alqMin:256,  alqMax:624,  conf:0.75, tourist:false, urban:false, mPiso:0.94, mCasa:0.91, mAtico:1.01, mNueva:1.09, mReformar:0.84, xTerraza:600,  xParking:900,  xJardin:1600, xPiscina:2200, xVistas:800  },
-  'santa-coloma-de-queralt':     { label:'Santa Coloma de Queralt',     comarca:'Conca de Barberà',zona:'Interior Bajo',           base:800,  min:540,  max:1100, alqM2:4.8,   alqMin:224,  alqMax:560,  conf:0.75, tourist:false, urban:false, mPiso:0.94, mCasa:0.91, mAtico:1.01, mNueva:1.09, mReformar:0.84, xTerraza:550,  xParking:850,  xJardin:1500, xPiscina:2000, xVistas:750  },
+  'altafulla':                   { label:'Altafulla',                   comarca:'Tarragonès',      zona:'Costa Premium',           base:2950, min:2200, max:3800, alqM2:14.0,  alqMin:900,  alqMax:2000, conf:0.90, tourist:true,  urban:false, mPiso:1.05, mCasa:0.95, mAtico:1.15, mNueva:1.22, mReformar:0.82 },
+  'salou':                       { label:'Salou',                       comarca:'Tarragonès',      zona:'Costa Alta',              base:2450, min:1900, max:3200, alqM2:11.5,  alqMin:700,  alqMax:1800, conf:0.93, tourist:true,  urban:false, mPiso:1.05, mCasa:0.90, mAtico:1.15, mNueva:1.22, mReformar:0.82 },
+  'cambrils':                    { label:'Cambrils',                    comarca:'Baix Camp',       zona:'Costa Alta',              base:2550, min:2000, max:3400, alqM2:12.0,  alqMin:750,  alqMax:1900, conf:0.93, tourist:true,  urban:false, mPiso:1.05, mCasa:0.92, mAtico:1.13, mNueva:1.22, mReformar:0.82 },
+  'torredembarra':               { label:'Torredembarra',               comarca:'Tarragonès',      zona:'Costa Alta',              base:2150, min:1650, max:2900, alqM2:10.5,  alqMin:640,  alqMax:1500, conf:0.90, tourist:true,  urban:false, mPiso:1.04, mCasa:0.93, mAtico:1.12, mNueva:1.22, mReformar:0.82 },
+  'tarragona':                   { label:'Tarragona',                   comarca:'Tarragonès',      zona:'Capital Provincial',      base:2150, min:1500, max:2900, alqM2:10.8,  alqMin:620,  alqMax:1550, conf:0.90, tourist:false, urban:true,  mPiso:1.00, mCasa:0.88, mAtico:1.10, mNueva:1.22, mReformar:0.82 },
+  'roda-de-bera':                { label:'Roda de Berà',                comarca:'Tarragonès',      zona:'Costa Media-Alta',        base:2050, min:1550, max:2750, alqM2:10.0,  alqMin:580,  alqMax:1400, conf:0.87, tourist:true,  urban:false, mPiso:1.03, mCasa:0.92, mAtico:1.12, mNueva:1.22, mReformar:0.82 },
+  'creixell':                    { label:'Creixell',                    comarca:'Tarragonès',      zona:'Costa Media-Alta',        base:1980, min:1500, max:2650, alqM2:9.5,   alqMin:530,  alqMax:1350, conf:0.87, tourist:true,  urban:false, mPiso:1.02, mCasa:0.93, mAtico:1.10, mNueva:1.22, mReformar:0.82 },
+  'cunit':                       { label:'Cunit',                       comarca:'Baix Penedès',    zona:'Costa Media-Alta',        base:1820, min:1380, max:2450, alqM2:9.2,   alqMin:530,  alqMax:1280, conf:0.84, tourist:true,  urban:false, mPiso:1.02, mCasa:0.93, mAtico:1.10, mNueva:1.22, mReformar:0.82 },
+  'calafell':                    { label:'Calafell',                    comarca:'Baix Penedès',    zona:'Costa Media-Alta',        base:1950, min:1500, max:2700, alqM2:10.0,  alqMin:580,  alqMax:1450, conf:0.90, tourist:true,  urban:false, mPiso:1.03, mCasa:0.92, mAtico:1.12, mNueva:1.22, mReformar:0.82 },
+  'tarragona-parte-alta':        { label:'Tarragona - Parte Alta',      comarca:'Tarragonès',      zona:'Capital - Zona Premium',  base:2395, min:1850, max:3200, alqM2:12.5,  alqMin:1000, alqMax:1700, conf:0.90, tourist:false, urban:true,  mPiso:1.00, mCasa:0.88, mAtico:1.15, mNueva:1.22, mReformar:0.82 },
+  'tarragona-eixample':          { label:'Tarragona - Eixample',        comarca:'Tarragonès',      zona:'Capital - Zona Buena',    base:2200, min:1700, max:2950, alqM2:11.5,  alqMin:920,  alqMax:1500, conf:0.90, tourist:false, urban:true,  mPiso:1.00, mCasa:0.88, mAtico:1.10, mNueva:1.22, mReformar:0.82 },
+  'tarragona-bonavista':         { label:'Tarragona - Bonavista',       comarca:'Tarragonès',      zona:'Capital - Zona Media',    base:1480, min:1100, max:1980, alqM2:8.23,  alqMin:658,  alqMax:1050, conf:0.84, tourist:false, urban:true,  mPiso:0.96, mCasa:0.86, mAtico:1.04, mNueva:1.22, mReformar:0.82 },
+  'vila-seca':                   { label:'Vila-seca',                   comarca:'Tarragonès',      zona:'Costa Media',             base:1680, min:1250, max:2250, alqM2:9.0,   alqMin:520,  alqMax:1200, conf:0.87, tourist:true,  urban:false, mPiso:1.02, mCasa:0.90, mAtico:1.10, mNueva:1.22, mReformar:0.82 },
+  'la-pineda':                   { label:'La Pineda (Vila-seca)',        comarca:'Tarragonès',      zona:'Costa Media-Alta',        base:1900, min:1500, max:2500, alqM2:11.0,  alqMin:640,  alqMax:1500, conf:0.90, tourist:true,  urban:false, mPiso:1.05, mCasa:0.92, mAtico:1.13, mNueva:1.22, mReformar:0.82 },
+  'vandellos':                   { label:'Vandellòs i L\'Hospitalet',   comarca:'Baix Camp',       zona:'Costa Media',             base:2050, min:1500, max:2900, alqM2:9.8,   alqMin:560,  alqMax:1400, conf:0.90, tourist:true,  urban:false, mPiso:1.03, mCasa:0.92, mAtico:1.12, mNueva:1.22, mReformar:0.82 },
+  'ametlla-de-mar':              { label:'L\'Ametlla de Mar',           comarca:'Baix Ebre',       zona:'Costa Media',             base:1780, min:1300, max:2450, alqM2:9.2,   alqMin:510,  alqMax:1200, conf:0.84, tourist:true,  urban:false, mPiso:1.02, mCasa:0.92, mAtico:1.10, mNueva:1.22, mReformar:0.82 },
+  'ampolla':                     { label:'L\'Ampolla',                  comarca:'Baix Ebre',       zona:'Costa Media',             base:1680, min:1250, max:2300, alqM2:9.0,   alqMin:490,  alqMax:1150, conf:0.84, tourist:true,  urban:false, mPiso:1.01, mCasa:0.92, mAtico:1.08, mNueva:1.22, mReformar:0.82 },
+  'mont-roig':                   { label:'Mont-roig del Camp',          comarca:'Baix Camp',       zona:'Costa Media',             base:1720, min:1280, max:2400, alqM2:8.9,   alqMin:500,  alqMax:1150, conf:0.84, tourist:true,  urban:false, mPiso:1.02, mCasa:0.93, mAtico:1.10, mNueva:1.22, mReformar:0.82 },
+  'el-vendrell':                 { label:'El Vendrell',                 comarca:'Baix Penedès',    zona:'Interior Bueno',          base:1620, min:1200, max:2200, alqM2:9.5,   alqMin:520,  alqMax:1200, conf:0.87, tourist:false, urban:false, mPiso:1.00, mCasa:0.90, mAtico:1.08, mNueva:1.22, mReformar:0.82 },
+  'reus':                        { label:'Reus',                        comarca:'Baix Camp',       zona:'Interior Bueno',          base:1561, min:1100, max:2100, alqM2:10.2,  alqMin:540,  alqMax:1200, conf:0.84, tourist:false, urban:true,  mPiso:0.98, mCasa:0.88, mAtico:1.06, mNueva:1.22, mReformar:0.82 },
+  'montblanc':                   { label:'Montblanc',                   comarca:'Conca de Barberà',zona:'Interior Bueno',          base:1380, min:1000, max:1900, alqM2:7.5,   alqMin:400,  alqMax:950,  conf:0.84, tourist:false, urban:false, mPiso:0.97, mCasa:0.90, mAtico:1.05, mNueva:1.22, mReformar:0.82 },
+  'valls':                       { label:'Valls',                       comarca:'Alt Camp',        zona:'Interior Bueno',          base:1020, min:720,  max:1400, alqM2:7.0,   alqMin:370,  alqMax:860,  conf:0.84, tourist:false, urban:false, mPiso:0.96, mCasa:0.88, mAtico:1.04, mNueva:1.22, mReformar:0.82 },
+  'alcover':                     { label:'Alcover',                     comarca:'Alt Camp',        zona:'Interior Bueno',          base:1050, min:750,  max:1400, alqM2:6.0,   alqMin:304,  alqMax:720,  conf:0.81, tourist:false, urban:false, mPiso:0.96, mCasa:0.90, mAtico:1.03, mNueva:1.22, mReformar:0.82 },
+  'la-selva':                    { label:'La Selva del Camp',           comarca:'Baix Camp',       zona:'Interior Bueno',          base:1150, min:820,  max:1600, alqM2:7.0,   alqMin:370,  alqMax:860,  conf:0.84, tourist:false, urban:false, mPiso:0.97, mCasa:0.90, mAtico:1.04, mNueva:1.22, mReformar:0.82 },
+  'riudoms':                     { label:'Riudoms',                     comarca:'Baix Camp',       zona:'Interior Bueno',          base:1000, min:700,  max:1350, alqM2:5.8,   alqMin:280,  alqMax:680,  conf:0.81, tourist:false, urban:false, mPiso:0.96, mCasa:0.90, mAtico:1.03, mNueva:1.22, mReformar:0.82 },
+  'constanti':                   { label:'Constantí',                   comarca:'Tarragonès',      zona:'Interior Bueno',          base:1120, min:780,  max:1520, alqM2:6.8,   alqMin:355,  alqMax:840,  conf:0.84, tourist:false, urban:false, mPiso:0.96, mCasa:0.88, mAtico:1.04, mNueva:1.22, mReformar:0.82 },
+  'el-catllar':                  { label:'El Catllar',                  comarca:'Tarragonès',      zona:'Interior Bueno',          base:1050, min:750,  max:1400, alqM2:6.0,   alqMin:304,  alqMax:680,  conf:0.81, tourist:false, urban:false, mPiso:0.96, mCasa:0.90, mAtico:1.03, mNueva:1.22, mReformar:0.82 },
+  'tortosa':                     { label:'Tortosa',                     comarca:'Baix Ebre',       zona:'Terres de l\'Ebre',       base:1150, min:820,  max:1600, alqM2:6.8,   alqMin:360,  alqMax:860,  conf:0.84, tourist:false, urban:false, mPiso:0.97, mCasa:0.90, mAtico:1.04, mNueva:1.22, mReformar:0.82 },
+  'amposta':                     { label:'Amposta',                     comarca:'Montsià',         zona:'Terres de l\'Ebre',       base:1060, min:740,  max:1450, alqM2:6.3,   alqMin:315,  alqMax:740,  conf:0.81, tourist:false, urban:false, mPiso:0.96, mCasa:0.89, mAtico:1.03, mNueva:1.22, mReformar:0.82 },
+  'sant-carles':                 { label:'Sant Carles de la Ràpita',    comarca:'Montsià',         zona:'Terres de l\'Ebre - Costa',base:1320, min:940, max:1820, alqM2:7.5,   alqMin:400,  alqMax:950,  conf:0.84, tourist:true,  urban:false, mPiso:0.97, mCasa:0.91, mAtico:1.05, mNueva:1.22, mReformar:0.82 },
+  'alcanar':                     { label:'Alcanar',                     comarca:'Montsià',         zona:'Terres de l\'Ebre - Costa',base:1150, min:800, max:1600, alqM2:6.5,   alqMin:330,  alqMax:800,  conf:0.81, tourist:true,  urban:false, mPiso:0.96, mCasa:0.90, mAtico:1.04, mNueva:1.22, mReformar:0.82 },
+  'deltebre':                    { label:'Deltebre',                    comarca:'Baix Ebre',       zona:'Terres de l\'Ebre',       base:940,  min:640,  max:1280, alqM2:5.8,   alqMin:290,  alqMax:680,  conf:0.78, tourist:false, urban:false, mPiso:0.95, mCasa:0.90, mAtico:1.02, mNueva:1.22, mReformar:0.82 },
+  'ulldecona':                   { label:'Ulldecona',                   comarca:'Montsià',         zona:'Interior Sur',            base:950,  min:650,  max:1300, alqM2:5.8,   alqMin:280,  alqMax:680,  conf:0.78, tourist:false, urban:false, mPiso:0.95, mCasa:0.90, mAtico:1.02, mNueva:1.22, mReformar:0.82 },
+  'roquetes':                    { label:'Roquetes',                    comarca:'Baix Ebre',       zona:'Interior Sur',            base:900,  min:620,  max:1250, alqM2:5.5,   alqMin:256,  alqMax:640,  conf:0.78, tourist:false, urban:false, mPiso:0.95, mCasa:0.89, mAtico:1.02, mNueva:1.22, mReformar:0.82 },
+  'santa-barbara':               { label:'Santa Bàrbara',               comarca:'Montsià',         zona:'Interior Bajo',           base:740,  min:500,  max:1020, alqM2:4.8,   alqMin:230,  alqMax:550,  conf:0.75, tourist:false, urban:false, mPiso:0.93, mCasa:0.90, mAtico:1.00, mNueva:1.22, mReformar:0.82 },
+  'horta-de-sant-joan':          { label:'Horta de Sant Joan',          comarca:'Terra Alta',      zona:'Interior Bajo',           base:800,  min:550,  max:1100, alqM2:4.8,   alqMin:240,  alqMax:560,  conf:0.75, tourist:false, urban:false, mPiso:0.94, mCasa:0.91, mAtico:1.01, mNueva:1.22, mReformar:0.82 },
+  'prades':                      { label:'Prades',                      comarca:'Baix Camp',       zona:'Interior Bajo',           base:850,  min:580,  max:1200, alqM2:5.0,   alqMin:240,  alqMax:600,  conf:0.75, tourist:false, urban:false, mPiso:0.94, mCasa:0.92, mAtico:1.01, mNueva:1.22, mReformar:0.82 },
+  'gandesa':                     { label:'Gandesa',                     comarca:'Terra Alta',      zona:'Interior Bajo',           base:890,  min:600,  max:1250, alqM2:5.3,   alqMin:260,  alqMax:620,  conf:0.75, tourist:false, urban:false, mPiso:0.94, mCasa:0.91, mAtico:1.01, mNueva:1.22, mReformar:0.82 },
+  'mora-d-ebre':                 { label:'Mora d\'Ebre',                comarca:'Ribera d\'Ebre',  zona:'Interior Bajo',           base:910,  min:620,  max:1260, alqM2:5.4,   alqMin:265,  alqMax:630,  conf:0.75, tourist:false, urban:false, mPiso:0.94, mCasa:0.91, mAtico:1.01, mNueva:1.22, mReformar:0.82 },
+  'santa-coloma-de-queralt':     { label:'Santa Coloma de Queralt',     comarca:'Conca de Barberà',zona:'Interior Bajo',           base:800,  min:540,  max:1100, alqM2:4.8,   alqMin:224,  alqMax:560,  conf:0.75, tourist:false, urban:false, mPiso:0.94, mCasa:0.91, mAtico:1.01, mNueva:1.22, mReformar:0.82 },
 };
 
 // ─── 1b. BARRIOS POR MUNICIPIO ─────────────────────────────
@@ -70,7 +70,7 @@ const BARRIOS = {
   'creixell':               ['Creixell Platja / Costa','Centre / Interior'],
   'vila-seca':              ['La Pineda','Centre Vila-seca','La Plana'],
   'la-pineda':              ['La Pineda','Centre Vila-seca'],
-  'reus':                   ['Centre','Eixample / zona centro ampliada','Passeig Prim / Mare Molas','Niloga','Carrilet / Estació d\'autobusos','Mas Esglésies','Horts de Miró','Barri Fortuny','Barri Gaudí','Aigüesverts','Otra zona'],
+  'reus':                   ['Centre + Eixample Premium','Eixample Exterior / Nou Eixample','Carrilet / Estació Bus','Ponent / Passeig Prim','Fortuny / Migjorn','Barri Centre Històric','Llevant / Zona Est','Mas Abelló / Barris Nord'],
   'el-vendrell':            ['Centre','Comarruga / El Francàs','Sant Salvador','Zona Residencial Periferia'],
   'valls':                  ['Centre Històric','Eixample / Zona Nova','Barris Perifèrics'],
   'vandellos':              ["L'Hospitalet de l'Infant Centro",'Urbanització Ametlla / Costa','Vandellòs / Interior'],
@@ -346,10 +346,51 @@ function calcReforma(muniKey, m2) {
   };
 }
 
+// ─── 1d. REUS — PRECIOS BASE POR ZONA (€/m² buen estado post-1980) ────────
+// Fuente: Parametros_Calculadora_Tarragona_2026.xlsx — Hoja 02
+const REUS_ZONAS = {
+  'Centre + Eixample Premium':     { base:1820, alqM2:11.0, alqMin:880,  alqMax:2300 },
+  'Eixample Exterior / Nou Eixample':{ base:1720, alqM2:10.5, alqMin:840,  alqMax:2150 },
+  'Carrilet / Estació Bus':        { base:1670, alqM2:10.0, alqMin:800,  alqMax:2000 },
+  'Ponent / Passeig Prim':         { base:1580, alqM2:9.5,  alqMin:760,  alqMax:1950 },
+  'Fortuny / Migjorn':             { base:1530, alqM2:9.2,  alqMin:736,  alqMax:1900 },
+  'Barri Centre Històric':         { base:1650, alqM2:10.2, alqMin:816,  alqMax:2100 },
+  'Llevant / Zona Est':            { base:1300, alqM2:8.0,  alqMin:640,  alqMax:1650 },
+  'Mas Abelló / Barris Nord':      { base:1150, alqM2:7.2,  alqMin:576,  alqMax:1480 },
+};
+
 // ─── 2. MULTIPLIERS ────────────────────────────────────────
-// Type/state/extras: per-municipality (from MUNI). Floor/year: global.
-const FLOOR_MULT = { bajo:0.90, '1a3':1.00, '4a6':1.04, '7mas':1.07, atico:1.11 };
+// Floor/year: global. State: global (Parametros_Calculadora_Tarragona_2026.xlsx)
+const STATE_MULT = {
+  'nueva':        1.22,
+  'reformado':    1.15,
+  'bueno':        1.00,
+  'bueno_pre80':  0.90,
+  'reformar':     0.82,
+  'deteriorado':  0.68,
+};
+const FLOOR_MULT = {
+  'pb_interior': 0.85,
+  'pb_jardin':   0.98,
+  'entreplanta': 0.90,
+  '1a3':         1.00,
+  '4a6':         1.04,
+  '7mas':        1.04,
+  'atico':       1.12,
+  'bajo':        0.85,
+};
 const YEAR_MULT  = { '2015+':1.06, '2000-14':1.00, '1980-99':0.96, '1960-79':0.92, 'antes60':0.88 };
+
+// Extras como % sobre valor base calculado (antes de extras)
+// Descuento escalonado: 1º→100%, 2º→85%, 3º+→70%
+// Fuente: Parametros_Calculadora_Tarragona_2026.xlsx — Hoja 04
+const EXTRAS_PCT = {
+  'terraza':  0.14,
+  'parking':  0.07,
+  'jardin':   0.13,
+  'piscina':  0.04,
+  'vistas':   0.13,
+};
 
 // ─── 3. STATE ──────────────────────────────────────────────
 const QS = {
@@ -471,7 +512,7 @@ function updateProgress(n) {
 function updateSummaryPanel() {
   const d = QS.d;
   const TIPO_LABELS = { piso:'Piso', casa:'Casa', atico:'Ático', duplex:'Dúplex', chalet:'Chalet' };
-  const ESTADO_LABELS = { nueva:'Obra nueva', bueno:'Buen estado', reformar:'A reformar' };
+  const ESTADO_LABELS = { nueva:'Obra nueva', reformado:'Reformado', bueno:'Buen estado', bueno_pre80:'Buen estado pre-1980', reformar:'A reformar', deteriorado:'Muy deteriorado' };
   const INTENCION_LABELS = { vender:'Vender', alquilar:'Alquilar', reformar:'Reformar', valorar:'Valorar', nose:'Por decidir' };
   const PLAZO_LABELS = { inmediato:'Inmediato', '1a3':'1–3 meses', '3a6':'3–6 meses', '6a12':'6–12 meses', sinprisa:'Sin prisa' };
   const m = d.municipio ? MUNI[d.municipio] : null;
@@ -576,7 +617,11 @@ function runCalculation() {
   const m2 = parseFloat(d.m2) || 80;
   const reforma = calcReforma(d.municipio, m2);
 
-  // Per-municipality type multiplier (fallback for duplex/chalet)
+  // Precio base por m²: si Reus y zona seleccionada, usar precio de zona
+  const reusZona = (d.municipio === 'reus' && d.zona && REUS_ZONAS[d.zona]) ? REUS_ZONAS[d.zona] : null;
+  const baseM2   = reusZona ? reusZona.base : m.base;
+
+  // Tipo de inmueble
   const typeMult = d.tipo === 'piso'   ? m.mPiso :
                    d.tipo === 'casa'   ? m.mCasa :
                    d.tipo === 'atico'  ? m.mAtico :
@@ -584,32 +629,43 @@ function runCalculation() {
                    d.tipo === 'chalet' ? m.mCasa * 1.08 :
                    m.mPiso;
 
-  // Per-municipality state multiplier
-  const stateMult = d.estado === 'nueva'    ? m.mNueva :
-                    d.estado === 'reformar' ? m.mReformar : 1.0;
+  // Estado del inmueble — global (Parametros_Calculadora_Tarragona_2026.xlsx)
+  const stateMult = STATE_MULT[d.estado] || 1.0;
 
-  const floorMult = FLOOR_MULT[d.planta] || 1;
-  const yearMult  = YEAR_MULT[d.anio]    || 1;
-  const ascBonus  = d.ascensor === 'si' && d.planta !== 'bajo' ? 1.02 : 1;
+  // Planta + ascensor: 4ª+ sin ascensor usa mult reducido
+  const highFloor = d.planta === '4a6' || d.planta === '7mas';
+  let floorMult;
+  if (highFloor && d.ascensor === 'no') {
+    floorMult = 0.86;
+  } else {
+    floorMult = FLOOR_MULT[d.planta] || 1.00;
+  }
+  // Bonus ascensor para plantas 1-3 en edificios altos
+  const ascMult = (!highFloor && d.planta !== 'atico' && d.ascensor === 'si') ? 1.04 : 1.00;
 
-  // Per-municipality extras in fixed €
+  const yearMult  = YEAR_MULT[d.anio] || 1;
+
+  // Valor base antes de extras
+  const ppm2     = Math.round(baseM2 * typeMult * stateMult * floorMult * ascMult * yearMult);
+  const valorBase = m2 * ppm2;
+
+  // Extras como porcentaje con descuento escalonado (100% / 85% / 70%)
   const extras = (d.extras || []).filter(e => e !== 'ninguno');
-  const extrasEur = extras.reduce((acc, e) => {
-    if (e === 'terraza') return acc + m.xTerraza;
-    if (e === 'parking') return acc + m.xParking;
-    if (e === 'jardin')  return acc + m.xJardin;
-    if (e === 'piscina') return acc + m.xPiscina;
-    if (e === 'vistas')  return acc + m.xVistas;
-    return acc;
-  }, 0);
+  const extrasOrdenados = [...extras].sort((a, b) => (EXTRAS_PCT[b] || 0) - (EXTRAS_PCT[a] || 0));
+  let totalExtras = 0;
+  extrasOrdenados.forEach((extra, idx) => {
+    const pct = EXTRAS_PCT[extra] || 0;
+    const factor = idx === 0 ? 1.00 : idx === 1 ? 0.85 : 0.70;
+    totalExtras += valorBase * pct * factor;
+  });
 
-  const ppm2 = Math.round(m.base * typeMult * stateMult * floorMult * yearMult * ascBonus);
-  let base = snap(m2 * ppm2 + extrasEur, 500);
-  let lo   = snap(m2 * m.min * stateMult * floorMult * yearMult, 500);
-  let hi   = snap(m2 * m.max * typeMult * stateMult * floorMult * yearMult + extrasEur, 500);
+  let base = snap(valorBase + totalExtras, 500);
+  let lo   = snap(base * 0.88, 500);
+  let hi   = snap(base * 1.18, 500);
 
-  // Rental — use zone-specific data when barrio is selected, fall back to municipality
-  const zoneAlq = (d.zona && ALQUILER_ZONAS[d.municipio]) ? ALQUILER_ZONAS[d.municipio][d.zona] : null;
+  // Alquiler: prioridad → Reus zona > ALQUILER_ZONAS barrio > municipio
+  const zoneAlq = reusZona ? reusZona :
+                  (d.zona && ALQUILER_ZONAS[d.municipio]) ? ALQUILER_ZONAS[d.municipio][d.zona] : null;
   const alqData = zoneAlq || m;
   const rentRaw = Math.round(m2 * alqData.alqM2);
   const rent    = snap(Math.max(alqData.alqMin, Math.min(alqData.alqMax, rentRaw)), 25);
@@ -627,12 +683,31 @@ function runCalculation() {
   const strategy   = generateStrategy(d, m, base, recommendation, diagnosis, reforma);
   const leadProfile = generateLeadProfile(d, base, desired);
 
+  // Precio de salida según plazo
+  const PLAZO_MULT = { inmediato:0.94, '1a3':0.97, '3a6':0.99, '6a12':1.00, sinprisa:1.02 };
+  const precioSalida = snap(base * (PLAZO_MULT[d.plazo] || 1.00), 500);
+
+  // Desglose del cálculo para mostrar en resultado
+  const desglose = {
+    baseM2,
+    m2,
+    ppm2,
+    valorBase: snap(valorBase, 500),
+    extrasItems: extrasOrdenados.map((extra, idx) => {
+      const pct = EXTRAS_PCT[extra] || 0;
+      const factor = idx === 0 ? 1.00 : idx === 1 ? 0.85 : 0.70;
+      const valor = snap(valorBase * pct * factor, 100);
+      return { extra, pct: Math.round(pct * 100 * factor), valor };
+    }),
+    totalExtras: snap(totalExtras, 500),
+  };
+
   QS.result = {
     base, lo, hi, ppm2, rent, rentLo, rentHi,
     confidence, overpriced, underpriced, overpricePct, desired,
     recommendation, recLabel, recTag,
     diagnosis, strategy, leadProfile,
-    reforma,
+    reforma, precioSalida, desglose,
     muniLabel: m.label,
     muni: m,
   };
@@ -708,17 +783,20 @@ function generateDiagnosis(d, m, base, desired, reforma) {
 
   // Liquidity
   let liquidityLabel, liquidityDays, liquidityLevel;
-  if (d.estado === 'reformar' && lowDemand)     { liquidityLabel='Baja'; liquidityDays='90–120 días'; liquidityLevel=1; }
-  else if (d.estado === 'reformar')             { liquidityLabel='Reducida'; liquidityDays='60–90 días'; liquidityLevel=1; }
+  if ((d.estado === 'reformar' || d.estado === 'deteriorado') && lowDemand) { liquidityLabel='Baja'; liquidityDays='90–120 días'; liquidityLevel=1; }
+  else if (d.estado === 'reformar' || d.estado === 'deteriorado') { liquidityLabel='Reducida'; liquidityDays='60–90 días'; liquidityLevel=1; }
   else if (highDemand || tourist)               { liquidityLabel='Alta'; liquidityDays='25–45 días'; liquidityLevel=3; }
   else if (m.base >= 1400)                      { liquidityLabel='Media'; liquidityDays='40–65 días'; liquidityLevel=2; }
   else                                          { liquidityLabel='Moderada'; liquidityDays='60–90 días'; liquidityLevel=1; }
 
   // State impact
   let stateLabel, stateLevel;
-  if (d.estado === 'nueva')    { stateLabel='Positivo (+25%)'; stateLevel=3; }
-  else if (d.estado === 'bueno') { stateLabel='Neutro (mercado)'; stateLevel=2; }
-  else                          { stateLabel='Reductor (−18%)'; stateLevel=1; }
+  if (d.estado === 'nueva')        { stateLabel='Muy positivo (+22%)'; stateLevel=3; }
+  else if (d.estado === 'reformado') { stateLabel='Positivo (+15%)'; stateLevel=3; }
+  else if (d.estado === 'bueno')   { stateLabel='Neutro (mercado)'; stateLevel=2; }
+  else if (d.estado === 'bueno_pre80') { stateLabel='Leve descuento (−10%)'; stateLevel=2; }
+  else if (d.estado === 'reformar') { stateLabel='Reductor (−18%)'; stateLevel=1; }
+  else                             { stateLabel='Muy reductor (−32%)'; stateLevel=1; }
 
   // Price alignment
   let priceLabel, priceLevel;
@@ -1148,10 +1226,27 @@ function renderResults() {
   setText('r-range', `${eur(r.lo)} — ${eur(r.hi)}`);
   setText('r-ppm2', `${r.ppm2.toLocaleString('es-ES')} €/m²`);
   const confLabel = r.confidence >= 90 ? 'Precisión: Alta' : r.confidence >= 84 ? 'Precisión: Media-Alta' : 'Precisión: Media';
-  setText('r-conf-pct', confLabel + ' · Datos 2024–2025');
+  setText('r-conf-pct', confLabel + ' · Datos 2026');
   animBar(document.getElementById('r-conf-bar'), r.confidence, 500);
   setText('r-rent', eur(r.rent) + '/mes');
   setText('r-rent-range', `Horquilla alquiler: ${eur(r.rentLo)} – ${eur(r.rentHi)}/mes`);
+
+  // Precio de salida según plazo
+  if (r.precioSalida) {
+    setText('r-precio-salida', eur(r.precioSalida));
+    const plazoMap = { inmediato:'Urgente (×0.94) — venta en 20-35 días', '1a3':'Plazo 1-3 meses (×0.97) — venta en 35-55 días', '3a6':'Plazo 3-6 meses (×0.99) — venta en 60-90 días', '6a12':'Plazo 6-12 meses (×1.00)', sinprisa:'Sin prisa (×1.02) — venta en 90-150 días' };
+    setText('r-precio-salida-plazo', plazoMap[d.plazo] || 'Ajustado según plazo seleccionado');
+  }
+
+  // Desglose del cálculo
+  const dsg = r.desglose;
+  if (dsg) {
+    const extraLines = dsg.extrasItems.length
+      ? dsg.extrasItems.map(e => `+ ${e.extra.padEnd(10)} (+${e.pct}%): +${eur(e.valor)}`).join('\n')
+      : '  (sin extras)';
+    const desgloseHtml = `<pre style="font-size:11px;line-height:1.7;white-space:pre-wrap;">Valor base (${dsg.m2}m² × ${dsg.baseM2}€/m²):  ${eur(dsg.valorBase)}\n${extraLines}\n${'─'.repeat(42)}\nValor estimado:                    ${eur(r.base)}\nHorquilla:          ${eur(r.lo)} — ${eur(r.hi)}\nPrecio de salida:                  ${eur(r.precioSalida)}</pre>`;
+    setHTML('r-desglose-body', desgloseHtml);
+  }
 
   // ── SECTION B: Diagnóstico ─────────────────────────────
   setHTML('r-demand-label', diag.demandLabel);
