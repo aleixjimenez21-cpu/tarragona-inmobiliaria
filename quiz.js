@@ -407,6 +407,20 @@ const EXTRA_LABELS = {
   parking: 'Parking', jardin: 'Jardín', piscina: 'Piscina', vistas: 'Vistas',
 };
 
+// Horquilla de precio por tipo de zona:
+// Costa premium → mayor volatilidad (compradores internacionales + inversores)
+// Interior bajo → mercado local predecible, menor dispersión de precios
+const H_COSTA_PREMIUM  = new Set(['altafulla','salou','cambrils','torredembarra','calafell','vandellos']);
+const H_CAPITAL_MEDIA  = new Set(['tarragona','tarragona-parte-alta','tarragona-eixample','tarragona-bonavista','vila-seca','la-pineda','ametlla-de-mar','ampolla','mont-roig','roda-de-bera','creixell','cunit']);
+const H_INTERIOR_BUENO = new Set(['reus','el-vendrell','montblanc','valls','la-selva','constanti','el-catllar']);
+
+function getHorquillaMults(municipio) {
+  if (H_COSTA_PREMIUM.has(municipio))  return { lo: 0.86, hi: 1.20 };
+  if (H_CAPITAL_MEDIA.has(municipio))  return { lo: 0.88, hi: 1.15 };
+  if (H_INTERIOR_BUENO.has(municipio)) return { lo: 0.90, hi: 1.12 };
+  return { lo: 0.92, hi: 1.10 }; // Terres de l'Ebre / interior bajo
+}
+
 // ─── 3. STATE ──────────────────────────────────────────────
 const QS = {
   step: 1,
@@ -729,8 +743,9 @@ function runCalculation() {
   });
 
   let base = snap(valorBase + totalExtras, 500);
-  let lo   = snap(base * 0.88, 500);
-  let hi   = snap(base * 1.18, 500);
+  const hm = getHorquillaMults(d.municipio);
+  let lo   = snap(base * hm.lo, 500);
+  let hi   = snap(base * hm.hi, 500);
 
   // Alquiler: prioridad → Reus zona > ALQUILER_ZONAS barrio > municipio
   const zoneAlq = reusZona ? reusZona :
@@ -1289,8 +1304,7 @@ function renderResults() {
   animNum(document.getElementById('r-price'), r.base, 1600);
   setText('r-range', `${eur(r.lo)} — ${eur(r.hi)}`);
   setText('r-ppm2', `${r.ppm2.toLocaleString('es-ES')} €/m²`);
-  const confLabel = r.confidence >= 90 ? 'Precisión: Alta' : r.confidence >= 84 ? 'Precisión: Media-Alta' : 'Precisión: Media';
-  setText('r-conf-pct', confLabel + ' · Datos 2026');
+  setText('r-conf-pct', 'Precisión: Alta · Datos 2026');
   animBar(document.getElementById('r-conf-bar'), r.confidence, 500);
   setText('r-rent', eur(r.rent) + '/mes');
   setText('r-rent-range', `Horquilla alquiler: ${eur(r.rentLo)} – ${eur(r.rentHi)}/mes`);
