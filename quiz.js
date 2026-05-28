@@ -359,7 +359,7 @@ const REUS_ZONAS = {
   'Barri Centre Històric':         { base:1650, alqM2:10.2, alqMin:816,  alqMax:2100 },
   'Llevant / Zona Est':            { base:1300, alqM2:8.0,  alqMin:640,  alqMax:1650 },
   'Mas Abelló / Barris Nord':      { base:1150, alqM2:7.2,  alqMin:576,  alqMax:1480 },
-  'Blancafort / Urbanitzacions Xalets': { base:1580, alqM2:8.5, alqMin:650, alqMax:1800, nota:'Urbanización residencial de chalets con parcela. Mercado específico de comprador con perfil alto.' },
+  'Blancafort / Urbanitzacions Xalets': { base:2200, alqM2:10.0, alqMin:1200, alqMax:3500, nota:'Urbanización residencial de chalets con parcela. Mercado específico de comprador con perfil alto.' },
 };
 
 // ─── 2. MULTIPLIERS ────────────────────────────────────────
