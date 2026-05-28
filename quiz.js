@@ -385,27 +385,71 @@ const YEAR_MULT  = { '2015+':1.06, '2000-14':1.00, '1980-99':0.96, '1960-79':0.9
 // Descuento escalonado: 1º→100%, 2º→85%, 3º+→70%
 // Fuente: Parametros_Calculadora_Tarragona_2026.xlsx — Hoja 04
 const EXTRAS_PCT = {
-  // Terraza — categorías (balcon_pequeno→terraza_premium) o terraza_exacta (cálculo directo)
+  // Terraza
   'balcon_pequeno':  0.03,
   'terraza_mediana': 0.07,
   'terraza_grande':  0.11,
   'terraza_premium': 0.15,
-  // Otros extras
-  'parking':  0.07,
-  'jardin':   0.13,
-  'piscina':  0.04,
-  'vistas':   0.13,
+  // Extras positivos
+  'parking':              0.07,
+  'jardin':               0.13,
+  'piscina':              0.04,
+  'vistas':               0.13,
+  'trastero':             0.02,
+  'aire_acondicionado':   0.02,
+  'cert_AB':              0.04,
+  'licencia_turistica':   0.10,
+  'orientacion_sur':      0.04,
+  'reforma_reciente':     0.06,
+  'segunda_parking':      0.04,
+  // Penalizaciones (valor negativo — se aplican al 100%, sin cascade)
+  'cert_EFG':             -0.03,
+  'orientacion_norte':    -0.05,
+  'suelos_deteriorados':  -0.04,
+};
+
+// Cap máximo por extra (en €). Los extras de terraza usan cap zonal aparte.
+const EXTRAS_CAP = {
+  'trastero':           4000,
+  'aire_acondicionado': 3500,
+  'cert_AB':            8000,
+  'licencia_turistica': 25000,
+  'orientacion_sur':    7000,
+  'reforma_reciente':   12000,
+  'segunda_parking':    10000,
+};
+
+const EXTRAS_NOTES = {
+  trastero:           'Muy valorado en pisos sin almacenamiento interior',
+  cert_AB:            'Compradores cada vez más exigentes con eficiencia energética',
+  cert_EFG:           'Calificación baja puede dificultar financiación bancaria',
+  licencia_turistica: 'Activo con rentabilidad vacacional demostrada',
 };
 
 const TERRAZA_TYPES = ['balcon_pequeno','terraza_mediana','terraza_grande','terraza_premium','terraza_exacta'];
 
 const EXTRA_LABELS = {
-  balcon_pequeno:  'Balcón pequeño <4m²',
-  terraza_mediana: 'Terraza mediana 4-14m²',
-  terraza_grande:  'Terraza grande 15-29m²',
-  terraza_premium: 'Terraza premium 30m²+',
-  parking: 'Parking', jardin: 'Jardín', piscina: 'Piscina', vistas: 'Vistas',
+  balcon_pequeno:     'Balcón pequeño <4m²',
+  terraza_mediana:    'Terraza mediana 4-14m²',
+  terraza_grande:     'Terraza grande 15-29m²',
+  terraza_premium:    'Terraza premium 30m²+',
+  parking:            'Parking',
+  piscina:            'Piscina',
+  vistas:             'Vistas',
+  trastero:           'Trastero',
+  aire_acondicionado: 'Aire acondicionado',
+  cert_AB:            'Cert. energético A/B',
+  cert_EFG:           'Cert. energético E/F/G',
+  licencia_turistica: 'Licencia turística',
+  orientacion_sur:    'Orientación sur/suroeste',
+  orientacion_norte:  'Orientación norte',
+  reforma_reciente:   'Reforma reciente <3 años',
+  suelos_deteriorados:'Suelos deteriorados',
+  segunda_parking:    '2ª plaza parking',
 };
+
+// Municipios costeros donde aplica la licencia turística
+const COASTAL_LICENCIA = new Set(['salou','cambrils','torredembarra','altafulla','calafell','cunit','vila-seca','vandellos','ametlla-de-mar','ampolla','mont-roig']);
 
 // Horquilla de precio por tipo de zona:
 // Costa premium → mayor volatilidad (compradores internacionales + inversores)
@@ -612,6 +656,7 @@ function qCard(el, field, value) {
   QS.d[field] = value;
   clearQError();
   updateSummaryPanel();
+  updateConditionalExtras();
 }
 
 function qMulti(el, value) {
@@ -619,6 +664,7 @@ function qMulti(el, value) {
     QS.d.extras = ['ninguno'];
     document.querySelectorAll('.q-tag').forEach(t => t.classList.remove('selected'));
     el.classList.add('selected');
+    updateConditionalExtras();
     return;
   }
   document.querySelectorAll('[data-extra="ninguno"]').forEach(t => t.classList.remove('selected'));
@@ -630,6 +676,39 @@ function qMulti(el, value) {
     QS.d.extras.push(value);
     el.classList.add('selected');
   }
+  updateConditionalExtras();
+}
+
+function qMultiExcl(el, value, excludes) {
+  excludes.forEach(excl => {
+    QS.d.extras = QS.d.extras.filter(e => e !== excl);
+    document.querySelectorAll(`[data-extra="${excl}"]`).forEach(b => b.classList.remove('selected'));
+  });
+  qMulti(el, value);
+}
+
+function updateConditionalExtras() {
+  const d = QS.d;
+  function toggleBtn(id, show) {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    if (show) {
+      btn.classList.remove('hidden');
+    } else {
+      btn.classList.add('hidden');
+      const ex = btn.dataset.extra;
+      if (ex && d.extras.includes(ex)) {
+        d.extras = d.extras.filter(e => e !== ex);
+        btn.classList.remove('selected');
+      }
+    }
+  }
+  toggleBtn('btn-licencia_turistica', COASTAL_LICENCIA.has(d.municipio));
+  const showReforma = (d.estado === 'bueno' || d.estado === 'bueno_pre80');
+  toggleBtn('btn-reforma_reciente', showReforma);
+  const antesDe1980 = (d.anio === '1960-79' || d.anio === 'antes60');
+  toggleBtn('btn-suelos_deteriorados', d.estado === 'reformar' || antesDe1980);
+  toggleBtn('btn-segunda_parking', d.extras.includes('parking'));
 }
 
 function selectTerrazaA(btn, choice) {
@@ -711,35 +790,49 @@ function runCalculation() {
   const ppm2     = Math.round(baseM2 * typeMult * stateMult * floorMult * ascMult * yearMult);
   const valorBase = m2 * ppm2;
 
-  // Extras como porcentaje con descuento escalonado (100% / 85% / 70%)
-  // terraza_exacta usa m²_terraza × precio_m2_zona × 0.25 en lugar de porcentaje
+  // Extras: positivos con cascade escalonado, penalizaciones a 100% sin cascade
   const extras = (d.extras || []).filter(e => e !== 'ninguno');
+  const positiveExtras = extras.filter(e => e === 'terraza_exacta' || (EXTRAS_PCT[e] || 0) >= 0);
+  const penaltyExtras  = extras.filter(e => e !== 'terraza_exacta' && (EXTRAS_PCT[e] || 0) < 0);
+
   const effectivePct = (e) => {
     if (e === 'terraza_exacta' && d.terrazaM2) return (d.terrazaM2 * baseM2 * 0.25) / valorBase;
     return EXTRAS_PCT[e] || 0;
   };
-  const extrasOrdenados = [...extras].sort((a, b) => effectivePct(b) - effectivePct(a));
+  const positivesSorted = [...positiveExtras].sort((a, b) => effectivePct(b) - effectivePct(a));
+
   let totalExtras = 0;
   const extrasItems = [];
-  extrasOrdenados.forEach((extra, idx) => {
+
+  positivesSorted.forEach((extra, idx) => {
     const factor = idx === 0 ? 1.00 : idx === 1 ? 0.85 : 0.70;
     let valor, item;
     if (extra === 'terraza_exacta' && d.terrazaM2) {
       valor = snap(d.terrazaM2 * baseM2 * 0.25 * factor, 100);
-      item = { extra, exacta: true, m2: d.terrazaM2, baseM2, coef: 0.25, valor };
+      const terrazaCap = m.tourist ? 45000 : m.urban ? 35000 : 25000;
+      valor = Math.min(valor, terrazaCap);
+      item = { extra, exacta: true, m2: d.terrazaM2, baseM2, cascadePct: Math.round(factor * 100), valor };
     } else {
       const pct = EXTRAS_PCT[extra] || 0;
       valor = snap(valorBase * pct * factor, 100);
-      item = { extra, pct: Math.round(pct * 100 * factor), valor };
-    }
-    // Cap máximo terraza según tipo de zona
-    if (TERRAZA_TYPES.includes(extra)) {
-      const terrazaCap = m.tourist ? 45000 : m.urban ? 35000 : 25000;
-      valor = Math.min(valor, terrazaCap);
-      item.valor = valor;
+      if (TERRAZA_TYPES.includes(extra)) {
+        const terrazaCap = m.tourist ? 45000 : m.urban ? 35000 : 25000;
+        valor = Math.min(valor, terrazaCap);
+      } else if (EXTRAS_CAP[extra] !== undefined) {
+        valor = Math.min(valor, EXTRAS_CAP[extra]);
+      }
+      item = { extra, basePct: Math.round(pct * 100), cascadePct: Math.round(factor * 100), valor };
     }
     totalExtras += valor;
     extrasItems.push(item);
+  });
+
+  // Penalizaciones a 100% (sin cascade, sin cap)
+  penaltyExtras.forEach(extra => {
+    const pct = EXTRAS_PCT[extra] || 0;
+    const valor = snap(valorBase * pct, 100);
+    extrasItems.push({ extra, basePct: Math.round(pct * 100), penalty: true, valor });
+    totalExtras += valor;
   });
 
   let base = snap(valorBase + totalExtras, 500);
@@ -1321,9 +1414,20 @@ function renderResults() {
   if (dsg) {
     const extraLines = dsg.extrasItems.length
       ? dsg.extrasItems.map(e => {
-          if (e.exacta) return `+ Terraza ${e.m2}m² (${e.m2} × ${e.baseM2}€ × 0.25): +${eur(e.valor)}`;
-          const label = EXTRA_LABELS[e.extra] || e.extra;
-          return `+ ${label.padEnd(24)} (+${e.pct}%): +${eur(e.valor)}`;
+          let mainLine;
+          if (e.exacta) {
+            mainLine = `+ Terraza ${e.m2}m² (${e.m2} × ${e.baseM2}€ × 0.25): +${eur(e.valor)}`;
+          } else {
+            const label = (EXTRA_LABELS[e.extra] || e.extra).padEnd(22);
+            if (e.penalty) {
+              mainLine = `− ${label} (${e.basePct}%): ${eur(e.valor)}`;
+            } else {
+              const pctStr = e.cascadePct === 100 ? `+${e.basePct}%` : `+${e.basePct}% × ${e.cascadePct}%`;
+              mainLine = `+ ${label} (${pctStr}): +${eur(e.valor)}`;
+            }
+          }
+          const note = EXTRAS_NOTES[e.extra];
+          return note ? `${mainLine}\n  ↳ ${note}` : mainLine;
         }).join('\n')
       : '  (sin extras)';
     const desgloseHtml = `<pre style="font-size:11px;line-height:1.7;white-space:pre-wrap;">Valor base (${dsg.m2}m² × ${dsg.baseM2}€/m²):  ${eur(dsg.valorBase)}\n${extraLines}\n${'─'.repeat(42)}\nValor estimado:                    ${eur(r.base)}\nHorquilla:          ${eur(r.lo)} — ${eur(r.hi)}\nPrecio de salida:                  ${eur(r.precioSalida)}</pre>`;

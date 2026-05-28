@@ -1497,11 +1497,20 @@
 
           <!-- Otros extras -->
           <div class="flex flex-wrap gap-2">
-            <button type="button" class="q-tag" data-extra="parking" onclick="qMulti(this,'parking')">Parking</button>
-            <button type="button" class="q-tag" data-extra="jardin"  onclick="qMulti(this,'jardin')">Jardín</button>
-            <button type="button" class="q-tag" data-extra="piscina" onclick="qMulti(this,'piscina')">Piscina</button>
-            <button type="button" class="q-tag" data-extra="vistas"  onclick="qMulti(this,'vistas')">Vistas</button>
-            <button type="button" class="q-tag" data-extra="ninguno" onclick="qMulti(this,'ninguno')">Ninguno</button>
+            <button type="button" class="q-tag" data-extra="parking"            onclick="qMulti(this,'parking')">Parking</button>
+            <button type="button" class="q-tag" data-extra="piscina"            onclick="qMulti(this,'piscina')">Piscina</button>
+            <button type="button" class="q-tag" data-extra="vistas"             onclick="qMulti(this,'vistas')">Vistas</button>
+            <button type="button" class="q-tag" data-extra="trastero"           onclick="qMulti(this,'trastero')">Trastero</button>
+            <button type="button" class="q-tag" data-extra="aire_acondicionado" onclick="qMulti(this,'aire_acondicionado')">Aire acondicionado</button>
+            <button type="button" class="q-tag" data-extra="cert_AB"            onclick="qMultiExcl(this,'cert_AB',['cert_EFG'])">Cert. energético A/B</button>
+            <button type="button" class="q-tag" data-extra="cert_EFG"           onclick="qMultiExcl(this,'cert_EFG',['cert_AB'])">Cert. energético E/F/G</button>
+            <button type="button" class="q-tag" data-extra="orientacion_sur"    onclick="qMultiExcl(this,'orientacion_sur',['orientacion_norte'])">Orientación sur</button>
+            <button type="button" class="q-tag" data-extra="orientacion_norte"  onclick="qMultiExcl(this,'orientacion_norte',['orientacion_sur'])">Orientación norte</button>
+            <button type="button" class="q-tag hidden" id="btn-licencia_turistica"  data-extra="licencia_turistica"  onclick="qMulti(this,'licencia_turistica')">Licencia turística</button>
+            <button type="button" class="q-tag hidden" id="btn-reforma_reciente"    data-extra="reforma_reciente"    onclick="qMulti(this,'reforma_reciente')">Reforma reciente &lt;3 años</button>
+            <button type="button" class="q-tag hidden" id="btn-suelos_deteriorados" data-extra="suelos_deteriorados" onclick="qMulti(this,'suelos_deteriorados')">Suelos deteriorados</button>
+            <button type="button" class="q-tag hidden" id="btn-segunda_parking"     data-extra="segunda_parking"     onclick="qMulti(this,'segunda_parking')">2ª plaza parking</button>
+            <button type="button" class="q-tag" data-extra="ninguno"            onclick="qMulti(this,'ninguno')">Ninguno</button>
           </div>
         </div>
       </div>
