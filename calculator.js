@@ -1,19 +1,23 @@
 // ─────────────────────────────────────────────────────────
 //  Calculadora — Aleix Jiménez Real Estate Operator
-//  Tarragona · 2024/25
+//  Tarragona · 2025/26  (parámetros actualizados estudio 2026)
 // ─────────────────────────────────────────────────────────
 
+// Legacy standalone calculator (DOM IDs: calc-m2, calc-zone, etc.)
+// The main quiz engine is in quiz.js — this file is kept for any
+// standalone embed that still references the old calc-* IDs.
+
 const ZONES = {
-  eixample:  { base: 2050, min: 1850, max: 2300 },
-  centre:    { base: 1750, min: 1550, max: 2000 },
-  jaume:     { base: 1900, min: 1700, max: 2100 },
-  llevant:   { base: 1420, min: 1200, max: 1650 },
-  port:      { base: 1600, min: 1400, max: 1850 },
-  bonavista: { base: 1050, min: 850,  max: 1280 },
+  eixample:  { base: 2125, min: 1850, max: 2450 },
+  centre:    { base: 1950, min: 1650, max: 2250 },
+  jaume:     { base: 2000, min: 1720, max: 2300 },
+  llevant:   { base: 2000, min: 1720, max: 2300 },
+  port:      { base: 1900, min: 1600, max: 2200 },
+  bonavista: { base: 1480, min: 1250, max: 1750 },
 };
 
-const STATE_MULT  = { reformado: 1.15, bueno: 1.00, reformar: 0.80 };
-const FLOOR_MULT  = { bajo: 0.90, medio: 1.00, alto: 1.05, atico: 1.13 };
+const STATE_MULT  = { nueva: 1.22, reformado: 1.15, bueno: 1.00, reformar: 0.82, deteriorado: 0.68 };
+const FLOOR_MULT  = { pb_interior: 0.85, pb_jardin: 0.98, entreplanta: 0.90, '1a3': 1.00, alta: 1.04, atico: 1.12, bajo: 0.88, '4a6': 1.04, '7mas': 1.07 };
 const BATHS_BONUS = { '1': 0, '2': 0.03, '3': 0.05 };
 
 const RECOMMENDATIONS = {
@@ -68,35 +72,29 @@ function calculatePrice() {
 
   const intent = (typeof currentIntent !== 'undefined') ? currentIntent : 'no-se';
 
-  // Validation
   const errEl = document.getElementById('calc-error');
   if (!zone) { return showErr(errEl, 'Selecciona la zona de la propiedad.'); }
   if (!m2 || m2 < 20 || m2 > 600) { return showErr(errEl, 'Introduce una superficie válida (20–600 m²).'); }
   errEl.classList.add('hidden');
 
-  // Base price
   const z      = ZONES[zone];
   const smult  = STATE_MULT[state]  || 1;
   const fmult  = FLOOR_MULT[floor]  || 1;
   const bbonus = BATHS_BONUS[baths] || 0;
 
-  let base = m2 * z.base * smult * fmult * (1 + bbonus);
-  let lo   = m2 * z.min  * smult * fmult;
-  let hi   = m2 * z.max  * smult * fmult * (1 + bbonus);
+  // Percentage-based extras (100%/85%/70% diminishing)
+  const extraPcts = [];
+  if (hasTerrace)  extraPcts.push(0.14);
+  if (hasPool)     extraPcts.push(0.04);
+  if (hasElevator) extraPcts.push(0.03);
+  extraPcts.sort((a, b) => b - a);
+  const extrasMult = 1 + extraPcts.reduce((acc, p, i) => acc + p * (i === 0 ? 1 : i === 1 ? 0.85 : 0.70), 0);
 
-  // Percentage extras
-  let em = 1;
-  if (hasTerrace)  em += 0.05;
-  if (hasPool)     em += 0.03;
-  if (hasElevator) em += 0.03;
-  base *= em; lo *= em; hi *= em;
+  let base = snap(m2 * z.base * smult * fmult * (1 + bbonus) * extrasMult, 500);
+  let lo   = snap(m2 * z.min  * smult * fmult, 500);
+  let hi   = snap(m2 * z.max  * smult * fmult * (1 + bbonus) * extrasMult, 500);
 
-  // Fixed parking
   if (hasParking) { base += 12000; lo += 8000; hi += 16000; }
-
-  base = snap(base, 500);
-  lo   = snap(lo,   500);
-  hi   = snap(hi,   500);
 
   // Rental (5.2% gross yield)
   const rent    = snap((base * 0.052) / 12, 25);
@@ -105,8 +103,8 @@ function calculatePrice() {
   const yieldPc = ((rent * 12) / base * 100).toFixed(1);
 
   const ZONE_LABELS = {
-    eixample: 'Eixample', centre: 'Part Alta/Centre', jaume: 'Jaume I',
-    llevant: 'Llevant', port: 'Port/Salut', bonavista: 'Bonavista',
+    eixample: 'Eixample / Rambla Nova', centre: 'Centre / Part Alta', jaume: 'Sant Pere i Sant Pau',
+    llevant: 'Llevant', port: 'Barris Marítims / Port', bonavista: 'Bonavista',
   };
 
   const recData = {
@@ -140,7 +138,6 @@ function renderResults({ base, lo, hi, rent, rentLo, rentHi, yieldPc, recommenda
   document.getElementById('result-yield').textContent      = yieldPc + '%';
   document.getElementById('result-recommendation').textContent = recommendation;
 
-  // Fade-in animation
   panel.style.opacity = '0';
   panel.style.transform = 'translateY(12px)';
   panel.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
@@ -151,7 +148,6 @@ function renderResults({ base, lo, hi, rent, rentLo, rentHi, yieldPc, recommenda
     });
   });
 
-  // Mobile scroll
   if (window.innerWidth < 1024) {
     setTimeout(() => {
       document.getElementById('calc-results-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });

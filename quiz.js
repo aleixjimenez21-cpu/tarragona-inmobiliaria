@@ -38,6 +38,7 @@ const MUNI = {
   'riudoms':                     { label:'Riudoms',                     comarca:'Baix Camp',       zona:'Interior Bueno',          base:1000, min:700,  max:1350, alqM2:5.8,   alqMin:280,  alqMax:680,  conf:0.81, tourist:false, urban:false, mPiso:0.96, mCasa:0.90, mAtico:1.03, mNueva:1.22, mReformar:0.82 },
   'constanti':                   { label:'Constantí',                   comarca:'Tarragonès',      zona:'Interior Bueno',          base:1120, min:780,  max:1520, alqM2:6.8,   alqMin:355,  alqMax:840,  conf:0.84, tourist:false, urban:false, mPiso:0.96, mCasa:0.88, mAtico:1.04, mNueva:1.22, mReformar:0.82 },
   'el-catllar':                  { label:'El Catllar',                  comarca:'Tarragonès',      zona:'Interior Bueno',          base:1050, min:750,  max:1400, alqM2:6.0,   alqMin:304,  alqMax:680,  conf:0.81, tourist:false, urban:false, mPiso:0.96, mCasa:0.90, mAtico:1.03, mNueva:1.22, mReformar:0.82 },
+  'el-morell':                   { label:'El Morell',                   comarca:'Tarragonès',      zona:'Interior Bueno',          base:1280, min:900,  max:1650, alqM2:7.2,   alqMin:380,  alqMax:950,  conf:0.81, tourist:false, urban:false, mPiso:0.96, mCasa:0.88, mAtico:1.04, mNueva:1.22, mReformar:0.82, nota:'Municipio residencial próximo a Tarragona y Reus. Mercado local tranquilo con buena conectividad por autovía.' },
   'tortosa':                     { label:'Tortosa',                     comarca:'Baix Ebre',       zona:'Terres de l\'Ebre',       base:1150, min:820,  max:1600, alqM2:6.8,   alqMin:360,  alqMax:860,  conf:0.84, tourist:false, urban:false, mPiso:0.97, mCasa:0.90, mAtico:1.04, mNueva:1.22, mReformar:0.82 },
   'amposta':                     { label:'Amposta',                     comarca:'Montsià',         zona:'Terres de l\'Ebre',       base:1060, min:740,  max:1450, alqM2:6.3,   alqMin:315,  alqMax:740,  conf:0.81, tourist:false, urban:false, mPiso:0.96, mCasa:0.89, mAtico:1.03, mNueva:1.22, mReformar:0.82 },
   'sant-carles':                 { label:'Sant Carles de la Ràpita',    comarca:'Montsià',         zona:'Terres de l\'Ebre - Costa',base:1320, min:940, max:1820, alqM2:7.5,   alqMin:400,  alqMax:950,  conf:0.84, tourist:true,  urban:false, mPiso:0.97, mCasa:0.91, mAtico:1.05, mNueva:1.22, mReformar:0.82 },
@@ -303,6 +304,7 @@ const REFORMA = {
   'reus':                    { ppm2R:1550, reval80:10692, roi:6.9,   roiCocina:-16.3, roiBano:-30.3, roiHS:109.1, absorbe:'Parcial', notas:'Mercado amplio. Reforma básica sí. Integral solo en Eixample.' },
   'constanti':               { ppm2R:1250, reval80:8228,  roi:-17.7, roiCocina:-32.0, roiBano:-43.3, roiHS:70.1,  absorbe:'Parcial', notas:'Zona tensionada. Precio de venta bajo. Reforma básica con cautela.' },
   'el-catllar':              { ppm2R:1230, reval80:7920,  roi:-20.8, roiCocina:-32.8, roiBano:-44.0, roiHS:68.0,  absorbe:'No',      notas:'Precio demasiado bajo. Reforma integral no recuperable.' },
+  'el-morell':               { ppm2R:1380, reval80:8000,  roi:-20.0, roiCocina:-31.0, roiBano:-43.0, roiHS:72.0,  absorbe:'Parcial', notas:'Entre Tarragona y Reus. Reforma básica con retorno limitado. Home staging prioritario para reducir tiempo de venta.' },
   'montblanc':               { ppm2R:1540, reval80:10560, roi:5.6,   roiCocina:-16.8, roiBano:-30.7, roiHS:108.0, absorbe:'Parcial', notas:'Muralles zona especial. Reforma premium para casa histórica sí.' },
   'valls':                   { ppm2R:1140, reval80:7744,  roi:-22.6, roiCocina:-38.3, roiBano:-48.6, roiHS:54.2,  absorbe:'Parcial', notas:'Precio bajo. Solo pintura+suelos y home staging justificados.' },
   'alcover':                 { ppm2R:1240, reval80:8360,  roi:-16.4, roiCocina:-32.8, roiBano:-44.0, roiHS:68.0,  absorbe:'Parcial', notas:'Mercado pequeño. Reforma básica con cautela.' },
@@ -457,7 +459,7 @@ const COASTAL_LICENCIA = new Set(['salou','cambrils','torredembarra','altafulla'
 // Interior bajo → mercado local predecible, menor dispersión de precios
 const H_COSTA_PREMIUM  = new Set(['altafulla','salou','cambrils','torredembarra','calafell','vandellos']);
 const H_CAPITAL_MEDIA  = new Set(['tarragona','tarragona-parte-alta','tarragona-eixample','tarragona-bonavista','vila-seca','la-pineda','ametlla-de-mar','ampolla','mont-roig','roda-de-bera','creixell','cunit']);
-const H_INTERIOR_BUENO = new Set(['reus','el-vendrell','montblanc','valls','la-selva','constanti','el-catllar']);
+const H_INTERIOR_BUENO = new Set(['reus','el-vendrell','montblanc','valls','la-selva','constanti','el-catllar','el-morell']);
 
 function getHorquillaMults(municipio) {
   if (H_COSTA_PREMIUM.has(municipio))  return { lo: 0.86, hi: 1.20 };
@@ -704,6 +706,21 @@ function updateConditionalExtras() {
       }
     }
   }
+  // Parcela: solo para Casa y Chalet
+  const parcelaSection = document.getElementById('parcela-section');
+  if (parcelaSection) {
+    const isCasaChalet = (d.tipo === 'casa' || d.tipo === 'chalet');
+    parcelaSection.classList.toggle('hidden', !isCasaChalet);
+    if (!isCasaChalet) {
+      QS.d.jardinM2 = null;
+      document.querySelectorAll('#parcela-pregA .q-tag').forEach(b => b.classList.remove('selected'));
+      const pw = document.getElementById('parcela-metros-wrap');
+      if (pw) pw.classList.add('hidden');
+      const pi = document.getElementById('parcela-m2-input');
+      if (pi) pi.value = '';
+    }
+  }
+
   toggleBtn('btn-licencia_turistica', COASTAL_LICENCIA.has(d.municipio));
   const showReforma = (d.estado === 'bueno' || d.estado === 'bueno_pre80');
   toggleBtn('btn-reforma_reciente', showReforma);
@@ -749,19 +766,27 @@ function setTerrazaM2(val) {
   if (errEl)   errEl.classList.add('hidden');
   if (redirEl) redirEl.classList.add('hidden');
   QS.d.terrazaM2 = null;
-  QS.d.jardinM2  = null;
+  // jardinM2 (parcela) es gestionado por el campo de parcela, no se resetea aquí
 
   if (!m2 || m2 <= 0) return;
 
-  // Cap absoluto: más de 200m² es un error
+  // Piso / ático / dúplex > 80m²: error de terraza
+  if ((tipo === 'piso' || tipo === 'atico' || tipo === 'duplex') && m2 > 80) {
+    if (errEl) errEl.classList.remove('hidden');
+    return;
+  }
+
+  // Cap absoluto > 200m²: error genérico
   if (m2 > 200) {
     if (errEl) errEl.classList.remove('hidden');
     return;
   }
 
-  // Casa / chalet con exterior > 80m²: redirigir a jardín
-  if ((tipo === 'casa' || tipo === 'chalet') && m2 > 80) {
+  // Casa / chalet > 100m²: redirigir a parcela + mostrar campo parcela
+  if ((tipo === 'casa' || tipo === 'chalet') && m2 > 100) {
     if (redirEl) redirEl.classList.remove('hidden');
+    const parcelaSection = document.getElementById('parcela-section');
+    if (parcelaSection) parcelaSection.classList.remove('hidden');
     return;
   }
 
@@ -776,6 +801,24 @@ function setTerrazaM2(val) {
 }
 
 function setJardinM2(val) {
+  QS.d.jardinM2 = parseFloat(val) || null;
+}
+
+function selectParcelaA(btn, choice) {
+  document.querySelectorAll('#parcela-pregA .q-tag').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const metrosWrap = document.getElementById('parcela-metros-wrap');
+  if (choice === 'si') {
+    metrosWrap.classList.remove('hidden');
+  } else {
+    metrosWrap.classList.add('hidden');
+    const inputEl = document.getElementById('parcela-m2-input');
+    if (inputEl) inputEl.value = '';
+    QS.d.jardinM2 = null;
+  }
+}
+
+function setParcelaM2(val) {
   QS.d.jardinM2 = parseFloat(val) || null;
 }
 
@@ -825,6 +868,11 @@ function runCalculation() {
   const ppm2     = Math.round(baseM2 * typeMult * stateMult * floorMult * ascMult * yearMult);
   const valorBase = m2 * ppm2;
 
+  // Detección inmueble de lujo
+  const isLuxury = (d.tipo === 'casa' || d.tipo === 'chalet') &&
+                   m2 > 300 &&
+                   (H_COSTA_PREMIUM.has(d.municipio) || baseM2 > 2000);
+
   // Extras: positivos con cascade escalonado, penalizaciones a 100% sin cascade
   const extras = (d.extras || []).filter(e => e !== 'ninguno');
   const positiveExtras = extras.filter(e => e === 'terraza_exacta' || (EXTRAS_PCT[e] || 0) >= 0);
@@ -870,15 +918,35 @@ function runCalculation() {
     totalExtras += valor;
   });
 
-  // Jardín exacto (casas/chalets con espacio exterior > 80m²)
+  // Parcela / jardín (casas/chalets)
   if (d.jardinM2 && d.jardinM2 > 0) {
-    const jardinVal = snap(Math.min(d.jardinM2 * baseM2 * 0.20, 50000), 100);
-    extrasItems.push({ extra: 'jardin_exacto', exacta: true, m2: d.jardinM2, baseM2, coef: 0.20, valor: jardinVal });
-    totalExtras += jardinVal;
+    const parcelaCap = m.tourist ? 80000 : m.urban ? 55000 : 40000;
+    const parcelaVal = snap(Math.min(d.jardinM2 * baseM2 * 0.15, parcelaCap), 100);
+    extrasItems.push({ extra: 'jardin_exacto', exacta: true, m2: d.jardinM2, baseM2, coef: 0.15, valor: parcelaVal });
+    totalExtras += parcelaVal;
+  }
+
+  // Cap total de extras positivos según superficie
+  const extrasCapPct    = m2 <= 100 ? 0.35 : m2 <= 200 ? 0.28 : m2 <= 400 ? 0.22 : 0.18;
+  const maxExtrasPositive = valorBase * extrasCapPct;
+  const totalPositive   = extrasItems.filter(it => !it.penalty).reduce((s, it) => s + it.valor, 0);
+  let extrasCapped = false;
+  if (totalPositive > maxExtrasPositive && totalPositive > 0) {
+    extrasCapped = true;
+    const ratio = maxExtrasPositive / totalPositive;
+    totalExtras = 0;
+    extrasItems.forEach(it => {
+      if (!it.penalty) it.valor = snap(it.valor * ratio, 100);
+      totalExtras += it.valor;
+    });
   }
 
   let base = snap(valorBase + totalExtras, 500);
-  const hm = getHorquillaMults(d.municipio);
+
+  // Prima de mercado lujo
+  if (isLuxury) base = snap(base * 1.35, 500);
+
+  const hm = isLuxury ? { lo: 0.82, hi: 1.28 } : getHorquillaMults(d.municipio);
   let lo   = snap(base * hm.lo, 500);
   let hi   = snap(base * hm.hi, 500);
 
@@ -914,6 +982,9 @@ function runCalculation() {
     valorBase: snap(valorBase, 500),
     extrasItems,
     totalExtras: snap(totalExtras, 500),
+    extrasCapped,
+    extrasCapPct,
+    extrasCapMax: snap(maxExtrasPositive, 500),
   };
 
   QS.result = {
@@ -924,6 +995,7 @@ function runCalculation() {
     reforma, precioSalida, desglose,
     muniLabel: m.label,
     muni: m,
+    isLuxury,
   };
 }
 
@@ -1023,7 +1095,9 @@ function generateDiagnosis(d, m, base, desired, reforma) {
   // Build diagnosis paragraphs
   const paragraphs = [];
 
-  if (tourist) {
+  if (m.nota) {
+    paragraphs.push(m.nota);
+  } else if (tourist) {
     paragraphs.push(`${m.label} es una zona con demanda turística activa. El mercado combina compradores nacionales con perfiles internacionales (mercados nórdico, inglés y alemán) y cuenta con demanda inversora orientada al alquiler vacacional. Esto aporta liquidez elevada y precio por metro cuadrado superior a la media provincial.`);
   } else if (urban) {
     paragraphs.push(`${m.label} mantiene demanda residencial constante impulsada principalmente por compradores locales, reubicaciones profesionales y pequeños inversores patrimonialistas. El mercado tiene buena absorción y tiempos de venta competitivos cuando el precio de salida es correcto.`);
@@ -1459,7 +1533,7 @@ function renderResults() {
           let mainLine;
           if (e.exacta) {
             mainLine = e.extra === 'jardin_exacto'
-              ? `+ Jardín ${e.m2}m² (${e.m2} × ${e.baseM2}€ × 0.20): +${eur(e.valor)}`
+              ? `+ Parcela ${e.m2}m² (${e.m2} × ${e.baseM2}€ × ${e.coef}): +${eur(e.valor)}`
               : `+ Terraza ${e.m2}m² (${e.m2} × ${e.baseM2}€ × 0.25): +${eur(e.valor)}`;
           } else {
             const label = (EXTRA_LABELS[e.extra] || e.extra).padEnd(22);
@@ -1573,6 +1647,16 @@ function renderResults() {
     rfBlock.classList.remove('hidden');
   }
 
+  // Luxury notice
+  const luxuryEl = document.getElementById('r-luxury');
+  if (luxuryEl) {
+    if (r.isLuxury) {
+      luxuryEl.classList.remove('hidden');
+    } else {
+      luxuryEl.classList.add('hidden');
+    }
+  }
+
   // Overprice warning
   const warnEl = document.getElementById('r-overprice');
   if (warnEl) {
@@ -1661,7 +1745,11 @@ function setBarColor(id, level) {
 // ─── 15. RESET ─────────────────────────────────────────────
 function resetQuiz() {
   QS.step = 1; QS.result = null;
-  QS.d = { municipio:'', zona:'', calle:'', numero:'', piso:'', codigoPostal:'', tipo:'', m2:'', habitaciones:3, banos:1, anio:'', planta:'1a3', ascensor:'', estado:'', extras:[], intencion:'', plazo:'', motivo:'', precioDeseado:'', hipoteca:'', inmobiliaria:'', nombre:'', email:'', telefono:'', preferenciaContacto:'', relacion:'', comentarios:'' };
+  QS.d = { municipio:'', zona:'', calle:'', numero:'', piso:'', codigoPostal:'', tipo:'', m2:'', habitaciones:3, banos:1, anio:'', planta:'1a3', ascensor:'', estado:'', extras:[], terrazaM2:null, jardinM2:null, intencion:'', plazo:'', motivo:'', precioDeseado:'', hipoteca:'', inmobiliaria:'', nombre:'', email:'', telefono:'', preferenciaContacto:'', relacion:'', comentarios:'' };
+  const parcelaSection = document.getElementById('parcela-section');
+  if (parcelaSection) parcelaSection.classList.add('hidden');
+  const parcelaWrap = document.getElementById('parcela-metros-wrap');
+  if (parcelaWrap) parcelaWrap.classList.add('hidden');
   const barrioSel = document.getElementById('barrio-select');
   if (barrioSel) { barrioSel.innerHTML = '<option value="">— Selecciona primero el municipio —</option>'; barrioSel.disabled = true; }
   document.querySelectorAll('.q-card, .q-tag').forEach(el => el.classList.remove('selected'));

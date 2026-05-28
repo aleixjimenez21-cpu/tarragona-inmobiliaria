@@ -1224,6 +1224,7 @@
             <optgroup label="Tarragonès — Interior">
               <option value="constanti">Constantí</option>
               <option value="el-catllar">El Catllar</option>
+              <option value="el-morell">El Morell</option>
             </optgroup>
             <optgroup label="Baix Camp — Costa">
               <option value="cambrils">Cambrils</option>
@@ -1495,11 +1496,22 @@
               <p id="terraza-m2-error" class="hidden text-xs text-red-400 mt-1.5">
                 Revisa los metros — parece un valor muy elevado para una terraza.
               </p>
-              <div id="terraza-jardin-redirect" class="hidden mt-3 p-3 rounded-lg border border-[var(--border)] bg-[var(--surface-2)]">
-                <p class="text-sm text-[var(--text-2)] mb-2">En casas y chalets el espacio exterior grande se valora como jardín. ¿Cuántos m² de jardín tiene la propiedad?</p>
-                <input type="number" class="c-input" id="jardin-m2-input" placeholder="m² de jardín" min="1" max="5000"
-                       oninput="setJardinM2(this.value)" style="max-width:160px;">
+              <div id="terraza-jardin-redirect" class="hidden mt-3 p-3 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5">
+                <p class="text-sm text-[var(--text-2)]">¿Son metros de parcela o jardín? Usa el campo de parcela para mayor precisión.</p>
               </div>
+            </div>
+          </div>
+
+          <!-- Parcela / Jardín (solo Casa y Chalet) -->
+          <div id="parcela-section" class="hidden mb-3 pt-2 border-t border-[var(--border)]">
+            <p class="text-sm font-medium text-[var(--text-2)] mb-2 mt-1">¿Tiene parcela o jardín?</p>
+            <div class="flex flex-wrap gap-2" id="parcela-pregA">
+              <button type="button" class="q-tag" id="parcela-no-btn" onclick="selectParcelaA(this,'no')">No</button>
+              <button type="button" class="q-tag" id="parcela-si-btn" onclick="selectParcelaA(this,'si')">Sí</button>
+            </div>
+            <div id="parcela-metros-wrap" class="hidden mt-2">
+              <input type="number" class="c-input" id="parcela-m2-input" placeholder="m² de parcela / jardín" min="1" max="10000"
+                     oninput="setParcelaM2(this.value)" style="max-width:200px;">
             </div>
           </div>
 
@@ -1828,6 +1840,17 @@
             </div>
             <!-- Dynamic text -->
             <div id="r-diag-text"></div>
+          </div>
+        </div>
+
+        <!-- Luxury notice -->
+        <div id="r-luxury" class="hidden mb-4 rounded-xl border border-[#c9a84c]/40 bg-[#c9a84c]/8 px-5 py-4">
+          <div class="flex items-start gap-3">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 mt-0.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <div>
+              <p class="text-[var(--gold)] font-semibold text-sm mb-1">Inmueble de características premium detectado.</p>
+              <p class="text-[var(--text-2)] text-sm leading-relaxed">La estimación incluye prima de mercado lujo. Recomendamos análisis personalizado para propiedades de este perfil.</p>
+            </div>
           </div>
         </div>
 
