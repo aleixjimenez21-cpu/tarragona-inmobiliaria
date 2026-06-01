@@ -1810,6 +1810,13 @@ const SUPABASE_EDGE_URL = 'https://cwmkgijdhwmxbvcgqqgc.supabase.co/functions/v1
 function buildLeadPayload() {
   const d = QS.d;
   const r = QS.result;
+  const PLAZO_MAP = {
+    'inmediato': 'inmediato',
+    '1a3':       '1-3 meses',
+    '3a6':       '3-6 meses',
+    '6a12':      '6-12 meses',
+    'sinprisa':  'sin prisa',
+  };
   return {
     nombre:               d.nombre               || null,
     email:                d.email                || null,
@@ -1828,7 +1835,7 @@ function buildLeadPayload() {
     planta:               d.planta               || null,
     ascensor:             d.ascensor             || null,
     objetivo:             d.intencion            || null,
-    plazo:                d.plazo                || null,
+    plazo:                PLAZO_MAP[d.plazo]     || d.plazo || null,
     motivo:               d.motivo               || null,
     precio_deseado:       parseFloat(d.precioDeseado) || null,
     hipoteca_pendiente:   d.hipoteca             || null,
