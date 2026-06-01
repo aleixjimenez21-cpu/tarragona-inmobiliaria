@@ -1861,8 +1861,8 @@ async function buildLeadPayload() {
 }
 
 // ── Plantilla PDF con estilos 100% inline ────────────────────
-// html2canvas no puede resolver clases Tailwind ni variables CSS,
-// así que generamos un elemento independiente con todo inline.
+// Devuelve una cadena HTML — se pasa directamente a html2pdf().from(string)
+// sin necesidad de tocar el DOM.
 function crearTemplatePDF() {
   const r = QS.result;
   const d = QS.d;
@@ -1957,10 +1957,8 @@ function crearTemplatePDF() {
   </div>`;
 
   const wrapper = document.createElement('div');
-  wrapper.style.cssText = 'position:fixed;left:-9999px;top:0;z-index:-1;';
-  wrapper.innerHTML = html;
-  document.body.appendChild(wrapper);
-  return wrapper;
+  // Devolver solo el string HTML (sin crear ningún elemento DOM)
+  return html;
 }
 
 async function generarPDFBase64() {
@@ -1969,18 +1967,16 @@ async function generarPDFBase64() {
     return null;
   }
 
-  let wrapper = null;
   try {
-    // Crear template con estilos inline (no depende de Tailwind ni CSS vars)
-    wrapper = crearTemplatePDF();
-    if (!wrapper) { console.error('[PDF] No hay resultado para generar PDF'); return null; }
+    // Obtener el HTML como string — sin tocar el DOM en absoluto
+    const htmlString = crearTemplatePDF();
+    if (!htmlString) {
+      console.error('[PDF] No hay resultado disponible para generar PDF');
+      return null;
+    }
 
-    // Dar tiempo al navegador para pintar el elemento
-    await new Promise(r => setTimeout(r, 300));
-
-    const elemento = wrapper.firstElementChild;
     const opciones = {
-      margin:      0,
+      margin:      [10, 10, 10, 10],
       filename:    'diagnostico-inmobiliario.pdf',
       image:       { type: 'jpeg', quality: 0.95 },
       html2canvas: {
@@ -1989,27 +1985,28 @@ async function generarPDFBase64() {
         allowTaint:      true,
         backgroundColor: '#0C0C0E',
         logging:         false,
-        width:           680,
       },
       jsPDF: {
-        unit:        'px',
-        format:      [680, 960],
+        unit:        'mm',
+        format:      'a4',
         orientation: 'portrait',
-        hotfixes:    ['px_scaling'],
       },
     };
 
-    console.log('[PDF] Generando desde template inline...');
-    const dataUri = await html2pdf().set(opciones).from(elemento).outputPdf('datauristring');
-    const base64  = dataUri.split(',')[1];
-    console.log('[PDF] OK. Tamaño:', base64?.length, 'chars');
+    console.log('[PDF] Generando desde HTML string (sin DOM)...');
+    // .from(string) crea el elemento internamente — no depende de visibilidad en pantalla
+    const dataUri = await html2pdf()
+      .set(opciones)
+      .from(htmlString)
+      .outputPdf('datauristring');
+
+    const base64 = dataUri.split(',')[1];
+    console.log('[PDF] OK. Tamaño base64:', base64?.length, 'chars');
     return base64;
+
   } catch (err) {
     console.error('[PDF] Error:', err.message);
     return null;
-  } finally {
-    // Siempre limpiar el elemento del DOM
-    if (wrapper && wrapper.parentNode) wrapper.parentNode.removeChild(wrapper);
   }
 }
 
