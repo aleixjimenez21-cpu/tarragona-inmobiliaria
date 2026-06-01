@@ -1860,47 +1860,156 @@ async function buildLeadPayload() {
   };
 }
 
+// ── Plantilla PDF con estilos 100% inline ────────────────────
+// html2canvas no puede resolver clases Tailwind ni variables CSS,
+// así que generamos un elemento independiente con todo inline.
+function crearTemplatePDF() {
+  const r = QS.result;
+  const d = QS.d;
+  if (!r) return null;
+
+  const eur = n => n ? Number(n).toLocaleString('es-ES', { style:'currency', currency:'EUR', maximumFractionDigits:0 }) : '—';
+  const lp  = r.leadProfile || {};
+  const tierColor = lp.tier === 'hot' ? '#EF4444' : lp.tier === 'warm' ? '#F59E0B' : '#6B7280';
+  const tierBg    = lp.tier === 'hot' ? 'rgba(239,68,68,0.15)' : lp.tier === 'warm' ? 'rgba(245,158,11,0.15)' : 'rgba(107,114,128,0.15)';
+  const plazoMap  = { inmediato:'Venta urgente (máx. 35 días)', '1a3':'En 1-3 meses', '3a6':'En 3-6 meses', '6a12':'En 6-12 meses', sinprisa:'Sin prisa' };
+  const tipoMap   = { piso:'Piso', casa:'Casa', chalet:'Chalet', adosado:'Adosado', bajo:'Bajo con jardín', atico:'Ático', duplex:'Dúplex', terreno:'Terreno', local:'Local/Comercial', otro:'Otro' };
+  const estadoMap = { excelente:'Excelente', bueno:'Buen estado', normal:'Estado normal', reformar:'A reformar', ruina:'Ruina/Derribo' };
+
+  const fecha = new Date().toLocaleDateString('es-ES', { day:'2-digit', month:'long', year:'numeric' });
+
+  const row = (label, value) => `
+    <tr>
+      <td style="padding:8px 0;border-bottom:1px solid #2a2a2a;font-size:13px;color:#999;width:50%">${label}</td>
+      <td style="padding:8px 0;border-bottom:1px solid #2a2a2a;font-size:13px;color:#eee;font-weight:600;text-align:right">${value}</td>
+    </tr>`;
+
+  const html = `
+  <div style="font-family:'Helvetica Neue',Arial,sans-serif;background:#0C0C0E;color:#EDEDEF;padding:32px;width:680px;box-sizing:border-box">
+
+    <!-- Cabecera -->
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #222">
+      <div>
+        <div style="display:inline-block;background:#C8A84B;border-radius:6px;padding:5px 14px;margin-bottom:10px">
+          <span style="color:#000;font-size:12px;font-weight:700;letter-spacing:0.08em">AJ · REAL ESTATE</span>
+        </div>
+        <h1 style="color:#EDEDEF;font-size:22px;font-weight:700;margin:0 0 4px">Diagnóstico inmobiliario</h1>
+        <p style="color:#888;font-size:12px;margin:0">${r.muniLabel || d.municipio || '—'} · Generado el ${fecha}</p>
+      </div>
+      <div style="background:${tierBg};border:1px solid ${tierColor};border-radius:8px;padding:8px 16px;text-align:center">
+        <div style="color:${tierColor};font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em">${lp.tierLabel || 'Perfil analizado'}</div>
+      </div>
+    </div>
+
+    <!-- Propietario -->
+    <div style="margin-bottom:24px">
+      <p style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:0.07em;margin:0 0 6px">Propietario</p>
+      <p style="color:#EDEDEF;font-size:15px;font-weight:600;margin:0">${d.nombre || '—'}</p>
+      <p style="color:#888;font-size:12px;margin:2px 0 0">${d.email || ''}</p>
+    </div>
+
+    <!-- Valoración principal -->
+    <div style="background:#111114;border:1px solid #222;border-top:3px solid #C8A84B;border-radius:10px;padding:22px;margin-bottom:16px">
+      <p style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:0.07em;margin:0 0 10px">Valoración estimada de mercado</p>
+      <div style="font-size:36px;font-weight:700;color:#C8A84B;margin-bottom:6px">${eur(r.base)}</div>
+      <p style="color:#888;font-size:13px;margin:0 0 14px">Horquilla: ${eur(r.lo)} — ${eur(r.hi)} · ${r.ppm2 ? r.ppm2.toLocaleString('es-ES') + ' €/m²' : ''}</p>
+      <table style="width:100%;border-collapse:collapse">
+        ${row('Precio de salida recomendado', eur(r.precioSalida))}
+        ${row('Plazo previsto', plazoMap[d.plazo] || d.plazo || '—')}
+        ${row('Alquiler mensual estimado', r.rent ? eur(r.rent) + '/mes' : '—')}
+        ${row('Horquilla alquiler', r.rentLo && r.rentHi ? eur(r.rentLo) + ' – ' + eur(r.rentHi) + '/mes' : '—')}
+      </table>
+    </div>
+
+    <!-- Datos del inmueble -->
+    <div style="background:#111114;border:1px solid #222;border-radius:10px;padding:20px;margin-bottom:16px">
+      <p style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:0.07em;margin:0 0 12px">Tu propiedad</p>
+      <table style="width:100%;border-collapse:collapse">
+        ${row('Municipio', d.municipio || '—')}
+        ${row('Tipo', tipoMap[d.tipo] || d.tipo || '—')}
+        ${row('Superficie', d.m2 ? d.m2 + ' m²' : '—')}
+        ${row('Estado', estadoMap[d.estado] || d.estado || '—')}
+        ${row('Objetivo', d.intencion === 'vender' ? 'Vender' : d.intencion === 'alquilar' ? 'Alquilar' : d.intencion || '—')}
+        ${d.precio_deseado ? row('Precio deseado', eur(d.precio_deseado)) : ''}
+      </table>
+    </div>
+
+    <!-- Recomendación -->
+    ${r.recLabel ? `
+    <div style="background:#111114;border:1px solid #222;border-left:3px solid #C8A84B;border-radius:10px;padding:18px;margin-bottom:16px">
+      <p style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:0.07em;margin:0 0 8px">Recomendación estratégica</p>
+      <p style="color:#EDEDEF;font-size:14px;line-height:1.6;margin:0">${r.recLabel}</p>
+    </div>` : ''}
+
+    <!-- Diagnóstico -->
+    ${r.diagnosis && r.diagnosis.main ? `
+    <div style="background:#111114;border:1px solid #222;border-radius:10px;padding:18px;margin-bottom:16px">
+      <p style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:0.07em;margin:0 0 8px">Análisis de situación</p>
+      <p style="color:#ccc;font-size:13px;line-height:1.6;margin:0">${r.diagnosis.main}</p>
+    </div>` : ''}
+
+    <!-- Footer -->
+    <div style="border-top:1px solid #222;padding-top:16px;margin-top:8px;display:flex;justify-content:space-between;align-items:center">
+      <p style="color:#555;font-size:11px;margin:0">AJ Real Estate · Tarragona · aleixjimenez21@gmail.com</p>
+      <p style="color:#555;font-size:10px;margin:0">Informe orientativo · Datos 2026</p>
+    </div>
+
+  </div>`;
+
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'position:fixed;left:-9999px;top:0;z-index:-1;';
+  wrapper.innerHTML = html;
+  document.body.appendChild(wrapper);
+  return wrapper;
+}
+
 async function generarPDFBase64() {
+  if (typeof html2pdf === 'undefined') {
+    console.error('[PDF] html2pdf no está cargado');
+    return null;
+  }
+
+  let wrapper = null;
   try {
-    // Esperar a que el DOM y los estilos estén completamente renderizados
-    await new Promise(r => setTimeout(r, 500));
+    // Crear template con estilos inline (no depende de Tailwind ni CSS vars)
+    wrapper = crearTemplatePDF();
+    if (!wrapper) { console.error('[PDF] No hay resultado para generar PDF'); return null; }
 
-    const elemento = document.getElementById('step-5');
-    if (!elemento) {
-      console.error('[PDF] Elemento step-5 no encontrado');
-      return null;
-    }
-    if (typeof html2pdf === 'undefined') {
-      console.error('[PDF] html2pdf no está cargado');
-      return null;
-    }
+    // Dar tiempo al navegador para pintar el elemento
+    await new Promise(r => setTimeout(r, 300));
 
+    const elemento = wrapper.firstElementChild;
     const opciones = {
-      margin:     [10, 10, 10, 10],
-      filename:   'diagnostico-inmobiliario.pdf',
-      image:      { type: 'jpeg', quality: 0.95 },
+      margin:      0,
+      filename:    'diagnostico-inmobiliario.pdf',
+      image:       { type: 'jpeg', quality: 0.95 },
       html2canvas: {
         scale:           2,
         useCORS:         true,
         allowTaint:      true,
-        backgroundColor: '#080608',
+        backgroundColor: '#0C0C0E',
         logging:         false,
+        width:           680,
       },
       jsPDF: {
-        unit:        'mm',
-        format:      'a4',
+        unit:        'px',
+        format:      [680, 960],
         orientation: 'portrait',
+        hotfixes:    ['px_scaling'],
       },
     };
 
-    console.log('[PDF] Iniciando captura de step-5...');
+    console.log('[PDF] Generando desde template inline...');
     const dataUri = await html2pdf().set(opciones).from(elemento).outputPdf('datauristring');
     const base64  = dataUri.split(',')[1];
-    console.log('[PDF] Generado correctamente. Tamaño base64:', base64?.length, 'chars');
+    console.log('[PDF] OK. Tamaño:', base64?.length, 'chars');
     return base64;
   } catch (err) {
-    console.error('[PDF] Error generando PDF:', err.message);
+    console.error('[PDF] Error:', err.message);
     return null;
+  } finally {
+    // Siempre limpiar el elemento del DOM
+    if (wrapper && wrapper.parentNode) wrapper.parentNode.removeChild(wrapper);
   }
 }
 
