@@ -1862,19 +1862,44 @@ async function buildLeadPayload() {
 
 async function generarPDFBase64() {
   try {
+    // Esperar a que el DOM y los estilos estén completamente renderizados
+    await new Promise(r => setTimeout(r, 500));
+
     const elemento = document.getElementById('step-5');
-    if (!elemento || typeof html2pdf === 'undefined') return null;
+    if (!elemento) {
+      console.error('[PDF] Elemento step-5 no encontrado');
+      return null;
+    }
+    if (typeof html2pdf === 'undefined') {
+      console.error('[PDF] html2pdf no está cargado');
+      return null;
+    }
+
     const opciones = {
-      margin:     10,
+      margin:     [10, 10, 10, 10],
       filename:   'diagnostico-inmobiliario.pdf',
-      image:      { type: 'jpeg', quality: 0.98 },
-      html2canvas:{ scale: 2, useCORS: true, logging: false },
-      jsPDF:      { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      image:      { type: 'jpeg', quality: 0.95 },
+      html2canvas: {
+        scale:           2,
+        useCORS:         true,
+        allowTaint:      true,
+        backgroundColor: '#080608',
+        logging:         false,
+      },
+      jsPDF: {
+        unit:        'mm',
+        format:      'a4',
+        orientation: 'portrait',
+      },
     };
+
+    console.log('[PDF] Iniciando captura de step-5...');
     const dataUri = await html2pdf().set(opciones).from(elemento).outputPdf('datauristring');
-    return dataUri.split(',')[1];
+    const base64  = dataUri.split(',')[1];
+    console.log('[PDF] Generado correctamente. Tamaño base64:', base64?.length, 'chars');
+    return base64;
   } catch (err) {
-    console.warn('[PDF] Error generando PDF:', err.message);
+    console.error('[PDF] Error generando PDF:', err.message);
     return null;
   }
 }
