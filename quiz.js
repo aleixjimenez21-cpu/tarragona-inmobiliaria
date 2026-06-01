@@ -1839,7 +1839,7 @@ function buildLeadPayload() {
     motivo:               d.motivo               || null,
     precio_deseado:       parseFloat(d.precioDeseado) || null,
     hipoteca_pendiente:   d.hipoteca             || null,
-    tiene_inmobiliaria:   d.inmobiliaria         || null,
+    tiene_inmobiliaria:   d.inmobiliaria === 'sinexclusiva' || d.inmobiliaria === 'exclusiva',
     extras:               (d.extras || []).filter(e => e !== 'ninguno'),
     terraza_m2:           d.terrazaM2            || null,
     jardin_m2:            d.jardinM2             || null,
