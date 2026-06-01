@@ -548,7 +548,7 @@ function quizNext() {
     runCalculation();
     renderResults();
     console.log('[LEAD] Iniciando envío...');
-    enviarLeadAlCRM(buildLeadPayload());
+    buildLeadPayload().then(payload => enviarLeadAlCRM(payload));
   }
   moveTo(QS.step + 1);
 }
@@ -1807,7 +1807,7 @@ function resetQuiz() {
 // ─── 16. CRM INTEGRATION ───────────────────────────────────
 const SUPABASE_EDGE_URL = 'https://cwmkgijdhwmxbvcgqqgc.supabase.co/functions/v1/nuevo-lead';
 
-function buildLeadPayload() {
+async function buildLeadPayload() {
   const d = QS.d;
   const r = QS.result;
   const PLAZO_MAP = {
@@ -1817,6 +1817,7 @@ function buildLeadPayload() {
     '6a12':      '6-12 meses',
     'sinprisa':  'sin prisa',
   };
+  const pdfBase64 = await generarPDFBase64();
   return {
     nombre:               d.nombre               || null,
     email:                d.email                || null,
@@ -1855,7 +1856,27 @@ function buildLeadPayload() {
     canal_entrada:        'calculadora',
     url:                  window.location.href,
     timestamp:            new Date().toISOString(),
+    pdf_base64:           pdfBase64 || null,
   };
+}
+
+async function generarPDFBase64() {
+  try {
+    const elemento = document.getElementById('step-5');
+    if (!elemento || typeof html2pdf === 'undefined') return null;
+    const opciones = {
+      margin:     10,
+      filename:   'diagnostico-inmobiliario.pdf',
+      image:      { type: 'jpeg', quality: 0.98 },
+      html2canvas:{ scale: 2, useCORS: true, logging: false },
+      jsPDF:      { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    };
+    const dataUri = await html2pdf().set(opciones).from(elemento).outputPdf('datauristring');
+    return dataUri.split(',')[1];
+  } catch (err) {
+    console.warn('[PDF] Error generando PDF:', err.message);
+    return null;
+  }
 }
 
 async function enviarLeadAlCRM(datos) {
