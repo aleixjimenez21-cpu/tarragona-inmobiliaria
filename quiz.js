@@ -548,7 +548,7 @@ function quizNext() {
     runCalculation();
     renderResults();
     console.log('[LEAD] Iniciando envío...');
-    buildLeadPayload().then(payload => enviarLeadAlCRM(payload));
+    enviarLeadAlCRM(buildLeadPayload());
   }
   moveTo(QS.step + 1);
 }
@@ -1807,7 +1807,7 @@ function resetQuiz() {
 // ─── 16. CRM INTEGRATION ───────────────────────────────────
 const SUPABASE_EDGE_URL = 'https://cwmkgijdhwmxbvcgqqgc.supabase.co/functions/v1/nuevo-lead';
 
-async function buildLeadPayload() {
+function buildLeadPayload() {
   const d = QS.d;
   const r = QS.result;
   const PLAZO_MAP = {
@@ -1817,7 +1817,6 @@ async function buildLeadPayload() {
     '6a12':      '6-12 meses',
     'sinprisa':  'sin prisa',
   };
-  const pdfBase64 = await generarPDFBase64();
   return {
     nombre:               d.nombre               || null,
     email:                d.email                || null,
@@ -1856,172 +1855,9 @@ async function buildLeadPayload() {
     canal_entrada:        'calculadora',
     url:                  window.location.href,
     timestamp:            new Date().toISOString(),
-    pdf_base64:           pdfBase64 || null,
   };
 }
 
-// ── PDF blanco con jsPDF ─────────────────────────────────────
-async function generarPDFBase64() {
-  const r = QS.result;
-  const d = QS.d;
-  if (!r) { console.warn('[PDF] Sin resultado'); return null; }
-  if (!window.jspdf?.jsPDF) { console.warn('[PDF] jsPDF no cargado'); return null; }
-
-  try {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-    const W = 210, mg = 18, cW = W - mg * 2, FOOTER_Y = 273;
-    let Y = 0;
-
-    // ── Paleta ────────────────────────────────────────────────
-    const GOLD  = [200, 168, 75];
-    const GOLDL = [253, 249, 230];
-    const BK    = [20, 20, 20];
-    const DG    = [60, 60, 60];
-    const GR    = [130, 130, 130];
-    const LG    = [246, 246, 246];
-    const BD    = [220, 220, 220];
-    const WH    = [255, 255, 255];
-
-    const fc = (c) => doc.setFillColor(c[0], c[1], c[2]);
-    const tc = (c) => doc.setTextColor(c[0], c[1], c[2]);
-    const dc = (c, w) => { doc.setDrawColor(c[0], c[1], c[2]); if (w !== undefined) doc.setLineWidth(w); };
-
-    // ── HEADER ────────────────────────────────────────────────
-    fc(GOLD); doc.rect(0, 0, W, 40, 'F');
-    tc(WH);
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(7.5);
-    doc.text('AJ · REAL ESTATE OPERATOR · TARRAGONA', mg, 12);
-    doc.setFontSize(19);
-    doc.text('DIAGNÓSTICO INMOBILIARIO', mg, 25);
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
-    const fecha = new Date().toLocaleDateString('es-ES', { day:'2-digit', month:'long', year:'numeric' });
-    doc.text(fecha, mg, 33);
-    if (r.confidence) {
-      doc.setFont('helvetica', 'bold'); doc.setFontSize(8);
-      doc.text(`Confianza: ${r.confidence}%`, W - mg - 28, 25);
-    }
-    Y = 50;
-
-    // ── NOMBRE Y MUNICIPIO ────────────────────────────────────
-    tc(BK); doc.setFont('helvetica', 'bold'); doc.setFontSize(15);
-    doc.text(d.nombre || 'Propietario', mg, Y);
-    tc(GR); doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
-    Y += 6;
-    doc.text((r.muniLabel || d.municipio || '—') + (d.zona ? ' — ' + d.zona : ''), mg, Y);
-    Y += 14;
-
-    // ── CARD VALORACIÓN ───────────────────────────────────────
-    fc(LG); dc(BD, 0.3); doc.roundedRect(mg, Y, cW, 54, 3, 3, 'FD');
-    fc(GOLD); doc.rect(mg, Y, 3, 54, 'F');
-
-    tc(GOLD); doc.setFont('helvetica', 'bold'); doc.setFontSize(7.5);
-    doc.text('VALOR ESTIMADO DE VENTA', mg + 8, Y + 9);
-    tc(BK); doc.setFontSize(25);
-    doc.text(r.base ? eur(r.base) : '—', mg + 8, Y + 23);
-    tc(GR); doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5);
-    doc.text(`Horquilla: ${eur(r.lo)} — ${eur(r.hi)}`, mg + 8, Y + 31);
-    dc(BD, 0.2); doc.line(mg + 8, Y + 36, mg + cW - 4, Y + 36);
-
-    const half = (cW - 12) / 2;
-    tc(GOLD); doc.setFont('helvetica', 'bold'); doc.setFontSize(7.5);
-    doc.text('PRECIO DE SALIDA RECOMENDADO', mg + 8,          Y + 42);
-    doc.text('ALQUILER MENSUAL ESTIMADO',    mg + 8 + half + 4, Y + 42);
-    tc(BK); doc.setFontSize(12);
-    doc.text(r.precioSalida ? eur(r.precioSalida) : '—',       mg + 8,          Y + 50);
-    doc.text(r.rent         ? eur(r.rent) + '/mes' : '—', mg + 8 + half + 4, Y + 50);
-    Y += 62;
-
-    // ── Helper: título de sección ─────────────────────────────
-    const secTit = (txt, lineW) => {
-      tc(GOLD); doc.setFont('helvetica', 'bold'); doc.setFontSize(9.5);
-      doc.text(txt, mg, Y);
-      dc(GOLD, 0.5); doc.line(mg, Y + 2, mg + lineW, Y + 2);
-      Y += 9;
-    };
-
-    // ── Helper: grid de celdas ────────────────────────────────
-    const drawGrid = (rows) => {
-      const cw = cW / 2 - 2, ch = 11.5;
-      let col = 0, ry = Y;
-      rows.forEach(([lbl, val]) => {
-        const x = mg + col * (cw + 4);
-        fc(WH); dc(BD, 0.2); doc.roundedRect(x, ry, cw, ch, 1.5, 1.5, 'FD');
-        tc(GR); doc.setFont('helvetica', 'normal'); doc.setFontSize(7);
-        doc.text(lbl.toUpperCase(), x + 3, ry + 4.5);
-        tc(BK); doc.setFont('helvetica', 'bold'); doc.setFontSize(9);
-        doc.text(String(val).substring(0, 28), x + 3, ry + 9.5);
-        col++; if (col === 2) { col = 0; ry += ch + 2; }
-      });
-      if (col === 1) ry += ch + 2;
-      Y = ry + 5;
-    };
-
-    // ── DATOS DEL INMUEBLE ────────────────────────────────────
-    const TIPO_L  = { piso:'Piso', casa:'Casa', atico:'Ático', duplex:'Dúplex', chalet:'Chalet' };
-    const ESTAT_L = { nueva:'Obra nueva', reformado:'Reformado', bueno:'Buen estado', bueno_pre80:'Buen estado (pre-1980)', reformar:'A reformar', deteriorado:'Muy deteriorado' };
-
-    secTit('DATOS DEL INMUEBLE', 58);
-    drawGrid([
-      ['Tipo',             TIPO_L[d.tipo]   || d.tipo   || '—'],
-      ['Superficie',       d.m2             ? d.m2 + ' m²' : '—'],
-      ['Habitaciones',     String(d.habitaciones || '—')],
-      ['Baños',            String(d.banos   || '—')],
-      ['Estado',           ESTAT_L[d.estado] || d.estado || '—'],
-      ['Año construcción', d.anio           || '—'],
-    ]);
-
-    // ── SITUACIÓN ─────────────────────────────────────────────
-    if (Y < FOOTER_Y - 50) {
-      const INT_L  = { vender:'Vender', alquilar:'Alquilar', reformar:'Reformar', valorar:'Valorar', nose:'Por decidir' };
-      const PLAZ_L = { inmediato:'Inmediato', '1a3':'1–3 meses', '3a6':'3–6 meses', '6a12':'6–12 meses', sinprisa:'Sin prisa' };
-      secTit('SITUACIÓN DEL PROPIETARIO', 76);
-      drawGrid([
-        ['Objetivo',       INT_L[d.intencion] || d.intencion || '—'],
-        ['Plazo',          PLAZ_L[d.plazo]    || d.plazo     || '—'],
-        ['Precio deseado', d.precioDeseado ? eur(parseFloat(d.precioDeseado)) : 'No indicado'],
-        ['Hipoteca',       d.hipoteca         || '—'],
-      ]);
-    }
-
-    // ── RECOMENDACIÓN ─────────────────────────────────────────
-    if (Y < FOOTER_Y - 38) {
-      secTit('RECOMENDACIÓN ESTRATÉGICA', 82);
-      fc(GOLDL); dc(GOLD, 0.4); doc.roundedRect(mg, Y, cW, 13, 2, 2, 'FD');
-      tc(BK); doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
-      doc.text(r.recLabel || '—', mg + 5, Y + 9);
-      Y += 18;
-
-      if (r.diagnosis?.paragraphs?.length && Y < FOOTER_Y - 22) {
-        tc(DG); doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5);
-        const lines = doc.splitTextToSize(r.diagnosis.paragraphs[0], cW);
-        const n = Math.min(lines.length, 4);
-        doc.text(lines.slice(0, n), mg, Y);
-        Y += n * 5 + 4;
-      }
-      if (r.strategy?.nextStep && Y < FOOTER_Y - 14) {
-        tc(GR); doc.setFont('helvetica', 'italic'); doc.setFontSize(8);
-        const sl = doc.splitTextToSize('→ ' + r.strategy.nextStep, cW);
-        doc.text(sl.slice(0, 2), mg, Y);
-      }
-    }
-
-    // ── FOOTER ────────────────────────────────────────────────
-    fc(GOLD); doc.rect(0, FOOTER_Y, W, 24, 'F');
-    tc(WH); doc.setFont('helvetica', 'bold'); doc.setFontSize(9);
-    doc.text('AJ Real Estate · Tarragona', mg, FOOTER_Y + 9);
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5);
-    doc.text('WhatsApp: +34 633 716 169  ·  aleixrealestate.com  ·  Diagnóstico gratuito, sin compromiso', mg, FOOTER_Y + 16);
-
-    const base64 = doc.output('datauristring').split(',')[1];
-    console.log('[PDF] Generado OK. Tamaño:', base64?.length, 'chars');
-    return base64;
-
-  } catch (err) {
-    console.warn('[PDF] Error:', err.message);
-    return null;
-  }
-}
 
 async function enviarLeadAlCRM(datos) {
   try {
