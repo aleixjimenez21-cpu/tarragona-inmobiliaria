@@ -1860,9 +1860,209 @@ async function buildLeadPayload() {
   };
 }
 
-// ── Plantilla PDF con estilos 100% inline ────────────────────
-// Devuelve una cadena HTML — se pasa directamente a html2pdf().from(string)
-// sin necesidad de tocar el DOM.
+// ── PDF con jsPDF puro (sin html2canvas) ─────────────────────
+// Genera el PDF directamente desde datos — 100% fiable, sin capturas DOM.
+async function generarPDFBase64() {
+  const r = QS.result;
+  const d = QS.d;
+  if (!r) { console.error('[PDF] QS.result no disponible'); return null; }
+
+  // Necesitamos window.jspdf (cargado via CDN jspdf.umd.min.js)
+  const jsPDFLib = window.jspdf && window.jspdf.jsPDF;
+  if (!jsPDFLib) { console.error('[PDF] jsPDF no cargado'); return null; }
+
+  try {
+    const doc  = new jsPDFLib({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const W    = 210;  // A4 width mm
+    const PAD  = 18;   // padding lateral
+    const CW   = W - PAD * 2; // content width
+    let   Y    = 20;  // cursor Y
+
+    const eur  = n => n ? Number(n).toLocaleString('es-ES', { style:'currency', currency:'EUR', maximumFractionDigits:0 }) : '—';
+    const lp   = r.leadProfile || {};
+    const fecha = new Date().toLocaleDateString('es-ES', { day:'2-digit', month:'long', year:'numeric' });
+    const plazoMap = { inmediato:'Venta urgente (máx. 35 días)', '1a3':'En 1-3 meses', '3a6':'En 3-6 meses', '6a12':'En 6-12 meses', sinprisa:'Sin prisa' };
+    const tipoMap  = { piso:'Piso', casa:'Casa', chalet:'Chalet', adosado:'Adosado', bajo:'Bajo con jardín', atico:'Ático', duplex:'Dúplex', terreno:'Terreno', local:'Local/Comercial', otro:'Otro' };
+    const tierColor = lp.tier === 'hot' ? [239,68,68] : lp.tier === 'warm' ? [245,158,11] : [107,114,128];
+
+    // ── Fondo oscuro ─────────────────────────────────────────
+    doc.setFillColor(12, 12, 14);
+    doc.rect(0, 0, W, 297, 'F');
+
+    // ── Cabecera ─────────────────────────────────────────────
+    // Badge AJ
+    doc.setFillColor(200, 168, 75);
+    doc.roundedRect(PAD, Y, 44, 8, 2, 2, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7.5);
+    doc.setTextColor(0, 0, 0);
+    doc.text('AJ · REAL ESTATE', PAD + 22, Y + 5.2, { align: 'center' });
+    Y += 14;
+
+    // Título
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(20);
+    doc.setTextColor(237, 237, 239);
+    doc.text('Diagnóstico inmobiliario', PAD, Y);
+    Y += 7;
+
+    // Subtítulo
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(136, 136, 146);
+    doc.text(`${r.muniLabel || d.municipio || '—'} · Generado el ${fecha}`, PAD, Y);
+    Y += 4;
+
+    // Línea separadora
+    doc.setDrawColor(40, 40, 45);
+    doc.setLineWidth(0.4);
+    doc.line(PAD, Y, W - PAD, Y);
+    Y += 8;
+
+    // Propietario
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(237, 237, 239);
+    doc.text(d.nombre || '—', PAD, Y);
+    Y += 5;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(136, 136, 146);
+    doc.text(d.email || '', PAD, Y);
+    Y += 10;
+
+    // ── Card valoración ───────────────────────────────────────
+    doc.setFillColor(17, 17, 20);
+    doc.setDrawColor(200, 168, 75);
+    doc.setLineWidth(0.5);
+    const cardH1 = 52;
+    doc.roundedRect(PAD, Y, CW, cardH1, 3, 3, 'FD');
+    // Franja dorada superior
+    doc.setFillColor(200, 168, 75);
+    doc.roundedRect(PAD, Y, CW, 1.2, 0, 0, 'F');
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(136, 136, 146);
+    doc.text('VALORACIÓN ESTIMADA DE MERCADO', PAD + 8, Y + 9);
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(26);
+    doc.setTextColor(200, 168, 75);
+    doc.text(eur(r.base), PAD + 8, Y + 22);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(136, 136, 146);
+    doc.text(`Horquilla: ${eur(r.lo)} — ${eur(r.hi)}`, PAD + 8, Y + 30);
+    doc.text(`Precio por m²: ${r.ppm2 ? r.ppm2.toLocaleString('es-ES') + ' €/m²' : '—'}`, PAD + 8, Y + 37);
+
+    // Columna derecha dentro del card
+    const midX = PAD + CW / 2 + 4;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(136, 136, 146);
+    doc.text('Precio de salida recomendado', midX, Y + 15);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.setTextColor(237, 237, 239);
+    doc.text(eur(r.precioSalida), midX, Y + 23);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(136, 136, 146);
+    doc.text(plazoMap[d.plazo] || d.plazo || '—', midX, Y + 30);
+
+    doc.setFontSize(8);
+    doc.text('Alquiler estimado', midX, Y + 39);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.setTextColor(34, 197, 94);
+    doc.text(r.rent ? eur(r.rent) + '/mes' : '—', midX, Y + 47);
+
+    Y += cardH1 + 8;
+
+    // ── Tabla datos inmueble + perfil ─────────────────────────
+    const col2 = [
+      ['Municipio',      d.municipio || '—'],
+      ['Tipo de inmueble', tipoMap[d.tipo] || d.tipo || '—'],
+      ['Superficie',     d.m2 ? d.m2 + ' m²' : '—'],
+      ['Estado',         d.estado || '—'],
+      ['Objetivo',       d.intencion === 'vender' ? 'Vender' : d.intencion === 'alquilar' ? 'Alquilar' : d.intencion || '—'],
+      ['Perfil',         lp.tierLabel || '—'],
+    ];
+
+    doc.setFillColor(17, 17, 20);
+    doc.setDrawColor(40, 40, 45);
+    doc.setLineWidth(0.3);
+    const cardH2 = col2.length * 9 + 14;
+    doc.roundedRect(PAD, Y, CW, cardH2, 3, 3, 'FD');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(136, 136, 146);
+    doc.text('TU PROPIEDAD', PAD + 8, Y + 9);
+    let rowY = Y + 17;
+    col2.forEach(([k, v], i) => {
+      if (i > 0) {
+        doc.setDrawColor(40, 40, 45);
+        doc.setLineWidth(0.2);
+        doc.line(PAD + 8, rowY - 3, W - PAD - 8, rowY - 3);
+      }
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.setTextColor(136, 136, 146);
+      doc.text(k, PAD + 8, rowY);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(237, 237, 239);
+      doc.text(String(v), W - PAD - 8, rowY, { align: 'right' });
+      rowY += 9;
+    });
+    Y += cardH2 + 8;
+
+    // ── Recomendación ─────────────────────────────────────────
+    if (r.recLabel) {
+      doc.setFillColor(17, 17, 20);
+      doc.setDrawColor(200, 168, 75);
+      doc.setLineWidth(0.8);
+      const recLines = doc.splitTextToSize(r.recLabel, CW - 24);
+      const cardH3   = recLines.length * 5.5 + 18;
+      doc.roundedRect(PAD, Y, CW, cardH3, 3, 3, 'FD');
+      // Borde izquierdo dorado grueso
+      doc.setFillColor(200, 168, 75);
+      doc.rect(PAD, Y, 2.5, cardH3, 'F');
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(136, 136, 146);
+      doc.text('RECOMENDACIÓN', PAD + 10, Y + 9);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(237, 237, 239);
+      doc.text(recLines, PAD + 10, Y + 16);
+      Y += cardH3 + 8;
+    }
+
+    // ── Footer ────────────────────────────────────────────────
+    Y = Math.max(Y, 272);
+    doc.setDrawColor(40, 40, 45);
+    doc.setLineWidth(0.3);
+    doc.line(PAD, Y, W - PAD, Y);
+    Y += 5;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(85, 85, 95);
+    doc.text('AJ Real Estate · Tarragona · aleixjimenez21@gmail.com', PAD, Y);
+    doc.text('Informe orientativo · Datos 2026', W - PAD, Y, { align: 'right' });
+
+    const base64 = doc.output('datauristring').split(',')[1];
+    console.log('[PDF] jsPDF OK. Tamaño:', base64?.length, 'chars');
+    return base64;
+
+  } catch (err) {
+    console.error('[PDF] Error jsPDF:', err.message);
+    return null;
+  }
+}
+
+// ── Legacy: plantilla HTML (ya no se usa) ─────────────────────
 function crearTemplatePDF() {
   const r = QS.result;
   const d = QS.d;
