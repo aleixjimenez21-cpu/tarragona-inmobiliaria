@@ -539,8 +539,17 @@ function updateBarrioSelect(muni) {
 
 // ─── 5. NAVIGATION ─────────────────────────────────────────
 function quizNext() {
-  if (!validateStep(QS.step)) return;
-  if (QS.step === 4) { runCalculation(); renderResults(); }
+  console.log('[LEAD] quizNext llamado, paso actual:', QS.step);
+  if (!validateStep(QS.step)) {
+    console.log('[LEAD] Validación fallida en paso:', QS.step);
+    return;
+  }
+  if (QS.step === 4) {
+    runCalculation();
+    renderResults();
+    console.log('[LEAD] Iniciando envío...');
+    enviarLeadAlCRM(buildLeadPayload());
+  }
   moveTo(QS.step + 1);
 }
 
@@ -1795,7 +1804,90 @@ function resetQuiz() {
   document.getElementById('quiz-wrap').scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
-// ─── 16. INIT ──────────────────────────────────────────────
+// ─── 16. CRM INTEGRATION ───────────────────────────────────
+const SUPABASE_EDGE_URL = 'https://cwmkgijdhwmxbvcgqqgc.supabase.co/functions/v1/nuevo-lead';
+
+function buildLeadPayload() {
+  const d = QS.d;
+  const r = QS.result;
+  return {
+    nombre:               d.nombre               || null,
+    email:                d.email                || null,
+    telefono:             d.telefono             || null,
+    preferencia_contacto: d.preferenciaContacto  || null,
+    relacion:             d.relacion             || null,
+    comentarios:          d.comentarios          || null,
+    municipio:            d.municipio            || null,
+    zona_barrio:          d.zona                 || null,
+    tipo_inmueble:        d.tipo                 || null,
+    metros:               parseFloat(d.m2)       || null,
+    habitaciones:         d.habitaciones         || null,
+    banos:                d.banos                || null,
+    estado_inmueble:      d.estado               || null,
+    anio_construccion:    d.anio                 || null,
+    planta:               d.planta               || null,
+    ascensor:             d.ascensor             || null,
+    objetivo:             d.intencion            || null,
+    plazo:                d.plazo                || null,
+    motivo:               d.motivo               || null,
+    precio_deseado:       parseFloat(d.precioDeseado) || null,
+    hipoteca_pendiente:   d.hipoteca             || null,
+    tiene_inmobiliaria:   d.inmobiliaria         || null,
+    extras:               (d.extras || []).filter(e => e !== 'ninguno'),
+    terraza_m2:           d.terrazaM2            || null,
+    jardin_m2:            d.jardinM2             || null,
+    valor_estimado:       r ? r.base             : null,
+    rango_min:            r ? r.lo               : null,
+    rango_max:            r ? r.hi               : null,
+    precio_salida:        r ? r.precioSalida      : null,
+    alquiler_estimado:    r ? r.rent             : null,
+    confianza:            r ? r.confidence       : null,
+    recomendacion:        r ? r.recLabel         : null,
+    lead_score:           r ? r.leadProfile.score : null,
+    lead_tier:            r ? r.leadProfile.tier  : null,
+    canal_entrada:        'calculadora',
+    url:                  window.location.href,
+    timestamp:            new Date().toISOString(),
+  };
+}
+
+async function enviarLeadAlCRM(datos) {
+  try {
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3bWtnaWpkaHdteGJ2Y2dxcWdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5NzIzMzksImV4cCI6MjA5NTU0ODMzOX0.2vA28uGtVlAAgjn3ONHKqUhpU8J-x1rqZH9l4ucZcug';
+    console.log('[TEST] Enviando lead a Edge Function...');
+    console.log('[TEST] Datos:', JSON.stringify(datos));
+    const res = await fetch(SUPABASE_EDGE_URL, {
+      method:  'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'apikey':        SUPABASE_ANON_KEY,
+      },
+      body: JSON.stringify(datos),
+    });
+    console.log('[TEST] Respuesta:', res.status);
+    const rawText = await res.text();
+    console.log('[TEST] Body respuesta:', rawText);
+    let json = {};
+    try { json = JSON.parse(rawText); } catch (_) {}
+    if (!res.ok) {
+      console.warn('[CRM] Error al enviar lead:', json.error || rawText || res.status);
+      return;
+    }
+    console.log('[CRM] Lead enviado:', json);
+    mostrarNotificacionCRM();
+  } catch (err) {
+    console.warn('[CRM] Fallo de red al enviar lead:', err.message);
+  }
+}
+
+function mostrarNotificacionCRM() {
+  const el = document.getElementById('crm-notification');
+  if (!el) return;
+  el.classList.remove('hidden');
+}
+
+// ─── 17. INIT ──────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('qactive'));
   const s1 = document.getElementById('step-1'); if (s1) s1.classList.add('qactive');
