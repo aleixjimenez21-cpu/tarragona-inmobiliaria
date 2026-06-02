@@ -4,3 +4,5 @@ node_modules/
 preview_*.png
 .wrangler/
 package-lock.json
+node_modules/
+.wrangler/
