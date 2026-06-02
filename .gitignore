@@ -1,13 +1,8 @@
 node_modules/
-.claude/
-*.png
-preview_*.png
-.wrangler/
-package-lock.json
-node_modules/
 .wrangler/
 wrangler.toml
 package.json
 package-lock.json
-node_modules/
-.wrangler/
+.claude/
+*.png
+preview_*.png
