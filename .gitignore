@@ -6,3 +6,8 @@ preview_*.png
 package-lock.json
 node_modules/
 .wrangler/
+wrangler.toml
+package.json
+package-lock.json
+node_modules/
+.wrangler/
