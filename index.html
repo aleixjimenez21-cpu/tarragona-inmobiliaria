@@ -1717,6 +1717,20 @@
           Tus datos son confidenciales. Solo los uso para responderte a ti. Sin llamadas comerciales ni cesión a terceros.
         </div>
 
+        <!-- Checkbox de consentimiento RGPD -->
+        <div class="quiz-section mb-0 mt-4">
+          <label class="flex items-start gap-3 cursor-pointer group">
+            <input type="checkbox" id="consent-check" class="mt-0.5 flex-shrink-0 w-4 h-4 rounded border border-[var(--border)] bg-[var(--bg-1)] accent-[var(--gold)] cursor-pointer" />
+            <span class="text-[var(--text-2)] text-xs leading-relaxed">
+              He leído y acepto la
+              <a href="privacidad.html" target="_blank" rel="noopener" class="text-[var(--gold)] underline underline-offset-2">Política de privacidad</a>
+              y el
+              <a href="aviso-legal.html" target="_blank" rel="noopener" class="text-[var(--gold)] underline underline-offset-2">Aviso legal</a>.
+              <span class="text-red-400/60 ml-0.5">*</span>
+            </span>
+          </label>
+        </div>
+
         <div class="quiz-what-next">
           <div class="qwn-title">Qué ocurre cuando termines</div>
           <div class="qwn-items">
@@ -2880,7 +2894,47 @@ function submitContact(e) {
     setTimeout(() => document.getElementById('form-ok').classList.add('hidden'), 6000);
   }, 1200);
 }
+
+// ── Cookie banner ───────────────────────────────────────
+(function() {
+  if (localStorage.getItem('cookies_accepted')) return;
+  const banner = document.getElementById('cookie-banner');
+  if (banner) banner.style.display = 'flex';
+})();
+function acceptCookies() {
+  localStorage.setItem('cookies_accepted', '1');
+  const banner = document.getElementById('cookie-banner');
+  if (banner) banner.style.display = 'none';
+}
 </script>
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════ -->
+<footer style="padding:24px 20px;text-align:center;border-top:1px solid rgba(255,255,255,0.06);margin-top:0">
+  <p style="color:#44444f;font-size:12px;line-height:1.8">
+    © 2025 Aleix Jiménez · Real Estate Operator
+    &nbsp;·&nbsp;
+    <a href="aviso-legal.html" style="color:#66667a;text-decoration:none" onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='#66667a'">Aviso legal</a>
+    &nbsp;·&nbsp;
+    <a href="privacidad.html" style="color:#66667a;text-decoration:none" onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='#66667a'">Privacidad</a>
+    &nbsp;·&nbsp;
+    <a href="cookies.html" style="color:#66667a;text-decoration:none" onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='#66667a'">Cookies</a>
+  </p>
+</footer>
+
+<!-- ═══════════════════════════════════════════════
+     BANNER DE COOKIES
+═══════════════════════════════════════════════ -->
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#111118;border-top:1px solid rgba(255,255,255,0.1);padding:16px 24px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+  <p style="color:#a8a8b0;font-size:13px;margin:0;flex:1;min-width:200px">
+    Usamos cookies técnicas necesarias para el funcionamiento del diagnóstico. Sin seguimiento ni publicidad.
+  </p>
+  <div style="display:flex;gap:10px;flex-shrink:0;align-items:center">
+    <a href="cookies.html" style="color:#66667a;font-size:13px;text-decoration:none;padding:8px 14px" onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='#66667a'">Más información</a>
+    <button onclick="acceptCookies()" style="background:#c9a84c;color:#000;border:none;border-radius:8px;padding:10px 22px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Aceptar</button>
+  </div>
+</div>
 
 </body>
 </html>

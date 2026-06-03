@@ -644,6 +644,9 @@ function validateStep(step) {
       if (!QS.d.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(QS.d.email)) {
         showQError('Introduce un email válido.'); return false;
       }
+      if (!document.getElementById('consent-check')?.checked) {
+        showQError('Debes aceptar la Política de privacidad y el Aviso legal para continuar.'); return false;
+      }
       return true;
     default: return true;
   }
