@@ -2896,11 +2896,11 @@ function submitContact(e) {
 }
 
 // ── Cookie banner ───────────────────────────────────────
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
   if (localStorage.getItem('cookies_accepted')) return;
   const banner = document.getElementById('cookie-banner');
   if (banner) banner.style.display = 'flex';
-})();
+});
 function acceptCookies() {
   localStorage.setItem('cookies_accepted', '1');
   const banner = document.getElementById('cookie-banner');
