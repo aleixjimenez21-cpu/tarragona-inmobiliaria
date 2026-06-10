@@ -315,6 +315,122 @@ h1,h2,h3,h4{font-family:'Space Grotesk',system-ui,sans-serif;line-height:1.12;le
   -webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 40%,black 0%,transparent 100%);
 }
 
+/* ── HERO — Mediterranean Depth ───────────────────────── */
+@keyframes heroKenBurns{
+  from{transform:scale(1.0) translate(0,0);}
+  to{transform:scale(1.04) translate(-1%,0.5%);}
+}
+@keyframes heroFadeUp{
+  from{opacity:0;transform:translateY(18px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes heroFadeRight{
+  from{opacity:0;transform:translateX(24px);}
+  to{opacity:1;transform:translateX(0);}
+}
+@keyframes heroPulseDot{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.5;transform:scale(0.7);}
+}
+
+.hero-photo-bg{
+  position:absolute;inset:0;
+  background-image:url('./pexels-santiagob-5032324.jpg');
+  background-size:cover;
+  background-position:center 30%;
+  will-change:transform;
+  animation:heroKenBurns 22s ease infinite alternate;
+}
+.hero-photo-overlay{
+  position:absolute;inset:0;
+  pointer-events:none;
+  z-index:1;
+  background:
+    linear-gradient(to right,
+      rgba(6,5,10,0.97) 0%,
+      rgba(6,5,10,0.90) 22%,
+      rgba(6,5,10,0.68) 46%,
+      rgba(6,5,10,0.32) 66%,
+      rgba(6,5,10,0.16) 100%),
+    linear-gradient(to bottom,
+      rgba(6,5,10,0.55) 0%,
+      transparent 18%,
+      transparent 72%,
+      rgba(6,5,10,0.85) 100%),
+    linear-gradient(to bottom,
+      rgba(6,5,10,0.65) 0%,
+      transparent 25%,
+      transparent 80%,
+      rgba(6,5,10,0.80) 100%);
+}
+
+/* Badge */
+.hero-badge-wrap{
+  opacity:0;
+  animation:heroFadeUp 0.6s var(--d,0.1s) both;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid rgba(200,168,75,0.35);
+  border-radius:100px;
+  padding:7px 14px;
+  font-size:10.5px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:#C8A84B;
+  white-space:nowrap;
+}
+.hero-badge-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:#C8A84B;
+  animation:heroPulseDot 2s ease-in-out infinite;
+  flex-shrink:0;
+}
+
+/* Headline lines */
+.hero-line{
+  display:block;
+  opacity:0;
+  animation:heroFadeUp 0.6s var(--d,0.22s) both;
+}
+
+/* Subtitle / CTAs */
+.hero-anim{
+  opacity:0;
+  animation:heroFadeUp 0.6s var(--d,0.58s) both;
+}
+
+/* Stats row */
+.hero-stats{
+  border-top:1px solid rgba(255,255,255,0.07);
+  opacity:0;
+  animation:heroFadeUp 0.6s var(--d,0.9s) both;
+}
+.hero-stat-val{color:#C8A84B;}
+.hero-stat-div{
+  width:1px;align-self:stretch;
+  background:rgba(255,255,255,0.08);
+}
+
+/* Right visual */
+.hero-right{
+  opacity:0;
+  animation:heroFadeRight 0.7s 0.4s both;
+}
+
+@media(max-width:900px){
+  .hero-photo-overlay{
+    background:
+      linear-gradient(to bottom,
+        rgba(6,5,10,0.92) 0%,
+        rgba(6,5,10,0.80) 50%,
+        rgba(6,5,10,0.92) 100%),
+      linear-gradient(to right,
+        rgba(6,5,10,0.60) 0%,
+        transparent 100%);
+  }
+}
+
 /* ── Hero Panel (now hosts hv-scene) ───────────────── */
 #hero-panel{
   will-change:transform;
@@ -2127,11 +2243,12 @@ h1,h2,h3,h4{font-family:'Space Grotesk',system-ui,sans-serif;line-height:1.12;le
 .hv2-scene{
   position:relative;
   width:100%;aspect-ratio:5/4;
-  background:rgba(6,7,12,0.7);
-  border:1px solid rgba(201,168,76,0.18);
-  border-radius:20px;
+  background:rgba(6,5,10,0.72);
+  border:1px solid rgba(200,168,75,0.22);
+  border-radius:16px;
   overflow:hidden;
-  backdrop-filter:blur(12px);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
   box-shadow:0 0 80px rgba(201,168,76,0.06), 0 2px 60px rgba(0,0,0,0.5);
 }
 

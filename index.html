@@ -97,13 +97,8 @@
 ═══════════════════════════════════════════════ -->
 <section id="inicio">
   <!-- Backgrounds -->
-  <div class="hero-grid-bg"></div>
-  <div class="hero-diag-bg"></div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-  <!-- Panel glow spot -->
-  <div class="hero-panel-glow"></div>
+  <div class="hero-photo-bg"></div>
+  <div class="hero-photo-overlay"></div>
 
   <div class="max-w-6xl mx-auto px-5 sm:px-8 w-full py-20 md:py-24 relative z-10">
     <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -111,27 +106,27 @@
       <!-- ── LEFT: Copy ───────────────────────────── -->
       <div>
         <!-- Badge -->
-        <div class="hero-badge-wrap reveal mb-7">
-          <span class="badge">
-            <span class="dot"></span>
+        <div class="hero-badge-wrap mb-7" style="--d:0.1s">
+          <span class="hero-badge">
+            <span class="hero-badge-dot"></span>
             Operador inmobiliario privado · Tarragona
           </span>
         </div>
 
         <!-- Headline -->
-        <h1 class="reveal d1 font-['Space_Grotesk'] text-[2.2rem] sm:text-[2.9rem] lg:text-[3.4rem] font-extrabold leading-[1.08] tracking-tight mb-6">
-          No decidas qué hacer<br/>
-          con tu vivienda sin<br/>
-          <span class="text-gold">leer primero<br class="hidden sm:block"/> la operación.</span>
+        <h1 class="font-['Space_Grotesk'] text-[2.2rem] sm:text-[2.9rem] lg:text-[3.4rem] font-extrabold leading-[1.08] tracking-tight mb-6">
+          <span class="hero-line" style="--d:0.22s">No decidas qué hacer</span>
+          <span class="hero-line" style="--d:0.34s">con tu vivienda sin</span>
+          <span class="hero-line" style="--d:0.46s"><span class="text-gold">leer primero<br class="hidden sm:block"/> la operación.</span></span>
         </h1>
 
         <!-- Subtitle -->
-        <p class="reveal d2 text-[var(--text-2)] text-base sm:text-[1.05rem] leading-relaxed mb-9 max-w-lg">
+        <p class="hero-anim text-[var(--text-2)] text-base sm:text-[1.05rem] leading-relaxed mb-9 max-w-lg" style="--d:0.58s">
           El precio es solo un número. Lo que importa es entender si vender, alquilar, reformar o esperar es la decisión correcta para <span class="text-[var(--text-1)] font-medium">tu inmueble, tu zona y tu momento.</span>
         </p>
 
         <!-- CTAs -->
-        <div class="reveal d3 flex flex-col sm:flex-row gap-3 mb-10">
+        <div class="hero-anim flex flex-col sm:flex-row gap-3 mb-10" style="--d:0.70s">
           <a href="#calculadora" class="btn-gold">
             <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
             Empezar diagnóstico
@@ -143,26 +138,26 @@
         </div>
 
         <!-- Proof strip -->
-        <div class="reveal d4 flex flex-wrap gap-x-6 gap-y-3 pt-7 border-t border-[var(--border)]">
+        <div class="hero-stats flex flex-wrap gap-x-6 gap-y-3 pt-7" style="--d:0.9s">
           <div>
-            <div class="font-['Space_Grotesk'] text-[1.6rem] font-bold text-[var(--text-1)]">37</div>
+            <div class="hero-stat-val font-['Space_Grotesk'] text-[1.6rem] font-bold">37</div>
             <div class="text-[var(--text-3)] text-xs mt-0.5">Municipios con datos reales de mercado 2024–2025</div>
           </div>
-          <div class="w-px bg-[var(--border)]"></div>
+          <div class="hero-stat-div"></div>
           <div>
-            <div class="font-['Space_Grotesk'] text-[1.05rem] font-bold text-[var(--text-1)] leading-tight">Tarragona · Costa Daurada</div>
+            <div class="hero-stat-val font-['Space_Grotesk'] text-[1.05rem] font-bold leading-tight">Tarragona · Costa Daurada</div>
             <div class="text-[var(--text-3)] text-xs mt-0.5">Zona de operación</div>
           </div>
-          <div class="w-px bg-[var(--border)]"></div>
+          <div class="hero-stat-div"></div>
           <div>
-            <div class="font-['Space_Grotesk'] text-[1.05rem] font-bold text-[var(--text-1)] leading-tight">Diagnóstico gratuito</div>
+            <div class="hero-stat-val font-['Space_Grotesk'] text-[1.05rem] font-bold leading-tight">Diagnóstico gratuito</div>
             <div class="text-[var(--text-3)] text-xs mt-0.5">Sin compromiso de venta</div>
           </div>
         </div>
       </div>
 
       <!-- ── RIGHT: Architectural visual ──────────── -->
-      <div class="hidden lg:block">
+      <div class="hero-right hidden lg:block">
         <div class="hv2-scene">
 
           <span class="hv2-corner hv2-tl"></span>
