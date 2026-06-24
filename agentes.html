@@ -182,7 +182,7 @@ section[id]{scroll-margin-top:84px;}
 #hero{
   position:relative;min-height:100vh;
   display:flex;align-items:center;
-  padding:120px 0 60px;
+  padding:110px 0 110px;
   overflow:hidden;
   background:var(--bg-primary);
 }
@@ -223,52 +223,8 @@ section[id]{scroll-margin-top:84px;}
   line-height:1.65;max-width:600px;margin:0 auto 32px;
 }
 .hero-ctas{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:22px;}
-.hero-trust{font-size:0.85rem;color:var(--text-muted);margin-bottom:56px;}
+.hero-trust{font-size:0.85rem;color:var(--text-muted);margin-bottom:0;}
 .hero-trust b{color:var(--blue-bright);font-weight:700;}
-
-.report-mock-wrap{perspective:1200px;max-width:580px;margin:0 auto;}
-.report-mock{
-  background:var(--bg-card);border:1px solid var(--border);border-radius:18px;
-  overflow:hidden;text-align:left;
-  transform:rotateX(4deg);
-  transition:transform .5s var(--ease);
-  box-shadow:0 30px 70px -20px rgba(0,0,0,0.6),0 0 60px var(--blue-glow);
-  position:relative;
-}
-@media (hover:hover) and (pointer:fine){
-  .report-mock-wrap:hover .report-mock{transform:rotateX(0deg);}
-}
-.report-mock-bar{height:3px;background:var(--gradient-blue);}
-.report-mock-head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 20px;border-bottom:1px solid var(--border);
-}
-.report-mock-title{font-size:0.9rem;font-weight:700;}
-.report-mock-badge{
-  display:flex;align-items:center;gap:6px;font-size:0.68rem;font-weight:700;
-  color:var(--green-available);background:rgba(16,185,129,0.1);
-  border:1px solid rgba(16,185,129,0.25);padding:4px 10px;border-radius:100px;
-}
-.report-mock-metrics{display:grid;grid-template-columns:repeat(3,1fr);}
-.rmm-cell{padding:18px 14px;text-align:center;border-right:1px solid var(--border);}
-.rmm-cell:last-child{border-right:none;}
-.rmm-val{font-size:1.25rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:3px;}
-.rmm-lbl{font-size:0.62rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;}
-.report-mock-range{padding:6px 20px 20px;}
-.rmr-track{height:6px;border-radius:4px;background:var(--border);position:relative;overflow:hidden;}
-.rmr-fill{position:absolute;inset:0;width:0%;border-radius:4px;background:var(--gradient-blue);transition:width 1.4s var(--ease);}
-.rmr-dot{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--electric-blue);transform:translate(-50%,-50%);left:0%;transition:left 1.4s var(--ease);box-shadow:0 0 0 4px var(--bg-card);}
-
-.float-badge{
-  position:absolute;display:flex;align-items:center;gap:6px;
-  background:var(--bg-card);border:1px solid var(--border);border-radius:100px;
-  padding:8px 14px;font-size:0.74rem;font-weight:600;
-  box-shadow:0 10px 24px rgba(0,0,0,0.4);
-  animation:floatBadge 4s ease-in-out infinite;
-}
-.float-badge.fb1{top:-18px;right:-10px;animation-delay:.2s;}
-.float-badge.fb2{bottom:30px;left:-26px;animation-delay:1s;}
-@keyframes floatBadge{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
 
 .scroll-indicator{
   position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
@@ -286,9 +242,6 @@ section[id]{scroll-margin-top:84px;}
 @media (max-width:640px){
   .hero-ctas{flex-direction:column;width:100%;}
   .hero-ctas .btn{width:100%;}
-  .float-badge{font-size:0.62rem;padding:6px 10px;}
-  .float-badge.fb1{top:-14px;right:-6px;}
-  .float-badge.fb2{bottom:14px;left:-10px;}
 }
 /* ============ SECCIÓN 2: QUIZ DIAGNÓSTICO ============ */
 #diagnostico{background:var(--bg-secondary);}
@@ -882,29 +835,9 @@ section[id]{scroll-margin-top:84px;}
     <p class="hero-trust reveal" style="transition-delay:.65s">
       Pago único de <b>399 €</b> · Sin permanencia · Configuración incluida
     </p>
-
-    <div class="report-mock-wrap reveal" style="transition-delay:.8s">
-      <div class="report-mock">
-        <div class="report-mock-bar"></div>
-        <div class="report-mock-head">
-          <span class="report-mock-title">Informe de valoración</span>
-          <span class="report-mock-badge">✓ Completado</span>
-        </div>
-        <div class="report-mock-metrics">
-          <div class="rmm-cell"><div class="rmm-val" data-countup="487000" data-prefix="" data-suffix=" €">0 €</div><div class="rmm-lbl">Valoración</div></div>
-          <div class="rmm-cell"><div class="rmm-val" data-countup="1850" data-suffix=" €/mes">0 €/mes</div><div class="rmm-lbl">Alquiler est.</div></div>
-          <div class="rmm-cell"><div class="rmm-val" data-countup="5.8" data-decimals="1" data-decimal-comma="true" data-suffix=" %">0 %</div><div class="rmm-lbl">Rentabilidad</div></div>
-        </div>
-        <div class="report-mock-range">
-          <div class="rmr-track"><div class="rmr-fill" id="rmrFill"></div><div class="rmr-dot" id="rmrDot"></div></div>
-        </div>
-        <div class="float-badge fb1">📊 Informe listo</div>
-        <div class="float-badge fb2">🔔 Lead recibido · hace 2 min</div>
-      </div>
-    </div>
   </div>
 
-  <div class="scroll-indicator reveal" id="scrollIndicator" style="transition-delay:.95s">
+  <div class="scroll-indicator reveal" id="scrollIndicator" style="transition-delay:.8s">
     <span class="scroll-label">Scroll</span>
     <div class="scroll-pill"><div class="scroll-pill-dot"></div></div>
   </div>
@@ -1760,16 +1693,6 @@ var globalObserver = new IntersectionObserver(function(entries){
 }, { threshold: 0.25 });
 
 document.querySelectorAll('.reveal').forEach(function(el){ globalObserver.observe(el); });
-
-/* ============ HERO: barra de rango animada ============ */
-window.addEventListener('load', function(){
-  setTimeout(function(){
-    var fill = document.getElementById('rmrFill');
-    var dot = document.getElementById('rmrDot');
-    if(fill){ fill.style.width = '64%'; }
-    if(dot){ dot.style.left = '64%'; }
-  }, 600);
-});
 
 /* ============ SCROLL INDICATOR FADE ============ */
 var scrollIndicator = document.getElementById('scrollIndicator');
