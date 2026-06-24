@@ -1,0 +1,2429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Acceso fundador para agentes inmobiliarios — Diagnóstico con tu marca</title>
+<meta name="description" content="Capta más propietarios con un diagnóstico inmobiliario automático, con tu marca, que envía cada lead directo a tu panel. Acceso fundador limitado a 3 agentes por provincia." />
+<meta name="robots" content="index, follow" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Acceso fundador para agentes inmobiliarios — Diagnóstico con tu marca" />
+<meta property="og:description" content="Informes de valoración automáticos con tu marca y cada lead directo a tu panel. Pago único de 399 €, sin permanencia." />
+<!-- EDITAR: og:image — añadir URL absoluta a una imagen de 1200x630 -->
+<meta property="og:image" content="https://EDITAR-tu-dominio.com/og-agentes.jpg" />
+<meta property="og:locale" content="es_ES" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<!-- Meta Pixel Code -->
+<script>
+/* EDITAR: ID Pixel — sustituir 0000000000000 por el Pixel ID real */
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '0000000000000');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=0000000000000&ev=PageView&noscript=1" /></noscript>
+<!-- End Meta Pixel Code -->
+
+<style>
+/* ============ ROOT ============ */
+:root{
+  --bg-primary:#06080D;
+  --bg-secondary:#0A0E17;
+  --bg-card:#0D1220;
+  --border:#1A2035;
+  --electric-blue:#2563EB;
+  --blue-bright:#3B82F6;
+  --blue-glow:rgba(37,99,235,0.15);
+  --blue-glow-strong:rgba(37,99,235,0.30);
+  --cyan-accent:#06B6D4;
+  --text-primary:#F8FAFC;
+  --text-secondary:#94A3B8;
+  --text-muted:#64748B;
+  --gradient-blue:linear-gradient(135deg,#2563EB 0%,#06B6D4 100%);
+  --green-available:#10B981;
+  --amber:#F59E0B;
+  --red-alert:#EF4444;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+/* ============ RESET / BASE ============ */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--bg-primary);
+  color:var(--text-primary);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,svg{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+ul{list-style:none;}
+input,select,textarea{font-family:inherit;}
+::selection{background:var(--blue-glow-strong);color:var(--text-primary);}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px;}
+.section-pad{padding:clamp(56px,9vw,108px) 0;}
+section[id]{scroll-margin-top:84px;}
+.h2{
+  font-size:clamp(1.7rem,4.2vw,2.5rem);
+  font-weight:800;
+  letter-spacing:-0.02em;
+  line-height:1.15;
+  text-align:center;
+  max-width:680px;
+  margin:0 auto 14px;
+}
+.h2-sub{
+  text-align:center;
+  color:var(--text-secondary);
+  font-size:clamp(0.92rem,1.6vw,1.05rem);
+  max-width:560px;
+  margin:0 auto;
+  line-height:1.6;
+}
+.head-block{margin-bottom:clamp(36px,6vw,56px);}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-weight:700;font-size:0.95rem;border-radius:12px;
+  padding:15px 28px;transition:transform .2s var(--ease),box-shadow .2s var(--ease),background .2s;
+  white-space:nowrap;
+}
+.btn-primary{
+  background:var(--gradient-blue);color:#fff;
+  box-shadow:0 8px 24px var(--blue-glow-strong);
+  position:relative;overflow:hidden;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px var(--blue-glow-strong);}
+.btn-primary::after{
+  content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,0.35),transparent);
+  transform:skewX(-20deg);
+  animation:shimmer 3.5s ease-in-out infinite;
+}
+@keyframes shimmer{0%,28%{left:-60%;}45%,100%{left:130%;}}
+.btn-ghost-ag{
+  background:transparent;color:var(--text-primary);border:1.5px solid var(--border);
+}
+.btn-ghost-ag:hover{border-color:var(--blue-bright);color:var(--blue-bright);background:rgba(37,99,235,0.06);}
+.btn-block{width:100%;}
+.bounce-arrow{display:inline-block;animation:bounceY 1.6s ease-in-out infinite;}
+@keyframes bounceY{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
+
+.pill{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 16px;border-radius:100px;
+  border:1px solid var(--border);background:rgba(255,255,255,0.02);
+  font-size:0.72rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--text-secondary);
+}
+.dot-pulse{width:7px;height:7px;border-radius:50%;background:var(--blue-bright);flex-shrink:0;animation:dotPulse 2s ease-in-out infinite;}
+.dot-pulse.red{background:var(--red-alert);}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 0 0 rgba(37,99,235,0.5);}50%{box-shadow:0 0 0 5px rgba(37,99,235,0);}}
+.dot-pulse.red{animation:dotPulseRed 1.6s ease-in-out infinite;}
+@keyframes dotPulseRed{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0.55);}50%{box-shadow:0 0 0 5px rgba(239,68,68,0);}}
+
+.grad-text{
+  background:var(--gradient-blue);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.reveal.in{opacity:1;transform:translateY(0);}
+.reveal.d1{transition-delay:.08s;}
+.reveal.d2{transition-delay:.16s;}
+.reveal.d3{transition-delay:.24s;}
+.reveal.d4{transition-delay:.32s;}
+
+/* ============ HEADER ============ */
+.ag-header{
+  position:sticky;top:0;z-index:200;
+  background:rgba(6,8,13,0.72);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  transition:padding .25s var(--ease);
+}
+.ag-header-inner{
+  max-width:1140px;margin:0 auto;padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ag-header.scrolled .ag-header-inner{padding:11px 20px;}
+.ag-back{
+  display:flex;align-items:center;gap:7px;
+  font-size:0.85rem;font-weight:600;color:var(--text-muted);
+  transition:color .2s;
+}
+.ag-back:hover{color:var(--text-primary);}
+.ag-back svg{width:17px;height:17px;flex-shrink:0;}
+.ag-header .btn-primary{padding:10px 20px;font-size:0.85rem;}
+
+/* ============ HERO ============ */
+#hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;
+  padding:120px 0 60px;
+  overflow:hidden;
+  background:var(--bg-primary);
+}
+.hero-dotgrid{
+  position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,255,255,0.07) 1px,transparent 1.4px);
+  background-size:28px 28px;
+  mask-image:radial-gradient(ellipse 70% 60% at 50% 35%,black 0%,transparent 80%);
+  opacity:0.7;
+}
+.hero-halo{
+  position:absolute;top:-10%;left:50%;transform:translateX(-50%);
+  width:900px;height:700px;
+  background:radial-gradient(circle,var(--blue-glow) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.particle{
+  position:absolute;border-radius:50%;
+  background:var(--blue-bright);opacity:0.35;
+  animation:floatParticle linear infinite;
+}
+@keyframes floatParticle{
+  0%{transform:translateY(0) translateX(0);opacity:0;}
+  10%{opacity:0.5;}
+  50%{transform:translateY(-60px) translateX(12px);}
+  90%{opacity:0.4;}
+  100%{transform:translateY(-130px) translateX(-8px);opacity:0;}
+}
+.hero-inner{position:relative;z-index:2;text-align:center;max-width:800px;margin:0 auto;padding:0 20px;}
+.hero-badge{margin-bottom:22px;}
+.hero-h1{
+  font-size:clamp(2.2rem,5.5vw,4.2rem);font-weight:800;letter-spacing:-0.03em;
+  line-height:1.1;margin-bottom:20px;
+}
+.hero-sub{
+  color:var(--text-secondary);font-size:clamp(1rem,1.6vw,1.15rem);
+  line-height:1.65;max-width:600px;margin:0 auto 32px;
+}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:22px;}
+.hero-trust{font-size:0.85rem;color:var(--text-muted);margin-bottom:56px;}
+.hero-trust b{color:var(--blue-bright);font-weight:700;}
+
+.report-mock-wrap{perspective:1200px;max-width:580px;margin:0 auto;}
+.report-mock{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:18px;
+  overflow:hidden;text-align:left;
+  transform:rotateX(4deg);
+  transition:transform .5s var(--ease);
+  box-shadow:0 30px 70px -20px rgba(0,0,0,0.6),0 0 60px var(--blue-glow);
+  position:relative;
+}
+@media (hover:hover) and (pointer:fine){
+  .report-mock-wrap:hover .report-mock{transform:rotateX(0deg);}
+}
+.report-mock-bar{height:3px;background:var(--gradient-blue);}
+.report-mock-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid var(--border);
+}
+.report-mock-title{font-size:0.9rem;font-weight:700;}
+.report-mock-badge{
+  display:flex;align-items:center;gap:6px;font-size:0.68rem;font-weight:700;
+  color:var(--green-available);background:rgba(16,185,129,0.1);
+  border:1px solid rgba(16,185,129,0.25);padding:4px 10px;border-radius:100px;
+}
+.report-mock-metrics{display:grid;grid-template-columns:repeat(3,1fr);}
+.rmm-cell{padding:18px 14px;text-align:center;border-right:1px solid var(--border);}
+.rmm-cell:last-child{border-right:none;}
+.rmm-val{font-size:1.25rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:3px;}
+.rmm-lbl{font-size:0.62rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;}
+.report-mock-range{padding:6px 20px 20px;}
+.rmr-track{height:6px;border-radius:4px;background:var(--border);position:relative;overflow:hidden;}
+.rmr-fill{position:absolute;inset:0;width:0%;border-radius:4px;background:var(--gradient-blue);transition:width 1.4s var(--ease);}
+.rmr-dot{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--electric-blue);transform:translate(-50%,-50%);left:0%;transition:left 1.4s var(--ease);box-shadow:0 0 0 4px var(--bg-card);}
+
+.float-badge{
+  position:absolute;display:flex;align-items:center;gap:6px;
+  background:var(--bg-card);border:1px solid var(--border);border-radius:100px;
+  padding:8px 14px;font-size:0.74rem;font-weight:600;
+  box-shadow:0 10px 24px rgba(0,0,0,0.4);
+  animation:floatBadge 4s ease-in-out infinite;
+}
+.float-badge.fb1{top:-18px;right:-10px;animation-delay:.2s;}
+.float-badge.fb2{bottom:30px;left:-26px;animation-delay:1s;}
+@keyframes floatBadge{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+
+.scroll-indicator{
+  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  z-index:2;transition:opacity .3s;
+}
+.scroll-pill{
+  width:24px;height:38px;border:2px solid var(--border);border-radius:100px;
+  display:flex;justify-content:center;padding-top:7px;
+}
+.scroll-pill-dot{width:4px;height:8px;border-radius:3px;background:var(--blue-bright);animation:scrollDot 1.6s ease-in-out infinite;}
+@keyframes scrollDot{0%{transform:translateY(0);opacity:1;}80%{opacity:0;}100%{transform:translateY(10px);opacity:0;}}
+.scroll-label{font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;}
+
+@media (max-width:640px){
+  .hero-ctas{flex-direction:column;width:100%;}
+  .hero-ctas .btn{width:100%;}
+  .float-badge{font-size:0.62rem;padding:6px 10px;}
+  .float-badge.fb1{top:-14px;right:-6px;}
+  .float-badge.fb2{bottom:14px;left:-10px;}
+}
+/* ============ SECCIÓN 2: QUIZ DIAGNÓSTICO ============ */
+#diagnostico{background:var(--bg-secondary);}
+.quiz-card{
+  position:relative;background:var(--bg-card);border:1px solid var(--border);
+  border-radius:20px;min-height:420px;overflow:hidden;
+  max-width:680px;margin:0 auto;
+}
+.quiz-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-blue);z-index:2;}
+.quiz-phase{padding:clamp(28px,5vw,48px);}
+.quiz-phase[hidden]{display:none;}
+
+/* Intro */
+.quiz-intro{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:372px;}
+.quiz-intro-icon{
+  width:64px;height:64px;border-radius:18px;background:var(--blue-glow);
+  display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:20px;
+}
+.quiz-intro h3{font-size:1.25rem;font-weight:800;margin-bottom:10px;}
+.quiz-intro p{color:var(--text-secondary);font-size:0.92rem;max-width:420px;margin:0 auto 22px;line-height:1.6;}
+.quiz-preview-pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:26px;}
+.quiz-preview-pills .pill{text-transform:none;font-weight:600;letter-spacing:0;}
+.quiz-note{font-size:0.74rem;color:var(--text-muted);margin-top:14px;}
+
+/* Progress */
+.quiz-progress{padding:22px clamp(20px,5vw,40px) 4px;}
+.quiz-progress-track{height:4px;border-radius:3px;background:var(--border);overflow:hidden;margin-bottom:16px;}
+.quiz-progress-fill{height:100%;width:0%;background:var(--gradient-blue);border-radius:3px;transition:width .4s var(--ease);}
+.quiz-dots{display:flex;justify-content:space-between;}
+.qdot{
+  width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:0.66rem;font-weight:700;
+  color:var(--text-muted);background:var(--bg-primary);transition:all .25s;
+}
+.qdot.active{border-color:var(--blue-bright);color:var(--blue-bright);box-shadow:0 0 0 3px var(--blue-glow);}
+.qdot.completed{border-color:var(--blue-bright);background:var(--blue-bright);color:#fff;}
+
+/* Slider */
+.quiz-slider-mask{overflow:hidden;padding:8px clamp(20px,5vw,40px) 0;}
+.quiz-slider{display:flex;transition:transform .45s var(--ease);}
+.quiz-q{width:100%;flex-shrink:0;padding:18px 0 6px;}
+.quiz-q-title{font-size:1.05rem;font-weight:800;margin-bottom:4px;}
+.quiz-q-sub{font-size:0.8rem;color:var(--text-muted);margin-bottom:20px;}
+
+.q-card{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:14px 16px;border-radius:12px;border:1.5px solid var(--border);
+  background:rgba(255,255,255,0.015);margin-bottom:10px;cursor:pointer;
+  transition:border-color .2s,background .2s,transform .15s;
+}
+.q-card:hover{border-color:var(--blue-glow-strong);}
+.q-card.selected{border-color:var(--blue-bright);background:var(--blue-glow);}
+.q-card-label{font-size:0.88rem;font-weight:600;}
+.q-check{
+  width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.q-card.selected .q-check{background:var(--electric-blue);border-color:var(--electric-blue);}
+.q-check svg{width:12px;height:12px;opacity:0;transform:scale(.5);transition:all .2s;stroke:#fff;}
+.q-card.selected .q-check svg{opacity:1;transform:scale(1);}
+
+.q-tags{display:flex;flex-wrap:wrap;gap:9px;}
+.q-tag{
+  padding:10px 16px;border-radius:100px;border:1.5px solid var(--border);
+  background:rgba(255,255,255,0.015);font-size:0.82rem;font-weight:600;
+  color:var(--text-secondary);transition:all .2s;
+}
+.q-tag.selected{border-color:var(--blue-bright);background:var(--blue-glow);color:var(--text-primary);}
+
+.q-select{
+  width:100%;padding:14px 16px;border-radius:12px;border:1.5px solid var(--border);
+  background:rgba(255,255,255,0.02);color:var(--text-primary);font-size:0.92rem;
+}
+.q-select option{background:#0D1220;color:var(--text-primary);}
+
+.quiz-nav{display:flex;justify-content:space-between;gap:10px;padding:18px clamp(20px,5vw,40px) clamp(20px,5vw,32px);border-top:1px solid var(--border);margin-top:6px;}
+.quiz-nav .btn{padding:11px 20px;font-size:0.85rem;}
+.quiz-nav .btn:disabled{opacity:0.35;cursor:not-allowed;}
+.quiz-nav .btn-primary:disabled::after{display:none;}
+
+/* Result */
+.quiz-result{text-align:center;}
+.gauge-wrap{position:relative;width:160px;height:160px;margin:0 auto 18px;}
+.gauge-wrap svg{transform:rotate(-90deg);}
+.gauge-num{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.gauge-num .v{font-size:2.1rem;font-weight:800;letter-spacing:-0.02em;}
+.gauge-num .l{font-size:0.62rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;}
+.quiz-phrase{font-size:0.95rem;color:var(--text-secondary);max-width:460px;margin:0 auto 28px;line-height:1.6;}
+.quiz-phrase b{color:var(--text-primary);}
+.qbar-row{margin-bottom:14px;text-align:left;}
+.qbar-top{display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:6px;}
+.qbar-top span:first-child{font-weight:700;}
+.qbar-track{height:7px;border-radius:4px;background:var(--border);overflow:hidden;margin-bottom:4px;}
+.qbar-fill{height:100%;width:0%;border-radius:4px;background:var(--gradient-blue);transition:width 1s var(--ease);}
+.qbar-insight{font-size:0.74rem;color:var(--text-muted);}
+.quiz-improve-grid{display:grid;gap:10px;margin:24px 0;text-align:left;}
+.improve-card{
+  display:flex;gap:10px;padding:13px 15px;border-radius:12px;border:1px solid var(--border);
+  background:rgba(255,255,255,0.015);font-size:0.82rem;color:var(--text-secondary);line-height:1.5;
+}
+.improve-card .ic{flex-shrink:0;font-size:1.05rem;}
+.quiz-result-ctas{display:flex;flex-direction:column;gap:10px;align-items:center;margin-top:8px;}
+.quiz-repeat{font-size:0.8rem;color:var(--text-muted);text-decoration:underline;text-underline-offset:3px;}
+.quiz-repeat:hover{color:var(--text-primary);}
+
+@media (min-width:640px){
+  .quiz-result-ctas{flex-direction:row;justify-content:center;}
+}
+/* ============ SECCIÓN 3: CÓMO FUNCIONA ============ */
+#como-funciona{background:var(--bg-primary);}
+.timeline{position:relative;margin-top:36px;}
+.timeline::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:2px;background:var(--border);}
+.tl-step{position:relative;padding-left:54px;margin-bottom:40px;}
+.tl-node{
+  position:absolute;left:20px;top:0;transform:translate(-50%,0);
+  width:36px;height:36px;border-radius:50%;background:var(--bg-card);border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.95rem;
+  color:var(--text-muted);transition:all .5s var(--ease);z-index:2;
+}
+.tl-step.in .tl-node{border-color:transparent;color:#fff;background:var(--gradient-blue);box-shadow:0 0 0 6px var(--blue-glow);}
+.tl-content{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:20px 22px;}
+.tl-content h3{font-size:1.05rem;font-weight:800;margin-bottom:6px;}
+.tl-content p{font-size:0.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:14px;}
+.tl-demo{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;overflow:hidden;position:relative;}
+
+@media (min-width:900px){
+  .timeline::before{left:50%;}
+  .tl-step{width:50%;padding-left:0;padding-right:46px;margin-bottom:56px;}
+  .tl-step .tl-node{left:auto;right:-18px;transform:translate(50%,0);}
+  .tl-step:nth-child(even){margin-left:50%;padding-right:0;padding-left:46px;}
+  .tl-step:nth-child(even) .tl-node{right:auto;left:-18px;transform:translate(-50%,0);}
+}
+
+/* Demo paso 1: navegador */
+.browser-mock-bar{display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--border);}
+.browser-dot{width:7px;height:7px;border-radius:50%;background:var(--border);}
+.browser-url{flex:1;background:var(--bg-primary);border-radius:6px;padding:5px 10px;font-size:0.66rem;color:var(--text-secondary);margin-left:5px;}
+.browser-body{padding:22px;display:flex;justify-content:center;align-items:center;height:84px;position:relative;}
+.browser-cta{padding:9px 18px;border-radius:8px;background:var(--gradient-blue);color:#fff;font-size:0.74rem;font-weight:700;}
+.demo-cursor{
+  position:absolute;width:14px;height:14px;border:2px solid #fff;border-radius:50%;
+  top:60%;left:20%;opacity:0;pointer-events:none;
+}
+.tl-step.in .demo-cursor{animation:cursorMove 2.2s ease-in-out .3s forwards;}
+@keyframes cursorMove{
+  0%{opacity:0;top:65%;left:15%;}
+  15%{opacity:1;}
+  60%{top:50%;left:50%;}
+  80%{top:50%;left:50%;transform:scale(0.8);}
+  100%{opacity:0;top:50%;left:50%;transform:scale(0.8);}
+}
+
+/* Demo paso 2: formulario tipeo */
+.type-form{padding:18px;display:flex;flex-direction:column;gap:9px;}
+.type-field{font-size:0.78rem;color:var(--text-muted);margin-bottom:2px;}
+.type-input{
+  background:var(--bg-primary);border:1px solid var(--border);border-radius:7px;
+  padding:9px 11px;font-size:0.8rem;color:var(--text-primary);min-height:18px;
+}
+.type-input .cursor-bar{display:inline-block;width:1px;height:12px;background:var(--blue-bright);margin-left:1px;vertical-align:middle;animation:blinkCursor 0.8s steps(1) infinite;}
+@keyframes blinkCursor{50%{opacity:0;}}
+
+/* Demo paso 3: revelación informe */
+.reveal-demo{padding:18px;position:relative;min-height:130px;}
+.reveal-curtain{
+  position:absolute;inset:0;background:var(--bg-secondary);z-index:3;
+  display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.78rem;
+  transition:transform 1s var(--ease);
+}
+.tl-step.in .reveal-curtain{transform:translateY(-100%);}
+.reveal-content-sello{
+  display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,0.1);
+  border:1px solid rgba(16,185,129,0.3);color:var(--green-available);
+  font-size:0.74rem;font-weight:700;padding:5px 11px;border-radius:100px;margin-bottom:10px;
+}
+.reveal-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.reveal-pills span{
+  font-size:0.7rem;font-weight:600;background:var(--blue-glow);color:var(--blue-bright);
+  padding:5px 10px;border-radius:100px;opacity:0;transform:translateY(6px);
+  transition:opacity .4s,transform .4s;
+}
+.tl-step.in .reveal-pills span:nth-child(1){transition-delay:.5s;opacity:1;transform:none;}
+.tl-step.in .reveal-pills span:nth-child(2){transition-delay:.65s;opacity:1;transform:none;}
+.tl-step.in .reveal-pills span:nth-child(3){transition-delay:.8s;opacity:1;transform:none;}
+
+/* Demo paso 4: notificación lead */
+.lead-demo{padding:18px;min-height:120px;position:relative;}
+.lead-notif{
+  background:var(--bg-card);border:1px solid var(--blue-glow-strong);border-radius:10px;
+  padding:10px 13px;font-size:0.78rem;display:flex;align-items:center;gap:8px;
+  transform:translateY(-140%);opacity:0;transition:all .55s var(--ease);margin-bottom:10px;
+}
+.tl-step.in .lead-notif{transform:translateY(0);opacity:1;}
+.lead-card{
+  background:var(--bg-primary);border:1px solid var(--border);border-radius:10px;padding:11px 13px;
+  font-size:0.76rem;color:var(--text-secondary);opacity:0;transition:opacity .5s;transition-delay:.4s;
+}
+.tl-step.in .lead-card{opacity:1;}
+
+/* Demo paso 5: mini dashboard */
+.mini-dash{padding:16px;}
+.mini-dash table{width:100%;border-collapse:collapse;font-size:0.72rem;margin-bottom:12px;}
+.mini-dash th{text-align:left;color:var(--text-muted);font-weight:600;padding:4px 6px;border-bottom:1px solid var(--border);}
+.mini-dash td{padding:6px 6px;border-bottom:1px solid var(--border);color:var(--text-secondary);}
+.mini-stats{display:flex;gap:18px;}
+.mini-stat .v{font-size:1.2rem;font-weight:800;}
+.mini-stat .l{font-size:0.62rem;color:var(--text-muted);text-transform:uppercase;}
+
+.tl-closing{text-align:center;font-size:0.95rem;color:var(--text-secondary);margin-top:14px;}
+.tl-closing b{color:var(--text-primary);}
+/* ============ SECCIÓN 4: DEMO CRM ============ */
+#crm-demo{background:var(--bg-secondary);}
+.crm-window{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);position:relative;
+  max-width:980px;margin:0 auto;
+}
+.crm-titlebar{display:flex;align-items:center;gap:14px;padding:11px 16px;border-bottom:1px solid var(--border);background:var(--bg-secondary);}
+.crm-dots{display:flex;gap:6px;}
+.crm-dots span{width:9px;height:9px;border-radius:50%;background:var(--border);}
+.crm-dots span:nth-child(1){background:#EF4444;opacity:.6;}
+.crm-dots span:nth-child(2){background:#F59E0B;opacity:.6;}
+.crm-dots span:nth-child(3){background:#10B981;opacity:.6;}
+.crm-url{flex:1;text-align:center;font-size:0.72rem;color:var(--text-muted);background:var(--bg-primary);border-radius:6px;padding:4px 10px;margin:0 8px;}
+.crm-avatar{width:24px;height:24px;border-radius:50%;background:var(--gradient-blue);display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:800;flex-shrink:0;}
+
+.crm-body{display:flex;flex-direction:column;min-height:520px;}
+.crm-sidebar{display:flex;overflow-x:auto;gap:6px;padding:10px;border-bottom:1px solid var(--border);}
+.crm-tab{
+  flex-shrink:0;padding:9px 14px;border-radius:8px;font-size:0.78rem;font-weight:600;
+  color:var(--text-secondary);white-space:nowrap;transition:all .2s;
+}
+.crm-tab.active{background:var(--blue-glow);color:var(--text-primary);}
+.crm-content{flex:1;padding:20px;overflow:auto;}
+.crm-panel{display:none;}
+.crm-panel.active{display:block;animation:panelFade .35s ease;}
+@keyframes panelFade{from{opacity:0;}to{opacity:1;}}
+
+@media (min-width:880px){
+  .crm-body{flex-direction:row;}
+  .crm-sidebar{flex-direction:column;width:180px;border-bottom:none;border-right:1px solid var(--border);padding:16px 10px;overflow-x:visible;}
+  .crm-tab{text-align:left;}
+}
+
+/* KPIs */
+.crm-kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px;}
+@media (min-width:560px){.crm-kpi-grid{grid-template-columns:repeat(4,1fr);}}
+.crm-kpi{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:14px;}
+.crm-kpi .v{font-size:1.3rem;font-weight:800;}
+.crm-kpi .l{font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;margin-top:2px;}
+
+.crm-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-bottom:22px;}
+.crm-table th{text-align:left;color:var(--text-muted);font-weight:600;padding:7px 8px;border-bottom:1px solid var(--border);font-size:0.7rem;text-transform:uppercase;}
+.crm-table td{padding:9px 8px;border-bottom:1px solid var(--border);color:var(--text-secondary);}
+.status-pill{font-size:0.66rem;font-weight:700;padding:3px 9px;border-radius:100px;}
+.status-pill.nuevo{background:var(--blue-glow);color:var(--blue-bright);}
+.status-pill.contactado{background:rgba(245,158,11,0.12);color:var(--amber);}
+.status-pill.cerrado{background:rgba(16,185,129,0.12);color:var(--green-available);}
+
+.crm-chart7{display:flex;align-items:flex-end;gap:8px;height:90px;}
+.crm-chart7 .bar{flex:1;background:var(--gradient-blue);border-radius:4px 4px 0 0;height:0%;transition:height 1s var(--ease);}
+
+/* Leads panel */
+.crm-filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.crm-filter{padding:7px 14px;border-radius:100px;border:1px solid var(--border);font-size:0.74rem;font-weight:600;color:var(--text-secondary);}
+.crm-filter.active{background:var(--blue-glow);border-color:var(--blue-bright);color:var(--text-primary);}
+.lead-row{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden;}
+.lead-row-head{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;gap:10px;}
+.lead-row-name{font-size:0.84rem;font-weight:700;}
+.lead-row-meta{font-size:0.7rem;color:var(--text-muted);}
+.lead-row-detail{display:none;padding:0 14px 14px;font-size:0.78rem;color:var(--text-secondary);border-top:1px solid var(--border);}
+.lead-row.open .lead-row-detail{display:block;padding-top:12px;}
+.lead-row.open .lead-chevron{transform:rotate(180deg);}
+.lead-chevron{transition:transform .2s;color:var(--text-muted);}
+.lead-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;font-size:0.74rem;}
+.lead-detail-grid div b{color:var(--text-primary);font-weight:600;}
+.lead-notes{
+  width:100%;background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;
+  padding:8px 10px;color:var(--text-primary);font-size:0.76rem;resize:vertical;min-height:50px;
+}
+
+/* Informes grid */
+.crm-reports-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+@media (min-width:640px){.crm-reports-grid{grid-template-columns:repeat(3,1fr);}}
+.crm-report-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:0.74rem;}
+.crm-report-card .rtitle{font-weight:700;margin-bottom:3px;}
+.crm-report-card .rval{color:var(--blue-bright);font-weight:800;font-size:0.92rem;margin-top:6px;}
+
+/* Métricas */
+.crm-period{display:flex;gap:8px;margin-bottom:18px;}
+.crm-stats-row{display:flex;gap:18px;margin-bottom:20px;flex-wrap:wrap;}
+.crm-stats-row .stat .v{font-size:1.2rem;font-weight:800;}
+.crm-stats-row .stat .l{font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;}
+.crm-chart8{display:flex;align-items:flex-end;gap:6px;height:100px;margin-bottom:20px;}
+.crm-chart8 .bar{flex:1;background:var(--border);border-radius:4px 4px 0 0;height:0%;transition:height 1s var(--ease);}
+.crm-chart8 .bar.hi{background:var(--gradient-blue);}
+.crm-ranking{display:flex;flex-direction:column;gap:7px;}
+.crm-rank-item{display:flex;align-items:center;justify-content:space-between;font-size:0.78rem;padding:7px 10px;background:var(--bg-secondary);border-radius:8px;}
+
+/* Configuración */
+.crm-config-row{margin-bottom:20px;}
+.crm-config-label{font-size:0.78rem;font-weight:600;margin-bottom:8px;display:block;}
+.crm-config-input{width:100%;max-width:320px;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);font-size:0.82rem;}
+.crm-colors{display:flex;gap:10px;}
+.crm-color-swatch{width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;}
+.crm-color-swatch.selected{border-color:var(--text-primary);box-shadow:0 0 0 3px var(--bg-card);}
+.crm-upload-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border:1.5px dashed var(--border);border-radius:8px;font-size:0.78rem;color:var(--text-secondary);}
+.crm-url-copy{display:flex;gap:8px;max-width:380px;}
+.crm-url-copy input{flex:1;}
+.crm-copy-btn{padding:9px 14px;border-radius:8px;background:var(--blue-glow);color:var(--blue-bright);font-size:0.76rem;font-weight:700;white-space:nowrap;}
+.crm-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);font-size:0.82rem;max-width:380px;}
+.crm-switch{width:40px;height:22px;border-radius:100px;background:var(--border);position:relative;transition:background .2s;flex-shrink:0;}
+.crm-switch::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .2s;}
+.crm-switch.on{background:var(--electric-blue);}
+.crm-switch.on::after{left:20px;}
+
+.crm-toast{
+  position:absolute;top:60px;right:16px;background:var(--bg-card);border:1px solid var(--blue-glow-strong);
+  border-radius:10px;padding:10px 16px;font-size:0.78rem;font-weight:600;
+  box-shadow:0 10px 28px rgba(0,0,0,0.5);transform:translateX(120%);opacity:0;
+  transition:all .5s var(--ease);z-index:10;
+}
+.crm-toast.show{transform:translateX(0);opacity:1;}
+/* ============ SECCIÓN 5: EXPERIENCIA DEL PROPIETARIO ============ */
+#experiencia{background:var(--bg-primary);}
+.exp-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:22px;}
+.exp-tab{padding:9px 16px;border-radius:100px;border:1.5px solid var(--border);font-size:0.8rem;font-weight:600;color:var(--text-secondary);transition:all .2s;}
+.exp-tab.active{background:var(--blue-glow);border-color:var(--blue-bright);color:var(--text-primary);}
+.exp-preview{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:560px;margin:0 auto 60px;display:none;}
+.exp-preview.active{display:block;animation:panelFade .35s ease;}
+.exp-preview h4{font-size:1rem;font-weight:800;margin-bottom:6px;}
+.exp-preview p{font-size:0.84rem;color:var(--text-secondary);line-height:1.6;margin-bottom:14px;}
+.exp-preview-mock{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:0.82rem;color:var(--text-primary);}
+.exp-preview-mock .lbl{font-size:0.66rem;color:var(--text-muted);text-transform:uppercase;margin-bottom:3px;}
+
+.report-explorer{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;max-width:780px;margin:0 auto;}
+.re-tabs{display:flex;overflow-x:auto;gap:4px;padding:10px;border-bottom:1px solid var(--border);background:var(--bg-secondary);}
+.re-tab{flex-shrink:0;padding:9px 13px;border-radius:8px;font-size:0.76rem;font-weight:600;color:var(--text-secondary);white-space:nowrap;}
+.re-tab.active{background:var(--blue-glow);color:var(--text-primary);}
+.re-panel{display:none;padding:24px;}
+.re-panel.active{display:block;animation:panelFade .35s ease;}
+
+.re-val-big{font-size:2.2rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px;}
+.re-val-range{color:var(--text-muted);font-size:0.82rem;margin-bottom:18px;}
+.re-mini-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+@media(min-width:480px){.re-mini-grid{grid-template-columns:repeat(3,1fr);}}
+.re-mini-cell{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+.re-mini-cell .v{font-weight:800;font-size:1.05rem;}
+.re-mini-cell .l{font-size:0.62rem;color:var(--text-muted);text-transform:uppercase;margin-top:2px;}
+
+.re-bar-row{margin-bottom:14px;}
+.re-bar-top{display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:5px;}
+.re-bar-top span:first-child{font-weight:600;}
+.re-bar-track{height:7px;border-radius:4px;background:var(--border);overflow:hidden;}
+.re-bar-fill{height:100%;width:0%;background:var(--gradient-blue);border-radius:4px;transition:width 1s var(--ease);}
+
+.re-list{display:flex;flex-direction:column;gap:9px;margin:14px 0;}
+.re-list li, .re-list div{font-size:0.84rem;color:var(--text-secondary);display:flex;gap:8px;}
+.re-profile-box{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:13px 15px;font-size:0.82rem;color:var(--text-secondary);margin-top:8px;}
+
+.re-reform-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px;}
+.re-reform-cell{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;}
+.re-reform-cell .v{font-size:1.15rem;font-weight:800;}
+.re-reform-cell .v.pos{color:var(--green-available);}
+.re-reform-cell .l{font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;margin-top:3px;}
+
+.re-vsalq{display:flex;flex-direction:column;gap:10px;}
+.re-vsalq-row{display:flex;justify-content:space-between;padding:11px 14px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;font-size:0.84rem;}
+.re-vsalq-highlight{background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.3);color:var(--amber);font-weight:700;text-align:center;padding:13px;border-radius:10px;margin-top:6px;}
+
+.re-plan-timeline{display:flex;flex-direction:column;gap:10px;}
+.re-plan-step{display:flex;gap:12px;align-items:flex-start;font-size:0.84rem;}
+.re-plan-day{flex-shrink:0;width:30px;height:30px;border-radius:8px;background:var(--blue-glow);color:var(--blue-bright);font-weight:800;font-size:0.72rem;display:flex;align-items:center;justify-content:center;}
+
+.exp-closing-stats{display:flex;justify-content:center;gap:clamp(24px,6vw,56px);flex-wrap:wrap;margin:40px 0 30px;text-align:center;}
+.exp-closing-stats .v{font-size:1.6rem;font-weight:800;}
+.exp-closing-stats .l{font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;margin-top:2px;}
+/* ============ SECCIÓN 6: SIMULADOR DE IMPACTO ============ */
+#simulador{background:var(--bg-secondary);}
+.sim-inputs{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:18px;
+  padding:clamp(20px,4vw,32px);max-width:760px;margin:0 auto 36px;
+  display:grid;grid-template-columns:1fr;gap:22px;
+}
+@media(min-width:680px){.sim-inputs{grid-template-columns:1fr 1fr;}}
+.sim-input-row label{display:flex;justify-content:space-between;font-size:0.84rem;font-weight:600;margin-bottom:10px;}
+.sim-input-row label .val{color:var(--blue-bright);font-weight:800;}
+.sim-slider{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:4px;background:var(--border);outline:none;}
+.sim-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--electric-blue);box-shadow:0 0 0 4px var(--blue-glow);cursor:pointer;}
+.sim-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--electric-blue);box-shadow:0 0 0 4px var(--blue-glow);cursor:pointer;border:none;}
+
+.sim-vs{
+  display:grid;grid-template-columns:1fr;gap:16px;max-width:780px;margin:0 auto 32px;position:relative;
+}
+@media(min-width:680px){.sim-vs{grid-template-columns:1fr 1fr;}}
+.sim-vs-badge{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:42px;height:42px;border-radius:50%;background:var(--bg-secondary);border:2px solid var(--border);
+  display:none;align-items:center;justify-content:center;font-size:0.72rem;font-weight:800;color:var(--text-muted);z-index:2;
+}
+@media(min-width:680px){.sim-vs-badge{display:flex;}}
+.sim-col{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:22px;}
+.sim-col-title{font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:16px;}
+.sim-col.con .sim-col-title{color:var(--blue-bright);}
+.sim-metric-row{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--border);}
+.sim-metric-row:last-child{border-bottom:none;}
+.sim-metric-row .l{font-size:0.82rem;color:var(--text-secondary);}
+.sim-metric-row .v{font-size:0.95rem;font-weight:800;}
+.sim-metric-row .v .plus{color:var(--green-available);font-size:0.74rem;font-weight:700;background:rgba(16,185,129,0.12);padding:2px 7px;border-radius:100px;margin-left:6px;}
+
+.sim-diff-card{
+  background:var(--bg-card);border:1px solid var(--green-available);border-radius:16px;
+  padding:28px;text-align:center;max-width:480px;margin:0 auto 36px;
+}
+.sim-diff-card .diff-num{font-size:clamp(2rem,5vw,2.6rem);font-weight:800;color:var(--green-available);letter-spacing:-0.02em;}
+.sim-diff-card .diff-lbl{font-size:0.84rem;color:var(--text-secondary);margin:6px 0 14px;}
+.sim-diff-card .diff-roi{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:var(--green-available);padding:7px 16px;border-radius:100px;font-weight:700;font-size:0.84rem;}
+
+.sim-chart-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:780px;margin:0 auto 30px;}
+.sim-chart-card h4{font-size:0.92rem;font-weight:700;margin-bottom:16px;}
+.sim-chart12{display:flex;align-items:flex-end;gap:5px;height:160px;}
+.sim-chart12 .grp{flex:1;display:flex;align-items:flex-end;gap:2px;height:100%;}
+.sim-chart12 .bar{flex:1;border-radius:3px 3px 0 0;height:0%;transition:height 1s var(--ease);}
+.sim-chart12 .bar.gris{background:var(--border);}
+.sim-chart12 .bar.azul{background:var(--gradient-blue);}
+.sim-chart-legend{display:flex;gap:18px;margin-top:12px;font-size:0.72rem;color:var(--text-muted);}
+.sim-chart-legend span{display:inline-flex;align-items:center;gap:6px;}
+.sim-chart-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+
+.sim-why-card{
+  background:rgba(37,99,235,0.06);border:1px solid var(--blue-glow-strong);border-radius:16px;
+  padding:24px;max-width:680px;margin:0 auto;text-align:center;
+}
+.sim-why-card h4{font-size:0.95rem;font-weight:800;margin-bottom:8px;}
+.sim-why-card p{font-size:0.84rem;color:var(--text-secondary);line-height:1.6;margin-bottom:18px;}
+/* ============ SECCIÓN 7: OFERTA / FOMO ============ */
+#oferta{background:var(--bg-primary);text-align:center;}
+.offer-card-outer{
+  background:var(--gradient-blue);padding:2px;border-radius:22px;
+  max-width:680px;margin:28px auto 36px;animation:offerGlow 3s ease-in-out infinite;
+}
+@keyframes offerGlow{0%,100%{box-shadow:0 0 36px var(--blue-glow);}50%{box-shadow:0 0 64px var(--blue-glow-strong);}}
+.offer-card{background:var(--bg-card);border-radius:20px;padding:clamp(26px,5vw,40px);}
+.price-row{display:flex;align-items:baseline;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:6px;}
+.price-old{font-size:1.35rem;color:var(--text-muted);position:relative;}
+.price-old::after{content:'';position:absolute;left:-6%;right:-6%;top:48%;height:2px;background:var(--red-alert);transform:rotate(-9deg);}
+.price-new{font-size:clamp(2.6rem,7vw,3.7rem);font-weight:800;color:#fff;letter-spacing:-0.02em;}
+.price-badge{
+  display:inline-block;font-size:0.66rem;font-weight:800;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:0.08em;border:1px solid var(--border);border-radius:100px;
+  padding:4px 12px;margin-top:10px;
+}
+.price-savings{color:var(--green-available);font-weight:700;font-size:0.92rem;margin-top:10px;}
+.offer-checks{display:grid;grid-template-columns:1fr;gap:10px;text-align:left;max-width:480px;margin:26px auto;}
+@media(min-width:560px){.offer-checks{grid-template-columns:1fr 1fr;}}
+.offer-checks div{font-size:0.84rem;color:var(--text-secondary);display:flex;gap:8px;}
+.offer-checks div b{color:var(--green-available);}
+.offer-scarcity{
+  display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,0.1);
+  border:1px solid rgba(245,158,11,0.3);color:var(--amber);font-weight:700;font-size:0.84rem;
+  padding:9px 18px;border-radius:100px;margin-bottom:22px;
+}
+.avail-map-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:680px;margin:0 auto 18px;}
+@media(min-width:680px){.avail-map-grid{grid-template-columns:repeat(3,1fr);}}
+.avail-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:left;}
+.avail-card .ac-name{font-size:0.84rem;font-weight:700;margin-bottom:6px;}
+.avail-card .ac-status{font-size:0.72rem;font-weight:700;padding:3px 9px;border-radius:100px;display:inline-block;}
+.avail-card .ac-status.amber{background:rgba(245,158,11,0.12);color:var(--amber);}
+.avail-card .ac-status.green{background:rgba(16,185,129,0.12);color:var(--green-available);}
+.avail-card .ac-status.blue{background:var(--blue-glow);color:var(--blue-bright);}
+.avail-legend{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;font-size:0.74rem;color:var(--text-muted);margin-bottom:32px;}
+.avail-legend span{display:inline-flex;align-items:center;gap:6px;}
+.avail-legend i{width:9px;height:9px;border-radius:50%;display:inline-block;}
+.close-alert{
+  display:flex;align-items:center;gap:10px;justify-content:center;max-width:560px;margin:0 auto;
+  background:rgba(239,68,68,0.07);border:1px solid rgba(239,68,68,0.25);border-radius:12px;
+  padding:14px 18px;font-size:0.84rem;color:var(--text-secondary);
+}
+/* ============ SECCIÓN 8: FAQ ============ */
+#faq{background:var(--bg-secondary);}
+.faq-list{max-width:700px;margin:0 auto;border-top:1px solid var(--border);}
+.faq-item{border-bottom:1px solid var(--border);}
+.faq-q{width:100%;display:flex;align-items:center;gap:14px;padding:18px 4px;text-align:left;}
+.faq-num{font-size:0.78rem;font-weight:800;color:var(--text-muted);flex-shrink:0;width:24px;transition:color .2s;}
+.faq-q-text{flex:1;font-size:0.92rem;font-weight:600;}
+.faq-chevron{transition:transform .25s;color:var(--text-muted);flex-shrink:0;}
+.faq-item.open .faq-chevron{transform:rotate(180deg);}
+.faq-item.open .faq-num{color:var(--blue-bright);}
+.faq-a{overflow:hidden;max-height:0;transition:max-height .35s var(--ease);}
+.faq-a p{padding:0 4px 18px 38px;font-size:0.85rem;color:var(--text-secondary);line-height:1.65;}
+.faq-whatsapp{
+  max-width:700px;margin:30px auto 0;text-align:center;background:var(--bg-card);
+  border:1px solid var(--border);border-radius:14px;padding:20px;
+}
+.faq-whatsapp p{font-size:0.86rem;color:var(--text-secondary);margin-bottom:12px;}
+
+/* ============ CTA FINAL ============ */
+#cta-final{background:var(--bg-primary);}
+.cta-final-grid{
+  display:grid;grid-template-columns:1fr;max-width:900px;margin:0 auto;
+  background:var(--bg-card);border:1px solid var(--border);border-radius:20px;overflow:hidden;
+}
+@media(min-width:760px){.cta-final-grid{grid-template-columns:1fr auto 1fr;}}
+.cta-wa-col{padding:32px 28px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
+.cta-wa-icon{font-size:2.8rem;margin-bottom:6px;}
+.cta-wa-checks{display:flex;flex-direction:column;gap:8px;text-align:left;font-size:0.84rem;color:var(--text-secondary);margin:10px 0 18px;}
+.cta-wa-checks div b{color:var(--green-available);}
+.btn-whatsapp{background:var(--green-available);color:#fff;box-shadow:0 8px 22px rgba(16,185,129,0.28);}
+.btn-whatsapp:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(16,185,129,0.35);}
+.cta-divider{display:flex;align-items:center;justify-content:center;padding:6px 0;position:relative;}
+.cta-divider span{background:var(--bg-card);border:1px solid var(--border);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.76rem;color:var(--text-muted);z-index:1;flex-shrink:0;}
+@media(max-width:759px){.cta-divider{padding:8px 0;}.cta-divider::before{content:'';position:absolute;left:24px;right:24px;top:50%;height:1px;background:var(--border);}}
+@media(min-width:760px){.cta-divider{padding:0 16px;}.cta-divider::before{content:'';position:absolute;top:24px;bottom:24px;left:50%;width:1px;background:var(--border);}}
+.cta-form-col{padding:32px 28px;}
+.cta-form-col h4{font-size:1rem;font-weight:800;margin-bottom:16px;}
+.cta-field{margin-bottom:13px;}
+.cta-field label{display:block;font-size:0.76rem;color:var(--text-muted);margin-bottom:6px;}
+.cta-field input,.cta-field select,.cta-field textarea{
+  width:100%;padding:11px 13px;border-radius:9px;border:1px solid var(--border);
+  background:var(--bg-secondary);color:var(--text-primary);font-size:0.86rem;
+}
+.cta-field select option{background:#0D1220;}
+.cta-field textarea{resize:vertical;min-height:70px;}
+.cta-field-error{font-size:0.7rem;color:var(--red-alert);margin-top:4px;display:none;}
+.cta-field.invalid input,.cta-field.invalid select{border-color:var(--red-alert);}
+.cta-field.invalid .cta-field-error{display:block;}
+.cta-checkbox-row{display:flex;align-items:flex-start;gap:9px;font-size:0.76rem;color:var(--text-secondary);margin:14px 0 18px;}
+.cta-checkbox-row input{margin-top:2px;flex-shrink:0;}
+.cta-checkbox-row a{color:var(--blue-bright);text-decoration:underline;}
+.cta-error-banner{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--red-alert);padding:11px 14px;border-radius:9px;font-size:0.82rem;margin-bottom:14px;display:none;}
+.cta-error-banner.show{display:block;}
+.cta-confirm{display:none;text-align:center;padding:34px 10px;}
+.cta-confirm.show{display:block;}
+.cta-confirm svg{width:60px;height:60px;margin:0 auto 16px;}
+.cta-confirm h4{font-size:1.05rem;font-weight:800;margin-bottom:8px;}
+.cta-confirm p{font-size:0.86rem;color:var(--text-secondary);}
+.cta-confirm-circle{stroke:var(--green-available);stroke-width:3;fill:none;stroke-dasharray:166;stroke-dashoffset:166;animation:drawCircle .6s ease forwards;}
+.cta-confirm-check{stroke:var(--green-available);stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:48;stroke-dashoffset:48;animation:drawCheck .4s ease .5s forwards;}
+@keyframes drawCircle{to{stroke-dashoffset:0;}}
+@keyframes drawCheck{to{stroke-dashoffset:0;}}
+
+/* ============ FOOTER ============ */
+.ag-footer{background:var(--bg-primary);border-top:1px solid var(--border);padding:30px 0;}
+.ag-footer-inner{display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center;}
+@media(min-width:680px){.ag-footer-inner{flex-direction:row;justify-content:space-between;text-align:left;}}
+.ag-footer-links{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;}
+.ag-footer-links a{font-size:0.78rem;color:var(--text-muted);}
+.ag-footer-links a:hover{color:var(--text-primary);}
+.ag-footer-copy{font-size:0.78rem;color:var(--text-muted);}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="ag-header" id="agHeader">
+  <div class="ag-header-inner">
+    <a href="index.html" class="ag-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M11 18l-6-6 6-6"/></svg>
+      Inicio
+    </a>
+    <a href="#cta-final" class="btn btn-primary">Solicitar acceso</a>
+  </div>
+</header>
+
+<!-- ============ SECCIÓN 1 — HERO ============ -->
+<section id="hero">
+  <div class="hero-dotgrid"></div>
+  <div class="hero-halo"></div>
+  <div class="hero-particles" id="heroParticles"></div>
+
+  <div class="hero-inner">
+    <div class="hero-badge reveal" style="transition-delay:.05s">
+      <span class="pill"><span class="dot-pulse"></span> Acceso limitado a 3 agentes por provincia</span>
+    </div>
+
+    <h1 class="hero-h1 reveal" style="transition-delay:.2s">
+      Consigue más propietarios con informes que <span class="grad-text">ningún otro agente puede ofrecer</span>.
+    </h1>
+
+    <p class="hero-sub reveal" style="transition-delay:.35s">
+      Diagnóstico inmobiliario con tu marca, informes profesionales automáticos y cada lead directo a tu panel. Listo en días, sin conocimientos técnicos.
+    </p>
+
+    <div class="hero-ctas reveal" style="transition-delay:.5s">
+      <a href="#cta-final" class="btn btn-primary">Solicitar acceso fundador →</a>
+      <a href="#como-funciona" class="btn btn-ghost-ag">Ver cómo funciona <span class="bounce-arrow">↓</span></a>
+    </div>
+
+    <p class="hero-trust reveal" style="transition-delay:.65s">
+      Pago único de <b>399 €</b> · Sin permanencia · Configuración incluida
+    </p>
+
+    <div class="report-mock-wrap reveal" style="transition-delay:.8s">
+      <div class="report-mock">
+        <div class="report-mock-bar"></div>
+        <div class="report-mock-head">
+          <span class="report-mock-title">Informe de valoración</span>
+          <span class="report-mock-badge">✓ Completado</span>
+        </div>
+        <div class="report-mock-metrics">
+          <div class="rmm-cell"><div class="rmm-val" data-countup="487000" data-prefix="" data-suffix=" €">0 €</div><div class="rmm-lbl">Valoración</div></div>
+          <div class="rmm-cell"><div class="rmm-val" data-countup="1850" data-suffix=" €/mes">0 €/mes</div><div class="rmm-lbl">Alquiler est.</div></div>
+          <div class="rmm-cell"><div class="rmm-val" data-countup="5.8" data-decimals="1" data-decimal-comma="true" data-suffix=" %">0 %</div><div class="rmm-lbl">Rentabilidad</div></div>
+        </div>
+        <div class="report-mock-range">
+          <div class="rmr-track"><div class="rmr-fill" id="rmrFill"></div><div class="rmr-dot" id="rmrDot"></div></div>
+        </div>
+        <div class="float-badge fb1">📊 Informe listo</div>
+        <div class="float-badge fb2">🔔 Lead recibido · hace 2 min</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator reveal" id="scrollIndicator" style="transition-delay:.95s">
+    <span class="scroll-label">Scroll</span>
+    <div class="scroll-pill"><div class="scroll-pill-dot"></div></div>
+  </div>
+</section>
+
+<!-- ============ SECCIÓN 2 — DIAGNÓSTICO DE AGENCIA ============ -->
+<section id="diagnostico" class="section-pad">
+  <div class="wrap">
+    <div class="head-block reveal">
+      <h2 class="h2">¿Cómo de preparada está tu agencia para captar más?</h2>
+      <p class="h2-sub">5 preguntas · 30 segundos · Análisis personalizado.</p>
+    </div>
+
+    <div class="quiz-card reveal" id="quizCard">
+
+      <!-- FASE 1: INTRO -->
+      <div class="quiz-phase quiz-intro" data-phase="intro" id="quizIntro">
+        <div class="quiz-intro-icon">🧭</div>
+        <h3>Descubre el potencial real de tu agencia</h3>
+        <p>Responde 5 preguntas rápidas sobre tu agencia y tu provincia. Te diremos cuánto margen de mejora tienes en captación.</p>
+        <div class="quiz-preview-pills">
+          <span class="pill">📍 Tu provincia</span>
+          <span class="pill">🛠 Tus herramientas</span>
+          <span class="pill">📈 Tu potencial</span>
+        </div>
+        <button class="btn btn-primary" id="qStartBtn">Empezar diagnóstico →</button>
+        <p class="quiz-note">Sin registro · Resultado inmediato</p>
+      </div>
+
+      <!-- FASE 2: PREGUNTAS -->
+      <div class="quiz-phase" data-phase="questions" id="quizQuestions" hidden style="padding:0;">
+        <div class="quiz-progress">
+          <div class="quiz-progress-track"><div class="quiz-progress-fill" id="qProgFill"></div></div>
+          <div class="quiz-dots" id="qDots"></div>
+        </div>
+
+        <div class="quiz-slider-mask">
+          <div class="quiz-slider" id="qSlider">
+
+            <!-- Q1: Provincia -->
+            <div class="quiz-q" data-q="0">
+              <div class="quiz-q-title">¿En qué provincia opera tu agencia?</div>
+              <div class="quiz-q-sub">Usamos esto para estimar el nivel de competencia en tu zona.</div>
+              <select class="q-select" id="qProvincia">
+                <option value="" disabled selected>Selecciona tu provincia…</option>
+              </select>
+            </div>
+
+            <!-- Q2: Agentes -->
+            <div class="quiz-q" data-q="1">
+              <div class="quiz-q-title">¿Cuántos agentes trabajáis en la agencia?</div>
+              <div class="quiz-q-sub">Selecciona una opción.</div>
+              <div class="q-options" data-group="agentes">
+                <div class="q-card" data-points="5"><span class="q-card-label">Solo yo</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="q-card" data-points="15"><span class="q-card-label">2-5 agentes</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="q-card" data-points="20"><span class="q-card-label">6-15 agentes</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="q-card" data-points="20"><span class="q-card-label">Más de 15 agentes</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+              </div>
+            </div>
+
+            <!-- Q3: Herramientas -->
+            <div class="quiz-q" data-q="2">
+              <div class="quiz-q-title">¿Qué herramientas usáis hoy?</div>
+              <div class="quiz-q-sub">Puedes seleccionar varias.</div>
+              <div class="q-tags" data-group="herramientas">
+                <span class="q-tag" data-points="5" data-name="Excel">Excel</span>
+                <span class="q-tag" data-points="20" data-name="CRM">CRM</span>
+                <span class="q-tag" data-points="0" data-name="WhatsApp">WhatsApp</span>
+                <span class="q-tag" data-points="20" data-name="Software propio">Software propio</span>
+                <span class="q-tag" data-points="0" data-name="Ninguna" data-exclusive="true">Ninguna</span>
+              </div>
+            </div>
+
+            <!-- Q4: Fuente de captación -->
+            <div class="quiz-q" data-q="3">
+              <div class="quiz-q-title">¿Cuál es tu principal fuente de captación?</div>
+              <div class="quiz-q-sub">Selecciona una opción.</div>
+              <div class="q-options" data-group="fuente">
+                <div class="q-card" data-points="5"><span class="q-card-label">Puerta a puerta</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="q-card" data-points="10"><span class="q-card-label">Referidos</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="q-card" data-points="10"><span class="q-card-label">Portales inmobiliarios</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="q-card" data-points="20"><span class="q-card-label">Marketing digital propio</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="q-card" data-points="0"><span class="q-card-label">Me llegan solos</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+              </div>
+            </div>
+
+            <!-- Q5: Captaciones/mes -->
+            <div class="quiz-q" data-q="4">
+              <div class="quiz-q-title">¿Cuántas captaciones cerráis al mes?</div>
+              <div class="quiz-q-sub">Selecciona una opción.</div>
+              <div class="q-options" data-group="captaciones">
+                <div class="q-card" data-points="5"><span class="q-card-label">0-2 captaciones</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="q-card" data-points="10"><span class="q-card-label">3-5 captaciones</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="q-card" data-points="15"><span class="q-card-label">6-10 captaciones</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="q-card" data-points="20"><span class="q-card-label">Más de 10 captaciones</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="quiz-nav">
+          <button class="btn btn-ghost-ag" id="qBack">← Atrás</button>
+          <button class="btn btn-primary" id="qNext" disabled>Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- FASE 3: RESULTADO -->
+      <div class="quiz-phase quiz-result" data-phase="result" id="quizResultPhase" hidden>
+        <div class="gauge-wrap">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <circle cx="80" cy="80" r="70" fill="none" stroke="var(--border)" stroke-width="12"/>
+            <circle id="gaugeCircle" cx="80" cy="80" r="70" fill="none" stroke="var(--blue-bright)" stroke-width="12" stroke-linecap="round" stroke-dasharray="439.8" stroke-dashoffset="439.8"/>
+          </svg>
+          <div class="gauge-num"><span class="v" id="gaugeVal">0</span><span class="l">/ 100</span></div>
+        </div>
+        <p class="quiz-phrase" id="quizPhrase"></p>
+
+        <div class="qbar-row">
+          <div class="qbar-top"><span>Captación</span><span id="qbarCaptVal">0%</span></div>
+          <div class="qbar-track"><div class="qbar-fill" id="qbarCapt"></div></div>
+          <div class="qbar-insight" id="qbarCaptInsight"></div>
+        </div>
+        <div class="qbar-row">
+          <div class="qbar-top"><span>Herramientas</span><span id="qbarToolVal">0%</span></div>
+          <div class="qbar-track"><div class="qbar-fill" id="qbarTool"></div></div>
+          <div class="qbar-insight" id="qbarToolInsight"></div>
+        </div>
+        <div class="qbar-row">
+          <div class="qbar-top"><span>Potencial</span><span id="qbarPotVal">0%</span></div>
+          <div class="qbar-track"><div class="qbar-fill" id="qbarPot"></div></div>
+          <div class="qbar-insight" id="qbarPotInsight"></div>
+        </div>
+
+        <div class="quiz-improve-grid" id="quizImproveGrid"></div>
+
+        <div class="quiz-result-ctas">
+          <a href="#cta-final" class="btn btn-primary">Solicitar acceso fundador →</a>
+          <button class="quiz-repeat" id="qRepeat">Repetir diagnóstico</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECCIÓN 3 — CÓMO FUNCIONA ============ -->
+<section id="como-funciona" class="section-pad">
+  <div class="wrap">
+    <div class="head-block reveal">
+      <h2 class="h2">Un sistema que trabaja por ti en 5 pasos</h2>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-step reveal" data-step="1">
+        <div class="tl-node">1</div>
+        <div class="tl-content">
+          <h3>El propietario entra en tu calculadora</h3>
+          <p>Con tu marca y tu dominio personalizado, sin que aparezca ningún tercero.</p>
+          <div class="tl-demo">
+            <div class="browser-mock-bar">
+              <span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span>
+              <div class="browser-url">🔒 tuagencia.captacionpro.es</div>
+            </div>
+            <div class="browser-body">
+              <span class="browser-cta">Calcular valor de mi vivienda</span>
+              <span class="demo-cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-step reveal" data-step="2">
+        <div class="tl-node">2</div>
+        <div class="tl-content">
+          <h3>Introduce los datos de su vivienda</h3>
+          <p>Un formulario guiado en 4 fases, pensado para que lo complete cualquier propietario en menos de 2 minutos.</p>
+          <div class="tl-demo">
+            <div class="type-form">
+              <div><span class="type-field">Dirección</span><div class="type-input" id="typeField1"></div></div>
+              <div><span class="type-field">Superficie (m²)</span><div class="type-input" id="typeField2"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-step reveal" data-step="3">
+        <div class="tl-node">3</div>
+        <div class="tl-content">
+          <h3>Recibe el informe al instante</h3>
+          <p>Un informe profesional, con tu marca, generado automáticamente a partir de datos reales del mercado.</p>
+          <div class="tl-demo reveal-demo">
+            <div class="reveal-curtain">Generando informe…</div>
+            <div class="reveal-content-sello">✓ Generado</div>
+            <div class="reveal-pills">
+              <span>487.000 €</span><span>5,8 % rent.</span><span>+12 comparables</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-step reveal" data-step="4">
+        <div class="tl-node">4</div>
+        <div class="tl-content">
+          <h3>Tú recibes el lead al momento</h3>
+          <p>Cada propietario que completa el diagnóstico llega directo a tu panel, con todos sus datos y su informe.</p>
+          <div class="tl-demo lead-demo">
+            <div class="lead-notif">🔔 Nuevo lead recibido — María G.</div>
+            <div class="lead-card">📍 Salou · Ático 95 m² · 📞 633 ··· ··· · Informe enviado</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-step reveal" data-step="5">
+        <div class="tl-node">5</div>
+        <div class="tl-content">
+          <h3>Gestionas todo desde tu panel</h3>
+          <p>Un CRM simple para hacer seguimiento de cada lead, sin perder ninguna oportunidad.</p>
+          <div class="tl-demo mini-dash">
+            <table>
+              <tr><th>Propietario</th><th>Zona</th><th>Estado</th></tr>
+              <tr><td>María G.</td><td>Salou</td><td>Nuevo</td></tr>
+              <tr><td>Joan P.</td><td>Cambrils</td><td>Contactado</td></tr>
+            </table>
+            <div class="mini-stats">
+              <div class="mini-stat"><div class="v" data-countup="14">0</div><div class="l">Leads/mes</div></div>
+              <div class="mini-stat"><div class="v" data-countup="68" data-suffix="%">0%</div><div class="l">Contactados</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="tl-closing reveal">Todo esto ocurre en menos de <b>60 segundos</b>.</p>
+    <div class="reveal" style="text-align:center;margin-top:22px;">
+      <a href="#cta-final" class="btn btn-primary">Solicitar acceso fundador →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECCIÓN 4 — EXPLORA EL CRM ============ -->
+<section id="crm-demo" class="section-pad">
+  <div class="wrap">
+    <div class="head-block reveal">
+      <h2 class="h2">Explora el CRM que gestionará tus leads</h2>
+      <p class="h2-sub">Una demo real del panel donde verás cada propietario que pase por tu calculadora.</p>
+    </div>
+
+    <div class="crm-window reveal">
+      <div class="crm-titlebar">
+        <div class="crm-dots"><span></span><span></span><span></span></div>
+        <div class="crm-url">🔒 panel.tuagencia.com</div>
+        <div class="crm-avatar">AG</div>
+      </div>
+
+      <div class="crm-body">
+        <nav class="crm-sidebar" id="crmSidebar">
+          <button class="crm-tab active" data-tab="dashboard">📊 Dashboard</button>
+          <button class="crm-tab" data-tab="leads">👥 Leads</button>
+          <button class="crm-tab" data-tab="informes">📄 Informes</button>
+          <button class="crm-tab" data-tab="metricas">📈 Métricas</button>
+          <button class="crm-tab" data-tab="config">⚙️ Configuración</button>
+        </nav>
+
+        <div class="crm-content">
+
+          <!-- DASHBOARD -->
+          <div class="crm-panel active" data-panel="dashboard">
+            <div class="crm-kpi-grid">
+              <div class="crm-kpi"><div class="v" data-countup="23">0</div><div class="l">Leads este mes</div></div>
+              <div class="crm-kpi"><div class="v" data-countup="14">0</div><div class="l">Contactados</div></div>
+              <div class="crm-kpi"><div class="v" data-countup="6">0</div><div class="l">Cerrados</div></div>
+              <div class="crm-kpi"><div class="v" data-countup="92" data-suffix="%">0%</div><div class="l">Tasa respuesta</div></div>
+            </div>
+            <table class="crm-table">
+              <tr><th>Propietario</th><th>Zona</th><th>Estado</th><th>Fecha</th></tr>
+              <tr><td>María G.</td><td>Salou</td><td><span class="status-pill nuevo">Nuevo</span></td><td>Hoy</td></tr>
+              <tr><td>Joan P.</td><td>Cambrils</td><td><span class="status-pill contactado">Contactado</span></td><td>Ayer</td></tr>
+              <tr><td>Laura M.</td><td>Reus</td><td><span class="status-pill cerrado">Cerrado</span></td><td>Hace 3 días</td></tr>
+              <tr><td>Albert S.</td><td>Tarragona</td><td><span class="status-pill nuevo">Nuevo</span></td><td>Hace 4 días</td></tr>
+            </table>
+            <div class="crm-chart7" id="crmChart7"></div>
+          </div>
+
+          <!-- LEADS -->
+          <div class="crm-panel" data-panel="leads">
+            <div class="crm-filters" id="crmFilters">
+              <span class="crm-filter active" data-status="todos">Todos</span>
+              <span class="crm-filter" data-status="nuevo">Nuevo</span>
+              <span class="crm-filter" data-status="contactado">Contactado</span>
+              <span class="crm-filter" data-status="cerrado">Cerrado</span>
+            </div>
+            <div id="crmLeadsList"></div>
+          </div>
+
+          <!-- INFORMES -->
+          <div class="crm-panel" data-panel="informes">
+            <div class="crm-reports-grid" id="crmReportsGrid"></div>
+          </div>
+
+          <!-- MÉTRICAS -->
+          <div class="crm-panel" data-panel="metricas">
+            <div class="crm-period" id="crmPeriod">
+              <span class="crm-filter active" data-period="7">7 días</span>
+              <span class="crm-filter" data-period="30">30 días</span>
+              <span class="crm-filter" data-period="90">90 días</span>
+            </div>
+            <div class="crm-stats-row" id="crmMetricStats"></div>
+            <div class="crm-chart8" id="crmChart8"></div>
+            <div class="crm-ranking" id="crmRanking"></div>
+          </div>
+
+          <!-- CONFIGURACIÓN -->
+          <div class="crm-panel" data-panel="config">
+            <div class="crm-config-row">
+              <label class="crm-config-label">Nombre de la agencia</label>
+              <input class="crm-config-input" type="text" value="Inmobiliaria Costa Daurada" />
+            </div>
+            <div class="crm-config-row">
+              <label class="crm-config-label">Color de marca</label>
+              <div class="crm-colors" id="crmColors"></div>
+            </div>
+            <div class="crm-config-row">
+              <label class="crm-config-label">Logo</label>
+              <span class="crm-upload-btn">📁 Subir logo (PNG/SVG)</span>
+            </div>
+            <div class="crm-config-row">
+              <label class="crm-config-label">URL de tu calculadora</label>
+              <div class="crm-url-copy">
+                <input class="crm-config-input" type="text" id="crmUrlInput" value="tuagencia.captacionpro.es" readonly />
+                <button class="crm-copy-btn" id="crmCopyBtn">Copiar</button>
+              </div>
+            </div>
+            <div class="crm-config-row">
+              <div class="crm-toggle-row"><span>Notificaciones por email</span><span class="crm-switch on" data-toggle="email"></span></div>
+              <div class="crm-toggle-row"><span>Notificaciones por WhatsApp</span><span class="crm-switch on" data-toggle="whatsapp"></span></div>
+              <div class="crm-toggle-row"><span>Mostrar precio de oferta en panel</span><span class="crm-switch" data-toggle="oferta"></span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="crm-toast" id="crmToast">🔔 Nuevo lead: Pere V. — Reus</div>
+    </div>
+
+    <p class="reveal" style="text-align:center;color:var(--text-secondary);font-size:0.92rem;margin-top:26px;max-width:560px;margin-left:auto;margin-right:auto;">
+      Así es exactamente el panel donde gestionarás cada propietario que pase por tu calculadora, desde el primer día.
+    </p>
+    <div class="reveal" style="text-align:center;margin-top:18px;">
+      <a href="#cta-final" class="btn btn-primary">Solicitar acceso fundador →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECCIÓN 5 — EXPERIENCIA DEL PROPIETARIO ============ -->
+<section id="experiencia" class="section-pad">
+  <div class="wrap">
+    <div class="head-block reveal">
+      <h2 class="h2">Mucho más que una valoración. Un diagnóstico inmobiliario completo.</h2>
+      <p class="h2-sub">Ejemplo real: ático de 200 m² en Salou.</p>
+    </div>
+
+    <div class="exp-tabs reveal" id="expTabs">
+      <span class="exp-tab active" data-exp="ubicacion">📍 Ubicación</span>
+      <span class="exp-tab" data-exp="vivienda">🏠 Vivienda</span>
+      <span class="exp-tab" data-exp="estrategia">🎯 Estrategia</span>
+      <span class="exp-tab" data-exp="contacto">✉️ Contacto</span>
+      <span class="exp-tab" data-exp="diagnostico">📊 Diagnóstico</span>
+    </div>
+
+    <div class="exp-preview active reveal" data-exp-panel="ubicacion">
+      <h4>1. Indica la ubicación de su vivienda</h4>
+      <p>El propietario empieza escribiendo la dirección. Nosotros la situamos automáticamente en el mercado de su zona.</p>
+      <div class="exp-preview-mock"><div class="lbl">Dirección</div>Carrer del Far 14, Salou</div>
+    </div>
+    <div class="exp-preview reveal" data-exp-panel="vivienda">
+      <h4>2. Describe su vivienda</h4>
+      <p>Tipo de inmueble, superficie y estado de conservación, en un par de clics.</p>
+      <div class="exp-preview-mock"><div class="lbl">Vivienda</div>Ático · 200 m² · Buen estado</div>
+    </div>
+    <div class="exp-preview reveal" data-exp-panel="estrategia">
+      <h4>3. Indica qué quiere hacer</h4>
+      <p>Vender, alquilar o todavía no lo tiene claro. Esto afina las recomendaciones de su informe.</p>
+      <div class="exp-preview-mock"><div class="lbl">Objetivo</div>Quiere vender en los próximos 6 meses</div>
+    </div>
+    <div class="exp-preview reveal" data-exp-panel="contacto">
+      <h4>4. Deja sus datos de contacto</h4>
+      <p>Para recibir el informe completo por email, dejando sus datos directamente en tu panel.</p>
+      <div class="exp-preview-mock"><div class="lbl">Contacto</div>Antonio R. · 633 ··· ···</div>
+    </div>
+    <div class="exp-preview reveal" data-exp-panel="diagnostico">
+      <h4>5. Recibe su diagnóstico al instante</h4>
+      <p>Un informe completo, con tu marca, listo para descargar y compartir.</p>
+      <div class="exp-preview-mock"><div class="lbl">Estado</div>✓ Informe generado y enviado</div>
+    </div>
+
+    <div class="report-explorer reveal">
+      <div class="re-tabs" id="reTabs">
+        <span class="re-tab active" data-re="valoracion">Valoración</span>
+        <span class="re-tab" data-re="mercado">Mercado</span>
+        <span class="re-tab" data-re="estrategia">Estrategia</span>
+        <span class="re-tab" data-re="reforma">Reforma</span>
+        <span class="re-tab" data-re="comprador">Comprador</span>
+        <span class="re-tab" data-re="vsalq">Vender vs Alquilar</span>
+        <span class="re-tab" data-re="plan">Plan de acción</span>
+      </div>
+
+      <div class="re-panel active" data-re-panel="valoracion">
+        <div class="re-val-big">757.500 €</div>
+        <div class="re-val-range">Rango estimado: 720.000 € – 795.000 €</div>
+        <div class="re-mini-grid">
+          <div class="re-mini-cell"><div class="v">3.788 €</div><div class="l">€ / m²</div></div>
+          <div class="re-mini-cell"><div class="v">2.450 €</div><div class="l">Alquiler / mes</div></div>
+          <div class="re-mini-cell"><div class="v">779.000 €</div><div class="l">Precio de salida</div></div>
+        </div>
+      </div>
+
+      <div class="re-panel" data-re-panel="mercado">
+        <div class="re-bar-row"><div class="re-bar-top"><span>Demanda en la zona</span><span>82%</span></div><div class="re-bar-track"><div class="re-bar-fill" data-w="82%"></div></div></div>
+        <div class="re-bar-row"><div class="re-bar-top"><span>Liquidez (rapidez de venta)</span><span>68%</span></div><div class="re-bar-track"><div class="re-bar-fill" data-w="68%"></div></div></div>
+        <div class="re-bar-row"><div class="re-bar-top"><span>Estado del mercado</span><span>74%</span></div><div class="re-bar-track"><div class="re-bar-fill" data-w="74%"></div></div></div>
+        <div class="re-bar-row"><div class="re-bar-top"><span>Precio vs. mercado</span><span>90%</span></div><div class="re-bar-track"><div class="re-bar-fill" data-w="90%"></div></div></div>
+      </div>
+
+      <div class="re-panel" data-re-panel="estrategia">
+        <div class="re-profile-box" style="margin-top:0;margin-bottom:14px;"><b>Recomendación:</b> vender en los próximos 3-6 meses, mientras la demanda en Salou sigue alta.</div>
+        <div class="re-list">
+          <div>✓ Despersonalizar y airear los espacios antes de las visitas</div>
+          <div>✓ Renovar la cocina aporta el mayor retorno relativo</div>
+          <div>✓ Fotografía profesional: las visitas suben hasta un 40%</div>
+        </div>
+        <div class="re-profile-box">Perfil de decisión: propietario orientado a maximizar precio, con flexibilidad de tiempo media.</div>
+      </div>
+
+      <div class="re-panel" data-re-panel="reforma">
+        <div class="re-reform-grid">
+          <div class="re-reform-cell"><div class="v">25.000 €</div><div class="l">Coste reforma</div></div>
+          <div class="re-reform-cell"><div class="v pos">48.000 €</div><div class="l">Revalorización</div></div>
+          <div class="re-reform-cell"><div class="v pos">+92,3%</div><div class="l">ROI reforma</div></div>
+          <div class="re-reform-cell"><div class="v pos">+270%</div><div class="l">ROI home staging</div></div>
+        </div>
+        <div class="re-profile-box">El home staging es la inversión con mejor retorno relativo: cambia la percepción del comprador sin obra.</div>
+      </div>
+
+      <div class="re-panel" data-re-panel="comprador">
+        <div class="re-list">
+          <div>👤 <b>Perfil:</b> pareja 35-50 años, segunda vivienda o cambio de residencia</div>
+          <div>📣 <b>Canales:</b> portales inmobiliarios + redes sociales locales</div>
+          <div>⚠️ <b>Riesgo de venta:</b> bajo — alta demanda en la zona</div>
+        </div>
+      </div>
+
+      <div class="re-panel" data-re-panel="vsalq">
+        <div class="re-vsalq">
+          <div class="re-vsalq-row"><span>Vender ahora</span><span>757.500 € netos estimados</span></div>
+          <div class="re-vsalq-row"><span>Alquilar</span><span>2.450 €/mes (29.400 €/año)</span></div>
+        </div>
+        <div class="re-vsalq-highlight">Alquilando, tardarías 28,7 años en igualar el beneficio de vender ahora.</div>
+      </div>
+
+      <div class="re-panel" data-re-panel="plan">
+        <div class="re-plan-timeline">
+          <div class="re-plan-step"><span class="re-plan-day">D1</span><span>Recibes el informe completo y los datos de contacto del propietario.</span></div>
+          <div class="re-plan-step"><span class="re-plan-day">D2</span><span>Primer contacto telefónico para concertar visita.</span></div>
+          <div class="re-plan-step"><span class="re-plan-day">D3</span><span>Visita a la vivienda y validación de datos del informe.</span></div>
+          <div class="re-plan-step"><span class="re-plan-day">D4</span><span>Propuesta de estrategia de venta personalizada.</span></div>
+          <div class="re-plan-step"><span class="re-plan-day">D5</span><span>Sesión de fotos y preparación del anuncio.</span></div>
+          <div class="re-plan-step"><span class="re-plan-day">D6</span><span>Publicación en portales y redes.</span></div>
+          <div class="re-plan-step"><span class="re-plan-day">D7</span><span>Primeras visitas concertadas con compradores interesados.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-closing-stats reveal">
+      <div><div class="v" data-countup="60" data-suffix=" seg">0</div><div class="l">Para generar el informe</div></div>
+      <div><div class="v" data-countup="7" data-suffix=" pestañas">0</div><div class="l">De análisis por informe</div></div>
+      <div><div class="v" data-countup="100" data-suffix="% tu marca">0%</div><div class="l">Sin marca de terceros</div></div>
+    </div>
+    <div class="reveal" style="text-align:center;">
+      <a href="#cta-final" class="btn btn-primary">Solicitar acceso fundador →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECCIÓN 6 — SIMULADOR DE IMPACTO ============ -->
+<section id="simulador" class="section-pad">
+  <div class="wrap">
+    <div class="head-block reveal">
+      <h2 class="h2">Visualiza el impacto real en tu agencia</h2>
+      <p class="h2-sub">Ajusta los valores a tu situación actual y compara con y sin el sistema.</p>
+    </div>
+
+    <div class="sim-inputs reveal">
+      <div class="sim-input-row">
+        <label>Agentes en tu agencia <span class="val" id="simAgentesVal">3</span></label>
+        <input type="range" class="sim-slider" id="simAgentes" min="1" max="20" value="3" />
+      </div>
+      <div class="sim-input-row">
+        <label>Captaciones actuales / mes <span class="val" id="simCaptVal">5</span></label>
+        <input type="range" class="sim-slider" id="simCapt" min="1" max="20" value="5" />
+      </div>
+      <div class="sim-input-row">
+        <label>Comisión media (%) <span class="val" id="simComVal">3%</span></label>
+        <input type="range" class="sim-slider" id="simCom" min="1" max="6" value="3" step="0.5" />
+      </div>
+      <div class="sim-input-row">
+        <label>Tasa de cierre lead→captación (%) <span class="val" id="simTasaVal">30%</span></label>
+        <input type="range" class="sim-slider" id="simTasa" min="10" max="60" value="30" />
+      </div>
+    </div>
+
+    <div class="sim-vs reveal">
+      <div class="sim-vs-badge">VS</div>
+      <div class="sim-col sin">
+        <div class="sim-col-title">Sin sistema</div>
+        <div class="sim-metric-row"><span class="l">Leads / mes</span><span class="v" id="simSinLeads">–</span></div>
+        <div class="sim-metric-row"><span class="l">Captaciones / mes</span><span class="v" id="simSinCapt">–</span></div>
+        <div class="sim-metric-row"><span class="l">Ingresos estimados / mes</span><span class="v" id="simSinIngresos">–</span></div>
+        <div class="sim-metric-row"><span class="l">Horas en prospección manual</span><span class="v" id="simSinHoras">–</span></div>
+      </div>
+      <div class="sim-col con">
+        <div class="sim-col-title">Con el sistema</div>
+        <div class="sim-metric-row"><span class="l">Leads / mes</span><span class="v" id="simConLeads">–</span></div>
+        <div class="sim-metric-row"><span class="l">Captaciones / mes</span><span class="v" id="simConCapt">–</span></div>
+        <div class="sim-metric-row"><span class="l">Ingresos estimados / mes</span><span class="v" id="simConIngresos">–</span></div>
+        <div class="sim-metric-row"><span class="l">Horas en prospección manual</span><span class="v" id="simConHoras">–</span></div>
+      </div>
+    </div>
+
+    <div class="sim-diff-card reveal">
+      <div class="diff-num" id="simDiffNum">+0 €/mes</div>
+      <div class="diff-lbl">de ingresos adicionales estimados cada mes</div>
+      <div class="diff-roi" id="simRoi">Retorno ×0 sobre los 399 €</div>
+    </div>
+
+    <div class="sim-chart-card reveal">
+      <h4>Proyección a 12 meses (acumulado)</h4>
+      <div class="sim-chart12" id="simChart12"></div>
+      <div class="sim-chart-legend">
+        <span><i style="background:var(--border)"></i> Sin sistema</span>
+        <span><i style="background:var(--gradient-blue)"></i> Con sistema</span>
+      </div>
+    </div>
+
+    <div class="sim-why-card reveal">
+      <h4>¿Por qué te mostramos esto?</h4>
+      <p>Porque no te pedimos que nos creas: queremos que veas, con tus propios números, qué impacto tendría un canal de captación adicional en tu agencia.</p>
+      <a href="#cta-final" class="btn btn-primary">Solicitar acceso fundador →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECCIÓN 7 — OFERTA / FOMO ============ -->
+<section id="oferta" class="section-pad">
+  <div class="wrap">
+    <div class="reveal" style="margin-bottom:16px;">
+      <span class="pill" style="border-color:rgba(239,68,68,0.35);color:var(--red-alert)"><span class="dot-pulse red"></span> Plazas limitadas por provincia</span>
+    </div>
+    <h2 class="h2 reveal">Acceso fundador</h2>
+
+    <div class="offer-card-outer reveal">
+      <div class="offer-card">
+        <div class="price-row">
+          <span class="price-old">997 €</span>
+          <span class="price-new" data-countup="399" data-prefix="" data-suffix=" €">0 €</span>
+        </div>
+        <span class="price-badge">Pago único</span>
+        <div class="price-savings">Ahorras 598 € respecto al precio estándar</div>
+
+        <div class="offer-checks">
+          <div><b>✓</b> Calculadora con tu marca y tu dominio</div>
+          <div><b>✓</b> Informes automáticos ilimitados</div>
+          <div><b>✓</b> Panel CRM para gestionar tus leads</div>
+          <div><b>✓</b> Configuración inicial incluida</div>
+          <div><b>✓</b> Soporte directo por WhatsApp</div>
+          <div><b>✓</b> Sin permanencia ni cuotas mensuales</div>
+        </div>
+
+        <div class="offer-scarcity">⚠️ Solo 3 agentes por provincia</div>
+        <br>
+        <a href="#cta-final" class="btn btn-primary btn-block">Solicitar acceso fundador →</a>
+      </div>
+    </div>
+
+    <div class="avail-map-grid reveal">
+      <div class="avail-card"><div class="ac-name">Madrid</div><span class="ac-status amber">2/3 ocupadas</span></div>
+      <div class="avail-card"><div class="ac-name">Barcelona</div><span class="ac-status amber">2/3 ocupadas</span></div>
+      <div class="avail-card"><div class="ac-name">Valencia</div><span class="ac-status amber">2/3 ocupadas</span></div>
+      <div class="avail-card"><div class="ac-name">Málaga</div><span class="ac-status green">1/3 ocupadas</span></div>
+      <div class="avail-card"><div class="ac-name">Tarragona</div><span class="ac-status amber">2/3 ocupadas</span></div>
+      <div class="avail-card"><div class="ac-name">Tu provincia</div><span class="ac-status blue">Consultar →</span></div>
+    </div>
+    <!-- EDITAR: plazas — actualizar disponibilidad real por provincia -->
+    <div class="avail-legend reveal">
+      <span><i style="background:var(--amber)"></i> Quedan pocas plazas</span>
+      <span><i style="background:var(--green-available)"></i> Disponible</span>
+      <span><i style="background:var(--blue-bright)"></i> Consulta tu provincia</span>
+    </div>
+
+    <div class="close-alert reveal">⚠️ Si otro agente solicita antes que tú, pierde prioridad quien llega después.</div>
+  </div>
+</section>
+
+<!-- ============ SECCIÓN 8 — FAQ ============ -->
+<section id="faq" class="section-pad">
+  <div class="wrap">
+    <div class="head-block reveal">
+      <h2 class="h2">Preguntas frecuentes</h2>
+    </div>
+
+    <div class="faq-list reveal" id="faqList">
+      <div class="faq-item" data-i="0">
+        <button class="faq-q" aria-expanded="false" aria-controls="faqA0" id="faqQ0">
+          <span class="faq-num">01</span><span class="faq-q-text">¿Qué incluye exactamente el acceso fundador?</span><span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-a" id="faqA0" role="region" aria-labelledby="faqQ0">
+          <p>Tu calculadora con tu marca y tu dominio, informes automáticos ilimitados, panel CRM para gestionar leads, configuración inicial incluida y soporte directo por WhatsApp. Todo por un pago único de 399 €.</p>
+        </div>
+      </div>
+      <div class="faq-item" data-i="1">
+        <button class="faq-q" aria-expanded="false" aria-controls="faqA1" id="faqQ1">
+          <span class="faq-num">02</span><span class="faq-q-text">¿Necesito conocimientos técnicos para configurarlo?</span><span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-a" id="faqA1" role="region" aria-labelledby="faqQ1">
+          <p>No. Nosotros configuramos tu calculadora, tu marca y tu dominio. Tú solo tienes que empezar a compartir el enlace con tus propietarios.</p>
+        </div>
+      </div>
+      <div class="faq-item" data-i="2">
+        <button class="faq-q" aria-expanded="false" aria-controls="faqA2" id="faqQ2">
+          <span class="faq-num">03</span><span class="faq-q-text">¿Cuánto tarda en estar listo?</span><span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-a" id="faqA2" role="region" aria-labelledby="faqQ2">
+          <p>Normalmente entre 3 y 5 días desde que confirmas tu plaza, dependiendo de la personalización de marca que necesites.</p>
+        </div>
+      </div>
+      <div class="faq-item" data-i="3">
+        <button class="faq-q" aria-expanded="false" aria-controls="faqA3" id="faqQ3">
+          <span class="faq-num">04</span><span class="faq-q-text">¿Los leads son exclusivos para mi agencia?</span><span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-a" id="faqA3" role="region" aria-labelledby="faqQ3">
+          <p>Sí. Cada lead que entra por tu calculadora llega únicamente a tu panel. No se comparte con otros agentes ni agencias.</p>
+        </div>
+      </div>
+      <div class="faq-item" data-i="4">
+        <button class="faq-q" aria-expanded="false" aria-controls="faqA4" id="faqQ4">
+          <span class="faq-num">05</span><span class="faq-q-text">¿Qué pasa si ya hay 3 agentes en mi provincia?</span><span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-a" id="faqA4" role="region" aria-labelledby="faqQ4">
+          <p>El acceso fundador está limitado a 3 agentes por provincia para no hacerte competir contigo mismo. Si tu provincia ya está completa, te avisamos en cuanto se libere una plaza.</p>
+        </div>
+      </div>
+      <div class="faq-item" data-i="5">
+        <button class="faq-q" aria-expanded="false" aria-controls="faqA5" id="faqQ5">
+          <span class="faq-num">06</span><span class="faq-q-text">¿Hay permanencia o cuotas mensuales?</span><span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-a" id="faqA5" role="region" aria-labelledby="faqQ5">
+          <p>No. Es un pago único de 399 €, sin permanencia ni cuotas mensuales ocultas.</p>
+        </div>
+      </div>
+      <div class="faq-item" data-i="6">
+        <button class="faq-q" aria-expanded="false" aria-controls="faqA6" id="faqQ6">
+          <span class="faq-num">07</span><span class="faq-q-text">¿Puedo personalizar el informe con mi marca?</span><span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-a" id="faqA6" role="region" aria-labelledby="faqQ6">
+          <p>Sí, completamente. Tu logo, tus colores y tu dominio. El propietario nunca ve referencias a terceros.</p>
+        </div>
+      </div>
+      <div class="faq-item" data-i="7">
+        <button class="faq-q" aria-expanded="false" aria-controls="faqA7" id="faqQ7">
+          <span class="faq-num">08</span><span class="faq-q-text">¿Cómo recibo los leads?</span><span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-a" id="faqA7" role="region" aria-labelledby="faqQ7">
+          <p>En tu panel CRM en tiempo real, y también puedes activar notificaciones por email o WhatsApp para no perderte ninguno.</p>
+        </div>
+      </div>
+      <div class="faq-item" data-i="8">
+        <button class="faq-q" aria-expanded="false" aria-controls="faqA8" id="faqQ8">
+          <span class="faq-num">09</span><span class="faq-q-text">¿Qué pasa si no estoy satisfecho?</span><span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-a" id="faqA8" role="region" aria-labelledby="faqQ8">
+          <p>Escríbenos y lo revisamos contigo. Nuestro objetivo es que la calculadora te genere captaciones reales desde el primer mes.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-whatsapp reveal">
+      <p>¿Tienes otra duda? Escríbenos directamente por WhatsApp.</p>
+      <a href="https://wa.me/34633716169?text=Hola,%20tengo%20una%20duda%20sobre%20el%20acceso%20fundador%20para%20agentes%20inmobiliarios" target="_blank" rel="noopener" class="btn btn-whatsapp" id="faqWaBtn">💬 Escribir por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section id="cta-final" class="section-pad">
+  <div class="wrap">
+    <div class="head-block reveal">
+      <h2 class="h2">Solicita tu acceso fundador antes de que se cierre tu provincia.</h2>
+    </div>
+
+    <div class="cta-final-grid reveal">
+      <div class="cta-wa-col">
+        <div class="cta-wa-icon">💬</div>
+        <h4 style="font-weight:800;">Háblanos por WhatsApp</h4>
+        <div class="cta-wa-checks">
+          <div><b>✓</b> Respuesta en menos de 24h</div>
+          <div><b>✓</b> Hablas directamente con nosotros</div>
+          <div><b>✓</b> Sin compromiso</div>
+        </div>
+        <a href="https://wa.me/34633716169?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20el%20acceso%20fundador%20para%20agentes%20inmobiliarios" target="_blank" rel="noopener" class="btn btn-whatsapp btn-block" id="ctaWaBtn">Escribir por WhatsApp →</a>
+      </div>
+
+      <div class="cta-divider"><span>o</span></div>
+
+      <div class="cta-form-col">
+        <h4>Déjanos tus datos</h4>
+        <div class="cta-error-banner" id="ctaErrorBanner">Ha ocurrido un error al enviar el formulario. Inténtalo de nuevo o escríbenos por WhatsApp.</div>
+
+        <form id="ctaForm" novalidate>
+          <div class="cta-field" data-field="nombre">
+            <label for="ctaNombre">Nombre</label>
+            <input type="text" id="ctaNombre" name="nombre" required />
+            <div class="cta-field-error">Indica tu nombre.</div>
+          </div>
+          <div class="cta-field" data-field="email">
+            <label for="ctaEmail">Email</label>
+            <input type="email" id="ctaEmail" name="email" required />
+            <div class="cta-field-error">Introduce un email válido.</div>
+          </div>
+          <div class="cta-field" data-field="telefono">
+            <label for="ctaTelefono">Teléfono</label>
+            <input type="tel" id="ctaTelefono" name="telefono" required />
+            <div class="cta-field-error">Introduce un teléfono válido.</div>
+          </div>
+          <div class="cta-field" data-field="provincia">
+            <label for="ctaProvincia">Provincia</label>
+            <select id="ctaProvincia" name="provincia" required>
+              <option value="" disabled selected>Selecciona tu provincia…</option>
+            </select>
+            <div class="cta-field-error">Selecciona tu provincia.</div>
+          </div>
+          <div class="cta-field" data-field="agencia">
+            <label for="ctaAgencia">Agencia</label>
+            <input type="text" id="ctaAgencia" name="agencia" />
+          </div>
+          <div class="cta-field" data-field="mensaje">
+            <label for="ctaMensaje">Mensaje (opcional)</label>
+            <textarea id="ctaMensaje" name="mensaje"></textarea>
+          </div>
+
+          <div class="cta-checkbox-row" data-field="rgpd">
+            <input type="checkbox" id="ctaRgpd" name="rgpd" required />
+            <label for="ctaRgpd">He leído y acepto la <a href="privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="ctaSubmitBtn">Solicitar acceso fundador →</button>
+        </form>
+
+        <div class="cta-confirm" id="ctaConfirm">
+          <svg viewBox="0 0 60 60"><circle class="cta-confirm-circle" cx="30" cy="30" r="26"/><path class="cta-confirm-check" d="M18 31l8 8 16-18"/></svg>
+          <h4>¡Solicitud recibida!</h4>
+          <p>Te contactaremos en menos de 24h para confirmar tu plaza en tu provincia.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="ag-footer">
+  <div class="wrap ag-footer-inner">
+    <div class="ag-footer-copy">© 2026 — Todos los derechos reservados</div>
+    <nav class="ag-footer-links">
+      <a href="mailto:aleix.proptech@gmail.com">aleix.proptech@gmail.com</a>
+      <a href="privacidad.html">Privacidad</a>
+      <a href="aviso-legal.html">Aviso legal</a>
+      <a href="cookies.html">Cookies</a>
+    </nav>
+    <span class="price-badge">399 € · Pago único</span>
+  </div>
+</footer>
+
+<script>
+/* ============ UTILIDADES ============ */
+var nf0 = new Intl.NumberFormat('es-ES');
+function fmtNum(n, decimals){
+  decimals = decimals || 0;
+  return new Intl.NumberFormat('es-ES', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(n);
+}
+var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ============ HEADER SCROLL ============ */
+var agHeader = document.getElementById('agHeader');
+window.addEventListener('scroll', function(){
+  agHeader.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive:true });
+
+/* ============ PARTÍCULAS HERO ============ */
+(function(){
+  var box = document.getElementById('heroParticles');
+  if(!box || reduceMotion) return;
+  var n = 14;
+  for(var i=0;i<n;i++){
+    var p = document.createElement('span');
+    p.className = 'particle';
+    var size = 2 + Math.random()*3;
+    p.style.width = size+'px';
+    p.style.height = size+'px';
+    p.style.left = (Math.random()*100)+'%';
+    p.style.top = (40+Math.random()*55)+'%';
+    p.style.animationDuration = (6+Math.random()*8)+'s';
+    p.style.animationDelay = (Math.random()*6)+'s';
+    box.appendChild(p);
+  }
+})();
+
+/* ============ COUNT-UP genérico ============ */
+function runCountUp(el){
+  if(el.dataset.done) return;
+  el.dataset.done = '1';
+  var target = parseFloat(el.dataset.countup);
+  var decimals = parseInt(el.dataset.decimals || '0', 10);
+  var prefix = el.dataset.prefix || '';
+  var suffix = el.dataset.suffix || '';
+  if(reduceMotion){
+    el.textContent = prefix + fmtNum(target, decimals) + suffix;
+    return;
+  }
+  var start = performance.now();
+  var dur = 1400;
+  function tick(now){
+    var p = Math.min(1, (now-start)/dur);
+    var eased = 1 - Math.pow(1-p, 3);
+    var val = target * eased;
+    el.textContent = prefix + fmtNum(val, decimals) + suffix;
+    if(p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ============ INTERSECTION OBSERVER GLOBAL ============ */
+var globalObserver = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      entry.target.classList.add('in');
+      entry.target.querySelectorAll('[data-countup]').forEach(runCountUp);
+      if(entry.target.hasAttribute('data-countup')) runCountUp(entry.target);
+      globalObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.reveal').forEach(function(el){ globalObserver.observe(el); });
+
+/* ============ HERO: barra de rango animada ============ */
+window.addEventListener('load', function(){
+  setTimeout(function(){
+    var fill = document.getElementById('rmrFill');
+    var dot = document.getElementById('rmrDot');
+    if(fill){ fill.style.width = '64%'; }
+    if(dot){ dot.style.left = '64%'; }
+  }, 600);
+});
+
+/* ============ SCROLL INDICATOR FADE ============ */
+var scrollIndicator = document.getElementById('scrollIndicator');
+window.addEventListener('scroll', function(){
+  if(!scrollIndicator) return;
+  scrollIndicator.style.opacity = window.scrollY > 100 ? '0' : '1';
+}, { passive:true });
+
+/* ============ PROVINCIAS (52) ============ */
+var PROVINCIAS = ["Álava","Albacete","Alicante","Almería","Asturias","Ávila","Badajoz","Barcelona","Burgos","Cáceres","Cádiz","Cantabria","Castellón","Ciudad Real","Córdoba","A Coruña","Cuenca","Girona","Granada","Guadalajara","Gipuzkoa","Huelva","Huesca","Illes Balears","Jaén","La Rioja","Las Palmas","León","Lleida","Lugo","Madrid","Málaga","Murcia","Navarra","Ourense","Palencia","Pontevedra","Salamanca","Santa Cruz de Tenerife","Segovia","Sevilla","Soria","Tarragona","Teruel","Toledo","Valencia","Valladolid","Bizkaia","Zamora","Zaragoza","Ceuta","Melilla"];
+var PROV_ALTA = ["Madrid","Barcelona","Valencia","Málaga","Sevilla","Alicante","Illes Balears"];
+var PROV_MEDIA = ["Tarragona","Cádiz","Murcia","Bizkaia","Girona","Las Palmas","Santa Cruz de Tenerife","Gipuzkoa","Zaragoza","A Coruña","Asturias","Cantabria","Navarra","Pontevedra","Almería","Castellón"];
+function getCompetencia(prov){
+  if(PROV_ALTA.indexOf(prov) > -1) return 'ALTA';
+  if(PROV_MEDIA.indexOf(prov) > -1) return 'MEDIA';
+  return 'BAJA';
+}
+function fillProvinceSelect(sel){
+  PROVINCIAS.forEach(function(p){
+    var o = document.createElement('option');
+    o.value = p; o.textContent = p;
+    sel.appendChild(o);
+  });
+}
+
+/* ============ QUIZ DIAGNÓSTICO ============ */
+(function(){
+  var card = document.getElementById('quizCard');
+  var introPhase = document.getElementById('quizIntro');
+  var questionsPhase = document.getElementById('quizQuestions');
+  var resultPhase = document.getElementById('quizResultPhase');
+  var slider = document.getElementById('qSlider');
+  var progFill = document.getElementById('qProgFill');
+  var dotsBox = document.getElementById('qDots');
+  var backBtn = document.getElementById('qBack');
+  var nextBtn = document.getElementById('qNext');
+  var startBtn = document.getElementById('qStartBtn');
+  var repeatBtn = document.getElementById('qRepeat');
+  var provSelect = document.getElementById('qProvincia');
+  if(!card) return;
+
+  fillProvinceSelect(provSelect);
+
+  var TOTAL_Q = 5;
+  var current = 0;
+  var answers = { provincia:null, agentes:0, herramientas:0, herramientasList:[], fuente:0, captaciones:0 };
+
+  // dots
+  for(var i=0;i<TOTAL_Q;i++){
+    var d = document.createElement('span');
+    d.className = 'qdot'; d.textContent = (i+1);
+    dotsBox.appendChild(d);
+  }
+  function updateProgress(){
+    progFill.style.width = ((current)/(TOTAL_Q-1)*100)+'%';
+    Array.prototype.forEach.call(dotsBox.children, function(dot, idx){
+      dot.classList.toggle('active', idx === current);
+      dot.classList.toggle('completed', idx < current);
+    });
+  }
+
+  function isAnswered(idx){
+    if(idx === 0) return !!answers.provincia;
+    if(idx === 1) return answers.agentes > 0 || answers._agentesSet;
+    if(idx === 2) return answers.herramientasList.length > 0;
+    if(idx === 3) return answers._fuenteSet;
+    if(idx === 4) return answers._captSet;
+    return false;
+  }
+  function refreshNav(){
+    backBtn.disabled = false;
+    nextBtn.disabled = !isAnswered(current);
+    nextBtn.textContent = current === TOTAL_Q-1 ? 'Ver resultado →' : 'Siguiente →';
+  }
+  function goTo(idx){
+    current = Math.max(0, Math.min(TOTAL_Q-1, idx));
+    slider.style.transform = 'translateX(-' + (current*100) + '%)';
+    updateProgress();
+    refreshNav();
+  }
+
+  provSelect.addEventListener('change', function(){
+    answers.provincia = provSelect.value;
+    refreshNav();
+  });
+
+  // single-select cards (agentes, fuente, captaciones)
+  questionsPhase.querySelectorAll('.q-options').forEach(function(group){
+    var key = group.dataset.group;
+    group.querySelectorAll('.q-card').forEach(function(card2){
+      card2.addEventListener('click', function(){
+        group.querySelectorAll('.q-card').forEach(function(c){ c.classList.remove('selected'); });
+        card2.classList.add('selected');
+        var pts = parseInt(card2.dataset.points, 10);
+        if(key === 'agentes'){ answers.agentes = pts; answers._agentesSet = true; }
+        if(key === 'fuente'){ answers.fuente = pts; answers._fuenteSet = true; }
+        if(key === 'captaciones'){ answers.captaciones = pts; answers._captSet = true; }
+        refreshNav();
+        setTimeout(function(){ if(current < TOTAL_Q-1) goTo(current+1); }, 400);
+      });
+    });
+  });
+
+  // multiselect tags (herramientas)
+  var toolsGroup = questionsPhase.querySelector('.q-tags[data-group="herramientas"]');
+  toolsGroup.querySelectorAll('.q-tag').forEach(function(tag){
+    tag.addEventListener('click', function(){
+      var exclusive = tag.dataset.exclusive === 'true';
+      if(exclusive){
+        toolsGroup.querySelectorAll('.q-tag').forEach(function(t){ t.classList.remove('selected'); });
+        tag.classList.add('selected');
+      } else {
+        toolsGroup.querySelector('[data-exclusive="true"]').classList.remove('selected');
+        tag.classList.toggle('selected');
+      }
+      var selected = Array.prototype.filter.call(toolsGroup.querySelectorAll('.q-tag'), function(t){ return t.classList.contains('selected'); });
+      answers.herramientasList = selected.map(function(t){ return t.dataset.name; });
+      answers.herramientas = selected.reduce(function(sum,t){ return sum + parseInt(t.dataset.points,10); }, 0);
+      refreshNav();
+    });
+  });
+
+  startBtn.addEventListener('click', function(){
+    introPhase.hidden = true;
+    questionsPhase.hidden = false;
+    goTo(0);
+  });
+
+  backBtn.addEventListener('click', function(){
+    if(current === 0){ questionsPhase.hidden = true; introPhase.hidden = false; return; }
+    goTo(current-1);
+  });
+  nextBtn.addEventListener('click', function(){
+    if(!isAnswered(current)) return;
+    if(current === TOTAL_Q-1){ showResult(); return; }
+    goTo(current+1);
+  });
+
+  function showResult(){
+    questionsPhase.hidden = true;
+    resultPhase.hidden = false;
+
+    var score = Math.min(100, answers.agentes + answers.herramientas + answers.fuente + answers.captaciones);
+    var comp = getCompetencia(answers.provincia);
+
+    var color = score<=35 ? 'var(--red-alert)' : score<=60 ? 'var(--amber)' : score<=80 ? 'var(--blue-bright)' : 'var(--green-available)';
+    var circle = document.getElementById('gaugeCircle');
+    var circumference = 439.8;
+    circle.style.stroke = color;
+    setTimeout(function(){
+      circle.style.transition = 'stroke-dashoffset 1.3s ' + 'cubic-bezier(.16,1,.3,1)';
+      circle.style.strokeDashoffset = circumference * (1 - score/100);
+    }, 80);
+
+    var gaugeVal = document.getElementById('gaugeVal');
+    gaugeVal.style.color = color;
+    var startTs = performance.now();
+    function tickGauge(now){
+      var p = Math.min(1, (now-startTs)/1300);
+      gaugeVal.textContent = Math.round(score * (1-Math.pow(1-p,3)));
+      if(p<1) requestAnimationFrame(tickGauge);
+    }
+    requestAnimationFrame(tickGauge);
+
+    var nivel = score<=35 ? 'inicial' : score<=60 ? 'en desarrollo' : score<=80 ? 'avanzado' : 'excelente';
+    var compTxt = comp==='ALTA' ? 'muy competido' : comp==='MEDIA' ? 'con competencia moderada' : 'con poca competencia';
+    document.getElementById('quizPhrase').innerHTML = 'En <b>'+answers.provincia+'</b>, un mercado '+compTxt+', tu agencia tiene un nivel de preparación <b>'+nivel+'</b> para captar más propietarios.';
+
+    var capPct = Math.round(((answers.fuente + answers.captaciones) / 40) * 100);
+    var toolPct = Math.round((answers.herramientas / 45) * 100);
+    var potBase = comp === 'BAJA' ? 80 : comp === 'MEDIA' ? 60 : 42;
+    var potPct = Math.min(100, Math.round(potBase + (score/100)*15));
+
+    setBar('qbarCapt', capPct, capPct<40 ? 'Tu captación depende demasiado de canales pasivos.' : capPct<70 ? 'Tienes una base de captación sólida pero mejorable.' : 'Tu captación está bien diversificada.');
+    setBar('qbarTool', toolPct, toolPct<40 ? 'Sin CRM ni software, pierdes leads por el camino.' : toolPct<70 ? 'Tus herramientas cubren lo básico.' : 'Tu stack tecnológico es competitivo.');
+    setBar('qbarPot', potPct, comp==='BAJA' ? 'Poca competencia: hay mucho margen para destacar primero.' : comp==='MEDIA' ? 'Competencia moderada: diferenciarte ahora marca la diferencia.' : 'Mercado muy competido: necesitas destacar con algo que otros no tengan.');
+
+    var improvements = [];
+    if(answers.herramientas < 20) improvements.push({ ic:'🛠', t:'Sin CRM ni software propio: estás perdiendo leads por el camino.' });
+    if(answers.fuente <= 5) improvements.push({ ic:'📡', t:'Tu captación depende del azar: te falta un canal digital propio que genere leads de forma constante.' });
+    if(answers.captaciones <= 10) improvements.push({ ic:'📈', t:'Menos de 5 captaciones al mes: hay margen de sobra para escalar con automatización.' });
+    if(answers.agentes <= 5) improvements.push({ ic:'⏱', t:'Trabajas solo: cada hora dedicada a tareas manuales es una hora que no dedicas a captar.' });
+    if(improvements.length === 0) improvements.push({ ic:'✅', t:'Ya tienes una base sólida. Un sistema de captación automático puede llevarte todavía más lejos.' });
+
+    var grid = document.getElementById('quizImproveGrid');
+    grid.innerHTML = '';
+    improvements.slice(0,4).forEach(function(it){
+      var div = document.createElement('div');
+      div.className = 'improve-card';
+      div.innerHTML = '<span class="ic">'+it.ic+'</span><span>'+it.t+'</span>';
+      grid.appendChild(div);
+    });
+  }
+
+  function setBar(prefix, pct, insight){
+    pct = Math.max(0, Math.min(100, pct));
+    document.getElementById(prefix+'Val').textContent = pct+'%';
+    setTimeout(function(){ document.getElementById(prefix).style.width = pct+'%'; }, 150);
+    document.getElementById(prefix+'Insight').textContent = insight;
+  }
+
+  repeatBtn.addEventListener('click', function(){
+    answers = { provincia:null, agentes:0, herramientas:0, herramientasList:[], fuente:0, captaciones:0 };
+    provSelect.value = '';
+    questionsPhase.querySelectorAll('.q-card.selected, .q-tag.selected').forEach(function(el){ el.classList.remove('selected'); });
+    document.getElementById('gaugeCircle').style.strokeDashoffset = 439.8;
+    resultPhase.hidden = true;
+    introPhase.hidden = false;
+    current = 0;
+  });
+})();
+
+/* ============ TIMELINE: efecto tipeo paso 2 ============ */
+(function(){
+  var step2 = document.querySelector('.tl-step[data-step="2"]');
+  var f1 = document.getElementById('typeField1');
+  var f2 = document.getElementById('typeField2');
+  if(!step2 || !f1 || !f2) return;
+  var done = false;
+  function typeInto(el, text, speed){
+    if(reduceMotion){ el.textContent = text; return; }
+    var i = 0;
+    el.innerHTML = '<span class="cursor-bar"></span>';
+    var iv = setInterval(function(){
+      i++;
+      el.innerHTML = text.slice(0,i) + '<span class="cursor-bar"></span>';
+      if(i >= text.length) clearInterval(iv);
+    }, speed);
+  }
+  var obs2 = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting && !done){
+        done = true;
+        typeInto(f1, 'Carrer Major 12, Salou', 45);
+        setTimeout(function(){ typeInto(f2, '95 m²', 70); }, 1100);
+        obs2.unobserve(entry.target);
+      }
+    });
+  }, { threshold:0.35 });
+  obs2.observe(step2);
+})();
+
+/* ============ DEMO CRM ============ */
+(function(){
+  var crmWindow = document.querySelector('.crm-window');
+  if(!crmWindow) return;
+
+  function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+  /* Tabs */
+  var tabs = document.querySelectorAll('#crmSidebar .crm-tab');
+  var panels = document.querySelectorAll('.crm-panel');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(x){ x.classList.remove('active'); });
+      t.classList.add('active');
+      panels.forEach(function(p){ p.classList.toggle('active', p.dataset.panel === t.dataset.tab); });
+    });
+  });
+
+  /* Chart 7 días (dashboard) */
+  var chart7vals = [30,45,38,60,52,75,68];
+  var chart7box = document.getElementById('crmChart7');
+  chart7vals.forEach(function(v){
+    var b = document.createElement('div'); b.className = 'bar'; b.dataset.h = v+'%';
+    chart7box.appendChild(b);
+  });
+
+  /* Leads */
+  var LEADS = [
+    { name:'María G.',   zona:'Salou',     estado:'nuevo',       direccion:'Carrer Major 12', m2:95,  tel:'633 111 222', val:'487.000 €', fecha:'Hoy' },
+    { name:'Joan P.',    zona:'Cambrils',  estado:'contactado',  direccion:'Av. Diputació 4',  m2:80,  tel:'633 222 333', val:'312.000 €', fecha:'Ayer' },
+    { name:'Laura M.',   zona:'Reus',      estado:'cerrado',     direccion:'Carrer Sant Joan 8',m2:140,tel:'633 333 444', val:'198.000 €', fecha:'Hace 3 días' },
+    { name:'Albert S.',  zona:'Tarragona', estado:'nuevo',       direccion:'Rambla Nova 56',   m2:220, tel:'633 444 555', val:'520.000 €', fecha:'Hace 4 días' },
+    { name:'Núria F.',   zona:'Salou',     estado:'contactado',  direccion:'Carrer Barcelona 3',m2:110,tel:'633 555 666', val:'410.000 €', fecha:'Hace 5 días' },
+    { name:'Marc V.',    zona:'Vila-seca', estado:'nuevo',       direccion:'Carrer Pau Casals 9',m2:70,tel:'633 666 777', val:'220.000 €', fecha:'Hace 6 días' },
+    { name:'Cristina O.',zona:'Cambrils',  estado:'cerrado',     direccion:'Passeig Marítim 22',m2:130,tel:'633 777 888', val:'350.000 €', fecha:'Hace 1 semana' },
+    { name:'Pere V.',    zona:'Reus',      estado:'contactado',  direccion:'Carrer Llovera 15',m2:65,  tel:'633 888 999', val:'175.000 €', fecha:'Hace 2 semanas' }
+  ];
+  var leadsList = document.getElementById('crmLeadsList');
+  function renderLeads(filter){
+    leadsList.innerHTML = '';
+    LEADS.filter(function(l){ return filter === 'todos' || l.estado === filter; }).forEach(function(l){
+      var row = document.createElement('div');
+      row.className = 'lead-row';
+      row.innerHTML =
+        '<div class="lead-row-head">'+
+          '<div><div class="lead-row-name">'+l.name+'</div><div class="lead-row-meta">'+l.zona+' · '+l.fecha+'</div></div>'+
+          '<div style="display:flex;align-items:center;gap:10px"><span class="status-pill '+l.estado+'">'+cap(l.estado)+'</span><span class="lead-chevron">▾</span></div>'+
+        '</div>'+
+        '<div class="lead-row-detail">'+
+          '<div class="lead-detail-grid">'+
+            '<div>📍 <b>'+l.direccion+'</b></div>'+
+            '<div>📐 <b>'+l.m2+' m²</b></div>'+
+            '<div>📞 <b>'+l.tel+'</b></div>'+
+            '<div>💶 <b>'+l.val+'</b></div>'+
+          '</div>'+
+          '<textarea class="lead-notes" placeholder="Notas internas sobre este lead…"></textarea>'+
+        '</div>';
+      row.querySelector('.lead-row-head').addEventListener('click', function(){ row.classList.toggle('open'); });
+      leadsList.appendChild(row);
+    });
+  }
+  renderLeads('todos');
+  document.querySelectorAll('#crmFilters .crm-filter').forEach(function(f){
+    f.addEventListener('click', function(){
+      document.querySelectorAll('#crmFilters .crm-filter').forEach(function(x){ x.classList.remove('active'); });
+      f.classList.add('active');
+      renderLeads(f.dataset.status);
+    });
+  });
+
+  /* Informes */
+  var REPORTS = [
+    { t:'Ático · Salou', sub:'95 m²', v:'487.000 €' },
+    { t:'Piso · Cambrils', sub:'80 m²', v:'312.000 €' },
+    { t:'Casa · Reus', sub:'140 m²', v:'395.000 €' },
+    { t:'Chalet · Tarragona', sub:'220 m²', v:'520.000 €' },
+    { t:'Piso · Vila-seca', sub:'70 m²', v:'220.000 €' },
+    { t:'Dúplex · Salou', sub:'110 m²', v:'410.000 €' }
+  ];
+  var reportsGrid = document.getElementById('crmReportsGrid');
+  REPORTS.forEach(function(r){
+    var c = document.createElement('div');
+    c.className = 'crm-report-card';
+    c.innerHTML = '<div class="rtitle">'+r.t+'</div><div style="color:var(--text-muted)">'+r.sub+'</div><div class="rval">'+r.v+'</div>';
+    reportsGrid.appendChild(c);
+  });
+
+  /* Métricas */
+  var STATS = {
+    '7':  [{v:'23',l:'Leads'},{v:'26%',l:'Conversión'},{v:'1,4h',l:'Resp. media'}],
+    '30': [{v:'94',l:'Leads'},{v:'31%',l:'Conversión'},{v:'2,1h',l:'Resp. media'}],
+    '90': [{v:'268',l:'Leads'},{v:'29%',l:'Conversión'},{v:'2,6h',l:'Resp. media'}]
+  };
+  var RANKING = {
+    '7':  [['Salou',9],['Cambrils',6],['Reus',5],['Tarragona',3]],
+    '30': [['Salou',34],['Cambrils',22],['Reus',19],['Tarragona',19]],
+    '90': [['Salou',98],['Cambrils',71],['Reus',54],['Tarragona',45]]
+  };
+  var chart8vals = [45,52,48,60,55,68,62,78];
+  function renderMetrics(period){
+    var statsBox = document.getElementById('crmMetricStats');
+    statsBox.innerHTML = '';
+    STATS[period].forEach(function(s){
+      var d = document.createElement('div'); d.className = 'stat';
+      d.innerHTML = '<div class="v">'+s.v+'</div><div class="l">'+s.l+'</div>';
+      statsBox.appendChild(d);
+    });
+    var rankBox = document.getElementById('crmRanking');
+    rankBox.innerHTML = '';
+    RANKING[period].forEach(function(r){
+      var d = document.createElement('div'); d.className = 'crm-rank-item';
+      d.innerHTML = '<span>'+r[0]+'</span><span style="color:var(--blue-bright);font-weight:700">'+r[1]+' leads</span>';
+      rankBox.appendChild(d);
+    });
+  }
+  var chart8box = document.getElementById('crmChart8');
+  chart8vals.forEach(function(v,i){
+    var b = document.createElement('div'); b.className = 'bar'+(i===chart8vals.length-1 ? ' hi' : ''); b.dataset.h = v+'%';
+    chart8box.appendChild(b);
+  });
+  renderMetrics('7');
+  document.querySelectorAll('#crmPeriod .crm-filter').forEach(function(f){
+    f.addEventListener('click', function(){
+      document.querySelectorAll('#crmPeriod .crm-filter').forEach(function(x){ x.classList.remove('active'); });
+      f.classList.add('active');
+      renderMetrics(f.dataset.period);
+    });
+  });
+
+  /* Configuración: colores */
+  var COLORS = ['#2563EB','#06B6D4','#10B981','#F59E0B','#8B5CF6'];
+  var colorsBox = document.getElementById('crmColors');
+  COLORS.forEach(function(c, i){
+    var sw = document.createElement('span');
+    sw.className = 'crm-color-swatch'+(i===0 ? ' selected' : '');
+    sw.style.background = c;
+    sw.innerHTML = i===0 ? '✓' : '';
+    sw.addEventListener('click', function(){
+      colorsBox.querySelectorAll('.crm-color-swatch').forEach(function(s){ s.classList.remove('selected'); s.innerHTML=''; });
+      sw.classList.add('selected'); sw.innerHTML = '✓';
+    });
+    colorsBox.appendChild(sw);
+  });
+
+  /* Copiar URL */
+  var copyBtn = document.getElementById('crmCopyBtn');
+  copyBtn.addEventListener('click', function(){
+    var input = document.getElementById('crmUrlInput');
+    var url = 'https://' + input.value;
+    function done(){
+      var old = copyBtn.textContent;
+      copyBtn.textContent = '¡Copiado!';
+      setTimeout(function(){ copyBtn.textContent = old; }, 1800);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(done).catch(done);
+    } else { done(); }
+  });
+
+  /* Toggles */
+  document.querySelectorAll('.crm-switch').forEach(function(sw){
+    sw.addEventListener('click', function(){ sw.classList.toggle('on'); });
+  });
+
+  /* Animación de barras + notificación simulada al entrar en viewport */
+  var crmObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.querySelectorAll('.bar[data-h]').forEach(function(b){
+          setTimeout(function(){ b.style.height = b.dataset.h; }, 150);
+        });
+        var toast = document.getElementById('crmToast');
+        setTimeout(function(){
+          toast.classList.add('show');
+          setTimeout(function(){ toast.classList.remove('show'); }, 4000);
+        }, 5000);
+        crmObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold:0.25 });
+  crmObs.observe(crmWindow);
+})();
+
+/* ============ HELPER: tabs genéricos ============ */
+function wireTabs(tabSel, panelSel, tabAttr, panelAttr, onShow){
+  var tabs = document.querySelectorAll(tabSel);
+  var panels = document.querySelectorAll(panelSel);
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(x){ x.classList.remove('active'); });
+      t.classList.add('active');
+      var key = t.getAttribute(tabAttr);
+      panels.forEach(function(p){ p.classList.toggle('active', p.getAttribute(panelAttr) === key); });
+      if(onShow) onShow(key);
+    });
+  });
+}
+
+/* ============ SECCIÓN 5: EXPERIENCIA PROPIETARIO ============ */
+(function(){
+  var expTabs = document.getElementById('expTabs');
+  if(!expTabs) return;
+  wireTabs('#expTabs .exp-tab', '.exp-preview', 'data-exp', 'data-exp-panel');
+
+  var mercadoAnimated = false;
+  wireTabs('#reTabs .re-tab', '.re-panel', 'data-re', 'data-re-panel', function(key){
+    if(key === 'mercado' && !mercadoAnimated){
+      mercadoAnimated = true;
+      document.querySelectorAll('[data-re-panel="mercado"] .re-bar-fill').forEach(function(b, i){
+        setTimeout(function(){ b.style.width = b.dataset.w; }, 120 + i*120);
+      });
+    }
+  });
+})();
+
+/* ============ SECCIÓN 6: SIMULADOR DE IMPACTO ============ */
+(function(){
+  var simAgentes = document.getElementById('simAgentes');
+  if(!simAgentes) return;
+  var simCapt = document.getElementById('simCapt');
+  var simCom = document.getElementById('simCom');
+  var simTasa = document.getElementById('simTasa');
+  var AVG_PRICE = 220000;
+
+  var chart12box = document.getElementById('simChart12');
+  var bars = [];
+  for(var i=0;i<12;i++){
+    var grp = document.createElement('div'); grp.className = 'grp';
+    var g = document.createElement('div'); g.className = 'bar gris';
+    var a = document.createElement('div'); a.className = 'bar azul';
+    grp.appendChild(g); grp.appendChild(a);
+    chart12box.appendChild(grp);
+    bars.push({ gris:g, azul:a });
+  }
+
+  var chartAnimated = false;
+  function calc(){
+    var agentes = parseInt(simAgentes.value, 10);
+    var captMes = parseInt(simCapt.value, 10);
+    var comPct = parseFloat(simCom.value);
+    var tasaPct = parseInt(simTasa.value, 10);
+
+    document.getElementById('simAgentesVal').textContent = agentes;
+    document.getElementById('simCaptVal').textContent = captMes;
+    document.getElementById('simComVal').textContent = comPct.toLocaleString('es-ES')+'%';
+    document.getElementById('simTasaVal').textContent = tasaPct+'%';
+
+    var ingresoPorCaptacion = AVG_PRICE * (comPct/100);
+    var leadsSin = Math.round(captMes / (tasaPct/100));
+    var horasSin = Math.round(leadsSin * 1.4);
+
+    var extraLeads = Math.round(agentes * 2.2);
+    var extraCapt = Math.max(1, Math.round(extraLeads * (tasaPct/100)));
+
+    var leadsCon = leadsSin + extraLeads;
+    var captCon = captMes + extraCapt;
+    var horasCon = horasSin;
+
+    var ingresosSin = captMes * ingresoPorCaptacion;
+    var ingresosCon = captCon * ingresoPorCaptacion;
+    var diff = ingresosCon - ingresosSin;
+    var roi = diff > 0 ? (diff/399) : 0;
+
+    document.getElementById('simSinLeads').textContent = fmtNum(leadsSin);
+    document.getElementById('simSinCapt').textContent = fmtNum(captMes);
+    document.getElementById('simSinIngresos').textContent = fmtNum(ingresosSin)+' €';
+    document.getElementById('simSinHoras').textContent = fmtNum(horasSin)+' h';
+
+    document.getElementById('simConLeads').innerHTML = fmtNum(leadsCon)+'<span class="plus">+'+fmtNum(extraLeads)+'</span>';
+    document.getElementById('simConCapt').innerHTML = fmtNum(captCon)+'<span class="plus">+'+fmtNum(extraCapt)+'</span>';
+    document.getElementById('simConIngresos').innerHTML = fmtNum(ingresosCon)+' €<span class="plus">+'+fmtNum(diff)+' €</span>';
+    document.getElementById('simConHoras').textContent = fmtNum(horasCon)+' h';
+
+    document.getElementById('simDiffNum').textContent = '+'+fmtNum(diff)+' €/mes';
+    document.getElementById('simRoi').textContent = 'Retorno ×'+fmtNum(roi,1)+' sobre los 399 €';
+
+    var maxVal = ingresosCon * 12;
+    bars.forEach(function(b, idx){
+      var mes = idx+1;
+      var hGris = maxVal > 0 ? (ingresosSin*mes/maxVal*100) : 0;
+      var hAzul = maxVal > 0 ? (ingresosCon*mes/maxVal*100) : 0;
+      b.gris.dataset.h = hGris+'%';
+      b.azul.dataset.h = hAzul+'%';
+      if(chartAnimated){ b.gris.style.height = hGris+'%'; b.azul.style.height = hAzul+'%'; }
+    });
+  }
+
+  [simAgentes, simCapt, simCom, simTasa].forEach(function(s){ s.addEventListener('input', calc); });
+  calc();
+
+  var chartCard = document.querySelector('.sim-chart-card');
+  var simObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting && !chartAnimated){
+        chartAnimated = true;
+        bars.forEach(function(b){
+          b.gris.style.height = b.gris.dataset.h;
+          b.azul.style.height = b.azul.dataset.h;
+        });
+        simObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold:0.2 });
+  if(chartCard) simObs.observe(chartCard);
+})();
+
+/* ============ FAQ ACORDEÓN ============ */
+(function(){
+  var items = document.querySelectorAll('#faqList .faq-item');
+  if(!items.length) return;
+  items.forEach(function(item){
+    var btn = item.querySelector('.faq-q');
+    var panel = item.querySelector('.faq-a');
+    btn.addEventListener('click', function(){
+      var isOpen = item.classList.contains('open');
+      items.forEach(function(other){
+        other.classList.remove('open');
+        other.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+        other.querySelector('.faq-a').style.maxHeight = '0px';
+      });
+      if(!isOpen){
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
+    });
+  });
+})();
+
+/* ============ CTA FINAL: tracking WhatsApp ============ */
+['faqWaBtn','ctaWaBtn'].forEach(function(id){
+  var el = document.getElementById(id);
+  if(el) el.addEventListener('click', function(){
+    if(typeof fbq === 'function') fbq('track', 'Lead');
+  });
+});
+
+/* ============ CTA FINAL: formulario ============ */
+(function(){
+  var form = document.getElementById('ctaForm');
+  if(!form) return;
+  fillProvinceSelect(document.getElementById('ctaProvincia'));
+
+  var errorBanner = document.getElementById('ctaErrorBanner');
+  var confirmBox = document.getElementById('ctaConfirm');
+  var submitBtn = document.getElementById('ctaSubmitBtn');
+
+  function setInvalid(fieldName, invalid){
+    var field = form.querySelector('[data-field="'+fieldName+'"]');
+    if(field) field.classList.toggle('invalid', invalid);
+  }
+
+  function validate(){
+    var ok = true;
+    var nombre = form.nombre.value.trim();
+    var email = form.email.value.trim();
+    var telefono = form.telefono.value.trim();
+    var provincia = form.provincia.value;
+    var rgpd = form.rgpd.checked;
+
+    var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var telRe = /^[0-9+\s()-]{9,}$/;
+
+    setInvalid('nombre', nombre.length < 2); if(nombre.length < 2) ok = false;
+    setInvalid('email', !emailRe.test(email)); if(!emailRe.test(email)) ok = false;
+    setInvalid('telefono', !telRe.test(telefono)); if(!telRe.test(telefono)) ok = false;
+    setInvalid('provincia', !provincia); if(!provincia) ok = false;
+    setInvalid('rgpd', !rgpd); if(!rgpd) ok = false;
+
+    return ok;
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    errorBanner.classList.remove('show');
+    if(!validate()) return;
+
+    submitBtn.disabled = true;
+    var originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Enviando…';
+
+    var payload = {
+      nombre: form.nombre.value.trim(),
+      email: form.email.value.trim(),
+      telefono: form.telefono.value.trim(),
+      provincia: form.provincia.value,
+      agencia: form.agencia.value.trim(),
+      mensaje: form.mensaje.value.trim()
+    };
+
+    /* EDITAR: endpoint — sustituir por la URL real que recibirá los leads */
+    fetch('https://EDITAR-tu-endpoint.com/api/leads-agentes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function(res){
+      if(!res.ok) throw new Error('Bad response');
+      onSuccess();
+    }).catch(function(){
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      errorBanner.classList.add('show');
+    });
+  });
+
+  function onSuccess(){
+    if(typeof fbq === 'function') fbq('track', 'Lead');
+    form.style.display = 'none';
+    errorBanner.classList.remove('show');
+    confirmBox.classList.add('show');
+  }
+})();
+</script>
+</body>
+</html>

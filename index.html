@@ -59,10 +59,13 @@
       <a href="#contacto"    class="nav-link">Contacto</a>
     </div>
 
-    <!-- CTA desktop -->
-    <a href="#calculadora" class="hidden lg:inline-flex btn-gold text-xs py-2.5 px-5">
-      Iniciar diagnóstico
-    </a>
+    <!-- Agentes link + CTA desktop -->
+    <div class="hidden lg:flex items-center gap-5">
+      <a href="agentes.html" class="nav-link">Para agentes</a>
+      <a href="#calculadora" class="btn-gold text-xs py-2.5 px-5">
+        Iniciar diagnóstico
+      </a>
+    </div>
 
     <!-- Hamburger -->
     <button id="hamburger" class="lg:hidden p-2 rounded-lg" aria-label="Menú" onclick="toggleMenu()">
@@ -84,6 +87,7 @@
       <a href="#servicios"   class="btn-ghost py-2.5 text-sm" onclick="closeMenu()">Servicios</a>
       <a href="#faq"         class="btn-ghost py-2.5 text-sm" onclick="closeMenu()">FAQ</a>
       <a href="#contacto"    class="btn-ghost py-2.5 text-sm" onclick="closeMenu()">Contacto</a>
+      <a href="agentes.html" class="btn-ghost py-2.5 text-sm" onclick="closeMenu()">Para agentes</a>
       <div class="pt-2 border-t border-[var(--border)] mt-2">
         <a href="#calculadora" class="btn-gold w-full justify-center py-3 text-sm" onclick="closeMenu()">Iniciar diagnóstico</a>
       </div>
