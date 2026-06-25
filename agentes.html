@@ -812,58 +812,138 @@ section[id]{scroll-margin-top:84px;}
 .crm-toast.show{transform:translateX(0);opacity:1;}
 /* ============ SECCIÓN 5: EXPERIENCIA DEL PROPIETARIO ============ */
 #experiencia{background:var(--bg-primary);}
-.exp-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:22px;}
-.exp-tab{padding:9px 16px;border-radius:100px;border:1.5px solid var(--border);font-size:0.8rem;font-weight:600;color:var(--text-secondary);transition:all .2s;}
-.exp-tab.active{background:var(--blue-glow);border-color:var(--blue-bright);color:var(--text-primary);}
-.exp-preview{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:560px;margin:0 auto 60px;display:none;}
-.exp-preview.active{display:block;animation:panelFade .35s ease;}
-.exp-preview h4{font-size:1rem;font-weight:800;margin-bottom:6px;}
-.exp-preview p{font-size:0.84rem;color:var(--text-secondary);line-height:1.6;margin-bottom:14px;}
-.exp-preview-mock{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:0.82rem;color:var(--text-primary);}
-.exp-preview-mock .lbl{font-size:0.66rem;color:var(--text-muted);text-transform:uppercase;margin-bottom:3px;}
 
-.report-explorer{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;max-width:780px;margin:0 auto;}
-.re-tabs{display:flex;overflow-x:auto;gap:4px;padding:10px;border-bottom:1px solid var(--border);background:var(--bg-secondary);}
-.re-tab{flex-shrink:0;padding:9px 13px;border-radius:8px;font-size:0.76rem;font-weight:600;color:var(--text-secondary);white-space:nowrap;}
-.re-tab.active{background:var(--blue-glow);color:var(--text-primary);}
-.re-panel{display:none;padding:24px;}
-.re-panel.active{display:block;animation:panelFade .35s ease;}
+/* Layout 3 columnas */
+.ep-layout{display:grid;grid-template-columns:1fr;gap:24px;max-width:1120px;margin:0 auto 56px;align-items:center;}
+@media(min-width:900px){.ep-layout{grid-template-columns:1fr 2fr 1fr;gap:36px;}}
 
-.re-val-big{font-size:2.2rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px;}
-.re-val-range{color:var(--text-muted);font-size:0.82rem;margin-bottom:18px;}
-.re-mini-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
-@media(min-width:480px){.re-mini-grid{grid-template-columns:repeat(3,1fr);}}
-.re-mini-cell{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
-.re-mini-cell .v{font-weight:800;font-size:1.05rem;}
-.re-mini-cell .l{font-size:0.62rem;color:var(--text-muted);text-transform:uppercase;margin-top:2px;}
+/* Columnas laterales */
+.ep-side-col{display:none;}
+@media(min-width:900px){.ep-side-col{display:flex;flex-direction:column;}}
 
-.re-bar-row{margin-bottom:14px;}
-.re-bar-top{display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:5px;}
-.re-bar-top span:first-child{font-weight:600;}
-.re-bar-track{height:7px;border-radius:4px;background:var(--border);overflow:hidden;}
-.re-bar-fill{height:100%;width:0%;background:var(--gradient-blue);border-radius:4px;transition:width 1s var(--ease);}
+/* Tarjeta contexto */
+.ep-ctx-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:22px 20px;}
+.ep-ctx-step{font-size:0.66rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--electric-blue);margin-bottom:10px;}
+.ep-ctx-text{font-size:0.88rem;color:var(--text-secondary);line-height:1.65;margin:0;}
 
-.re-list{display:flex;flex-direction:column;gap:9px;margin:14px 0;}
-.re-list li, .re-list div{font-size:0.84rem;color:var(--text-secondary);display:flex;gap:8px;}
-.re-profile-box{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:13px 15px;font-size:0.82rem;color:var(--text-secondary);margin-top:8px;}
+/* Panel agente */
+.ep-agent-panel{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:22px 20px;min-height:120px;}
+.ep-ap-label{font-size:0.66rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:14px;}
 
-.re-reform-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px;}
-.re-reform-cell{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;}
-.re-reform-cell .v{font-size:1.15rem;font-weight:800;}
-.re-reform-cell .v.pos{color:var(--green-available);}
-.re-reform-cell .l{font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;margin-top:3px;}
+/* Contenido panel agente: estados */
+.ep-ag-stat-lbl{font-size:0.76rem;color:var(--text-muted);margin-bottom:6px;}
+.ep-ag-stat-val{font-size:2.2rem;font-weight:800;color:var(--text-primary);line-height:1;}
+.ep-ag-inprogress{display:flex;align-items:center;gap:9px;font-size:0.88rem;color:var(--text-secondary);}
+.ep-dot-cyan{width:9px;height:9px;border-radius:50%;background:var(--cyan-accent);animation:dotPulse 1.4s ease-in-out infinite;flex-shrink:0;}
+.ep-ag-notif{background:rgba(37,99,235,0.10);border:1px solid var(--blue-glow-strong);border-radius:10px;padding:13px 15px;font-size:0.82rem;color:var(--text-secondary);line-height:1.55;}
+.ep-ag-notif b{color:var(--text-primary);display:block;margin-top:3px;}
+@keyframes epBounce{0%{transform:translateY(8px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+.ep-ag-notif-bounce{animation:epBounce .5s var(--ease);}
+.ep-ag-checks{display:flex;flex-direction:column;gap:9px;}
+.ep-ag-check{font-size:0.84rem;color:var(--text-secondary);display:flex;align-items:center;gap:8px;}
+.ep-ag-check::before{content:'✓';color:var(--green-available);font-weight:800;flex-shrink:0;}
+.ep-ag-lead-badge{display:inline-flex;align-items:center;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:var(--green-available);font-size:0.72rem;font-weight:700;padding:4px 10px;border-radius:100px;margin-bottom:12px;}
+.ep-ag-lead-row{display:flex;justify-content:space-between;font-size:0.82rem;padding:7px 0;border-bottom:1px solid var(--border);color:var(--text-secondary);}
+.ep-ag-lead-row:last-child{border-bottom:none;}
+.ep-ag-lead-row .ep-red{color:var(--red-alert);font-weight:700;}
 
-.re-vsalq{display:flex;flex-direction:column;gap:10px;}
-.re-vsalq-row{display:flex;justify-content:space-between;padding:11px 14px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;font-size:0.84rem;}
-.re-vsalq-highlight{background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.3);color:var(--amber);font-weight:700;text-align:center;padding:13px;border-radius:10px;margin-top:6px;}
+/* Marco iPhone */
+.ep-phone-col{display:flex;flex-direction:column;align-items:center;}
+.ep-phone-frame{width:min(360px,100%);height:540px;border-radius:16px;border:1px solid var(--border);background:transparent;position:relative;overflow:hidden;}
+@media(min-width:900px){.ep-phone-frame{width:320px;height:640px;border-radius:40px;border:3px solid var(--border);background:#000;}}
+.ep-notch{display:none;position:absolute;top:0;left:50%;transform:translateX(-50%);width:110px;height:24px;background:#000;border-radius:0 0 16px 16px;z-index:20;pointer-events:none;}
+@media(min-width:900px){.ep-notch{display:block;}}
 
-.re-plan-timeline{display:flex;flex-direction:column;gap:10px;}
-.re-plan-step{display:flex;gap:12px;align-items:flex-start;font-size:0.84rem;}
-.re-plan-day{flex-shrink:0;width:30px;height:30px;border-radius:8px;background:var(--blue-glow);color:var(--blue-bright);font-weight:800;font-size:0.72rem;display:flex;align-items:center;justify-content:center;}
+/* Slider pantallas */
+.ep-screens-track{display:flex;width:500%;height:100%;will-change:transform;transition:transform 0.45s var(--ease);}
+.ep-screen{width:20%;flex-shrink:0;height:100%;background:#fff;color:#111;overflow-y:auto;overflow-x:hidden;box-sizing:border-box;}
 
-.exp-closing-stats{display:flex;justify-content:center;gap:clamp(24px,6vw,56px);flex-wrap:wrap;margin:40px 0 30px;text-align:center;}
-.exp-closing-stats .v{font-size:1.6rem;font-weight:800;}
-.exp-closing-stats .l{font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;margin-top:2px;}
+/* Cabeceras con sangrado */
+.ep-s-header{padding:16px;display:flex;align-items:center;justify-content:space-between;}
+@media(min-width:900px){.ep-s-header{padding:36px 16px 14px;}}
+.ep-s-header-blue{background:#1e40af;}
+.ep-s-header-grad{background:linear-gradient(135deg,#2563eb 0%,#06b6d4 100%);}
+.ep-header-logo{font-size:0.8rem;font-weight:800;color:#fff;letter-spacing:0.04em;}
+.ep-gen-badge{font-size:0.65rem;font-weight:700;background:rgba(16,185,129,0.25);border:1px solid rgba(16,185,129,0.5);color:#10b981;padding:3px 8px;border-radius:100px;}
+
+/* Cuerpo pantalla */
+.ep-s-body{padding:14px 16px 16px;}
+.ep-s-body-top{padding:16px;}
+
+/* S1 / S2: Formulario */
+.ep-s1-h{font-size:1rem;font-weight:800;color:#111827;margin:0 0 4px;line-height:1.3;}
+.ep-s1-p{font-size:0.72rem;color:#6b7280;margin:0 0 14px;}
+.ep-fields{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
+.ep-field-empty,.ep-field-filled{border-radius:7px;padding:9px 11px;font-size:0.75rem;box-sizing:border-box;}
+.ep-field-empty{background:#f3f4f6;border:1px solid #e5e7eb;color:#9ca3af;}
+.ep-field-filled{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;font-weight:600;}
+.ep-field-row2{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.ep-cta-btn{width:100%;padding:10px;border-radius:7px;background:#2563eb;color:#fff;font-size:0.8rem;font-weight:700;border:none;cursor:default;display:flex;align-items:center;justify-content:center;gap:8px;}
+.ep-cta-loading{background:#1d4ed8;}
+.ep-spin{width:12px;height:12px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:epSpinAnim .75s linear infinite;flex-shrink:0;}
+@keyframes epSpinAnim{to{transform:rotate(360deg);}}
+
+/* S3: Informe parte 1 */
+.ep-report-tag{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#6b7280;margin-bottom:6px;}
+.ep-report-val{font-size:1.8rem;font-weight:800;color:#111827;letter-spacing:-0.02em;line-height:1;margin-bottom:4px;}
+.ep-report-range{font-size:0.68rem;color:#6b7280;margin-bottom:12px;}
+.ep-report-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;}
+.ep-r-cell{background:#f8fafc;border:1px solid #e2e8f0;border-radius:7px;padding:9px;text-align:center;}
+.ep-r-v{font-size:0.88rem;font-weight:800;color:#111827;}
+.ep-r-v.ep-r-pos{color:#059669;}
+.ep-r-l{font-size:0.58rem;color:#6b7280;text-transform:uppercase;margin-top:2px;}
+.ep-range-bar{margin-top:4px;}
+.ep-range-labels{display:flex;justify-content:space-between;font-size:0.58rem;color:#9ca3af;margin-bottom:5px;}
+.ep-range-track{height:5px;background:#e2e8f0;border-radius:4px;position:relative;}
+.ep-range-pin{position:absolute;top:50%;transform:translate(-50%,-50%);width:11px;height:11px;border-radius:50%;background:#2563eb;border:2px solid #fff;box-shadow:0 0 0 2px #2563eb;}
+
+/* S4: Informe parte 2 */
+.ep-rec-block{background:#eff6ff;border:1px solid #bfdbfe;border-radius:9px;padding:10px 12px;margin-bottom:10px;}
+.ep-rec-lbl{font-size:0.6rem;font-weight:700;text-transform:uppercase;color:#2563eb;margin-bottom:3px;}
+.ep-rec-val{font-size:0.85rem;font-weight:800;color:#111827;}
+.ep-vsalq{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.ep-vsalq-row{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:7px;font-size:0.75rem;color:#374151;}
+.ep-vsalq-row.ep-vsalq-win{background:#f0fdf4;border-color:#bbf7d0;}
+.ep-vsalq-v{font-weight:700;color:#111827;}
+.ep-plan-ttl{font-size:0.63rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#6b7280;margin-bottom:7px;}
+.ep-plan{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
+.ep-plan-step{display:flex;gap:8px;align-items:center;font-size:0.73rem;color:#374151;}
+.ep-plan-day{flex-shrink:0;width:24px;height:24px;border-radius:6px;background:#eff6ff;color:#2563eb;font-size:0.6rem;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.ep-agent-cta-block{display:flex;align-items:center;gap:9px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:9px;padding:9px 11px;}
+.ep-agent-av{width:32px;height:32px;border-radius:50%;background:#2563eb;color:#fff;font-size:0.68rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ep-agent-info-block{flex:1;}
+.ep-agent-nm{font-size:0.78rem;font-weight:700;color:#111827;}
+.ep-agent-role{font-size:0.62rem;color:#6b7280;}
+.ep-contact-btn{background:#2563eb;color:#fff;border:none;border-radius:6px;padding:6px 10px;font-size:0.7rem;font-weight:700;cursor:default;flex-shrink:0;}
+
+/* S5: CTA final */
+.ep-priority-badge{display:inline-block;background:#fef3c7;border:1px solid #fbbf24;color:#92400e;font-size:0.7rem;font-weight:700;padding:4px 11px;border-radius:100px;margin-bottom:12px;}
+.ep-summary-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:9px;overflow:hidden;margin-bottom:12px;}
+.ep-sum-row{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid #e2e8f0;font-size:0.75rem;color:#374151;}
+.ep-sum-last{border-bottom:none;}
+.ep-sum-bold{font-weight:800;color:#111827;}
+.ep-agent-strip{display:flex;align-items:center;gap:9px;margin-bottom:12px;}
+.ep-final-btns{display:flex;gap:7px;}
+.ep-fb{flex:1;padding:10px;border-radius:7px;border:none;font-size:0.75rem;font-weight:700;cursor:default;display:flex;align-items:center;justify-content:center;gap:6px;}
+.ep-fb-wa{background:#25D366;color:#fff;}
+.ep-fb-call{background:#2563eb;color:#fff;}
+
+/* Controles */
+.ep-controls{display:flex;align-items:center;gap:10px;margin-top:16px;}
+.ep-dots{display:flex;gap:6px;align-items:center;}
+.ep-dot{width:8px;height:8px;border-radius:50%;border:none;background:var(--border);cursor:pointer;padding:0;transition:all .25s var(--ease);}
+.ep-dot.active{width:20px;border-radius:4px;background:var(--electric-blue);}
+.ep-nav-btn{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-secondary);cursor:pointer;transition:all .2s;flex-shrink:0;}
+.ep-nav-btn:hover{border-color:var(--blue-bright);color:var(--blue-bright);}
+.ep-ring-wrap{width:30px;height:30px;flex-shrink:0;}
+.ep-ring-svg{width:100%;height:100%;transform:rotate(-90deg);}
+.ep-ring-bg{stroke:var(--border);}
+.ep-ring-fg{stroke:var(--electric-blue);stroke-dasharray:94.25;stroke-dashoffset:94.25;stroke-linecap:round;}
+
+/* Stats de cierre */
+.ep-stats{display:flex;justify-content:center;gap:clamp(24px,6vw,64px);flex-wrap:wrap;margin:0 0 8px;text-align:center;}
+.ep-stat-v{font-size:1.6rem;font-weight:800;color:var(--text-primary);display:block;}
+.ep-stat-l{font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;margin-top:3px;display:block;}
 /* ============ SECCIÓN 6: SIMULADOR DE IMPACTO ============ */
 #simulador{background:var(--bg-secondary);}
 .sim-inputs{
@@ -1747,131 +1827,199 @@ section[id]{scroll-margin-top:84px;}
 <!-- ============ SECCIÓN 5 — EXPERIENCIA DEL PROPIETARIO ============ -->
 <section id="experiencia" class="section-pad">
   <div class="wrap">
+
     <div class="head-block reveal">
-      <h2 class="h2">Mucho más que una valoración. Un diagnóstico inmobiliario completo.</h2>
-      <p class="h2-sub">Ejemplo real: ático de 200 m² en Salou.</p>
+      <div class="cf-eyebrow"><span class="cf-eyebrow-dot"></span>LA EXPERIENCIA DEL PROPIETARIO</div>
+      <h2 class="h2">Mucho más que una valoración. Un <span style="color:var(--electric-blue)">diagnóstico inmobiliario completo</span>.</h2>
     </div>
 
-    <div class="exp-tabs reveal" id="expTabs">
-      <span class="exp-tab active" data-exp="ubicacion">📍 Ubicación</span>
-      <span class="exp-tab" data-exp="vivienda">🏠 Vivienda</span>
-      <span class="exp-tab" data-exp="estrategia">🎯 Estrategia</span>
-      <span class="exp-tab" data-exp="contacto">✉️ Contacto</span>
-      <span class="exp-tab" data-exp="diagnostico">📊 Diagnóstico</span>
-    </div>
+    <div class="ep-layout reveal" id="epLayout">
 
-    <div class="exp-preview active reveal" data-exp-panel="ubicacion">
-      <h4>1. Indica la ubicación de su vivienda</h4>
-      <p>El propietario empieza escribiendo la dirección. Nosotros la situamos automáticamente en el mercado de su zona.</p>
-      <div class="exp-preview-mock"><div class="lbl">Dirección</div>Carrer del Far 14, Salou</div>
-    </div>
-    <div class="exp-preview reveal" data-exp-panel="vivienda">
-      <h4>2. Describe su vivienda</h4>
-      <p>Tipo de inmueble, superficie y estado de conservación, en un par de clics.</p>
-      <div class="exp-preview-mock"><div class="lbl">Vivienda</div>Ático · 200 m² · Buen estado</div>
-    </div>
-    <div class="exp-preview reveal" data-exp-panel="estrategia">
-      <h4>3. Indica qué quiere hacer</h4>
-      <p>Vender, alquilar o todavía no lo tiene claro. Esto afina las recomendaciones de su informe.</p>
-      <div class="exp-preview-mock"><div class="lbl">Objetivo</div>Quiere vender en los próximos 6 meses</div>
-    </div>
-    <div class="exp-preview reveal" data-exp-panel="contacto">
-      <h4>4. Deja sus datos de contacto</h4>
-      <p>Para recibir el informe completo por email, dejando sus datos directamente en tu panel.</p>
-      <div class="exp-preview-mock"><div class="lbl">Contacto</div>Antonio R. · 633 ··· ···</div>
-    </div>
-    <div class="exp-preview reveal" data-exp-panel="diagnostico">
-      <h4>5. Recibe su diagnóstico al instante</h4>
-      <p>Un informe completo, con tu marca, listo para descargar y compartir.</p>
-      <div class="exp-preview-mock"><div class="lbl">Estado</div>✓ Informe generado y enviado</div>
-    </div>
-
-    <div class="report-explorer reveal">
-      <div class="re-tabs" id="reTabs">
-        <span class="re-tab active" data-re="valoracion">Valoración</span>
-        <span class="re-tab" data-re="mercado">Mercado</span>
-        <span class="re-tab" data-re="estrategia">Estrategia</span>
-        <span class="re-tab" data-re="reforma">Reforma</span>
-        <span class="re-tab" data-re="comprador">Comprador</span>
-        <span class="re-tab" data-re="vsalq">Vender vs Alquilar</span>
-        <span class="re-tab" data-re="plan">Plan de acción</span>
-      </div>
-
-      <div class="re-panel active" data-re-panel="valoracion">
-        <div class="re-val-big">757.500 €</div>
-        <div class="re-val-range">Rango estimado: 720.000 € – 795.000 €</div>
-        <div class="re-mini-grid">
-          <div class="re-mini-cell"><div class="v">3.788 €</div><div class="l">€ / m²</div></div>
-          <div class="re-mini-cell"><div class="v">2.450 €</div><div class="l">Alquiler / mes</div></div>
-          <div class="re-mini-cell"><div class="v">779.000 €</div><div class="l">Precio de salida</div></div>
+      <!-- Col izquierda: contexto -->
+      <div class="ep-side-col">
+        <div class="ep-ctx-card" id="epCtxCard">
+          <div class="ep-ctx-step" id="epCtxStep">Paso 1 de 5</div>
+          <p class="ep-ctx-text" id="epCtxText">El propietario llega a tu calculadora. Comparte tu enlace en redes, WhatsApp o QR.</p>
         </div>
       </div>
 
-      <div class="re-panel" data-re-panel="mercado">
-        <div class="re-bar-row"><div class="re-bar-top"><span>Demanda en la zona</span><span>82%</span></div><div class="re-bar-track"><div class="re-bar-fill" data-w="82%"></div></div></div>
-        <div class="re-bar-row"><div class="re-bar-top"><span>Liquidez (rapidez de venta)</span><span>68%</span></div><div class="re-bar-track"><div class="re-bar-fill" data-w="68%"></div></div></div>
-        <div class="re-bar-row"><div class="re-bar-top"><span>Estado del mercado</span><span>74%</span></div><div class="re-bar-track"><div class="re-bar-fill" data-w="74%"></div></div></div>
-        <div class="re-bar-row"><div class="re-bar-top"><span>Precio vs. mercado</span><span>90%</span></div><div class="re-bar-track"><div class="re-bar-fill" data-w="90%"></div></div></div>
+      <!-- Col central: mockup iPhone -->
+      <div class="ep-phone-col">
+        <div class="ep-phone-frame" id="epFrame">
+          <div class="ep-notch"></div>
+          <div class="ep-screens-track" id="epTrack">
+
+            <!-- PANTALLA 1: Landing del agente -->
+            <div class="ep-screen">
+              <div class="ep-s-header ep-s-header-blue">
+                <div class="ep-header-logo">Tu Agencia</div>
+              </div>
+              <div class="ep-s-body">
+                <h3 class="ep-s1-h">¿Cuánto vale tu vivienda?</h3>
+                <p class="ep-s1-p">Diagnóstico profesional gratuito</p>
+                <div class="ep-fields">
+                  <div class="ep-field-empty">Dirección</div>
+                  <div class="ep-field-row2">
+                    <div class="ep-field-empty">Superficie</div>
+                    <div class="ep-field-empty">Habitaciones</div>
+                  </div>
+                  <div class="ep-field-empty">Estado de la vivienda</div>
+                </div>
+                <button class="ep-cta-btn">Empezar diagnóstico</button>
+              </div>
+            </div>
+
+            <!-- PANTALLA 2: Formulario rellenado -->
+            <div class="ep-screen">
+              <div class="ep-s-header ep-s-header-blue">
+                <div class="ep-header-logo">Tu Agencia</div>
+              </div>
+              <div class="ep-s-body">
+                <h3 class="ep-s1-h">¿Cuánto vale tu vivienda?</h3>
+                <p class="ep-s1-p">Diagnóstico profesional gratuito</p>
+                <div class="ep-fields">
+                  <div class="ep-field-filled">Salou · Ático · Carrer del Mar 14</div>
+                  <div class="ep-field-row2">
+                    <div class="ep-field-filled">200 m²</div>
+                    <div class="ep-field-filled">4 hab.</div>
+                  </div>
+                  <div class="ep-field-filled">Buen estado</div>
+                </div>
+                <button class="ep-cta-btn ep-cta-loading">
+                  <span class="ep-spin"></span>Analizando...
+                </button>
+              </div>
+            </div>
+
+            <!-- PANTALLA 3: Informe — parte 1 -->
+            <div class="ep-screen">
+              <div class="ep-s-header ep-s-header-grad">
+                <div class="ep-header-logo">Tu Agencia</div>
+                <span class="ep-gen-badge">✓ Generado</span>
+              </div>
+              <div class="ep-s-body">
+                <div class="ep-report-tag">Diagnóstico inmobiliario</div>
+                <div class="ep-report-val">757.500 €</div>
+                <div class="ep-report-range">Rango: 720.000 € – 795.000 €</div>
+                <div class="ep-report-grid">
+                  <div class="ep-r-cell"><div class="ep-r-v">2.200 €</div><div class="ep-r-l">Alquiler/mes</div></div>
+                  <div class="ep-r-cell"><div class="ep-r-v">4,7%</div><div class="ep-r-l">Rentabilidad</div></div>
+                  <div class="ep-r-cell"><div class="ep-r-v">25.000 €</div><div class="ep-r-l">Reforma</div></div>
+                  <div class="ep-r-cell"><div class="ep-r-v ep-r-pos">+48.000 €</div><div class="ep-r-l">Revalorización</div></div>
+                </div>
+                <div class="ep-range-bar">
+                  <div class="ep-range-labels"><span>720k</span><span>757,5k</span><span>795k</span></div>
+                  <div class="ep-range-track"><div class="ep-range-pin" style="left:51%"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PANTALLA 4: Informe — parte 2 -->
+            <div class="ep-screen">
+              <div class="ep-s-body ep-s-body-top">
+                <div class="ep-rec-block">
+                  <div class="ep-rec-lbl">Recomendación</div>
+                  <div class="ep-rec-val">Vender con estrategia rápida</div>
+                </div>
+                <div class="ep-vsalq">
+                  <div class="ep-vsalq-row ep-vsalq-win"><span>Vender ahora</span><span class="ep-vsalq-v">757.500 €</span></div>
+                  <div class="ep-vsalq-row"><span>Alquilar</span><span class="ep-vsalq-v">2.200 €/mes</span></div>
+                </div>
+                <div class="ep-plan-ttl">Plan de acción — 7 días</div>
+                <div class="ep-plan">
+                  <div class="ep-plan-step"><span class="ep-plan-day">D1</span><span>Informe y datos en tu panel</span></div>
+                  <div class="ep-plan-step"><span class="ep-plan-day">D2</span><span>Primer contacto telefónico</span></div>
+                  <div class="ep-plan-step"><span class="ep-plan-day">D3</span><span>Visita a la vivienda</span></div>
+                  <div class="ep-plan-step"><span class="ep-plan-day">D7</span><span>Primeras visitas con compradores</span></div>
+                </div>
+                <div class="ep-agent-cta-block">
+                  <div class="ep-agent-av">JR</div>
+                  <div class="ep-agent-info-block">
+                    <div class="ep-agent-nm">Juan Rodríguez</div>
+                    <div class="ep-agent-role">Agente especialista en tu zona</div>
+                  </div>
+                  <button class="ep-contact-btn">Contactar</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- PANTALLA 5: CTA final del propietario -->
+            <div class="ep-screen">
+              <div class="ep-s-body ep-s-body-top">
+                <div class="ep-priority-badge">⚡ Situación de alta prioridad</div>
+                <div class="ep-summary-card">
+                  <div class="ep-sum-row"><span>Vivienda</span><span>Ático 200m² · Salou</span></div>
+                  <div class="ep-sum-row"><span>Valor estimado</span><span class="ep-sum-bold">757.500 €</span></div>
+                  <div class="ep-sum-row ep-sum-last"><span>Recomendación</span><span>Vender</span></div>
+                </div>
+                <div class="ep-agent-strip">
+                  <div class="ep-agent-av">JR</div>
+                  <div>
+                    <div class="ep-agent-nm">Juan Rodríguez</div>
+                    <div class="ep-agent-role">Agente especialista en tu zona</div>
+                  </div>
+                </div>
+                <div class="ep-final-btns">
+                  <button class="ep-fb ep-fb-wa">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
+                    WhatsApp
+                  </button>
+                  <button class="ep-fb ep-fb-call">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5 19.79 19.79 0 01.99 2.99 2 2 0 012.97 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                    Llamar
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /ep-screens-track -->
+        </div><!-- /ep-phone-frame -->
+
+        <!-- Controles: anterior / dots / ring / siguiente -->
+        <div class="ep-controls">
+          <button class="ep-nav-btn" id="epPrev" aria-label="Anterior">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div class="ep-dots" id="epDots">
+            <button class="ep-dot active" data-dot="0" aria-label="Pantalla 1"></button>
+            <button class="ep-dot" data-dot="1" aria-label="Pantalla 2"></button>
+            <button class="ep-dot" data-dot="2" aria-label="Pantalla 3"></button>
+            <button class="ep-dot" data-dot="3" aria-label="Pantalla 4"></button>
+            <button class="ep-dot" data-dot="4" aria-label="Pantalla 5"></button>
+          </div>
+          <div class="ep-ring-wrap" aria-hidden="true">
+            <svg class="ep-ring-svg" viewBox="0 0 36 36">
+              <circle class="ep-ring-bg" cx="18" cy="18" r="15" fill="none" stroke-width="2.5"/>
+              <circle id="epRingFg" class="ep-ring-fg" cx="18" cy="18" r="15" fill="none" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <button class="ep-nav-btn" id="epNext" aria-label="Siguiente">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div><!-- /ep-phone-col -->
+
+      <!-- Col derecha: panel agente -->
+      <div class="ep-side-col">
+        <div class="ep-agent-panel" id="epAgentCard">
+          <div class="ep-ap-label">Panel del agente</div>
+          <div id="epAgentContent"></div>
+        </div>
       </div>
 
-      <div class="re-panel" data-re-panel="estrategia">
-        <div class="re-profile-box" style="margin-top:0;margin-bottom:14px;"><b>Recomendación:</b> vender en los próximos 3-6 meses, mientras la demanda en Salou sigue alta.</div>
-        <div class="re-list">
-          <div>✓ Despersonalizar y airear los espacios antes de las visitas</div>
-          <div>✓ Renovar la cocina aporta el mayor retorno relativo</div>
-          <div>✓ Fotografía profesional: las visitas suben hasta un 40%</div>
-        </div>
-        <div class="re-profile-box">Perfil de decisión: propietario orientado a maximizar precio, con flexibilidad de tiempo media.</div>
-      </div>
+    </div><!-- /ep-layout -->
 
-      <div class="re-panel" data-re-panel="reforma">
-        <div class="re-reform-grid">
-          <div class="re-reform-cell"><div class="v">25.000 €</div><div class="l">Coste reforma</div></div>
-          <div class="re-reform-cell"><div class="v pos">48.000 €</div><div class="l">Revalorización</div></div>
-          <div class="re-reform-cell"><div class="v pos">+92,3%</div><div class="l">ROI reforma</div></div>
-          <div class="re-reform-cell"><div class="v pos">+270%</div><div class="l">ROI home staging</div></div>
-        </div>
-        <div class="re-profile-box">El home staging es la inversión con mejor retorno relativo: cambia la percepción del comprador sin obra.</div>
-      </div>
-
-      <div class="re-panel" data-re-panel="comprador">
-        <div class="re-list">
-          <div>👤 <b>Perfil:</b> pareja 35-50 años, segunda vivienda o cambio de residencia</div>
-          <div>📣 <b>Canales:</b> portales inmobiliarios + redes sociales locales</div>
-          <div>⚠️ <b>Riesgo de venta:</b> bajo — alta demanda en la zona</div>
-        </div>
-      </div>
-
-      <div class="re-panel" data-re-panel="vsalq">
-        <div class="re-vsalq">
-          <div class="re-vsalq-row"><span>Vender ahora</span><span>757.500 € netos estimados</span></div>
-          <div class="re-vsalq-row"><span>Alquilar</span><span>2.450 €/mes (29.400 €/año)</span></div>
-        </div>
-        <div class="re-vsalq-highlight">Alquilando, tardarías 28,7 años en igualar el beneficio de vender ahora.</div>
-      </div>
-
-      <div class="re-panel" data-re-panel="plan">
-        <div class="re-plan-timeline">
-          <div class="re-plan-step"><span class="re-plan-day">D1</span><span>Recibes el informe completo y los datos de contacto del propietario.</span></div>
-          <div class="re-plan-step"><span class="re-plan-day">D2</span><span>Primer contacto telefónico para concertar visita.</span></div>
-          <div class="re-plan-step"><span class="re-plan-day">D3</span><span>Visita a la vivienda y validación de datos del informe.</span></div>
-          <div class="re-plan-step"><span class="re-plan-day">D4</span><span>Propuesta de estrategia de venta personalizada.</span></div>
-          <div class="re-plan-step"><span class="re-plan-day">D5</span><span>Sesión de fotos y preparación del anuncio.</span></div>
-          <div class="re-plan-step"><span class="re-plan-day">D6</span><span>Publicación en portales y redes.</span></div>
-          <div class="re-plan-step"><span class="re-plan-day">D7</span><span>Primeras visitas concertadas con compradores interesados.</span></div>
-        </div>
-      </div>
+    <!-- 3 stats de cierre + CTA -->
+    <div class="ep-stats reveal">
+      <div class="ep-stat"><span class="ep-stat-v">&lt;&nbsp;60s</span><span class="ep-stat-l">Para generar el informe</span></div>
+      <div class="ep-stat"><span class="ep-stat-v">8</span><span class="ep-stat-l">Secciones de análisis</span></div>
+      <div class="ep-stat"><span class="ep-stat-v">0</span><span class="ep-stat-l">Intervención manual</span></div>
     </div>
-
-    <div class="exp-closing-stats reveal">
-      <div><div class="v" data-countup="60" data-suffix=" seg">0</div><div class="l">Para generar el informe</div></div>
-      <div><div class="v" data-countup="7" data-suffix=" pestañas">0</div><div class="l">De análisis por informe</div></div>
-      <div><div class="v" data-countup="100" data-suffix="% tu marca">0%</div><div class="l">Sin marca de terceros</div></div>
-    </div>
-    <div class="reveal" style="text-align:center;">
+    <div class="reveal" style="text-align:center;margin-top:32px;">
       <a href="#cta-final" class="btn btn-primary">Solicitar acceso fundador →</a>
     </div>
-  </div>
+
+  </div><!-- /wrap -->
 </section>
 
 <!-- ============ SECCIÓN 6 — SIMULADOR DE IMPACTO ============ -->
@@ -3097,19 +3245,101 @@ function wireTabs(tabSel, panelSel, tabAttr, panelAttr, onShow){
 
 /* ============ SECCIÓN 5: EXPERIENCIA PROPIETARIO ============ */
 (function(){
-  var expTabs = document.getElementById('expTabs');
-  if(!expTabs) return;
-  wireTabs('#expTabs .exp-tab', '.exp-preview', 'data-exp', 'data-exp-panel');
+  var track = document.getElementById('epTrack');
+  if(!track) return;
 
-  var mercadoAnimated = false;
-  wireTabs('#reTabs .re-tab', '.re-panel', 'data-re', 'data-re-panel', function(key){
-    if(key === 'mercado' && !mercadoAnimated){
-      mercadoAnimated = true;
-      document.querySelectorAll('[data-re-panel="mercado"] .re-bar-fill').forEach(function(b, i){
-        setTimeout(function(){ b.style.width = b.dataset.w; }, 120 + i*120);
-      });
+  var TOTAL = 5;
+  var current = 0;
+  var rafId = null;
+  var isRunning = false;
+  var userStopped = false;
+  var DURATION = 5000;
+  var ringFg = document.getElementById('epRingFg');
+  var CIRC = 94.25;
+
+  var DATA = [
+    { step:'Paso 1 de 5',
+      ctx:'El propietario llega a tu calculadora. Comparte tu enlace en redes, WhatsApp o QR.',
+      agent:'<div class="ep-ag-stat-lbl">Visitas hoy</div><div class="ep-ag-stat-val">14</div>' },
+    { step:'Paso 2 de 5',
+      ctx:'Rellena los datos en menos de 60 segundos.',
+      agent:'<div class="ep-ag-inprogress"><span class="ep-dot-cyan"></span> En curso...</div>' },
+    { step:'Paso 3 de 5',
+      ctx:'Recibe un informe que genera confianza. 8 secciones de análisis.',
+      agent:'<div class="ep-ag-notif ep-ag-notif-bounce">🔔 Nuevo lead recibido<b>Ana Martínez · Salou</b></div>' },
+    { step:'Paso 4 de 5',
+      ctx:'Te ve como el experto de su zona antes de que le llames.',
+      agent:'<div class="ep-ag-checks"><div class="ep-ag-check">Nombre y teléfono</div><div class="ep-ag-check">Email</div><div class="ep-ag-check">Datos vivienda</div><div class="ep-ag-check">Informe completo</div></div>' },
+    { step:'Paso 5 de 5',
+      ctx:'El propietario te contacta a ti. Captación basada en confianza.',
+      agent:'<div><div class="ep-ag-lead-badge">Lead cualificado listo</div><div class="ep-ag-lead-row"><span>Objetivo</span><span>Vender</span></div><div class="ep-ag-lead-row"><span>Urgencia</span><span class="ep-red">Inmediata</span></div></div>' }
+  ];
+
+  function setRing(pct){
+    if(ringFg) ringFg.style.strokeDashoffset = CIRC * (1 - pct);
+  }
+
+  function goTo(n){
+    current = ((n % TOTAL) + TOTAL) % TOTAL;
+    track.style.transform = 'translateX(-' + (current * 20) + '%)';
+    document.querySelectorAll('#epDots .ep-dot').forEach(function(d,i){
+      d.classList.toggle('active', i === current);
+    });
+    var d = DATA[current];
+    var ctxStep = document.getElementById('epCtxStep');
+    var ctxText = document.getElementById('epCtxText');
+    var agContent = document.getElementById('epAgentContent');
+    if(ctxStep) ctxStep.textContent = d.step;
+    if(ctxText) ctxText.textContent = d.ctx;
+    if(agContent) agContent.innerHTML = d.agent;
+  }
+
+  function stopAuto(){
+    isRunning = false;
+    if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+    setRing(0);
+  }
+
+  function startAuto(){
+    if(isRunning || userStopped) return;
+    isRunning = true;
+    var t0 = null;
+    function tick(ts){
+      if(!isRunning) return;
+      if(!t0) t0 = ts;
+      var pct = Math.min((ts - t0) / DURATION, 1);
+      setRing(pct);
+      if(pct >= 1){ goTo(current + 1); t0 = ts; }
+      rafId = requestAnimationFrame(tick);
     }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function onInteract(n){
+    userStopped = true;
+    stopAuto();
+    goTo(typeof n === 'number' ? n : current);
+  }
+
+  document.querySelectorAll('#epDots .ep-dot').forEach(function(dot){
+    dot.addEventListener('click', function(){ onInteract(parseInt(this.dataset.dot, 10)); });
   });
+  var epPrev = document.getElementById('epPrev');
+  var epNext = document.getElementById('epNext');
+  if(epPrev) epPrev.addEventListener('click', function(){ onInteract(current - 1); });
+  if(epNext) epNext.addEventListener('click', function(){ onInteract(current + 1); });
+
+  if(ringFg){ ringFg.style.strokeDasharray = CIRC; ringFg.style.strokeDashoffset = CIRC; }
+  goTo(0);
+
+  if('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting){ startAuto(); }
+      else{ if(!userStopped) stopAuto(); }
+    }, { threshold: 0.3 });
+    var frame = document.getElementById('epFrame');
+    if(frame) obs.observe(frame);
+  }
 })();
 
 /* ============ SECCIÓN 6: SIMULADOR DE IMPACTO ============ */
