@@ -243,115 +243,300 @@ section[id]{scroll-margin-top:84px;}
   .hero-ctas{flex-direction:column;width:100%;}
   .hero-ctas .btn{width:100%;}
 }
-/* ============ SECCIÓN 2: QUIZ DIAGNÓSTICO ============ */
+/* === SECCIÓN: DIAGNÓSTICO v2 === */
 #diagnostico{background:var(--bg-secondary);}
-.quiz-card{
-  position:relative;background:var(--bg-card);border:1px solid var(--border);
-  border-radius:20px;min-height:420px;overflow:hidden;
-  max-width:680px;margin:0 auto;
-}
-.quiz-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-blue);z-index:2;}
-.quiz-phase{padding:clamp(28px,5vw,48px);}
-.quiz-phase[hidden]{display:none;}
 
-/* Intro */
-.quiz-intro{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:372px;}
-.quiz-intro-icon{
-  width:64px;height:64px;border-radius:18px;background:var(--blue-glow);
-  display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:20px;
+/* Header de sección */
+.diag-header{text-align:center;max-width:680px;margin:0 auto 44px;}
+.diag-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;
+  font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--electric-blue);
 }
-.quiz-intro h3{font-size:1.25rem;font-weight:800;margin-bottom:10px;}
-.quiz-intro p{color:var(--text-secondary);font-size:0.92rem;max-width:420px;margin:0 auto 22px;line-height:1.6;}
-.quiz-preview-pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:26px;}
-.quiz-preview-pills .pill{text-transform:none;font-weight:600;letter-spacing:0;}
-.quiz-note{font-size:0.74rem;color:var(--text-muted);margin-top:14px;}
+.diag-eyebrow svg{width:16px;height:16px;flex-shrink:0;}
+.diag-eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--electric-blue);flex-shrink:0;animation:dotPulse 2s ease-in-out infinite;}
+.diag-h2{font-size:clamp(1.5rem,3.5vw,2.5rem);font-weight:700;color:var(--text-primary);letter-spacing:-0.01em;margin-bottom:14px;}
+.diag-sub{font-size:1.05rem;color:var(--text-secondary);max-width:600px;margin:0 auto;line-height:1.6;}
 
-/* Progress */
-.quiz-progress{padding:22px clamp(20px,5vw,40px) 4px;}
-.quiz-progress-track{height:4px;border-radius:3px;background:var(--border);overflow:hidden;margin-bottom:16px;}
-.quiz-progress-fill{height:100%;width:0%;background:var(--gradient-blue);border-radius:3px;transition:width .4s var(--ease);}
-.quiz-dots{display:flex;justify-content:space-between;}
-.qdot{
-  width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:0.66rem;font-weight:700;
-  color:var(--text-muted);background:var(--bg-primary);transition:all .25s;
-}
-.qdot.active{border-color:var(--blue-bright);color:var(--blue-bright);box-shadow:0 0 0 3px var(--blue-glow);}
-.qdot.completed{border-color:var(--blue-bright);background:var(--blue-bright);color:#fff;}
+/* Stage / fase wrapper */
+.diag-stage{position:relative;max-width:1060px;margin:0 auto;}
+.diag-phase{transition:opacity .35s var(--ease);}
+.diag-phase[hidden]{display:none;}
+.diag-phase.diag-fading{opacity:0;}
 
-/* Slider */
-.quiz-slider-mask{overflow:hidden;padding:8px clamp(20px,5vw,40px) 0;}
-.quiz-slider{display:flex;transition:transform .45s var(--ease);}
-.quiz-q{width:100%;flex-shrink:0;padding:18px 0 6px;}
-.quiz-q-title{font-size:1.05rem;font-weight:800;margin-bottom:4px;}
-.quiz-q-sub{font-size:0.8rem;color:var(--text-muted);margin-bottom:20px;}
+/* ============ FASE 1: INTRO ============ */
+.diag-intro-grid{display:grid;grid-template-columns:1fr;gap:28px;}
+@media (min-width:1024px){.diag-intro-grid{grid-template-columns:55% 45%;align-items:start;}}
 
-.q-card{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  padding:14px 16px;border-radius:12px;border:1.5px solid var(--border);
-  background:rgba(255,255,255,0.015);margin-bottom:10px;cursor:pointer;
-  transition:border-color .2s,background .2s,transform .15s;
+.diag-sell-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:40px;
+  position:relative;border-top:2px solid transparent;
+  background-image:linear-gradient(var(--bg-card),var(--bg-card)),var(--gradient-blue);
+  background-origin:border-box;background-clip:padding-box,border-box;
 }
-.q-card:hover{border-color:var(--blue-glow-strong);}
-.q-card.selected{border-color:var(--blue-bright);background:var(--blue-glow);}
-.q-card-label{font-size:0.88rem;font-weight:600;}
-.q-check{
-  width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;transition:all .2s;
-}
-.q-card.selected .q-check{background:var(--electric-blue);border-color:var(--electric-blue);}
-.q-check svg{width:12px;height:12px;opacity:0;transform:scale(.5);transition:all .2s;stroke:#fff;}
-.q-card.selected .q-check svg{opacity:1;transform:scale(1);}
+@media (max-width:640px){.diag-sell-card{padding:28px 22px;}}
 
-.q-tags{display:flex;flex-wrap:wrap;gap:9px;}
-.q-tag{
-  padding:10px 16px;border-radius:100px;border:1.5px solid var(--border);
-  background:rgba(255,255,255,0.015);font-size:0.82rem;font-weight:600;
-  color:var(--text-secondary);transition:all .2s;
-}
-.q-tag.selected{border-color:var(--blue-bright);background:var(--blue-glow);color:var(--text-primary);}
+.diag-scanner{width:48px;height:48px;margin-bottom:18px;}
+.diag-scanner-sweep{transform-origin:24px 24px;animation:diagSweep 3s linear infinite;}
+@keyframes diagSweep{to{transform:rotate(360deg);}}
 
-.q-select{
-  width:100%;padding:14px 16px;border-radius:12px;border:1.5px solid var(--border);
-  background:rgba(255,255,255,0.02);color:var(--text-primary);font-size:0.92rem;
-}
-.q-select option{background:#0D1220;color:var(--text-primary);}
+.diag-sell-card h3{color:var(--text-primary);font-weight:700;font-size:1.2rem;margin-bottom:10px;}
+.diag-sell-card > p{color:var(--text-secondary);font-size:0.95rem;line-height:1.6;margin-bottom:24px;}
 
-.quiz-nav{display:flex;justify-content:space-between;gap:10px;padding:18px clamp(20px,5vw,40px) clamp(20px,5vw,32px);border-top:1px solid var(--border);margin-top:6px;}
-.quiz-nav .btn{padding:11px 20px;font-size:0.85rem;}
-.quiz-nav .btn:disabled{opacity:0.35;cursor:not-allowed;}
-.quiz-nav .btn-primary:disabled::after{display:none;}
+.diag-criteria-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px;}
+@media (max-width:480px){.diag-criteria-grid{grid-template-columns:1fr;}}
+.diag-criteria-item{
+  display:flex;align-items:center;gap:10px;background:var(--bg-secondary);border:1px solid transparent;
+  border-radius:10px;padding:14px;transition:border-color .2s;
+}
+.diag-criteria-item:hover{border-color:rgba(37,99,235,0.2);}
+.diag-criteria-item svg{width:20px;height:20px;flex-shrink:0;}
+.diag-criteria-item span{font-size:0.84rem;color:var(--text-secondary);font-weight:500;}
 
-/* Result */
-.quiz-result{text-align:center;}
-.gauge-wrap{position:relative;width:160px;height:160px;margin:0 auto 18px;}
-.gauge-wrap svg{transform:rotate(-90deg);}
-.gauge-num{
-  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
-}
-.gauge-num .v{font-size:2.1rem;font-weight:800;letter-spacing:-0.02em;}
-.gauge-num .l{font-size:0.62rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;}
-.quiz-phrase{font-size:0.95rem;color:var(--text-secondary);max-width:460px;margin:0 auto 28px;line-height:1.6;}
-.quiz-phrase b{color:var(--text-primary);}
-.qbar-row{margin-bottom:14px;text-align:left;}
-.qbar-top{display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:6px;}
-.qbar-top span:first-child{font-weight:700;}
-.qbar-track{height:7px;border-radius:4px;background:var(--border);overflow:hidden;margin-bottom:4px;}
-.qbar-fill{height:100%;width:0%;border-radius:4px;background:var(--gradient-blue);transition:width 1s var(--ease);}
-.qbar-insight{font-size:0.74rem;color:var(--text-muted);}
-.quiz-improve-grid{display:grid;gap:10px;margin:24px 0;text-align:left;}
-.improve-card{
-  display:flex;gap:10px;padding:13px 15px;border-radius:12px;border:1px solid var(--border);
-  background:rgba(255,255,255,0.015);font-size:0.82rem;color:var(--text-secondary);line-height:1.5;
-}
-.improve-card .ic{flex-shrink:0;font-size:1.05rem;}
-.quiz-result-ctas{display:flex;flex-direction:column;gap:10px;align-items:center;margin-top:8px;}
-.quiz-repeat{font-size:0.8rem;color:var(--text-muted);text-decoration:underline;text-underline-offset:3px;}
-.quiz-repeat:hover{color:var(--text-primary);}
+.diag-start-btn{position:relative;overflow:hidden;}
+.diag-start-btn::after{animation-duration:4s;}
+.diag-meta-line{text-align:center;color:var(--text-muted);font-size:0.8rem;margin-top:14px;}
 
-@media (min-width:640px){
-  .quiz-result-ctas{flex-direction:row;justify-content:center;}
+/* Preview card (derecha) */
+.diag-preview-wrap{display:flex;justify-content:center;}
+.diag-preview-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px;
+  width:100%;max-width:360px;opacity:0.85;animation:diagPreviewBorder 3s ease-in-out infinite;
 }
+@media (min-width:1024px){.diag-preview-card{animation:diagPreviewBorder 3s ease-in-out infinite,diagFloat 4s ease-in-out infinite;}}
+@keyframes diagPreviewBorder{0%,100%{border-color:var(--border);}50%{border-color:rgba(37,99,235,0.2);}}
+@keyframes diagFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.diag-preview-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.diag-preview-head span:first-child{font-size:0.95rem;color:var(--text-primary);font-weight:600;}
+.diag-preview-badge{
+  font-size:0.66rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;
+  color:var(--amber);background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);
+  padding:3px 10px;border-radius:100px;
+}
+.diag-preview-gauge{position:relative;width:100px;height:100px;margin:0 auto 22px;}
+.diag-preview-gauge-q{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;font-weight:800;color:var(--text-muted);
+}
+.diag-preview-bars{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;filter:blur(0.3px);}
+.diag-preview-bar-row span{font-size:0.72rem;color:var(--text-muted);display:block;margin-bottom:5px;}
+.diag-preview-bar-track{height:6px;border-radius:4px;background:var(--border);}
+.diag-preview-lines{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;filter:blur(2px);opacity:0.8;}
+.diag-preview-line{height:8px;border-radius:4px;background:var(--border);}
+.diag-preview-footer{text-align:center;color:var(--text-muted);font-size:0.8rem;}
+
+/* ============ FASE 2: PREGUNTAS ============ */
+.diag-q-grid{display:grid;grid-template-columns:1fr;gap:20px;align-items:start;}
+@media (min-width:1024px){.diag-q-grid{grid-template-columns:65% 35%;}}
+.diag-q-main{min-width:0;}
+
+.diag-q-card{
+  position:relative;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;
+  padding:40px;min-height:450px;overflow:hidden;
+}
+@media (max-width:640px){.diag-q-card{padding:24px;min-height:auto;}}
+.diag-q-progress-bg{position:absolute;top:0;left:0;right:0;height:3px;background:var(--border);}
+.diag-q-progress-fill{position:absolute;top:0;left:0;height:3px;width:20%;background:var(--gradient-blue);transition:width .5s ease;}
+
+.diag-q-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;margin-top:6px;}
+.diag-q-top .lbl{font-size:0.8rem;color:var(--text-muted);}
+.diag-q-top .pct{font-size:0.85rem;color:var(--electric-blue);font-weight:700;}
+
+.diag-dots{display:flex;gap:12px;margin-bottom:30px;}
+.diag-dot{
+  width:10px;height:10px;border-radius:50%;background:var(--border);border:none;padding:0;
+  cursor:default;transition:all .25s;position:relative;flex-shrink:0;
+}
+.diag-dot.done{background:var(--electric-blue);cursor:pointer;}
+.diag-dot.current{background:var(--electric-blue);box-shadow:0 0 0 4px var(--blue-glow);animation:dotPulse 2s ease-in-out infinite;}
+
+.diag-q-number{
+  position:absolute;top:8px;right:24px;font-size:6rem;font-weight:900;color:var(--electric-blue);
+  opacity:0.07;line-height:1;pointer-events:none;user-select:none;
+}
+@media (max-width:640px){.diag-q-number{font-size:4rem;right:14px;}}
+
+.diag-q-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;font-size:0.7rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;
+}
+.diag-q-eyebrow svg{width:14px;height:14px;}
+
+.diag-q-title{color:var(--text-primary);font-weight:600;font-size:1.25rem;margin-bottom:8px;position:relative;z-index:1;}
+.diag-q-context{color:var(--text-muted);font-size:0.85rem;font-style:italic;margin-bottom:24px;line-height:1.55;position:relative;z-index:1;max-width:520px;}
+.diag-q-multi-hint{color:var(--electric-blue);font-size:0.8rem;margin:-12px 0 16px;display:block;}
+
+.diag-q-slider-mask{overflow:hidden;position:relative;z-index:1;}
+.diag-q-slider{display:flex;transition:transform .3s ease;min-width:0;}
+.diag-q-panel{width:100%;flex-shrink:0;min-width:0;}
+
+.diag-options{display:flex;flex-direction:column;gap:10px;}
+.diag-option{
+  display:flex;align-items:center;gap:14px;background:var(--bg-secondary);border:1px solid var(--border);
+  border-radius:12px;padding:14px 18px;cursor:pointer;transition:all .2s;text-align:left;width:100%;
+}
+.diag-option:hover{border-color:rgba(37,99,235,0.3);background:rgba(37,99,235,0.04);transform:translateY(-1px);}
+.diag-option.selected{border-color:var(--electric-blue);background:var(--blue-glow);box-shadow:0 0 12px rgba(37,99,235,0.15);}
+.diag-option-icon{
+  width:36px;height:36px;border-radius:50%;background:rgba(37,99,235,0.1);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.diag-option-icon svg{width:18px;height:18px;color:var(--electric-blue);transition:all .3s;}
+.diag-option-icon .diag-check-icon{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  transform:scale(0);transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.diag-option.selected .diag-option-icon .diag-base-icon{transform:scale(0);}
+.diag-option.selected .diag-option-icon .diag-check-icon{transform:scale(1);}
+.diag-option-text{flex:1;}
+.diag-option-title{display:block;font-size:0.9rem;font-weight:700;color:var(--text-primary);}
+.diag-option-sub{display:block;font-size:0.76rem;color:var(--text-muted);margin-top:2px;}
+
+.diag-select-wrap{position:relative;max-width:420px;}
+.diag-select{
+  width:100%;padding:14px 40px 14px 16px;border-radius:12px;border:1px solid var(--border);
+  background:var(--bg-secondary);color:var(--text-primary);font-size:1rem;appearance:none;cursor:pointer;
+  transition:border-color .2s;
+}
+.diag-select:focus{outline:none;border-color:var(--electric-blue);}
+.diag-select-wrap svg{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text-muted);pointer-events:none;}
+
+.diag-q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:30px;position:relative;z-index:1;}
+.diag-back-link{font-size:0.85rem;color:var(--text-muted);background:none;border:none;cursor:pointer;transition:color .2s;}
+.diag-back-link:hover{color:var(--text-primary);}
+.diag-back-link[hidden]{visibility:hidden;}
+.diag-next-btn{padding:12px 24px;font-size:0.88rem;}
+.diag-next-btn:disabled{opacity:0.35;cursor:not-allowed;transform:none;}
+.diag-next-btn:disabled::after{display:none;}
+
+/* Sidebar en vivo */
+.diag-sidebar{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px;
+}
+@media (min-width:1024px){.diag-sidebar{position:sticky;top:100px;}}
+.diag-sidebar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.diag-sidebar-head span:first-child{font-size:0.95rem;font-weight:600;color:var(--text-primary);}
+.diag-sidebar-badge{
+  display:inline-flex;align-items:center;gap:6px;font-size:0.66rem;font-weight:700;
+  color:var(--electric-blue);text-transform:uppercase;letter-spacing:0.04em;
+}
+.diag-sidebar-empty{font-size:0.82rem;color:var(--text-muted);line-height:1.6;}
+.diag-data-item{
+  display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--border);
+  animation:diagSlideFade .25s ease;
+}
+.diag-data-item:last-child{border-bottom:none;}
+@keyframes diagSlideFade{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+.diag-data-label{font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;}
+.diag-data-value{font-size:0.85rem;color:var(--text-primary);font-weight:700;text-align:right;max-width:60%;}
+
+.diag-comp-card{background:var(--bg-secondary);border-radius:8px;padding:12px;margin-top:14px;animation:diagSlideFade .3s ease;}
+.diag-comp-label{font-size:0.75rem;color:var(--text-muted);margin-bottom:8px;}
+.diag-comp-bar{display:flex;gap:4px;margin-bottom:6px;}
+.diag-comp-seg{height:6px;flex:1;border-radius:3px;background:var(--border);transition:background .3s;}
+.diag-comp-text{font-size:0.78rem;font-weight:700;}
+.diag-comp-insight{font-size:0.72rem;color:var(--text-muted);margin-top:6px;line-height:1.5;}
+
+.diag-alert{
+  display:flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--amber);margin-top:12px;
+  background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:8px 10px;
+}
+
+.diag-mini-gauge-wrap{margin-top:18px;text-align:center;}
+.diag-mini-gauge{position:relative;width:120px;height:64px;margin:0 auto;}
+.diag-mini-gauge-num{
+  position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:1.3rem;font-weight:800;color:var(--text-primary);
+}
+.diag-mini-gauge-label{font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.03em;margin-top:4px;}
+
+/* Sidebar compacto (tablet/móvil) */
+.diag-sidebar-compact{
+  display:none;width:100%;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;
+  padding:12px 16px;align-items:center;justify-content:space-between;cursor:pointer;margin-bottom:14px;
+}
+.diag-sidebar-compact .l{font-size:0.78rem;color:var(--text-secondary);font-weight:600;}
+.diag-sidebar-compact .r{display:flex;align-items:center;gap:10px;}
+.diag-sidebar-compact .score{font-size:0.85rem;color:var(--electric-blue);font-weight:800;}
+.diag-sidebar-compact-track{width:60px;height:4px;border-radius:3px;background:var(--border);overflow:hidden;}
+.diag-sidebar-compact-fill{height:100%;width:0%;background:var(--gradient-blue);transition:width .4s;}
+.diag-sidebar-compact svg{width:14px;height:14px;color:var(--text-muted);transition:transform .2s;}
+.diag-sidebar-compact.open svg{transform:rotate(180deg);}
+
+@media (max-width:1023px){
+  .diag-q-grid{grid-template-columns:1fr;}
+  .diag-sidebar{display:none;}
+  .diag-sidebar-compact{display:flex;}
+  .diag-sidebar.expanded{display:block;order:-1;}
+}
+
+/* ============ FASE ANALYZING ============ */
+.diag-analyzing{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:420px;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:40px;text-align:center;
+}
+.diag-spinner{width:48px;height:48px;margin-bottom:24px;animation:diagSpin 1s linear infinite;}
+@keyframes diagSpin{to{transform:rotate(360deg);}}
+.diag-analyzing-text{color:var(--text-secondary);font-size:0.95rem;margin-bottom:24px;min-height:1.4em;}
+.diag-analyzing-track{width:240px;height:2px;border-radius:2px;background:var(--border);overflow:hidden;}
+.diag-analyzing-fill{height:100%;width:0%;background:var(--gradient-blue);transition:width 2s linear;}
+
+/* ============ FASE 3: RESULTADO ============ */
+.diag-result-grid{display:grid;grid-template-columns:1fr;gap:24px;}
+@media (min-width:1024px){.diag-result-grid{grid-template-columns:60% 40%;}}
+
+.diag-report-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:36px;}
+@media (max-width:640px){.diag-report-card{padding:24px;}}
+.diag-report-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:28px;padding-bottom:22px;border-bottom:1px solid var(--border);}
+.diag-report-title{color:var(--text-primary);font-weight:700;font-size:1.15rem;margin-bottom:4px;}
+.diag-report-meta{color:var(--text-muted);font-size:0.85rem;}
+.diag-level-badge{font-size:0.72rem;font-weight:700;padding:6px 14px;border-radius:100px;white-space:nowrap;}
+
+.diag-score-block{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:30px;}
+.diag-gauge-big{position:relative;width:160px;height:160px;margin-bottom:16px;}
+.diag-gauge-big svg{transform:rotate(-90deg);}
+.diag-gauge-big-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.diag-gauge-big-num .v{font-size:2.1rem;font-weight:800;letter-spacing:-0.02em;}
+.diag-gauge-big-num .l{font-size:0.62rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;}
+.diag-score-phrase{font-size:0.95rem;color:var(--text-secondary);max-width:480px;line-height:1.6;}
+.diag-score-phrase b{color:var(--text-primary);}
+
+.diag-section-title{color:var(--text-primary);font-weight:700;font-size:1rem;margin-bottom:16px;}
+.diag-areas{display:flex;flex-direction:column;gap:18px;margin-bottom:30px;}
+.diag-area-top{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.diag-area-top svg{width:18px;height:18px;flex-shrink:0;}
+.diag-area-top .name{font-size:0.9rem;font-weight:700;color:var(--text-primary);flex:1;}
+.diag-area-top .score{font-size:0.82rem;font-weight:700;}
+.diag-area-track{height:8px;border-radius:100px;background:var(--border);overflow:hidden;margin-bottom:7px;}
+.diag-area-fill{height:100%;width:0%;border-radius:100px;transition:width .6s var(--ease);}
+.diag-area-insight{font-size:0.8rem;color:var(--text-muted);display:flex;gap:7px;line-height:1.5;}
+.diag-area-insight .d{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+
+.diag-opp-grid{display:flex;flex-direction:column;gap:10px;}
+.diag-opp-card{
+  background:var(--bg-secondary);border-radius:10px;padding:14px 16px;display:flex;gap:12px;
+  border-left:3px solid var(--border);
+}
+.diag-opp-card svg{width:20px;height:20px;flex-shrink:0;margin-top:1px;}
+.diag-opp-title{font-size:0.86rem;font-weight:700;color:var(--text-primary);margin-bottom:2px;}
+.diag-opp-desc{font-size:0.78rem;color:var(--text-muted);line-height:1.45;}
+
+.diag-action-card{
+  background:var(--bg-card);border:1px solid rgba(37,99,235,0.3);border-radius:16px;padding:28px;
+  box-shadow:0 0 30px rgba(37,99,235,0.06);
+}
+@media (min-width:1024px){.diag-action-card{position:sticky;top:100px;}}
+.diag-action-row{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;}
+.diag-action-row .l{font-size:0.8rem;color:var(--text-muted);}
+.diag-action-row .v{font-size:0.88rem;font-weight:700;}
+.diag-action-score{font-size:2rem;font-weight:800;text-align:center;margin-bottom:4px;}
+.diag-action-score-lbl{text-align:center;color:var(--text-muted);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:18px;}
+.diag-action-divider{height:1px;background:var(--border);margin:16px 0;}
+.diag-action-text{font-size:0.9rem;color:var(--text-secondary);line-height:1.6;margin-bottom:20px;}
+.diag-action-secondary{display:block;text-align:center;font-size:0.85rem;color:var(--electric-blue);margin-top:14px;}
+.diag-action-secondary:hover{text-decoration:underline;}
+.diag-action-repeat{display:block;text-align:center;font-size:0.8rem;color:var(--text-muted);margin-top:16px;background:none;border:none;cursor:pointer;width:100%;}
+.diag-action-repeat:hover{color:var(--text-primary);}
+
 /* ============ SECCIÓN 3: CÓMO FUNCIONA ============ */
 #como-funciona{background:var(--bg-primary);}
 .timeline{position:relative;margin-top:36px;}
@@ -843,140 +1028,354 @@ section[id]{scroll-margin-top:84px;}
   </div>
 </section>
 
-<!-- ============ SECCIÓN 2 — DIAGNÓSTICO DE AGENCIA ============ -->
+<!-- === SECCIÓN: DIAGNÓSTICO v2 === -->
 <section id="diagnostico" class="section-pad">
   <div class="wrap">
-    <div class="head-block reveal">
-      <h2 class="h2">¿Cómo de preparada está tu agencia para captar más?</h2>
-      <p class="h2-sub">5 preguntas · 30 segundos · Análisis personalizado.</p>
+
+    <div class="diag-header reveal">
+      <div class="diag-eyebrow">
+        <span class="diag-eyebrow-dot"></span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V14M10 20V10M16 20V13"/><circle cx="18" cy="7" r="3"/><path d="M20.5 9.5L22 11"/></svg>
+        Diagnóstico de captación inmobiliaria
+      </div>
+      <h2 class="diag-h2">Descubre en 30 segundos si tu sistema de captación <span class="grad-text">está a la altura</span></h2>
+      <p class="diag-sub">Una evaluación profesional basada en tu provincia, tu equipo y tus herramientas. Resultado inmediato.</p>
     </div>
 
-    <div class="quiz-card reveal" id="quizCard">
+    <div class="diag-stage reveal" id="diagStage">
 
       <!-- FASE 1: INTRO -->
-      <div class="quiz-phase quiz-intro" data-phase="intro" id="quizIntro">
-        <div class="quiz-intro-icon">🧭</div>
-        <h3>Descubre el potencial real de tu agencia</h3>
-        <p>Responde 5 preguntas rápidas sobre tu agencia y tu provincia. Te diremos cuánto margen de mejora tienes en captación.</p>
-        <div class="quiz-preview-pills">
-          <span class="pill">📍 Tu provincia</span>
-          <span class="pill">🛠 Tus herramientas</span>
-          <span class="pill">📈 Tu potencial</span>
+      <div class="diag-phase diag-intro" data-phase="intro" id="diagIntro">
+        <div class="diag-intro-grid">
+
+          <div class="diag-intro-left">
+            <div class="diag-sell-card">
+              <div class="diag-scanner" aria-hidden="true">
+                <svg viewBox="0 0 48 48" width="48" height="48">
+                  <circle cx="24" cy="24" r="20" fill="none" stroke="var(--border)" stroke-width="2"/>
+                  <circle cx="24" cy="24" r="13" fill="none" stroke="var(--border)" stroke-width="1"/>
+                  <g class="diag-scanner-sweep">
+                    <line x1="24" y1="24" x2="24" y2="5" stroke="var(--electric-blue)" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="24" y1="24" x2="24" y2="5" stroke="var(--electric-blue)" stroke-width="2" stroke-linecap="round" opacity="0.35" transform="rotate(-16 24 24)"/>
+                    <line x1="24" y1="24" x2="24" y2="5" stroke="var(--electric-blue)" stroke-width="2" stroke-linecap="round" opacity="0.12" transform="rotate(-32 24 24)"/>
+                  </g>
+                  <circle cx="24" cy="24" r="3" fill="var(--electric-blue)"/>
+                </svg>
+              </div>
+
+              <h3>Análisis de tu sistema de captación</h3>
+              <p>Evalúa el estado real de tu captación inmobiliaria y descubre oportunidades que puedes estar dejando pasar. Sin registro, sin coste, resultado al instante.</p>
+
+              <div class="diag-criteria-grid">
+                <div class="diag-criteria-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                  <span>Competencia en tu zona</span>
+                </div>
+                <div class="diag-criteria-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="8" r="2.5"/><path d="M16 14.2c2.3.6 4 2.7 4 5.8"/></svg>
+                  <span>Capacidad de tu equipo</span>
+                </div>
+                <div class="diag-criteria-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 1 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2-2 2.5-2.5z"/></svg>
+                  <span>Nivel de automatización</span>
+                </div>
+                <div class="diag-criteria-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--green-available)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 6h6v6"/></svg>
+                  <span>Potencial de crecimiento</span>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-primary btn-block diag-start-btn" id="diagStartBtn">Empezar análisis →</button>
+              <p class="diag-meta-line">⏱ 30 segundos · Sin registro · 100% confidencial</p>
+            </div>
+          </div>
+
+          <div class="diag-intro-right">
+            <div class="diag-preview-wrap">
+              <div class="diag-preview-card" aria-hidden="true">
+                <div class="diag-preview-head">
+                  <span>Tu diagnóstico</span>
+                  <span class="diag-preview-badge">Pendiente</span>
+                </div>
+                <div class="diag-preview-gauge">
+                  <svg width="100" height="100" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="var(--border)" stroke-width="10"/>
+                  </svg>
+                  <div class="diag-preview-gauge-q">?</div>
+                </div>
+                <div class="diag-preview-bars">
+                  <div class="diag-preview-bar-row"><span>Captación</span><div class="diag-preview-bar-track"></div></div>
+                  <div class="diag-preview-bar-row"><span>Herramientas</span><div class="diag-preview-bar-track"></div></div>
+                  <div class="diag-preview-bar-row"><span>Potencial</span><div class="diag-preview-bar-track"></div></div>
+                </div>
+                <div class="diag-preview-lines">
+                  <div class="diag-preview-line" style="width:80%"></div>
+                  <div class="diag-preview-line" style="width:60%"></div>
+                  <div class="diag-preview-line" style="width:40%"></div>
+                </div>
+                <p class="diag-preview-footer">Completa el análisis para ver tu diagnóstico</p>
+              </div>
+            </div>
+          </div>
+
         </div>
-        <button class="btn btn-primary" id="qStartBtn">Empezar diagnóstico →</button>
-        <p class="quiz-note">Sin registro · Resultado inmediato</p>
       </div>
 
       <!-- FASE 2: PREGUNTAS -->
-      <div class="quiz-phase" data-phase="questions" id="quizQuestions" hidden style="padding:0;">
-        <div class="quiz-progress">
-          <div class="quiz-progress-track"><div class="quiz-progress-fill" id="qProgFill"></div></div>
-          <div class="quiz-dots" id="qDots"></div>
+      <div class="diag-phase" data-phase="questions" id="diagQuestions" hidden>
+
+        <div class="diag-sidebar-compact" id="diagSidebarCompact" role="button" tabindex="0" aria-expanded="false" aria-controls="diagSidebar">
+          <span class="l">Pregunta <span id="diagCompactQNum">1</span>/5 · Puntuación: <span id="diagCompactScore">0</span></span>
+          <span class="r">
+            <span class="diag-sidebar-compact-track"><span class="diag-sidebar-compact-fill" id="diagCompactFill"></span></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
         </div>
 
-        <div class="quiz-slider-mask">
-          <div class="quiz-slider" id="qSlider">
+        <div class="diag-q-grid">
+          <div class="diag-q-main">
+            <div class="diag-q-card">
+              <div class="diag-q-progress-bg"></div>
+              <div class="diag-q-progress-fill" id="diagProgressFill"></div>
 
-            <!-- Q1: Provincia -->
-            <div class="quiz-q" data-q="0">
-              <div class="quiz-q-title">¿En qué provincia opera tu agencia?</div>
-              <div class="quiz-q-sub">Usamos esto para estimar el nivel de competencia en tu zona.</div>
-              <select class="q-select" id="qProvincia">
-                <option value="" disabled selected>Selecciona tu provincia…</option>
-              </select>
-            </div>
+              <div class="diag-q-top">
+                <span class="lbl" id="diagQLabel">Pregunta 1 de 5</span>
+                <span class="pct" id="diagQPercent">20%</span>
+              </div>
+              <div class="diag-dots" id="diagDots" role="progressbar" aria-label="Progreso del diagnóstico" aria-valuemin="0" aria-valuemax="5" aria-valuenow="1"></div>
 
-            <!-- Q2: Agentes -->
-            <div class="quiz-q" data-q="1">
-              <div class="quiz-q-title">¿Cuántos agentes trabajáis en la agencia?</div>
-              <div class="quiz-q-sub">Selecciona una opción.</div>
-              <div class="q-options" data-group="agentes">
-                <div class="q-card" data-points="5"><span class="q-card-label">Solo yo</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
-                <div class="q-card" data-points="15"><span class="q-card-label">2-5 agentes</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
-                <div class="q-card" data-points="20"><span class="q-card-label">6-15 agentes</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
-                <div class="q-card" data-points="20"><span class="q-card-label">Más de 15 agentes</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+              <div class="diag-q-slider-mask">
+                <div class="diag-q-slider" id="diagSlider">
+
+                  <!-- P1: Provincia -->
+                  <div class="diag-q-panel" data-q="0">
+                    <span class="diag-q-number">01</span>
+                    <div class="diag-q-eyebrow" style="color:var(--electric-blue)">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                      Zona y competencia
+                    </div>
+                    <h3 class="diag-q-title">¿En qué provincia operas principalmente?</h3>
+                    <p class="diag-q-context">Tu provincia determina el nivel de competencia. No es lo mismo captar en Madrid con miles de agentes que en una provincia con menos presión.</p>
+                    <div class="diag-select-wrap">
+                      <select class="diag-select" id="diagProvincia" aria-label="Selecciona tu provincia">
+                        <option value="" disabled selected>Selecciona tu provincia…</option>
+                      </select>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                  </div>
+
+                  <!-- P2: Equipo -->
+                  <div class="diag-q-panel" data-q="1">
+                    <span class="diag-q-number">02</span>
+                    <div class="diag-q-eyebrow" style="color:var(--cyan-accent)">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="8" r="2.5"/><path d="M16 14.2c2.3.6 4 2.7 4 5.8"/></svg>
+                      Equipo y estructura
+                    </div>
+                    <h3 class="diag-q-title">¿Cuántas personas forman tu equipo de captación?</h3>
+                    <p class="diag-q-context">El tamaño de tu equipo afecta directamente cuánto puedes escalar y cuánto necesitas automatizar.</p>
+                    <div class="diag-options" role="radiogroup" aria-label="Tamaño del equipo" data-group="equipo">
+                      <button type="button" class="diag-option" role="radio" aria-checked="false" tabindex="0" data-points="5" data-value="Solo yo">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 20c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">Solo yo</span><span class="diag-option-sub">Agente autónomo o freelance</span></span>
+                      </button>
+                      <button type="button" class="diag-option" role="radio" aria-checked="false" tabindex="0" data-points="15" data-value="2-5 agentes">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="2.6"/><circle cx="16" cy="9" r="2.2"/><path d="M4 19c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M14.5 14.3c2.1.4 3.5 2.2 3.5 4.7"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">2-5 agentes</span><span class="diag-option-sub">Agencia pequeña o equipo local</span></span>
+                      </button>
+                      <button type="button" class="diag-option" role="radio" aria-checked="false" tabindex="0" data-points="20" data-value="6-15 agentes">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2.4"/><circle cx="16" cy="8" r="2.4"/><circle cx="12" cy="7" r="2"/><path d="M3 19c0-2.6 2.1-4.7 4.7-4.7M21 19c0-2.6-2.1-4.7-4.7-4.7M8 19c0-2.6 1.8-4.7 4-4.7s4 2.1 4 4.7"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">6-15 agentes</span><span class="diag-option-sub">Agencia mediana con estructura</span></span>
+                      </button>
+                      <button type="button" class="diag-option" role="radio" aria-checked="false" tabindex="0" data-points="20" data-value="Más de 15">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="1"/><path d="M9 8h2M13 8h2M9 12h2M13 12h2M9 16h2M13 16h2"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">Más de 15</span><span class="diag-option-sub">Red o franquicia</span></span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- P3: Herramientas (multiselect) -->
+                  <div class="diag-q-panel" data-q="2">
+                    <span class="diag-q-number">03</span>
+                    <div class="diag-q-eyebrow" style="color:var(--amber)">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 1 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2-2 2.5-2.5z"/></svg>
+                      Herramientas y tecnología
+                    </div>
+                    <h3 class="diag-q-title">¿Qué usas actualmente para gestionar captaciones y leads?</h3>
+                    <p class="diag-q-context">Las herramientas que usas determinan cuánto control tienes sobre tus oportunidades. Sin sistema, los leads se pierden.</p>
+                    <span class="diag-q-multi-hint">Puedes seleccionar varias</span>
+                    <div class="diag-options" role="group" aria-label="Herramientas utilizadas" data-group="herramientas">
+                      <button type="button" class="diag-option" role="checkbox" aria-checked="false" tabindex="0" data-points="5" data-value="Excel o Google Sheets">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 10h18M9 4v16"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">Excel o Google Sheets</span><span class="diag-option-sub">Hojas de cálculo manuales</span></span>
+                      </button>
+                      <button type="button" class="diag-option" role="checkbox" aria-checked="false" tabindex="0" data-points="20" data-value="CRM inmobiliario">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7" ry="2.5"/><path d="M5 5.5v6c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-6"/><path d="M5 11.5v6c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-6"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">CRM inmobiliario</span><span class="diag-option-sub">Inmovilla, Witei, Salesforce...</span></span>
+                      </button>
+                      <button type="button" class="diag-option" role="checkbox" aria-checked="false" tabindex="0" data-points="0" data-value="WhatsApp y agenda del móvil">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">WhatsApp y agenda del móvil</span><span class="diag-option-sub">Sin sistema centralizado</span></span>
+                      </button>
+                      <button type="button" class="diag-option" role="checkbox" aria-checked="false" tabindex="0" data-points="20" data-value="Software propio o a medida">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 8l-4 4 4 4M15 8l4 4-4 4"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">Software propio o a medida</span><span class="diag-option-sub">Desarrollo interno</span></span>
+                      </button>
+                      <button type="button" class="diag-option" role="checkbox" aria-checked="false" tabindex="0" data-points="0" data-value="Nada específico" data-exclusive="true">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5l5 5M14.5 9.5l-5 5"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">Nada específico</span><span class="diag-option-sub">Todo de memoria o a mano</span></span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- P4: Fuente de captación -->
+                  <div class="diag-q-panel" data-q="3">
+                    <span class="diag-q-number">04</span>
+                    <div class="diag-q-eyebrow" style="color:var(--green-available)">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>
+                      Estrategia de captación
+                    </div>
+                    <h3 class="diag-q-title">¿De dónde vienen la mayoría de tus nuevas captaciones?</h3>
+                    <p class="diag-q-context">Depender de una sola fuente es un riesgo. Los agentes que diversifican captan más y mejor.</p>
+                    <div class="diag-options" role="radiogroup" aria-label="Fuente principal de captación" data-group="fuente">
+                      <button type="button" class="diag-option" role="radio" aria-checked="false" tabindex="0" data-points="5" data-value="Puerta a puerta">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-available)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V5a2 2 0 0 1 2-2h7l5 4v14"/><path d="M14 3v18"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-available)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">Puerta a puerta / captación presencial</span><span class="diag-option-sub">Zona farming, buzoneo, visitas</span></span>
+                      </button>
+                      <button type="button" class="diag-option" role="radio" aria-checked="false" tabindex="0" data-points="10" data-value="Contactos y referidos">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-available)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6 1.2 0 2.3.3 3.2.9"/><path d="M16.5 21l-3.5-3.4c-1-1-1-2.5 0-3.4.9-.9 2.4-.9 3.3 0l.2.2.2-.2c.9-.9 2.4-.9 3.3 0 1 .9 1 2.4 0 3.4L16.5 21z"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-available)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">Contactos y referidos personales</span><span class="diag-option-sub">Boca a boca, red de conocidos</span></span>
+                      </button>
+                      <button type="button" class="diag-option" role="radio" aria-checked="false" tabindex="0" data-points="10" data-value="Portales inmobiliarios">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-available)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 4 5.8 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.8-4-9s1.5-6.5 4-9z"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-available)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">Portales inmobiliarios</span><span class="diag-option-sub">Idealista, Fotocasa, pisos.com...</span></span>
+                      </button>
+                      <button type="button" class="diag-option" role="radio" aria-checked="false" tabindex="0" data-points="20" data-value="Marketing digital">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-available)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a2 2 0 0 0 2 2h1l9 4V5L6 9H5a2 2 0 0 0-2 2z"/><path d="M19 9a4 4 0 0 1 0 6"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-available)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">Marketing digital</span><span class="diag-option-sub">Web, redes sociales, anuncios</span></span>
+                      </button>
+                      <button type="button" class="diag-option" role="radio" aria-checked="false" tabindex="0" data-points="0" data-value="Casi no capto activamente">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-available)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2 3h6l2-3h4"/><path d="M5 12 3 6h18l-2 6"/><path d="M3 12v6a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-6"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-available)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">Casi no capto activamente</span><span class="diag-option-sub">Me llegan, pero sin estrategia</span></span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- P5: Volumen -->
+                  <div class="diag-q-panel" data-q="4">
+                    <span class="diag-q-number">05</span>
+                    <div class="diag-q-eyebrow" style="color:var(--electric-blue)">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 6h6v6"/></svg>
+                      Volumen y rendimiento
+                    </div>
+                    <h3 class="diag-q-title">¿Cuántas captaciones nuevas consigues de media al mes?</h3>
+                    <p class="diag-q-context">Este dato nos permite evaluar tu rendimiento actual frente al potencial real de tu zona.</p>
+                    <div class="diag-options" role="radiogroup" aria-label="Captaciones mensuales" data-group="volumen">
+                      <button type="button" class="diag-option" role="radio" aria-checked="false" tabindex="0" data-points="5" data-value="0-2 al mes">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4a2 2 0 0 0-2 2v9.5a3.5 3.5 0 1 0 4 0V6a2 2 0 0 0-2-2z"/><path d="M12 17v-3"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">0-2 al mes</span><span class="diag-option-sub">Captación baja o irregular</span></span>
+                      </button>
+                      <button type="button" class="diag-option" role="radio" aria-checked="false" tabindex="0" data-points="10" data-value="3-5 al mes">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4a2 2 0 0 0-2 2v9.5a3.5 3.5 0 1 0 4 0V6a2 2 0 0 0-2-2z"/><path d="M12 17v-6"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">3-5 al mes</span><span class="diag-option-sub">Ritmo estable pero mejorable</span></span>
+                      </button>
+                      <button type="button" class="diag-option" role="radio" aria-checked="false" tabindex="0" data-points="15" data-value="6-10 al mes">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4a2 2 0 0 0-2 2v9.5a3.5 3.5 0 1 0 4 0V6a2 2 0 0 0-2-2z"/><path d="M12 17v-9"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">6-10 al mes</span><span class="diag-option-sub">Buen volumen de captación</span></span>
+                      </button>
+                      <button type="button" class="diag-option" role="radio" aria-checked="false" tabindex="0" data-points="20" data-value="Más de 10 al mes">
+                        <span class="diag-option-icon"><span class="diag-base-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4 0 6-2.7 6-6.5 0-2-1-3.5-2-5 .2 1.6-.7 2.6-1.4 2 .8-3-1-5.5-3.6-7 .6 2 0 3.7-1.4 5C8 11.8 7 13.4 7 15.5 7 19.3 9 22 12 22z"/></svg></span><span class="diag-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--electric-blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></span>
+                        <span class="diag-option-text"><span class="diag-option-title">Más de 10 al mes</span><span class="diag-option-sub">Alto rendimiento</span></span>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="diag-q-nav">
+                <button type="button" class="diag-back-link" id="diagBack" hidden>← Anterior</button>
+                <button type="button" class="btn btn-primary diag-next-btn" id="diagNext" disabled>Siguiente →</button>
               </div>
             </div>
-
-            <!-- Q3: Herramientas -->
-            <div class="quiz-q" data-q="2">
-              <div class="quiz-q-title">¿Qué herramientas usáis hoy?</div>
-              <div class="quiz-q-sub">Puedes seleccionar varias.</div>
-              <div class="q-tags" data-group="herramientas">
-                <span class="q-tag" data-points="5" data-name="Excel">Excel</span>
-                <span class="q-tag" data-points="20" data-name="CRM">CRM</span>
-                <span class="q-tag" data-points="0" data-name="WhatsApp">WhatsApp</span>
-                <span class="q-tag" data-points="20" data-name="Software propio">Software propio</span>
-                <span class="q-tag" data-points="0" data-name="Ninguna" data-exclusive="true">Ninguna</span>
-              </div>
-            </div>
-
-            <!-- Q4: Fuente de captación -->
-            <div class="quiz-q" data-q="3">
-              <div class="quiz-q-title">¿Cuál es tu principal fuente de captación?</div>
-              <div class="quiz-q-sub">Selecciona una opción.</div>
-              <div class="q-options" data-group="fuente">
-                <div class="q-card" data-points="5"><span class="q-card-label">Puerta a puerta</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
-                <div class="q-card" data-points="10"><span class="q-card-label">Referidos</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
-                <div class="q-card" data-points="10"><span class="q-card-label">Portales inmobiliarios</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
-                <div class="q-card" data-points="20"><span class="q-card-label">Marketing digital propio</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
-                <div class="q-card" data-points="0"><span class="q-card-label">Me llegan solos</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
-              </div>
-            </div>
-
-            <!-- Q5: Captaciones/mes -->
-            <div class="quiz-q" data-q="4">
-              <div class="quiz-q-title">¿Cuántas captaciones cerráis al mes?</div>
-              <div class="quiz-q-sub">Selecciona una opción.</div>
-              <div class="q-options" data-group="captaciones">
-                <div class="q-card" data-points="5"><span class="q-card-label">0-2 captaciones</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
-                <div class="q-card" data-points="10"><span class="q-card-label">3-5 captaciones</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
-                <div class="q-card" data-points="15"><span class="q-card-label">6-10 captaciones</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
-                <div class="q-card" data-points="20"><span class="q-card-label">Más de 10 captaciones</span><span class="q-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
-              </div>
-            </div>
-
           </div>
-        </div>
 
-        <div class="quiz-nav">
-          <button class="btn btn-ghost-ag" id="qBack">← Atrás</button>
-          <button class="btn btn-primary" id="qNext" disabled>Siguiente →</button>
+          <aside class="diag-sidebar" id="diagSidebar">
+            <div class="diag-sidebar-head">
+              <span>Tu perfil</span>
+              <span class="diag-sidebar-badge"><span class="dot-pulse"></span> En análisis...</span>
+            </div>
+            <p class="diag-sidebar-empty" id="diagSidebarEmpty">Tus respuestas irán apareciendo aquí a medida que avances.</p>
+            <div id="diagDataItems"></div>
+            <div id="diagCompCard"></div>
+            <div id="diagAlertBox"></div>
+            <div class="diag-mini-gauge-wrap">
+              <div class="diag-mini-gauge">
+                <svg width="120" height="64" viewBox="0 0 120 64">
+                  <path d="M10,60 A50,50 0 0 1 110,60" fill="none" stroke="var(--border)" stroke-width="8" stroke-linecap="round"/>
+                  <path id="diagMiniGaugeFill" d="M10,60 A50,50 0 0 1 110,60" fill="none" stroke="var(--electric-blue)" stroke-width="8" stroke-linecap="round" stroke-dasharray="157.08" stroke-dashoffset="157.08" style="transition:stroke-dashoffset .5s var(--ease),stroke .5s;"/>
+                </svg>
+                <div class="diag-mini-gauge-num" id="diagMiniGaugeNum">0</div>
+              </div>
+              <div class="diag-mini-gauge-label">Puntuación parcial</div>
+            </div>
+          </aside>
         </div>
       </div>
 
+      <!-- FASE ANALIZANDO -->
+      <div class="diag-phase diag-analyzing" data-phase="analyzing" id="diagAnalyzing" hidden>
+        <svg class="diag-spinner" viewBox="0 0 48 48" width="48" height="48" aria-hidden="true">
+          <circle cx="24" cy="24" r="20" fill="none" stroke="var(--border)" stroke-width="4"/>
+          <circle cx="24" cy="24" r="20" fill="none" stroke="var(--electric-blue)" stroke-width="4" stroke-linecap="round" stroke-dasharray="80 45.7"/>
+        </svg>
+        <p class="diag-analyzing-text" id="diagAnalyzingText" role="status">Analizando tu zona...</p>
+        <div class="diag-analyzing-track"><div class="diag-analyzing-fill" id="diagAnalyzingFill"></div></div>
+      </div>
+
       <!-- FASE 3: RESULTADO -->
-      <div class="quiz-phase quiz-result" data-phase="result" id="quizResultPhase" hidden>
-        <div class="gauge-wrap">
-          <svg width="160" height="160" viewBox="0 0 160 160">
-            <circle cx="80" cy="80" r="70" fill="none" stroke="var(--border)" stroke-width="12"/>
-            <circle id="gaugeCircle" cx="80" cy="80" r="70" fill="none" stroke="var(--blue-bright)" stroke-width="12" stroke-linecap="round" stroke-dasharray="439.8" stroke-dashoffset="439.8"/>
-          </svg>
-          <div class="gauge-num"><span class="v" id="gaugeVal">0</span><span class="l">/ 100</span></div>
-        </div>
-        <p class="quiz-phrase" id="quizPhrase"></p>
+      <div class="diag-phase" data-phase="result" id="diagResult" hidden>
+        <div class="diag-result-grid">
 
-        <div class="qbar-row">
-          <div class="qbar-top"><span>Captación</span><span id="qbarCaptVal">0%</span></div>
-          <div class="qbar-track"><div class="qbar-fill" id="qbarCapt"></div></div>
-          <div class="qbar-insight" id="qbarCaptInsight"></div>
-        </div>
-        <div class="qbar-row">
-          <div class="qbar-top"><span>Herramientas</span><span id="qbarToolVal">0%</span></div>
-          <div class="qbar-track"><div class="qbar-fill" id="qbarTool"></div></div>
-          <div class="qbar-insight" id="qbarToolInsight"></div>
-        </div>
-        <div class="qbar-row">
-          <div class="qbar-top"><span>Potencial</span><span id="qbarPotVal">0%</span></div>
-          <div class="qbar-track"><div class="qbar-fill" id="qbarPot"></div></div>
-          <div class="qbar-insight" id="qbarPotInsight"></div>
-        </div>
+          <div class="diag-report-card">
+            <div class="diag-report-head">
+              <div>
+                <div class="diag-report-title">Diagnóstico de captación inmobiliaria</div>
+                <div class="diag-report-meta" id="diagReportMeta">—</div>
+              </div>
+              <span class="diag-level-badge" id="diagLevelBadge">—</span>
+            </div>
 
-        <div class="quiz-improve-grid" id="quizImproveGrid"></div>
+            <div class="diag-score-block">
+              <div class="diag-gauge-big">
+                <svg width="160" height="160" viewBox="0 0 160 160">
+                  <circle cx="80" cy="80" r="70" fill="none" stroke="var(--border)" stroke-width="12"/>
+                  <circle id="diagGaugeCircle" cx="80" cy="80" r="70" fill="none" stroke="var(--electric-blue)" stroke-width="12" stroke-linecap="round" stroke-dasharray="439.8" stroke-dashoffset="439.8"/>
+                </svg>
+                <div class="diag-gauge-big-num"><span class="v" id="diagGaugeVal">0</span><span class="l">/ 100</span></div>
+              </div>
+              <p class="diag-score-phrase" id="diagScorePhrase"></p>
+            </div>
 
-        <div class="quiz-result-ctas">
-          <a href="#cta-final" class="btn btn-primary">Solicitar acceso fundador →</a>
-          <button class="quiz-repeat" id="qRepeat">Repetir diagnóstico</button>
+            <div class="diag-section-title">Análisis por áreas</div>
+            <div class="diag-areas" id="diagAreas"></div>
+
+            <div class="diag-section-title">Oportunidades de mejora detectadas</div>
+            <div class="diag-opp-grid" id="diagOppGrid"></div>
+          </div>
+
+          <div class="diag-action-card">
+            <div class="diag-action-score" id="diagActionScore">0/100</div>
+            <div class="diag-action-score-lbl">Puntuación general</div>
+            <div class="diag-action-row"><span class="l">Provincia</span><span class="v" id="diagActionProv">—</span></div>
+            <div class="diag-action-row"><span class="l">Competencia</span><span class="v" id="diagActionComp">—</span></div>
+            <div class="diag-action-row"><span class="l">Área más débil</span><span class="v" id="diagActionWeak">—</span></div>
+            <div class="diag-action-divider"></div>
+            <p class="diag-action-text">Tu diagnóstico muestra margen real de mejora. Con el sistema adecuado, cada una de estas áreas puede mejorar de forma automática.</p>
+            <a href="#como-funciona" class="btn btn-primary btn-block">Ver cómo solucionarlo →</a>
+            <a href="#cta-final" class="diag-action-secondary">Solicitar acceso fundador directamente →</a>
+            <button type="button" class="diag-action-repeat" id="diagRepeatBtn">← Repetir diagnóstico</button>
+          </div>
+
         </div>
       </div>
 
@@ -1718,190 +2117,481 @@ function fillProvinceSelect(sel){
   });
 }
 
-/* ============ QUIZ DIAGNÓSTICO ============ */
+/* === SECCIÓN: DIAGNÓSTICO v2 — lógica === */
 (function(){
-  var card = document.getElementById('quizCard');
-  var introPhase = document.getElementById('quizIntro');
-  var questionsPhase = document.getElementById('quizQuestions');
-  var resultPhase = document.getElementById('quizResultPhase');
-  var slider = document.getElementById('qSlider');
-  var progFill = document.getElementById('qProgFill');
-  var dotsBox = document.getElementById('qDots');
-  var backBtn = document.getElementById('qBack');
-  var nextBtn = document.getElementById('qNext');
-  var startBtn = document.getElementById('qStartBtn');
-  var repeatBtn = document.getElementById('qRepeat');
-  var provSelect = document.getElementById('qProvincia');
-  if(!card) return;
+  var stage = document.getElementById('diagStage');
+  if(!stage) return;
 
-  fillProvinceSelect(provSelect);
+  var phases = {
+    intro: document.getElementById('diagIntro'),
+    questions: document.getElementById('diagQuestions'),
+    analyzing: document.getElementById('diagAnalyzing'),
+    result: document.getElementById('diagResult')
+  };
+
+  function compensateScroll(beforeTop){
+    var afterTop = stage.getBoundingClientRect().top;
+    var delta = afterTop - beforeTop;
+    if(delta) window.scrollBy(0, delta);
+  }
+
+  function crossFade(hideEl, showEl){
+    var beforeTop = stage.getBoundingClientRect().top;
+    showEl.hidden = false;
+    showEl.classList.add('diag-fading');
+    compensateScroll(beforeTop);
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ showEl.classList.remove('diag-fading'); });
+    });
+    if(hideEl){
+      hideEl.classList.add('diag-fading');
+      setTimeout(function(){
+        var beforeTop2 = stage.getBoundingClientRect().top;
+        hideEl.hidden = true;
+        hideEl.classList.remove('diag-fading');
+        compensateScroll(beforeTop2);
+      }, reduceMotion ? 0 : 350);
+    }
+  }
 
   var TOTAL_Q = 5;
   var current = 0;
-  var answers = { provincia:null, agentes:0, herramientas:0, herramientasList:[], fuente:0, captaciones:0 };
+  var advanceTimer = null;
+  var answers = {
+    provincia: null,
+    equipoPoints: 0, equipoValue: null,
+    herramientasPoints: 0, herramientasList: [],
+    fuentePoints: 0, fuenteValue: null,
+    volumenPoints: 0, volumenValue: null
+  };
 
-  // dots
-  for(var i=0;i<TOTAL_Q;i++){
-    var d = document.createElement('span');
-    d.className = 'qdot'; d.textContent = (i+1);
-    dotsBox.appendChild(d);
+  var provSelect = document.getElementById('diagProvincia');
+  fillProvinceSelect(provSelect);
+
+  var slider = document.getElementById('diagSlider');
+  var progressFill = document.getElementById('diagProgressFill');
+  var qLabel = document.getElementById('diagQLabel');
+  var qPercent = document.getElementById('diagQPercent');
+  var dotsBox = document.getElementById('diagDots');
+  var backBtn = document.getElementById('diagBack');
+  var nextBtn = document.getElementById('diagNext');
+  var startBtn = document.getElementById('diagStartBtn');
+
+  var sidebarEmpty = document.getElementById('diagSidebarEmpty');
+  var dataItemsBox = document.getElementById('diagDataItems');
+  var compCardBox = document.getElementById('diagCompCard');
+  var alertBox = document.getElementById('diagAlertBox');
+  var miniGaugeFill = document.getElementById('diagMiniGaugeFill');
+  var miniGaugeNum = document.getElementById('diagMiniGaugeNum');
+
+  var compactBar = document.getElementById('diagSidebarCompact');
+  var compactQNum = document.getElementById('diagCompactQNum');
+  var compactScore = document.getElementById('diagCompactScore');
+  var compactFill = document.getElementById('diagCompactFill');
+  var sidebar = document.getElementById('diagSidebar');
+
+  var MINI_GAUGE_LEN = 157.08;
+
+  function scoreColor(s){
+    if(s <= 35) return 'var(--red-alert)';
+    if(s <= 60) return 'var(--amber)';
+    if(s <= 80) return 'var(--electric-blue)';
+    return 'var(--green-available)';
   }
-  function updateProgress(){
-    progFill.style.width = ((current)/(TOTAL_Q-1)*100)+'%';
-    Array.prototype.forEach.call(dotsBox.children, function(dot, idx){
-      dot.classList.toggle('active', idx === current);
-      dot.classList.toggle('completed', idx < current);
-    });
+
+  /* ---- dots ---- */
+  for(var i=0;i<TOTAL_Q;i++){
+    var d = document.createElement('button');
+    d.type = 'button'; d.className = 'diag-dot'; d.setAttribute('aria-label','Pregunta '+(i+1));
+    (function(idx){ d.addEventListener('click', function(){ if(idx < current) goTo(idx); }); })(i);
+    dotsBox.appendChild(d);
   }
 
   function isAnswered(idx){
     if(idx === 0) return !!answers.provincia;
-    if(idx === 1) return answers.agentes > 0 || answers._agentesSet;
+    if(idx === 1) return !!answers.equipoValue;
     if(idx === 2) return answers.herramientasList.length > 0;
-    if(idx === 3) return answers._fuenteSet;
-    if(idx === 4) return answers._captSet;
+    if(idx === 3) return !!answers.fuenteValue;
+    if(idx === 4) return !!answers.volumenValue;
     return false;
   }
-  function refreshNav(){
-    backBtn.disabled = false;
-    nextBtn.disabled = !isAnswered(current);
-    nextBtn.textContent = current === TOTAL_Q-1 ? 'Ver resultado →' : 'Siguiente →';
+
+  function partialScorePct(){
+    var raw = answers.equipoPoints + Math.min(20, answers.herramientasPoints) + answers.fuentePoints + answers.volumenPoints;
+    return Math.round((raw/80)*100);
   }
+
+  function refreshNav(){
+    backBtn.hidden = current === 0;
+    nextBtn.disabled = !isAnswered(current);
+    nextBtn.textContent = current === TOTAL_Q-1 ? 'Ver mi diagnóstico →' : 'Siguiente →';
+  }
+
+  function updateMiniGauge(){
+    var pct = Math.max(0, Math.min(100, partialScorePct()));
+    var color = scoreColor(pct);
+    miniGaugeFill.style.stroke = color;
+    miniGaugeFill.style.strokeDashoffset = MINI_GAUGE_LEN * (1 - pct/100);
+    miniGaugeNum.textContent = pct;
+    miniGaugeNum.style.color = color;
+    compactScore.textContent = pct;
+    compactFill.style.width = pct + '%';
+  }
+
+  function updateCompact(){
+    compactQNum.textContent = current + 1;
+  }
+
   function goTo(idx){
     current = Math.max(0, Math.min(TOTAL_Q-1, idx));
     slider.style.transform = 'translateX(-' + (current*100) + '%)';
-    updateProgress();
+    var pct = Math.round(((current+1)/TOTAL_Q)*100);
+    progressFill.style.width = pct + '%';
+    qLabel.textContent = 'Pregunta ' + (current+1) + ' de ' + TOTAL_Q;
+    qPercent.textContent = pct + '%';
+    dotsBox.setAttribute('aria-valuenow', current+1);
+    Array.prototype.forEach.call(dotsBox.children, function(dot, i){
+      dot.classList.toggle('done', i < current);
+      dot.classList.toggle('current', i === current);
+    });
+    updateCompact();
     refreshNav();
   }
 
-  provSelect.addEventListener('change', function(){
-    answers.provincia = provSelect.value;
-    refreshNav();
-  });
+  /* ---- sidebar: datos confirmados ---- */
+  function setDataItem(key, label, value){
+    sidebarEmpty.style.display = 'none';
+    var existing = dataItemsBox.querySelector('[data-key="'+key+'"]');
+    if(existing){ existing.querySelector('.diag-data-value').textContent = value; return; }
+    var item = document.createElement('div');
+    item.className = 'diag-data-item';
+    item.setAttribute('data-key', key);
+    item.innerHTML = '<span class="diag-data-label">'+label+'</span><span class="diag-data-value">'+value+'</span>';
+    dataItemsBox.appendChild(item);
+  }
 
-  // single-select cards (agentes, fuente, captaciones)
-  questionsPhase.querySelectorAll('.q-options').forEach(function(group){
-    var key = group.dataset.group;
-    group.querySelectorAll('.q-card').forEach(function(card2){
-      card2.addEventListener('click', function(){
-        group.querySelectorAll('.q-card').forEach(function(c){ c.classList.remove('selected'); });
-        card2.classList.add('selected');
-        var pts = parseInt(card2.dataset.points, 10);
-        if(key === 'agentes'){ answers.agentes = pts; answers._agentesSet = true; }
-        if(key === 'fuente'){ answers.fuente = pts; answers._fuenteSet = true; }
-        if(key === 'captaciones'){ answers.captaciones = pts; answers._captSet = true; }
-        refreshNav();
-        setTimeout(function(){ if(current < TOTAL_Q-1) goTo(current+1); }, 400);
-      });
+  function updateCompetencia(prov){
+    var comp = getCompetencia(prov);
+    var segClass = comp === 'ALTA' ? 'var(--red-alert)' : comp === 'MEDIA' ? 'var(--amber)' : 'var(--green-available)';
+    var segCount = comp === 'ALTA' ? 3 : comp === 'MEDIA' ? 2 : 1;
+    var compText = comp === 'ALTA' ? 'Alta' : comp === 'MEDIA' ? 'Media' : 'Baja';
+    var insight = comp === 'ALTA'
+      ? 'Zona con alta densidad de agentes. La diferenciación es clave.'
+      : comp === 'MEDIA'
+        ? 'Competencia moderada. Hay espacio para posicionarse.'
+        : 'Menos competencia. Posicionarte ahora te da ventaja.';
+    var segs = '';
+    for(var s=0;s<3;s++){
+      segs += '<div class="diag-comp-seg" data-i="'+s+'" style="background:'+(s < segCount ? segClass : 'var(--border)')+';opacity:0"></div>';
+    }
+    compCardBox.innerHTML =
+      '<div class="diag-comp-card">'+
+        '<div class="diag-comp-label">Nivel de competencia en '+prov+':</div>'+
+        '<div class="diag-comp-bar">'+segs+'</div>'+
+        '<div class="diag-comp-text" style="color:'+segClass+'">'+compText+'</div>'+
+        '<div class="diag-comp-insight">'+insight+'</div>'+
+      '</div>';
+    var segEls = compCardBox.querySelectorAll('.diag-comp-seg');
+    segEls.forEach(function(el, idx){
+      setTimeout(function(){ el.style.transition = 'opacity .3s'; el.style.opacity = '1'; }, idx*150);
     });
-  });
+  }
 
-  // multiselect tags (herramientas)
-  var toolsGroup = questionsPhase.querySelector('.q-tags[data-group="herramientas"]');
-  toolsGroup.querySelectorAll('.q-tag').forEach(function(tag){
-    tag.addEventListener('click', function(){
-      var exclusive = tag.dataset.exclusive === 'true';
-      if(exclusive){
-        toolsGroup.querySelectorAll('.q-tag').forEach(function(t){ t.classList.remove('selected'); });
-        tag.classList.add('selected');
-      } else {
-        toolsGroup.querySelector('[data-exclusive="true"]').classList.remove('selected');
-        tag.classList.toggle('selected');
-      }
-      var selected = Array.prototype.filter.call(toolsGroup.querySelectorAll('.q-tag'), function(t){ return t.classList.contains('selected'); });
-      answers.herramientasList = selected.map(function(t){ return t.dataset.name; });
-      answers.herramientas = selected.reduce(function(sum,t){ return sum + parseInt(t.dataset.points,10); }, 0);
-      refreshNav();
-    });
-  });
+  function updateToolsAlert(){
+    var list = answers.herramientasList;
+    var noSystem = list.length === 0 || (list.length === 1 && (list[0] === 'Nada específico' || list[0] === 'WhatsApp y agenda del móvil'));
+    if(noSystem){
+      alertBox.innerHTML = '<div class="diag-alert">⚠ Sin sistema centralizado detectado</div>';
+    } else {
+      alertBox.innerHTML = '';
+    }
+  }
 
+  /* ---- intro -> preguntas ---- */
   startBtn.addEventListener('click', function(){
-    introPhase.hidden = true;
-    questionsPhase.hidden = false;
+    crossFade(phases.intro, phases.questions);
     goTo(0);
   });
 
-  backBtn.addEventListener('click', function(){
-    if(current === 0){ questionsPhase.hidden = true; introPhase.hidden = false; return; }
-    goTo(current-1);
+  provSelect.addEventListener('change', function(){
+    clearTimeout(advanceTimer);
+    answers.provincia = provSelect.value;
+    setDataItem('provincia', 'Provincia', provSelect.value);
+    updateCompetencia(provSelect.value);
+    refreshNav();
+    advanceTimer = setTimeout(function(){ if(current < TOTAL_Q-1) goTo(current+1); }, 500);
   });
+
+  /* ---- preguntas single-select (equipo, fuente, volumen) ---- */
+  function wireSingleSelect(groupSel, onSelect){
+    var group = document.querySelector(groupSel);
+    var opts = group.querySelectorAll('.diag-option');
+    opts.forEach(function(opt){
+      opt.addEventListener('click', function(){
+        clearTimeout(advanceTimer);
+        opts.forEach(function(o){ o.classList.remove('selected'); o.setAttribute('aria-checked','false'); });
+        opt.classList.add('selected'); opt.setAttribute('aria-checked','true');
+        onSelect(parseInt(opt.dataset.points,10), opt.dataset.value);
+        refreshNav();
+        updateMiniGauge();
+        advanceTimer = setTimeout(function(){ if(current < TOTAL_Q-1) goTo(current+1); }, 500);
+      });
+      opt.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); opt.click(); }
+      });
+    });
+  }
+
+  wireSingleSelect('[data-group="equipo"]', function(points, value){
+    answers.equipoPoints = points; answers.equipoValue = value;
+    setDataItem('equipo', 'Equipo', value);
+  });
+  wireSingleSelect('[data-group="fuente"]', function(points, value){
+    answers.fuentePoints = points; answers.fuenteValue = value;
+    setDataItem('captacion', 'Captación', value);
+  });
+  wireSingleSelect('[data-group="volumen"]', function(points, value){
+    answers.volumenPoints = points; answers.volumenValue = value;
+    setDataItem('volumen', 'Volumen', value);
+  });
+
+  /* ---- pregunta 3: multiselect herramientas ---- */
+  var toolsGroup = document.querySelector('[data-group="herramientas"]');
+  var toolOpts = toolsGroup.querySelectorAll('.diag-option');
+  toolOpts.forEach(function(opt){
+    opt.addEventListener('click', function(){
+      var exclusive = opt.dataset.exclusive === 'true';
+      if(exclusive){
+        toolOpts.forEach(function(o){ o.classList.remove('selected'); o.setAttribute('aria-checked','false'); });
+        opt.classList.add('selected'); opt.setAttribute('aria-checked','true');
+      } else {
+        var noneOpt = toolsGroup.querySelector('[data-exclusive="true"]');
+        noneOpt.classList.remove('selected'); noneOpt.setAttribute('aria-checked','false');
+        var nowSelected = !opt.classList.contains('selected');
+        opt.classList.toggle('selected', nowSelected);
+        opt.setAttribute('aria-checked', String(nowSelected));
+      }
+      var selected = Array.prototype.filter.call(toolOpts, function(o){ return o.classList.contains('selected'); });
+      answers.herramientasList = selected.map(function(o){ return o.dataset.value; });
+      answers.herramientasPoints = selected.reduce(function(sum,o){ return sum + parseInt(o.dataset.points,10); }, 0);
+      setDataItem('herramientas', 'Herramientas', answers.herramientasList.length ? answers.herramientasList.join(', ') : '—');
+      updateToolsAlert();
+      refreshNav();
+      updateMiniGauge();
+    });
+    opt.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); opt.click(); }
+    });
+  });
+
+  backBtn.addEventListener('click', function(){
+    clearTimeout(advanceTimer);
+    if(current > 0) goTo(current-1);
+  });
+
+  /* ---- sidebar compacto (móvil/tablet) ---- */
+  function toggleCompact(){
+    var expanded = sidebar.classList.toggle('expanded');
+    compactBar.classList.toggle('open', expanded);
+    compactBar.setAttribute('aria-expanded', String(expanded));
+  }
+  compactBar.addEventListener('click', toggleCompact);
+  compactBar.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggleCompact(); }
+  });
+
   nextBtn.addEventListener('click', function(){
-    if(!isAnswered(current)) return;
-    if(current === TOTAL_Q-1){ showResult(); return; }
+    if(nextBtn.disabled) return;
+    clearTimeout(advanceTimer);
+    if(current === TOTAL_Q-1){ startAnalyzing(); return; }
     goTo(current+1);
   });
 
-  function showResult(){
-    questionsPhase.hidden = true;
-    resultPhase.hidden = false;
+  /* ---- fase analizando ---- */
+  var analyzingTexts = ['Analizando tu zona...','Evaluando herramientas...','Calculando potencial...','Generando diagnóstico...'];
+  var analyzingTextEl = document.getElementById('diagAnalyzingText');
+  var analyzingFill = document.getElementById('diagAnalyzingFill');
 
-    var score = Math.min(100, answers.agentes + answers.herramientas + answers.fuente + answers.captaciones);
+  function startAnalyzing(){
+    crossFade(phases.questions, phases.analyzing);
+    var idx = 0;
+    analyzingTextEl.textContent = analyzingTexts[0];
+    analyzingFill.style.width = '0%';
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ analyzingFill.style.width = '100%'; }); });
+    var textInterval = setInterval(function(){
+      idx++;
+      if(idx < analyzingTexts.length) analyzingTextEl.textContent = analyzingTexts[idx];
+    }, 500);
+    setTimeout(function(){
+      clearInterval(textInterval);
+      showResult();
+    }, reduceMotion ? 60 : 2000);
+  }
+
+  /* ---- fase resultado ---- */
+  var ICON_WRENCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 1 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2-2 2.5-2.5z"/></svg>';
+  var ICON_GLOBE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 4 5.8 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.8-4-9s1.5-6.5 4-9z"/></svg>';
+  var ICON_TRENDING = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 6h6v6"/></svg>';
+  var ICON_USERS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="8" r="2.5"/><path d="M16 14.2c2.3.6 4 2.7 4 5.8"/></svg>';
+  var ICON_MAPPIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>';
+  var ICON_TARGET = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>';
+  var ICON_SETTINGS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.5-2-3.4-2.3.9a7.6 7.6 0 0 0-1.8-1l-.3-2.4h-4l-.3 2.4a7.6 7.6 0 0 0-1.8 1l-2.3-.9-2 3.4 2 1.5a7.6 7.6 0 0 0 0 2l-2 1.5 2 3.4 2.3-.9c.5.4 1.1.8 1.8 1l.3 2.4h4l.3-2.4c.7-.2 1.3-.6 1.8-1l2.3.9 2-3.4-2-1.5z"/></svg>';
+
+  function levelBadge(score){
+    if(score <= 35) return { text:'Necesita atención urgente', color:'var(--red-alert)' };
+    if(score <= 60) return { text:'Margen de mejora importante', color:'var(--amber)' };
+    if(score <= 80) return { text:'Buena base, puedes escalar', color:'var(--electric-blue)' };
+    return { text:'Bien posicionado', color:'var(--green-available)' };
+  }
+
+  function showResult(){
+    crossFade(phases.analyzing, phases.result);
+
+    var herramientasRaw = Math.min(20, answers.herramientasPoints);
+    var rawScore = answers.equipoPoints + herramientasRaw + answers.fuentePoints + answers.volumenPoints;
+    var maxRaw = 80;
+    var score = Math.round((rawScore/maxRaw)*100);
+    score = Math.max(15, Math.min(87, score));
+    var color = scoreColor(score);
     var comp = getCompetencia(answers.provincia);
 
-    var color = score<=35 ? 'var(--red-alert)' : score<=60 ? 'var(--amber)' : score<=80 ? 'var(--blue-bright)' : 'var(--green-available)';
-    var circle = document.getElementById('gaugeCircle');
+    document.getElementById('diagReportMeta').textContent = 'Agencia en ' + answers.provincia + ' · ' + (answers.equipoValue || '—') + ' · ' + new Intl.DateTimeFormat('es-ES',{day:'numeric',month:'long',year:'numeric'}).format(new Date());
+    var badge = levelBadge(score);
+    var badgeEl = document.getElementById('diagLevelBadge');
+    badgeEl.textContent = badge.text;
+    badgeEl.style.color = badge.color;
+    badgeEl.style.background = 'color-mix(in srgb, ' + badge.color + ' 12%, transparent)';
+    badgeEl.style.border = '1px solid ' + badge.color;
+
+    var circle = document.getElementById('diagGaugeCircle');
     var circumference = 439.8;
     circle.style.stroke = color;
     setTimeout(function(){
-      circle.style.transition = 'stroke-dashoffset 1.3s ' + 'cubic-bezier(.16,1,.3,1)';
+      circle.style.transition = 'stroke-dashoffset 1.5s ease-out';
       circle.style.strokeDashoffset = circumference * (1 - score/100);
     }, 80);
-
-    var gaugeVal = document.getElementById('gaugeVal');
+    var gaugeVal = document.getElementById('diagGaugeVal');
     gaugeVal.style.color = color;
     var startTs = performance.now();
     function tickGauge(now){
-      var p = Math.min(1, (now-startTs)/1300);
+      var p = Math.min(1, (now-startTs)/1500);
       gaugeVal.textContent = Math.round(score * (1-Math.pow(1-p,3)));
-      if(p<1) requestAnimationFrame(tickGauge);
+      if(p < 1) requestAnimationFrame(tickGauge);
     }
     requestAnimationFrame(tickGauge);
 
     var nivel = score<=35 ? 'inicial' : score<=60 ? 'en desarrollo' : score<=80 ? 'avanzado' : 'excelente';
     var compTxt = comp==='ALTA' ? 'muy competido' : comp==='MEDIA' ? 'con competencia moderada' : 'con poca competencia';
-    document.getElementById('quizPhrase').innerHTML = 'En <b>'+answers.provincia+'</b>, un mercado '+compTxt+', tu agencia tiene un nivel de preparación <b>'+nivel+'</b> para captar más propietarios.';
+    document.getElementById('diagScorePhrase').innerHTML = 'En <b>'+answers.provincia+'</b>, un mercado '+compTxt+', tu agencia tiene un nivel de preparación <b>'+nivel+'</b> para captar más propietarios.';
 
-    var capPct = Math.round(((answers.fuente + answers.captaciones) / 40) * 100);
-    var toolPct = Math.round((answers.herramientas / 45) * 100);
-    var potBase = comp === 'BAJA' ? 80 : comp === 'MEDIA' ? 60 : 42;
-    var potPct = Math.min(100, Math.round(potBase + (score/100)*15));
+    var captacionScore = Math.max(0, Math.min(100, Math.round(((answers.fuentePoints + answers.volumenPoints)/40)*100)));
+    var herramientasScore = Math.max(0, Math.min(100, Math.round((herramientasRaw/20)*100)));
+    var potBase = Math.round(((answers.equipoPoints + answers.volumenPoints)/40)*100);
+    var potAdj = comp==='BAJA' ? 15 : comp==='MEDIA' ? 0 : -15;
+    var potencialScore = Math.max(5, Math.min(95, potBase + potAdj));
 
-    setBar('qbarCapt', capPct, capPct<40 ? 'Tu captación depende demasiado de canales pasivos.' : capPct<70 ? 'Tienes una base de captación sólida pero mejorable.' : 'Tu captación está bien diversificada.');
-    setBar('qbarTool', toolPct, toolPct<40 ? 'Sin CRM ni software, pierdes leads por el camino.' : toolPct<70 ? 'Tus herramientas cubren lo básico.' : 'Tu stack tecnológico es competitivo.');
-    setBar('qbarPot', potPct, comp==='BAJA' ? 'Poca competencia: hay mucho margen para destacar primero.' : comp==='MEDIA' ? 'Competencia moderada: diferenciarte ahora marca la diferencia.' : 'Mercado muy competido: necesitas destacar con algo que otros no tengan.');
+    var captacionInsight = captacionScore < 50
+      ? (answers.fuenteValue === 'Puerta a puerta' || answers.fuenteValue === 'Casi no capto activamente'
+          ? 'Dependes de captación presencial o pasiva en una zona '+compTxt+'. Abrir un canal digital automatizado cambiaría tus números.'
+          : 'Tu ritmo de captación está por debajo de lo que tu zona permite. Hay margen real para crecer.')
+      : 'Tu captación funciona, pero diversificar canales reduce el riesgo y multiplica resultados.';
 
-    var improvements = [];
-    if(answers.herramientas < 20) improvements.push({ ic:'🛠', t:'Sin CRM ni software propio: estás perdiendo leads por el camino.' });
-    if(answers.fuente <= 5) improvements.push({ ic:'📡', t:'Tu captación depende del azar: te falta un canal digital propio que genere leads de forma constante.' });
-    if(answers.captaciones <= 10) improvements.push({ ic:'📈', t:'Menos de 5 captaciones al mes: hay margen de sobra para escalar con automatización.' });
-    if(answers.agentes <= 5) improvements.push({ ic:'⏱', t:'Trabajas solo: cada hora dedicada a tareas manuales es una hora que no dedicas a captar.' });
-    if(improvements.length === 0) improvements.push({ ic:'✅', t:'Ya tienes una base sólida. Un sistema de captación automático puede llevarte todavía más lejos.' });
+    var herramientasInsight = herramientasScore < 50
+      ? 'Sin un sistema centralizado, cada lead que no gestionas a tiempo es una captación que pierdes. Estás operando con desventaja.'
+      : 'Tu stack tecnológico te da una base sólida. Sumar automatización te haría aún más competitivo.';
 
-    var grid = document.getElementById('quizImproveGrid');
-    grid.innerHTML = '';
-    improvements.slice(0,4).forEach(function(it){
-      var div = document.createElement('div');
-      div.className = 'improve-card';
-      div.innerHTML = '<span class="ic">'+it.ic+'</span><span>'+it.t+'</span>';
-      grid.appendChild(div);
+    var potencialInsight = answers.equipoValue === 'Solo yo'
+      ? 'Como autónomo, tu tiempo es limitado. La automatización te permite captar como un equipo de 3.'
+      : (potencialScore < 50
+          ? 'Tu potencial de crecimiento está limitado por tu volumen actual y la competencia de tu zona.'
+          : 'Tienes margen de crecimiento real: con el equipo y la captación adecuados, puedes escalar con fuerza.');
+
+    var areas = [
+      { name:'Captación', score:captacionScore, icon:ICON_TARGET, insight:captacionInsight },
+      { name:'Herramientas', score:herramientasScore, icon:ICON_SETTINGS, insight:herramientasInsight },
+      { name:'Potencial de crecimiento', score:potencialScore, icon:ICON_TRENDING, insight:potencialInsight }
+    ];
+    var areasBox = document.getElementById('diagAreas');
+    areasBox.innerHTML = '';
+    areas.forEach(function(area, idx){
+      var c = scoreColor(area.score);
+      var row = document.createElement('div');
+      row.innerHTML =
+        '<div class="diag-area-top"><svg viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+area.icon.replace(/<svg[^>]*>|<\/svg>/g,'')+'</svg><span class="name">'+area.name+'</span><span class="score" style="color:'+c+'">'+area.score+'/100</span></div>'+
+        '<div class="diag-area-track"><div class="diag-area-fill" style="background:'+c+'"></div></div>'+
+        '<div class="diag-area-insight"><span class="d" style="background:'+c+'"></span><span>'+area.insight+'</span></div>';
+      areasBox.appendChild(row);
+      var fill = row.querySelector('.diag-area-fill');
+      setTimeout(function(){ fill.style.width = area.score + '%'; }, 200 + idx*200);
     });
+
+    var weakest = areas.reduce(function(min, a){ return a.score < min.score ? a : min; }, areas[0]);
+
+    var opportunities = [];
+    if(answers.herramientasList.indexOf('WhatsApp y agenda del móvil') > -1 || answers.herramientasList.indexOf('Nada específico') > -1 || answers.herramientasList.length === 0){
+      var actual = answers.herramientasList.length ? answers.herramientasList.join(' y ') : 'tu método actual';
+      opportunities.push({ color:'var(--amber)', icon:ICON_WRENCH, title:'Automatiza la gestión de leads', desc:'Sustituye '+actual+' por un panel que trabaje por ti.' });
+    }
+    if(answers.fuenteValue === 'Puerta a puerta' || answers.fuenteValue === 'Casi no capto activamente'){
+      opportunities.push({ color:'var(--electric-blue)', icon:ICON_GLOBE, title:'Abre un canal de captación digital', desc:'Un sistema que capta 24/7 sin que estés presente.' });
+    }
+    if(answers.volumenPoints <= 10){
+      opportunities.push({ color:'var(--cyan-accent)', icon:ICON_TRENDING, title:'Multiplica tu volumen de captación', desc:'Informes profesionales que atraen propietarios solos.' });
+    }
+    if(answers.equipoValue === 'Solo yo'){
+      opportunities.push({ color:'var(--green-available)', icon:ICON_USERS, title:'Rinde como un equipo con automatización', desc:'Un agente + sistema supera a 3 agentes sin él.' });
+    }
+    if(comp === 'ALTA'){
+      opportunities.push({ color:'var(--red-alert)', icon:ICON_MAPPIN, title:'Diferénciate en '+answers.provincia, desc:'Los propietarios de tu zona comparan entre muchos agentes. Sé el que ofrece algo distinto.' });
+    }
+    var oppFallbacks = [
+      { color:'var(--cyan-accent)', icon:ICON_TRENDING, title:'Protege tu posición con más leads', desc:'Más volumen de leads cualificados multiplica tus opciones de cierre.' },
+      { color:'var(--green-available)', icon:ICON_SETTINGS, title:'Centraliza el seguimiento de cada lead', desc:'Un panel que registra cada interacción evita que se te escape ningún propietario.' }
+    ];
+    var fbIdx = 0;
+    while(opportunities.length < 3 && fbIdx < oppFallbacks.length){
+      opportunities.push(oppFallbacks[fbIdx]); fbIdx++;
+    }
+    opportunities.push({ color:'var(--electric-blue)', icon:ICON_TARGET, title:'Posiciónate como experto con datos', desc:'Un informe profesional vale más que una llamada en frío.' });
+
+    var oppBox = document.getElementById('diagOppGrid');
+    oppBox.innerHTML = '';
+    opportunities.slice(0,4).forEach(function(op){
+      var card = document.createElement('div');
+      card.className = 'diag-opp-card';
+      card.style.borderLeftColor = op.color;
+      card.innerHTML = op.icon.replace('<svg ', '<svg style="color:'+op.color+'" ') + '<div><div class="diag-opp-title">'+op.title+'</div><div class="diag-opp-desc">'+op.desc+'</div></div>';
+      oppBox.appendChild(card);
+    });
+
+    document.getElementById('diagActionScore').textContent = score + '/100';
+    document.getElementById('diagActionScore').style.color = color;
+    document.getElementById('diagActionProv').textContent = answers.provincia;
+    document.getElementById('diagActionComp').textContent = comp === 'ALTA' ? 'Alta' : comp === 'MEDIA' ? 'Media' : 'Baja';
+    document.getElementById('diagActionComp').style.color = comp === 'ALTA' ? 'var(--red-alert)' : comp === 'MEDIA' ? 'var(--amber)' : 'var(--green-available)';
+    var weakEl = document.getElementById('diagActionWeak');
+    weakEl.textContent = weakest.name;
+    weakEl.style.color = weakest.score <= 35 ? 'var(--red-alert)' : 'var(--amber)';
   }
 
-  function setBar(prefix, pct, insight){
-    pct = Math.max(0, Math.min(100, pct));
-    document.getElementById(prefix+'Val').textContent = pct+'%';
-    setTimeout(function(){ document.getElementById(prefix).style.width = pct+'%'; }, 150);
-    document.getElementById(prefix+'Insight').textContent = insight;
-  }
-
-  repeatBtn.addEventListener('click', function(){
-    answers = { provincia:null, agentes:0, herramientas:0, herramientasList:[], fuente:0, captaciones:0 };
+  /* ---- repetir diagnóstico ---- */
+  document.getElementById('diagRepeatBtn').addEventListener('click', function(){
+    answers = { provincia:null, equipoPoints:0, equipoValue:null, herramientasPoints:0, herramientasList:[], fuentePoints:0, fuenteValue:null, volumenPoints:0, volumenValue:null };
     provSelect.value = '';
-    questionsPhase.querySelectorAll('.q-card.selected, .q-tag.selected').forEach(function(el){ el.classList.remove('selected'); });
-    document.getElementById('gaugeCircle').style.strokeDashoffset = 439.8;
-    resultPhase.hidden = true;
-    introPhase.hidden = false;
+    document.querySelectorAll('.diag-option.selected').forEach(function(o){ o.classList.remove('selected'); o.setAttribute('aria-checked','false'); });
+    sidebarEmpty.style.display = '';
+    dataItemsBox.innerHTML = '';
+    compCardBox.innerHTML = '';
+    alertBox.innerHTML = '';
+    miniGaugeFill.style.strokeDashoffset = MINI_GAUGE_LEN;
+    miniGaugeNum.textContent = '0';
+    compactScore.textContent = '0';
+    compactFill.style.width = '0%';
+    sidebar.classList.remove('expanded');
+    compactBar.classList.remove('open');
+    compactBar.setAttribute('aria-expanded', 'false');
     current = 0;
+    crossFade(phases.result, phases.intro);
   });
 })();
 
