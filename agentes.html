@@ -946,62 +946,87 @@ section[id]{scroll-margin-top:84px;}
 .ep-stat-l{font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;margin-top:3px;display:block;}
 /* ============ SECCIÓN 6: SIMULADOR DE IMPACTO ============ */
 #simulador{background:var(--bg-secondary);}
-.sim-inputs{
-  background:var(--bg-card);border:1px solid var(--border);border-radius:18px;
-  padding:clamp(20px,4vw,32px);max-width:760px;margin:0 auto 36px;
-  display:grid;grid-template-columns:1fr;gap:22px;
-}
-@media(min-width:680px){.sim-inputs{grid-template-columns:1fr 1fr;}}
-.sim-input-row label{display:flex;justify-content:space-between;font-size:0.84rem;font-weight:600;margin-bottom:10px;}
-.sim-input-row label .val{color:var(--blue-bright);font-weight:800;}
-.sim-slider{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:4px;background:var(--border);outline:none;}
-.sim-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--electric-blue);box-shadow:0 0 0 4px var(--blue-glow);cursor:pointer;}
-.sim-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--electric-blue);box-shadow:0 0 0 4px var(--blue-glow);cursor:pointer;border:none;}
+.sim2-disclaimer{font-size:0.78rem;color:var(--text-muted);font-style:italic;margin-top:10px;}
 
-.sim-vs{
-  display:grid;grid-template-columns:1fr;gap:16px;max-width:780px;margin:0 auto 32px;position:relative;
-}
-@media(min-width:680px){.sim-vs{grid-template-columns:1fr 1fr;}}
-.sim-vs-badge{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:42px;height:42px;border-radius:50%;background:var(--bg-secondary);border:2px solid var(--border);
-  display:none;align-items:center;justify-content:center;font-size:0.72rem;font-weight:800;color:var(--text-muted);z-index:2;
-}
-@media(min-width:680px){.sim-vs-badge{display:flex;}}
-.sim-col{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:22px;}
-.sim-col-title{font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:16px;}
-.sim-col.con .sim-col-title{color:var(--blue-bright);}
-.sim-metric-row{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--border);}
-.sim-metric-row:last-child{border-bottom:none;}
-.sim-metric-row .l{font-size:0.82rem;color:var(--text-secondary);}
-.sim-metric-row .v{font-size:0.95rem;font-weight:800;}
-.sim-metric-row .v .plus{color:var(--green-available);font-size:0.74rem;font-weight:700;background:rgba(16,185,129,0.12);padding:2px 7px;border-radius:100px;margin-left:6px;}
+/* Panel inputs */
+.sim2-inputs{background:var(--bg-card);border:1px solid var(--border);border-top:none;border-radius:20px;padding:clamp(24px,5vw,40px);max-width:900px;margin:0 auto 36px;position:relative;}
+.sim2-inputs::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-blue);border-radius:20px 20px 0 0;}
+.sim2-inputs-title{font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:24px;}
+.sim2-grid{display:grid;grid-template-columns:1fr;gap:28px;}
+@media(min-width:680px){.sim2-grid{grid-template-columns:1fr 1fr;}}
+.sim2-field{display:flex;flex-direction:column;gap:10px;}
+.sim2-field-header{display:flex;align-items:center;gap:10px;}
+.sim2-icon-wrap{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sim2-icon-wrap svg{width:16px;height:16px;}
+.sim2-label-wrap{display:flex;align-items:center;gap:6px;flex:1;}
+.sim2-label{font-size:0.82rem;font-weight:600;color:var(--text-secondary);}
+.sim2-tip{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-muted);font-size:0.62rem;font-weight:700;cursor:help;position:relative;flex-shrink:0;}
+.sim2-tip::after{content:attr(data-tip);position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:0.72rem;font-weight:400;color:var(--text-secondary);max-width:200px;white-space:normal;text-align:left;pointer-events:none;opacity:0;transition:opacity .2s;z-index:100;}
+.sim2-tip:hover::after{opacity:1;}
+.sim2-num{width:100%;padding:10px 14px;background:var(--bg-secondary);border:1.5px solid var(--border);border-radius:10px;color:var(--text-primary);font-size:1.1rem;font-weight:700;text-align:center;outline:none;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield;}
+.sim2-num::-webkit-inner-spin-button,.sim2-num::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+.sim2-num:focus{border-color:var(--electric-blue);box-shadow:0 0 0 3px var(--blue-glow);}
+.sim2-range{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(to right,#2563EB 0%,#06B6D4 var(--fill,0%),var(--border) var(--fill,0%));outline:none;cursor:pointer;}
+.sim2-range::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:2px solid var(--electric-blue);box-shadow:0 0 0 4px var(--blue-glow);cursor:pointer;}
+.sim2-range::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:2px solid var(--electric-blue);box-shadow:0 0 0 4px var(--blue-glow);cursor:pointer;}
 
-.sim-diff-card{
-  background:var(--bg-card);border:1px solid var(--green-available);border-radius:16px;
-  padding:28px;text-align:center;max-width:480px;margin:0 auto 36px;
-}
-.sim-diff-card .diff-num{font-size:clamp(2rem,5vw,2.6rem);font-weight:800;color:var(--green-available);letter-spacing:-0.02em;}
-.sim-diff-card .diff-lbl{font-size:0.84rem;color:var(--text-secondary);margin:6px 0 14px;}
-.sim-diff-card .diff-roi{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:var(--green-available);padding:7px 16px;border-radius:100px;font-weight:700;font-size:0.84rem;}
+/* Comparativa */
+.sim2-compare{display:grid;grid-template-columns:1fr;gap:16px;max-width:900px;margin:0 auto 28px;position:relative;}
+@media(min-width:700px){.sim2-compare{grid-template-columns:1fr 1fr;gap:24px;}}
+.sim2-col{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px;}
+.sim2-col-con{border-color:rgba(37,99,235,0.3);box-shadow:0 0 24px rgba(37,99,235,0.08);}
+.sim2-col-badge{display:inline-flex;align-items:center;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:4px 10px;border-radius:100px;margin-bottom:16px;}
+.sim2-badge-gray{background:rgba(100,116,139,0.15);border:1px solid rgba(100,116,139,0.3);color:var(--text-muted);}
+.sim2-badge-blue{background:var(--blue-glow);border:1px solid var(--blue-glow-strong);color:var(--blue-bright);}
+.sim2-pills{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.sim2-pill{padding:5px 10px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text-muted);font-size:0.7rem;font-weight:600;cursor:pointer;transition:all .2s;}
+.sim2-pill.active{background:var(--electric-blue);border-color:var(--electric-blue);color:#fff;}
+.sim2-vs-badge{display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:var(--bg-secondary);border:2px solid var(--border);font-size:0.72rem;font-weight:800;color:var(--text-muted);align-items:center;justify-content:center;z-index:2;}
+@media(min-width:700px){.sim2-vs-badge{display:flex;}}
+.sim2-metric{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--border);}
+.sim2-metric:last-child{border-bottom:none;}
+.sim2-m-label{font-size:0.8rem;color:var(--text-secondary);}
+.sim2-m-val{font-size:0.95rem;font-weight:800;color:var(--text-primary);}
+.sim2-big{font-size:1.2rem;}
+.sim2-plus{color:var(--green-available);font-size:0.72rem;font-weight:700;background:rgba(16,185,129,0.12);padding:2px 7px;border-radius:100px;margin-left:6px;}
 
-.sim-chart-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:780px;margin:0 auto 30px;}
-.sim-chart-card h4{font-size:0.92rem;font-weight:700;margin-bottom:16px;}
-.sim-chart12{display:flex;align-items:flex-end;gap:5px;height:160px;}
-.sim-chart12 .grp{flex:1;display:flex;align-items:flex-end;gap:2px;height:100%;}
-.sim-chart12 .bar{flex:1;border-radius:3px 3px 0 0;height:0%;transition:height 1s var(--ease);}
-.sim-chart12 .bar.gris{background:var(--border);}
-.sim-chart12 .bar.azul{background:var(--gradient-blue);}
-.sim-chart-legend{display:flex;gap:18px;margin-top:12px;font-size:0.72rem;color:var(--text-muted);}
-.sim-chart-legend span{display:inline-flex;align-items:center;gap:6px;}
-.sim-chart-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+/* Diff card */
+.sim2-diff{background:var(--bg-card);border:1px solid rgba(16,185,129,0.3);border-radius:16px;padding:clamp(20px,4vw,32px);max-width:900px;margin:0 auto 28px;box-shadow:0 0 32px rgba(16,185,129,0.06);display:grid;grid-template-columns:1fr;gap:10px;text-align:center;}
+@media(min-width:640px){.sim2-diff{grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;text-align:left;}}
+.sim2-diff-lbl{font-size:0.84rem;color:var(--text-secondary);line-height:1.5;}
+.sim2-diff-num{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;color:var(--green-available);letter-spacing:-0.02em;text-shadow:0 0 30px rgba(16,185,129,0.4);}
+@media(min-width:640px){.sim2-diff-num{text-align:center;}}
+@keyframes sim2PulseAnim{0%{transform:scale(1);}30%{transform:scale(1.06);}100%{transform:scale(1);}}
+.sim2-pulse{animation:sim2PulseAnim .4s var(--ease);}
+.sim2-diff-roi{font-size:0.88rem;font-weight:700;color:var(--cyan-accent);line-height:1.5;}
+@media(min-width:640px){.sim2-diff-roi{text-align:right;}}
 
-.sim-why-card{
-  background:rgba(37,99,235,0.06);border:1px solid var(--blue-glow-strong);border-radius:16px;
-  padding:24px;max-width:680px;margin:0 auto;text-align:center;
-}
-.sim-why-card h4{font-size:0.95rem;font-weight:800;margin-bottom:8px;}
-.sim-why-card p{font-size:0.84rem;color:var(--text-secondary);line-height:1.6;margin-bottom:18px;}
+/* Gráfico */
+.sim2-chart-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:900px;margin:0 auto 28px;}
+.sim2-chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
+.sim2-chart-title{font-size:0.9rem;font-weight:700;}
+.sim2-chart-legend{display:flex;gap:14px;font-size:0.72rem;color:var(--text-muted);}
+.sim2-chart-legend span{display:flex;align-items:center;gap:5px;}
+.sim2-leg-dot{width:10px;height:10px;border-radius:3px;display:inline-block;flex-shrink:0;}
+.sim2-leg-gray{background:var(--border);}
+.sim2-leg-blue{background:var(--electric-blue);}
+.sim2-chart-wrap{position:relative;height:180px;margin-bottom:8px;}
+.sim2-chart-bars{display:flex;align-items:flex-end;height:100%;gap:4px;}
+.sim2-bar-grp{flex:1;display:flex;align-items:flex-end;gap:2px;height:100%;}
+.sim2-bar{flex:1;border-radius:3px 3px 0 0;height:0;transition:height .5s var(--ease);}
+.sim2-bar-gray{background:var(--border);}
+.sim2-bar-blue{background:linear-gradient(180deg,#06B6D4 0%,#2563EB 100%);}
+.sim2-ref-line{position:absolute;left:0;right:0;height:0;border-top:1.5px dashed rgba(100,116,139,0.5);pointer-events:none;transition:bottom .5s var(--ease);bottom:0;}
+.sim2-month-labels{display:flex;font-size:0.6rem;color:var(--text-muted);margin-top:4px;}
+.sim2-month-labels span{flex:1;text-align:center;}
+@media(max-width:640px){.sim2-month-labels span:nth-child(even){visibility:hidden;}}
+
+/* Cierre why */
+.sim2-why{background:rgba(6,182,212,0.05);border:1px solid rgba(6,182,212,0.2);border-radius:16px;padding:24px;max-width:700px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;}
+.sim2-why-icon{width:40px;height:40px;border-radius:50%;background:rgba(6,182,212,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sim2-why-icon svg{width:18px;height:18px;}
+.sim2-why-title{font-size:0.95rem;font-weight:800;margin-bottom:6px;}
+.sim2-why p{font-size:0.84rem;color:var(--text-secondary);line-height:1.6;margin:0;}
 /* ============ SECCIÓN 7: OFERTA / FOMO ============ */
 #oferta{background:var(--bg-primary);text-align:center;}
 .offer-card-outer{
@@ -2025,68 +2050,144 @@ section[id]{scroll-margin-top:84px;}
 <!-- ============ SECCIÓN 6 — SIMULADOR DE IMPACTO ============ -->
 <section id="simulador" class="section-pad">
   <div class="wrap">
+
     <div class="head-block reveal">
-      <h2 class="h2">Visualiza el impacto real en tu agencia</h2>
-      <p class="h2-sub">Ajusta los valores a tu situación actual y compara con y sin el sistema.</p>
+      <div class="cf-eyebrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        SIMULADOR DE IMPACTO
+      </div>
+      <h2 class="h2">Visualiza el <span style="color:var(--electric-blue)">impacto real</span> en tu agencia</h2>
+      <p class="h2-sub">Ajusta los valores a tu situación y compara escenarios con y sin el sistema.</p>
+      <p class="sim2-disclaimer">Simulación orientativa. No representa resultados garantizados.</p>
     </div>
 
-    <div class="sim-inputs reveal">
-      <div class="sim-input-row">
-        <label>Agentes en tu agencia <span class="val" id="simAgentesVal">3</span></label>
-        <input type="range" class="sim-slider" id="simAgentes" min="1" max="20" value="3" />
-      </div>
-      <div class="sim-input-row">
-        <label>Captaciones actuales / mes <span class="val" id="simCaptVal">5</span></label>
-        <input type="range" class="sim-slider" id="simCapt" min="1" max="20" value="5" />
-      </div>
-      <div class="sim-input-row">
-        <label>Comisión media (%) <span class="val" id="simComVal">3%</span></label>
-        <input type="range" class="sim-slider" id="simCom" min="1" max="6" value="3" step="0.5" />
-      </div>
-      <div class="sim-input-row">
-        <label>Tasa de cierre lead→captación (%) <span class="val" id="simTasaVal">30%</span></label>
-        <input type="range" class="sim-slider" id="simTasa" min="10" max="60" value="30" />
+    <!-- Panel de inputs -->
+    <div class="sim2-inputs reveal">
+      <div class="sim2-inputs-title">Tu agencia hoy</div>
+      <div class="sim2-grid">
+
+        <div class="sim2-field">
+          <div class="sim2-field-header">
+            <div class="sim2-icon-wrap" style="background:rgba(37,99,235,0.12)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="sim2-label-wrap">
+              <span class="sim2-label">Nº de agentes</span>
+              <span class="sim2-tip" data-tip="Total de agentes activos en tu agencia">?</span>
+            </div>
+          </div>
+          <input type="number" class="sim2-num" id="s2Agentes" min="1" max="30" step="1" value="3">
+          <input type="range" class="sim2-range" id="s2AgentesR" min="1" max="30" step="1" value="3">
+        </div>
+
+        <div class="sim2-field">
+          <div class="sim2-field-header">
+            <div class="sim2-icon-wrap" style="background:rgba(6,182,212,0.12)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#06B6D4" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <div class="sim2-label-wrap">
+              <span class="sim2-label">Captaciones/mes por agente</span>
+              <span class="sim2-tip" data-tip="Captaciones mensuales medias por agente actualmente">?</span>
+            </div>
+          </div>
+          <input type="number" class="sim2-num" id="s2Capt" min="0" max="15" step="1" value="2">
+          <input type="range" class="sim2-range" id="s2CaptR" min="0" max="15" step="1" value="2">
+        </div>
+
+        <div class="sim2-field">
+          <div class="sim2-field-header">
+            <div class="sim2-icon-wrap" style="background:rgba(16,185,129,0.12)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="sim2-label-wrap">
+              <span class="sim2-label">Comisión media (€ / operación)</span>
+              <span class="sim2-tip" data-tip="Comisión neta que recibes por cada operación cerrada">?</span>
+            </div>
+          </div>
+          <input type="number" class="sim2-num" id="s2Com" min="1000" max="25000" step="500" value="5000">
+          <input type="range" class="sim2-range" id="s2ComR" min="1000" max="25000" step="500" value="5000">
+        </div>
+
+        <div class="sim2-field">
+          <div class="sim2-field-header">
+            <div class="sim2-icon-wrap" style="background:rgba(245,158,11,0.12)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+            </div>
+            <div class="sim2-label-wrap">
+              <span class="sim2-label">Tasa de cierre (%)</span>
+              <span class="sim2-tip" data-tip="% de captaciones que acaban en operación cerrada">?</span>
+            </div>
+          </div>
+          <input type="number" class="sim2-num" id="s2Tasa" min="5" max="60" step="5" value="25">
+          <input type="range" class="sim2-range" id="s2TasaR" min="5" max="60" step="5" value="25">
+        </div>
+
       </div>
     </div>
 
-    <div class="sim-vs reveal">
-      <div class="sim-vs-badge">VS</div>
-      <div class="sim-col sin">
-        <div class="sim-col-title">Sin sistema</div>
-        <div class="sim-metric-row"><span class="l">Leads / mes</span><span class="v" id="simSinLeads">–</span></div>
-        <div class="sim-metric-row"><span class="l">Captaciones / mes</span><span class="v" id="simSinCapt">–</span></div>
-        <div class="sim-metric-row"><span class="l">Ingresos estimados / mes</span><span class="v" id="simSinIngresos">–</span></div>
-        <div class="sim-metric-row"><span class="l">Horas en prospección manual</span><span class="v" id="simSinHoras">–</span></div>
+    <!-- Comparativa Sin vs Con -->
+    <div class="sim2-compare reveal">
+      <div class="sim2-col sim2-col-sin">
+        <div class="sim2-col-badge sim2-badge-gray">SITUACIÓN ACTUAL</div>
+        <div class="sim2-metric"><span class="sim2-m-label">Captaciones / año</span><span class="sim2-m-val" id="s2SinCapt">–</span></div>
+        <div class="sim2-metric"><span class="sim2-m-label">Operaciones cerradas</span><span class="sim2-m-val" id="s2SinOps">–</span></div>
+        <div class="sim2-metric sim2-m-main"><span class="sim2-m-label">Facturación anual</span><span class="sim2-m-val sim2-big" id="s2SinFact">–</span></div>
+        <div class="sim2-metric"><span class="sim2-m-label">Facturación / agente</span><span class="sim2-m-val" id="s2SinPer">–</span></div>
       </div>
-      <div class="sim-col con">
-        <div class="sim-col-title">Con el sistema</div>
-        <div class="sim-metric-row"><span class="l">Leads / mes</span><span class="v" id="simConLeads">–</span></div>
-        <div class="sim-metric-row"><span class="l">Captaciones / mes</span><span class="v" id="simConCapt">–</span></div>
-        <div class="sim-metric-row"><span class="l">Ingresos estimados / mes</span><span class="v" id="simConIngresos">–</span></div>
-        <div class="sim-metric-row"><span class="l">Horas en prospección manual</span><span class="v" id="simConHoras">–</span></div>
-      </div>
-    </div>
 
-    <div class="sim-diff-card reveal">
-      <div class="diff-num" id="simDiffNum">+0 €/mes</div>
-      <div class="diff-lbl">de ingresos adicionales estimados cada mes</div>
-      <div class="diff-roi" id="simRoi">Retorno ×0 sobre los 399 €</div>
-    </div>
+      <div class="sim2-vs-badge">VS</div>
 
-    <div class="sim-chart-card reveal">
-      <h4>Proyección a 12 meses (acumulado)</h4>
-      <div class="sim-chart12" id="simChart12"></div>
-      <div class="sim-chart-legend">
-        <span><i style="background:var(--border)"></i> Sin sistema</span>
-        <span><i style="background:var(--gradient-blue)"></i> Con sistema</span>
+      <div class="sim2-col sim2-col-con">
+        <div class="sim2-col-badge sim2-badge-blue">CON EL SISTEMA</div>
+        <div class="sim2-pills">
+          <button class="sim2-pill active" data-extra="1">+1 captación extra/mes</button>
+          <button class="sim2-pill" data-extra="2">+2 captaciones extra/mes</button>
+        </div>
+        <div class="sim2-metric"><span class="sim2-m-label">Captaciones / año</span><span class="sim2-m-val" id="s2ConCapt">–</span></div>
+        <div class="sim2-metric"><span class="sim2-m-label">Operaciones cerradas</span><span class="sim2-m-val" id="s2ConOps">–</span></div>
+        <div class="sim2-metric sim2-m-main"><span class="sim2-m-label">Facturación anual</span><span class="sim2-m-val sim2-big" id="s2ConFact">–</span></div>
+        <div class="sim2-metric"><span class="sim2-m-label">Facturación / agente</span><span class="sim2-m-val" id="s2ConPer">–</span></div>
       </div>
     </div>
 
-    <div class="sim-why-card reveal">
-      <h4>¿Por qué te mostramos esto?</h4>
-      <p>Porque no te pedimos que nos creas: queremos que veas, con tus propios números, qué impacto tendría un canal de captación adicional en tu agencia.</p>
+    <!-- Tarjeta diferencia -->
+    <div class="sim2-diff reveal" id="s2DiffCard">
+      <div class="sim2-diff-lbl">Diferencia potencial anual</div>
+      <div class="sim2-diff-num" id="s2DiffNum">+0 €/año</div>
+      <div class="sim2-diff-roi" id="s2DiffRoi">Retorno ×0 sobre los 399 €</div>
+    </div>
+
+    <!-- Gráfico 12 meses -->
+    <div class="sim2-chart-card reveal">
+      <div class="sim2-chart-header">
+        <span class="sim2-chart-title">Proyección a 12 meses (acumulado)</span>
+        <div class="sim2-chart-legend">
+          <span><i class="sim2-leg-dot sim2-leg-gray"></i>Actual</span>
+          <span><i class="sim2-leg-dot sim2-leg-blue"></i>Con el sistema</span>
+        </div>
+      </div>
+      <div class="sim2-chart-wrap">
+        <div class="sim2-chart-bars" id="s2Chart"></div>
+        <div class="sim2-ref-line" id="s2RefLine"></div>
+      </div>
+      <div class="sim2-month-labels">
+        <span>E</span><span>F</span><span>M</span><span>A</span><span>M</span><span>J</span>
+        <span>J</span><span>A</span><span>S</span><span>O</span><span>N</span><span>D</span>
+      </div>
+    </div>
+
+    <!-- Cierre -->
+    <div class="sim2-why reveal">
+      <div class="sim2-why-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cyan-accent)"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      </div>
+      <div>
+        <div class="sim2-why-title">¿Por qué te mostramos esto?</div>
+        <p>Porque no te pedimos que nos creas: queremos que veas, con tus propios números, qué impacto tendría un canal de captación adicional en tu agencia.</p>
+      </div>
       <a href="#cta-final" class="btn btn-primary">Solicitar acceso fundador →</a>
     </div>
+
   </div>
 </section>
 
@@ -3344,93 +3445,183 @@ function wireTabs(tabSel, panelSel, tabAttr, panelAttr, onShow){
 
 /* ============ SECCIÓN 6: SIMULADOR DE IMPACTO ============ */
 (function(){
-  var simAgentes = document.getElementById('simAgentes');
-  if(!simAgentes) return;
-  var simCapt = document.getElementById('simCapt');
-  var simCom = document.getElementById('simCom');
-  var simTasa = document.getElementById('simTasa');
-  var AVG_PRICE = 220000;
+  var elA = document.getElementById('s2Agentes');
+  if(!elA) return;
+  var elAR = document.getElementById('s2AgentesR');
+  var elC = document.getElementById('s2Capt');
+  var elCR = document.getElementById('s2CaptR');
+  var elM = document.getElementById('s2Com');
+  var elMR = document.getElementById('s2ComR');
+  var elT = document.getElementById('s2Tasa');
+  var elTR = document.getElementById('s2TasaR');
 
-  var chart12box = document.getElementById('simChart12');
+  var fmt = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0 });
+  function fE(n){ return fmt.format(Math.round(Math.abs(n)))+' €'; }
+  function fN(n){ return fmt.format(Math.round(n)); }
+
+  function updateFill(r){
+    var pct = (+r.value - +r.min) / (+r.max - +r.min) * 100;
+    r.style.setProperty('--fill', pct+'%');
+  }
+
+  function snapVal(v, min, max, step){
+    v = Math.max(+min, Math.min(+max, +v||+min));
+    return Math.round((v - +min) / +step) * +step + +min;
+  }
+
+  function syncPair(num, rng){
+    updateFill(rng);
+    num.addEventListener('input', function(){
+      var v = snapVal(this.value, rng.min, rng.max, rng.step);
+      rng.value = v; num.value = v;
+      updateFill(rng); calc();
+    });
+    num.addEventListener('blur', function(){
+      var v = snapVal(this.value, rng.min, rng.max, rng.step);
+      num.value = v; rng.value = v; updateFill(rng); calc();
+    });
+    rng.addEventListener('input', function(){
+      num.value = this.value; updateFill(this); calc();
+    });
+  }
+
+  syncPair(elA, elAR);
+  syncPair(elC, elCR);
+  syncPair(elM, elMR);
+  syncPair(elT, elTR);
+
+  var extraCapt = 1;
+  document.querySelectorAll('.sim2-pill').forEach(function(p){
+    p.addEventListener('click', function(){
+      document.querySelectorAll('.sim2-pill').forEach(function(x){ x.classList.remove('active'); });
+      this.classList.add('active');
+      extraCapt = parseInt(this.dataset.extra, 10);
+      calc();
+    });
+  });
+
+  /* Gráfico */
+  var chartBox = document.getElementById('s2Chart');
   var bars = [];
   for(var i=0;i<12;i++){
-    var grp = document.createElement('div'); grp.className = 'grp';
-    var g = document.createElement('div'); g.className = 'bar gris';
-    var a = document.createElement('div'); a.className = 'bar azul';
-    grp.appendChild(g); grp.appendChild(a);
-    chart12box.appendChild(grp);
-    bars.push({ gris:g, azul:a });
+    var grp = document.createElement('div'); grp.className = 'sim2-bar-grp';
+    var g = document.createElement('div'); g.className = 'sim2-bar sim2-bar-gray';
+    var b2 = document.createElement('div'); b2.className = 'sim2-bar sim2-bar-blue';
+    grp.appendChild(g); grp.appendChild(b2);
+    chartBox.appendChild(grp);
+    bars.push({ g:g, b:b2 });
   }
 
   var chartAnimated = false;
-  function calc(){
-    var agentes = parseInt(simAgentes.value, 10);
-    var captMes = parseInt(simCapt.value, 10);
-    var comPct = parseFloat(simCom.value);
-    var tasaPct = parseInt(simTasa.value, 10);
+  var diffAnimated = false;
+  var currentDiff = 0;
 
-    document.getElementById('simAgentesVal').textContent = agentes;
-    document.getElementById('simCaptVal').textContent = captMes;
-    document.getElementById('simComVal').textContent = comPct.toLocaleString('es-ES')+'%';
-    document.getElementById('simTasaVal').textContent = tasaPct+'%';
-
-    var ingresoPorCaptacion = AVG_PRICE * (comPct/100);
-    var leadsSin = Math.round(captMes / (tasaPct/100));
-    var horasSin = Math.round(leadsSin * 1.4);
-
-    var extraLeads = Math.round(agentes * 2.2);
-    var extraCapt = Math.max(1, Math.round(extraLeads * (tasaPct/100)));
-
-    var leadsCon = leadsSin + extraLeads;
-    var captCon = captMes + extraCapt;
-    var horasCon = horasSin;
-
-    var ingresosSin = captMes * ingresoPorCaptacion;
-    var ingresosCon = captCon * ingresoPorCaptacion;
-    var diff = ingresosCon - ingresosSin;
-    var roi = diff > 0 ? (diff/399) : 0;
-
-    document.getElementById('simSinLeads').textContent = fmtNum(leadsSin);
-    document.getElementById('simSinCapt').textContent = fmtNum(captMes);
-    document.getElementById('simSinIngresos').textContent = fmtNum(ingresosSin)+' €';
-    document.getElementById('simSinHoras').textContent = fmtNum(horasSin)+' h';
-
-    document.getElementById('simConLeads').innerHTML = fmtNum(leadsCon)+'<span class="plus">+'+fmtNum(extraLeads)+'</span>';
-    document.getElementById('simConCapt').innerHTML = fmtNum(captCon)+'<span class="plus">+'+fmtNum(extraCapt)+'</span>';
-    document.getElementById('simConIngresos').innerHTML = fmtNum(ingresosCon)+' €<span class="plus">+'+fmtNum(diff)+' €</span>';
-    document.getElementById('simConHoras').textContent = fmtNum(horasCon)+' h';
-
-    document.getElementById('simDiffNum').textContent = '+'+fmtNum(diff)+' €/mes';
-    document.getElementById('simRoi').textContent = 'Retorno ×'+fmtNum(roi,1)+' sobre los 399 €';
-
-    var maxVal = ingresosCon * 12;
-    bars.forEach(function(b, idx){
-      var mes = idx+1;
-      var hGris = maxVal > 0 ? (ingresosSin*mes/maxVal*100) : 0;
-      var hAzul = maxVal > 0 ? (ingresosCon*mes/maxVal*100) : 0;
-      b.gris.dataset.h = hGris+'%';
-      b.azul.dataset.h = hAzul+'%';
-      if(chartAnimated){ b.gris.style.height = hGris+'%'; b.azul.style.height = hAzul+'%'; }
-    });
+  function plus(val, label){
+    return val > 0 ? '<span class="sim2-plus">+'+label+'</span>' : '';
   }
 
-  [simAgentes, simCapt, simCom, simTasa].forEach(function(s){ s.addEventListener('input', calc); });
+  function calc(){
+    var agentes = Math.max(1, +elA.value||1);
+    var captMes = Math.max(0, +elC.value||0);
+    var comision = Math.max(0, +elM.value||0);
+    var tasa = Math.max(1, +elT.value||1);
+
+    var captAñoSin = agentes * captMes * 12;
+    var opsSin = Math.round(captAñoSin * tasa / 100);
+    var factSin = opsSin * comision;
+    var perSin = agentes > 0 ? factSin / agentes : 0;
+
+    var captAñoCon = agentes * (captMes + extraCapt) * 12;
+    var opsCon = Math.round(captAñoCon * tasa / 100);
+    var factCon = opsCon * comision;
+    var perCon = agentes > 0 ? factCon / agentes : 0;
+
+    var diff = factCon - factSin;
+    var roi = diff > 0 ? Math.round(diff / 399) : 0;
+    currentDiff = diff;
+
+    document.getElementById('s2SinCapt').textContent = fN(captAñoSin);
+    document.getElementById('s2SinOps').textContent = fN(opsSin);
+    document.getElementById('s2SinFact').textContent = fE(factSin);
+    document.getElementById('s2SinPer').textContent = fE(perSin);
+
+    var dCapt = captAñoCon - captAñoSin;
+    var dOps = opsCon - opsSin;
+    var dFact = factCon - factSin;
+    var dPer = perCon - perSin;
+    document.getElementById('s2ConCapt').innerHTML = fN(captAñoCon) + plus(dCapt, fN(dCapt));
+    document.getElementById('s2ConOps').innerHTML  = fN(opsCon)     + plus(dOps,  fN(dOps));
+    document.getElementById('s2ConFact').innerHTML = fE(factCon)    + plus(dFact, fE(dFact));
+    document.getElementById('s2ConPer').innerHTML  = fE(perCon)     + plus(dPer,  fE(dPer));
+
+    var sign = diff >= 0 ? '+' : '-';
+    var diffEl = document.getElementById('s2DiffNum');
+    if(diffAnimated){
+      diffEl.textContent = sign + fE(diff) + '/año';
+      diffEl.classList.remove('sim2-pulse');
+      void diffEl.offsetWidth;
+      diffEl.classList.add('sim2-pulse');
+    } else {
+      diffEl.textContent = sign + fE(diff) + '/año';
+    }
+    document.getElementById('s2DiffRoi').textContent = 'Retorno \xd7' + fN(roi) + ' sobre los 399\xa0€';
+
+    var maxMonth = Math.max(factSin * 12, factCon * 12, 1);
+    bars.forEach(function(bar, idx){
+      var mes = idx + 1;
+      var hG = factSin * mes / maxMonth * 100;
+      var hB = factCon * mes / maxMonth * 100;
+      bar.g.dataset.h = hG + '%';
+      bar.b.dataset.h = hB + '%';
+      if(chartAnimated){ bar.g.style.height = hG+'%'; bar.b.style.height = hB+'%'; }
+    });
+
+    var refEl = document.getElementById('s2RefLine');
+    if(refEl) refEl.style.bottom = (factSin * 12 / maxMonth * 100) + '%';
+  }
+
   calc();
 
-  var chartCard = document.querySelector('.sim-chart-card');
-  var simObs = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if(entry.isIntersecting && !chartAnimated){
-        chartAnimated = true;
-        bars.forEach(function(b){
-          b.gris.style.height = b.gris.dataset.h;
-          b.azul.style.height = b.azul.dataset.h;
-        });
-        simObs.unobserve(entry.target);
+  /* Count-up al entrar diff card */
+  var diffCard = document.getElementById('s2DiffCard');
+  if(diffCard && 'IntersectionObserver' in window){
+    var dObs = new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting && !diffAnimated){
+        diffAnimated = true;
+        var target = currentDiff;
+        var t0 = performance.now();
+        var dur = 1200;
+        var diffEl = document.getElementById('s2DiffNum');
+        (function step(now){
+          var pct = Math.min((now - t0) / dur, 1);
+          var eased = 1 - Math.pow(1 - pct, 3);
+          var val = Math.round(eased * Math.abs(target));
+          diffEl.textContent = (target >= 0 ? '+' : '-') + fmt.format(val) + '\xa0€/a\xf1o';
+          if(pct < 1){ requestAnimationFrame(step); }
+        })(t0);
+        dObs.unobserve(diffCard);
       }
-    });
-  }, { threshold:0.2 });
-  if(chartCard) simObs.observe(chartCard);
+    }, { threshold: 0.3 });
+    dObs.observe(diffCard);
+  }
+
+  /* Barras del gráfico al entrar en viewport */
+  var chartCard = document.querySelector('.sim2-chart-card');
+  if(chartCard && 'IntersectionObserver' in window){
+    var cObs = new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting && !chartAnimated){
+        chartAnimated = true;
+        bars.forEach(function(bar, idx){
+          setTimeout(function(){
+            bar.g.style.height = bar.g.dataset.h;
+            bar.b.style.height = bar.b.dataset.h;
+          }, idx * 40);
+        });
+        cObs.unobserve(chartCard);
+      }
+    }, { threshold: 0.2 });
+    cObs.observe(chartCard);
+  }
 })();
 
 /* ============ FAQ ACORDEÓN ============ */
