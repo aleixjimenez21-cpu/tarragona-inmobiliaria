@@ -1116,48 +1116,53 @@ section[id]{scroll-margin-top:84px;}
 
 /* ============ CTA FINAL ============ */
 #cta-final{background:var(--bg-primary);}
-.cta-final-grid{
-  display:grid;grid-template-columns:1fr;max-width:900px;margin:0 auto;
-  background:var(--bg-card);border:1px solid var(--border);border-radius:20px;overflow:hidden;
-}
-@media(min-width:760px){.cta-final-grid{grid-template-columns:1fr auto 1fr;}}
-.cta-wa-col{padding:32px 28px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
-.cta-wa-icon{font-size:2.8rem;margin-bottom:6px;}
-.cta-wa-checks{display:flex;flex-direction:column;gap:8px;text-align:left;font-size:0.84rem;color:var(--text-secondary);margin:10px 0 18px;}
-.cta-wa-checks div b{color:var(--green-available);}
-.btn-whatsapp{background:var(--green-available);color:#fff;box-shadow:0 8px 22px rgba(16,185,129,0.28);}
-.btn-whatsapp:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(16,185,129,0.35);}
-.cta-divider{display:flex;align-items:center;justify-content:center;padding:6px 0;position:relative;}
-.cta-divider span{background:var(--bg-card);border:1px solid var(--border);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.76rem;color:var(--text-muted);z-index:1;flex-shrink:0;}
-@media(max-width:759px){.cta-divider{padding:8px 0;}.cta-divider::before{content:'';position:absolute;left:24px;right:24px;top:50%;height:1px;background:var(--border);}}
-@media(min-width:760px){.cta-divider{padding:0 16px;}.cta-divider::before{content:'';position:absolute;top:24px;bottom:24px;left:50%;width:1px;background:var(--border);}}
-.cta-form-col{padding:32px 28px;}
-.cta-form-col h4{font-size:1rem;font-weight:800;margin-bottom:16px;}
-.cta-field{margin-bottom:13px;}
-.cta-field label{display:block;font-size:0.76rem;color:var(--text-muted);margin-bottom:6px;}
-.cta-field input,.cta-field select,.cta-field textarea{
-  width:100%;padding:11px 13px;border-radius:9px;border:1px solid var(--border);
-  background:var(--bg-secondary);color:var(--text-primary);font-size:0.86rem;
-}
-.cta-field select option{background:#0D1220;}
-.cta-field textarea{resize:vertical;min-height:70px;}
-.cta-field-error{font-size:0.7rem;color:var(--red-alert);margin-top:4px;display:none;}
-.cta-field.invalid input,.cta-field.invalid select{border-color:var(--red-alert);}
-.cta-field.invalid .cta-field-error{display:block;}
-.cta-checkbox-row{display:flex;align-items:flex-start;gap:9px;font-size:0.76rem;color:var(--text-secondary);margin:14px 0 18px;}
-.cta-checkbox-row input{margin-top:2px;flex-shrink:0;}
-.cta-checkbox-row a{color:var(--blue-bright);text-decoration:underline;}
-.cta-error-banner{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--red-alert);padding:11px 14px;border-radius:9px;font-size:0.82rem;margin-bottom:14px;display:none;}
-.cta-error-banner.show{display:block;}
-.cta-confirm{display:none;text-align:center;padding:34px 10px;}
-.cta-confirm.show{display:block;}
-.cta-confirm svg{width:60px;height:60px;margin:0 auto 16px;}
-.cta-confirm h4{font-size:1.05rem;font-weight:800;margin-bottom:8px;}
-.cta-confirm p{font-size:0.86rem;color:var(--text-secondary);}
-.cta-confirm-circle{stroke:var(--green-available);stroke-width:3;fill:none;stroke-dasharray:166;stroke-dashoffset:166;animation:drawCircle .6s ease forwards;}
-.cta-confirm-check{stroke:var(--green-available);stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:48;stroke-dashoffset:48;animation:drawCheck .4s ease .5s forwards;}
-@keyframes drawCircle{to{stroke-dashoffset:0;}}
-@keyframes drawCheck{to{stroke-dashoffset:0;}}
+.ctaf-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:0.72rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--electric-blue);margin-bottom:20px;}
+.ctaf-cols{display:grid;grid-template-columns:1fr;gap:20px;max-width:920px;margin:0 auto;}
+@media(min-width:760px){.ctaf-cols{grid-template-columns:1fr auto 1fr;}}
+.ctaf-wa-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:36px;display:flex;flex-direction:column;align-items:center;text-align:center;}
+.ctaf-wa-icon{width:48px;height:48px;margin-bottom:14px;}
+.ctaf-wa-title{font-size:1rem;font-weight:800;margin-bottom:16px;}
+.ctaf-wa-checks{display:flex;flex-direction:column;gap:9px;text-align:left;font-size:0.84rem;color:var(--text-secondary);margin-bottom:24px;width:100%;}
+.ctaf-wa-check{display:flex;align-items:center;gap:8px;}
+.ctaf-wa-check svg{flex-shrink:0;color:var(--green-available);}
+.ctaf-wa-btn{display:block;width:100%;padding:14px 20px;border-radius:12px;font-size:0.95rem;font-weight:800;color:#fff;text-align:center;text-decoration:none;background:#25D366;transition:filter 0.2s,box-shadow 0.2s;}
+.ctaf-wa-btn:hover{filter:brightness(1.1);box-shadow:0 8px 24px rgba(37,211,102,0.35);}
+.ctaf-divider{display:flex;align-items:center;justify-content:center;position:relative;}
+@media(max-width:759px){.ctaf-divider{padding:8px 0;}.ctaf-divider::before{content:'';position:absolute;left:24px;right:24px;top:50%;height:1px;background:var(--border);}}
+@media(min-width:760px){.ctaf-divider{padding:0 16px;}.ctaf-divider::before{content:'';position:absolute;top:24px;bottom:24px;left:50%;width:1px;background:var(--border);}}
+.ctaf-divider-badge{background:var(--bg-card);border:1px solid var(--border);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.76rem;color:var(--text-muted);z-index:1;flex-shrink:0;position:relative;}
+.ctaf-form-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:36px;position:relative;}
+.ctaf-form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient-blue);border-radius:16px 16px 0 0;pointer-events:none;}
+.ctaf-form-title{font-size:1rem;font-weight:800;margin-bottom:18px;}
+.ctaf-field{margin-bottom:14px;}
+.ctaf-field label{display:block;font-size:0.76rem;color:var(--text-muted);margin-bottom:6px;font-weight:600;}
+.ctaf-field input,.ctaf-field select,.ctaf-field textarea{width:100%;padding:14px;border-radius:10px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);font-size:16px;transition:border-color 0.2s,box-shadow 0.2s;box-sizing:border-box;font-family:inherit;}
+.ctaf-field input:focus,.ctaf-field select:focus,.ctaf-field textarea:focus{outline:none;border-color:var(--electric-blue);box-shadow:0 0 0 3px rgba(37,99,235,0.15);}
+.ctaf-field select option{background:#0D1220;}
+.ctaf-field textarea{resize:vertical;min-height:72px;}
+.ctaf-field-error{font-size:0.7rem;color:var(--red-alert);margin-top:4px;display:none;}
+.ctaf-field.invalid input,.ctaf-field.invalid select,.ctaf-field.invalid textarea{border-color:var(--red-alert);}
+.ctaf-field.invalid .ctaf-field-error{display:block;}
+.ctaf-checkbox-row{display:flex;align-items:flex-start;gap:9px;font-size:0.76rem;color:var(--text-secondary);margin:14px 0 18px;}
+.ctaf-checkbox-row input{margin-top:2px;flex-shrink:0;}
+.ctaf-checkbox-row a{color:var(--blue-bright);text-decoration:underline;}
+.ctaf-checkbox-row.invalid label{color:var(--red-alert);}
+.ctaf-submit{display:block;width:100%;padding:16px;border:none;border-radius:12px;font-size:1rem;font-weight:800;color:#fff;background:var(--gradient-blue);cursor:pointer;transition:filter 0.2s,box-shadow 0.2s;font-family:inherit;}
+.ctaf-submit:hover:not(:disabled){filter:brightness(1.1);box-shadow:0 8px 28px rgba(37,99,235,0.35);}
+.ctaf-submit:disabled{opacity:0.6;cursor:not-allowed;}
+.ctaf-error-banner{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--red-alert);padding:11px 14px;border-radius:9px;font-size:0.82rem;margin-bottom:14px;display:none;}
+.ctaf-error-banner.show{display:block;}
+.ctaf-confirm{display:none;text-align:center;padding:32px 10px;}
+.ctaf-confirm.show{display:block;}
+.ctaf-confirm-svg{width:64px;height:64px;margin:0 auto 16px;}
+.ctaf-confirm-circle{stroke:var(--green-available);stroke-width:3;fill:none;stroke-dasharray:166;stroke-dashoffset:166;animation:ctafDrawCircle .6s ease forwards;}
+.ctaf-confirm-check{stroke:var(--green-available);stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:48;stroke-dashoffset:48;animation:ctafDrawCheck .4s ease .5s forwards;}
+@keyframes ctafDrawCircle{to{stroke-dashoffset:0;}}
+@keyframes ctafDrawCheck{to{stroke-dashoffset:0;}}
+.ctaf-confirm h4{font-size:1.1rem;font-weight:800;margin-bottom:8px;}
+.ctaf-confirm p{font-size:0.86rem;color:var(--text-secondary);margin-bottom:18px;}
+.ctaf-confirm-wa{display:inline-flex;align-items:center;gap:7px;font-size:0.84rem;font-weight:700;color:var(--text-secondary);border:1px solid var(--border);border-radius:10px;padding:10px 18px;text-decoration:none;transition:border-color 0.2s,color 0.2s;}
+.ctaf-confirm-wa:hover{border-color:var(--blue-bright);color:var(--text-primary);}
 
 /* ============ FOOTER ============ */
 .ag-footer{background:var(--bg-primary);border-top:1px solid var(--border);padding:30px 0;}
@@ -2439,73 +2444,90 @@ section[id]{scroll-margin-top:84px;}
 <section id="cta-final" class="section-pad">
   <div class="wrap">
     <div class="head-block reveal">
-      <h2 class="h2">Solicita tu acceso fundador antes de que se cierre tu provincia.</h2>
+      <div class="ctaf-eyebrow"><span class="dot-pulse" style="background:var(--electric-blue)"></span> Últimas plazas disponibles</div>
+      <h2 class="h2">Solicita tu acceso fundador <span style="color:var(--electric-blue)">antes de que se cierre tu provincia.</span></h2>
+      <p class="of7-sub" style="margin-bottom:0">3 agentes por provincia. Pago único de 399€. Empiezas en días.</p>
     </div>
 
-    <div class="cta-final-grid reveal">
-      <div class="cta-wa-col">
-        <div class="cta-wa-icon">💬</div>
-        <h4 style="font-weight:800;">Háblanos por WhatsApp</h4>
-        <div class="cta-wa-checks">
-          <div><b>✓</b> Respuesta en menos de 24h</div>
-          <div><b>✓</b> Hablas directamente con nosotros</div>
-          <div><b>✓</b> Sin compromiso</div>
+    <div class="ctaf-cols reveal">
+
+      <!-- WhatsApp -->
+      <div class="ctaf-wa-card">
+        <svg class="ctaf-wa-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="24" fill="#25D366" opacity="0.12"/>
+          <path fill="#25D366" d="M24 10C16.268 10 10 16.268 10 24c0 2.469.662 4.783 1.818 6.775L10 38l7.43-1.78A13.923 13.923 0 0 0 24 38c7.732 0 14-6.268 14-14S31.732 10 24 10zm7.072 19.6c-.3.84-1.766 1.62-2.43 1.654-.618.032-1.2.246-4.032-.843-3.38-1.32-5.548-4.73-5.714-4.95-.166-.218-1.356-1.8-1.356-3.44 0-1.638.86-2.44 1.164-2.77.3-.33.657-.414.876-.414.218 0 .438 0 .63.01.2.01.47-.076.736.562.3.672.996 2.396 1.082 2.572.084.174.14.38.028.612-.112.23-.166.38-.332.584-.166.202-.35.452-.498.608-.166.174-.34.362-.146.712.192.352 1.03 1.568 2.228 2.538 1.54 1.26 2.794 1.65 3.19 1.834.394.182.624.152.854-.09.23-.24.986-1.148 1.248-1.542.262-.394.524-.328.882-.196.358.13 2.272 1.072 2.664 1.264.39.194.652.29.748.452.094.164.094.948-.204 1.79z"/>
+        </svg>
+        <div class="ctaf-wa-title">Habla con nosotros directamente</div>
+        <div class="ctaf-wa-checks">
+          <div class="ctaf-wa-check"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="7.5" fill="rgba(16,185,129,0.15)"/><path d="M4.5 7.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Respuesta en minutos</div>
+          <div class="ctaf-wa-check"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="7.5" fill="rgba(16,185,129,0.15)"/><path d="M4.5 7.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Sin compromiso</div>
+          <div class="ctaf-wa-check"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="7.5" fill="rgba(16,185,129,0.15)"/><path d="M4.5 7.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Confirmamos disponibilidad</div>
         </div>
-        <a href="https://wa.me/34633716169?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20el%20acceso%20fundador%20para%20agentes%20inmobiliarios" target="_blank" rel="noopener" class="btn btn-whatsapp btn-block" id="ctaWaBtn">Escribir por WhatsApp →</a>
+        <a href="https://wa.me/34633716169?text=Hola,%20quiero%20información%20sobre%20el%20acceso%20fundador%20para%20agentes%20inmobiliarios" target="_blank" rel="noopener" class="ctaf-wa-btn" id="ctafWaBtn">Abrir WhatsApp →</a>
       </div>
 
-      <div class="cta-divider"><span>o</span></div>
+      <!-- Divider -->
+      <div class="ctaf-divider"><span class="ctaf-divider-badge">o</span></div>
 
-      <div class="cta-form-col">
-        <h4>Déjanos tus datos</h4>
-        <div class="cta-error-banner" id="ctaErrorBanner">Ha ocurrido un error al enviar el formulario. Inténtalo de nuevo o escríbenos por WhatsApp.</div>
+      <!-- Formulario -->
+      <div class="ctaf-form-card">
+        <div class="ctaf-form-title">Déjanos tus datos</div>
+        <div class="ctaf-error-banner" id="ctafErrorBanner">Error al enviar. Inténtalo de nuevo o escríbenos por WhatsApp.</div>
 
-        <form id="ctaForm" novalidate>
-          <div class="cta-field" data-field="nombre">
-            <label for="ctaNombre">Nombre</label>
-            <input type="text" id="ctaNombre" name="nombre" required />
-            <div class="cta-field-error">Indica tu nombre.</div>
+        <form id="ctafForm" action="https://formspree.io/f/xnjkdvpn" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="Nuevo lead acceso fundador">
+          <input type="hidden" name="_next" value="https://aleixrealestate.com/agentes.html?enviado=true#cta-final">
+
+          <div class="ctaf-field" data-field="nombre">
+            <label for="ctafNombre">Nombre *</label>
+            <input type="text" id="ctafNombre" name="nombre" required placeholder="Tu nombre" autocomplete="given-name"/>
+            <div class="ctaf-field-error">Indica tu nombre.</div>
           </div>
-          <div class="cta-field" data-field="email">
-            <label for="ctaEmail">Email</label>
-            <input type="email" id="ctaEmail" name="email" required />
-            <div class="cta-field-error">Introduce un email válido.</div>
+          <div class="ctaf-field" data-field="email">
+            <label for="ctafEmail">Email *</label>
+            <input type="email" id="ctafEmail" name="email" required placeholder="correo@ejemplo.com" autocomplete="email"/>
+            <div class="ctaf-field-error">Introduce un email válido.</div>
           </div>
-          <div class="cta-field" data-field="telefono">
-            <label for="ctaTelefono">Teléfono</label>
-            <input type="tel" id="ctaTelefono" name="telefono" required />
-            <div class="cta-field-error">Introduce un teléfono válido.</div>
+          <div class="ctaf-field" data-field="telefono">
+            <label for="ctafTelefono">Teléfono *</label>
+            <input type="tel" id="ctafTelefono" name="telefono" required placeholder="600 000 000" autocomplete="tel"/>
+            <div class="ctaf-field-error">Introduce un teléfono válido.</div>
           </div>
-          <div class="cta-field" data-field="provincia">
-            <label for="ctaProvincia">Provincia</label>
-            <select id="ctaProvincia" name="provincia" required>
+          <div class="ctaf-field" data-field="provincia">
+            <label for="ctafProvincia">Provincia *</label>
+            <select id="ctafProvincia" name="provincia" required>
               <option value="" disabled selected>Selecciona tu provincia…</option>
             </select>
-            <div class="cta-field-error">Selecciona tu provincia.</div>
+            <div class="ctaf-field-error">Selecciona tu provincia.</div>
           </div>
-          <div class="cta-field" data-field="agencia">
-            <label for="ctaAgencia">Agencia</label>
-            <input type="text" id="ctaAgencia" name="agencia" />
+          <div class="ctaf-field" data-field="agencia">
+            <label for="ctafAgencia">Agencia</label>
+            <input type="text" id="ctafAgencia" name="agencia" placeholder="Nombre de tu agencia (opcional)" autocomplete="organization"/>
           </div>
-          <div class="cta-field" data-field="mensaje">
-            <label for="ctaMensaje">Mensaje (opcional)</label>
-            <textarea id="ctaMensaje" name="mensaje"></textarea>
-          </div>
-
-          <div class="cta-checkbox-row" data-field="rgpd">
-            <input type="checkbox" id="ctaRgpd" name="rgpd" required />
-            <label for="ctaRgpd">He leído y acepto la <a href="privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</label>
+          <div class="ctaf-field" data-field="mensaje">
+            <label for="ctafMensaje">Mensaje</label>
+            <textarea id="ctafMensaje" name="mensaje" placeholder="¿Algo que quieras contarnos? (opcional)"></textarea>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-block" id="ctaSubmitBtn">Solicitar acceso fundador →</button>
+          <div class="ctaf-checkbox-row" data-field="rgpd">
+            <input type="checkbox" id="ctafRgpd" name="rgpd" required/>
+            <label for="ctafRgpd">He leído y acepto la <a href="privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</label>
+          </div>
+
+          <button type="submit" class="ctaf-submit" id="ctafSubmitBtn">Solicitar acceso fundador →</button>
         </form>
 
-        <div class="cta-confirm" id="ctaConfirm">
-          <svg viewBox="0 0 60 60"><circle class="cta-confirm-circle" cx="30" cy="30" r="26"/><path class="cta-confirm-check" d="M18 31l8 8 16-18"/></svg>
-          <h4>¡Solicitud recibida!</h4>
-          <p>Te contactaremos en menos de 24h para confirmar tu plaza en tu provincia.</p>
+        <div class="ctaf-confirm" id="ctafConfirm">
+          <svg class="ctaf-confirm-svg" viewBox="0 0 60 60"><circle class="ctaf-confirm-circle" cx="30" cy="30" r="26"/><path class="ctaf-confirm-check" d="M18 31l8 8 16-18"/></svg>
+          <h4>¡Solicitud enviada!</h4>
+          <p>Te contactaremos en las próximas horas para confirmar tu plaza.</p>
+          <a href="https://wa.me/34633716169?text=Hola,%20acabo%20de%20enviar%20el%20formulario%20de%20acceso%20fundador" target="_blank" rel="noopener" class="ctaf-confirm-wa">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.109.547 4.09 1.504 5.818L0 24l6.335-1.658A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 0 1-5.007-1.374l-.358-.213-3.76.985 1.004-3.658-.234-.376A9.793 9.793 0 0 1 2.182 12C2.182 6.565 6.565 2.182 12 2.182S21.818 6.565 21.818 12 17.435 21.818 12 21.818z"/></svg>
+            También puedes escribirnos por WhatsApp
+          </a>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -2513,14 +2535,12 @@ section[id]{scroll-margin-top:84px;}
 <!-- ============ FOOTER ============ -->
 <footer class="ag-footer">
   <div class="wrap ag-footer-inner">
-    <div class="ag-footer-copy">© 2026 — Todos los derechos reservados</div>
+    <div class="ag-footer-copy">Sistema de captación para agentes inmobiliarios · © 2026</div>
     <nav class="ag-footer-links">
-      <a href="mailto:aleix.proptech@gmail.com">aleix.proptech@gmail.com</a>
-      <a href="privacidad.html">Privacidad</a>
       <a href="aviso-legal.html">Aviso legal</a>
-      <a href="cookies.html">Cookies</a>
+      <a href="privacidad.html">Política de privacidad</a>
     </nav>
-    <span class="price-badge">399 € · Pago único</span>
+    <span class="price-badge">399€ · Pago único</span>
   </div>
 </footer>
 
@@ -3787,23 +3807,32 @@ function wireTabs(tabSel, panelSel, tabAttr, panelAttr, onShow){
   });
 })();
 
-/* ============ CTA FINAL: tracking WhatsApp ============ */
-['faqWaBtn','ctaWaBtn'].forEach(function(id){
-  var el = document.getElementById(id);
-  if(el) el.addEventListener('click', function(){
+/* ============ CTA FINAL: WhatsApp tracking ============ */
+(function(){
+  var waBtn = document.getElementById('ctafWaBtn');
+  if(waBtn) waBtn.addEventListener('click', function(){
     if(typeof fbq === 'function') fbq('track', 'Lead');
   });
-});
+})();
 
 /* ============ CTA FINAL: formulario ============ */
 (function(){
-  var form = document.getElementById('ctaForm');
+  var form = document.getElementById('ctafForm');
   if(!form) return;
-  fillProvinceSelect(document.getElementById('ctaProvincia'));
+  fillProvinceSelect(document.getElementById('ctafProvincia'));
 
-  var errorBanner = document.getElementById('ctaErrorBanner');
-  var confirmBox = document.getElementById('ctaConfirm');
-  var submitBtn = document.getElementById('ctaSubmitBtn');
+  var errorBanner = document.getElementById('ctafErrorBanner');
+  var confirmBox  = document.getElementById('ctafConfirm');
+  var submitBtn   = document.getElementById('ctafSubmitBtn');
+
+  if(window.location.search.indexOf('enviado=true') !== -1){
+    form.style.display = 'none';
+    confirmBox.classList.add('show');
+    setTimeout(function(){
+      var s = document.getElementById('cta-final');
+      if(s) s.scrollIntoView({behavior:'smooth', block:'center'});
+    }, 120);
+  }
 
   function setInvalid(fieldName, invalid){
     var field = form.querySelector('[data-field="'+fieldName+'"]');
@@ -3812,63 +3841,31 @@ function wireTabs(tabSel, panelSel, tabAttr, panelAttr, onShow){
 
   function validate(){
     var ok = true;
-    var nombre = form.nombre.value.trim();
-    var email = form.email.value.trim();
+    var nombre   = form.nombre.value.trim();
+    var email    = form.email.value.trim();
     var telefono = form.telefono.value.trim();
     var provincia = form.provincia.value;
-    var rgpd = form.rgpd.checked;
-
+    var rgpd     = form.rgpd.checked;
     var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    var telRe = /^[0-9+\s()-]{9,}$/;
-
-    setInvalid('nombre', nombre.length < 2); if(nombre.length < 2) ok = false;
-    setInvalid('email', !emailRe.test(email)); if(!emailRe.test(email)) ok = false;
-    setInvalid('telefono', !telRe.test(telefono)); if(!telRe.test(telefono)) ok = false;
-    setInvalid('provincia', !provincia); if(!provincia) ok = false;
-    setInvalid('rgpd', !rgpd); if(!rgpd) ok = false;
-
+    var telRe   = /^[0-9+\s()\-]{9,}$/;
+    setInvalid('nombre',   nombre.length < 2);      if(nombre.length < 2) ok = false;
+    setInvalid('email',    !emailRe.test(email));   if(!emailRe.test(email)) ok = false;
+    setInvalid('telefono', !telRe.test(telefono));  if(!telRe.test(telefono)) ok = false;
+    setInvalid('provincia', !provincia);             if(!provincia) ok = false;
+    setInvalid('rgpd',     !rgpd);                  if(!rgpd) ok = false;
     return ok;
   }
 
   form.addEventListener('submit', function(e){
-    e.preventDefault();
     errorBanner.classList.remove('show');
-    if(!validate()) return;
-
+    if(!validate()){
+      e.preventDefault();
+      return;
+    }
     submitBtn.disabled = true;
-    var originalText = submitBtn.textContent;
     submitBtn.textContent = 'Enviando…';
-
-    var payload = {
-      nombre: form.nombre.value.trim(),
-      email: form.email.value.trim(),
-      telefono: form.telefono.value.trim(),
-      provincia: form.provincia.value,
-      agencia: form.agencia.value.trim(),
-      mensaje: form.mensaje.value.trim()
-    };
-
-    /* EDITAR: endpoint — sustituir por la URL real que recibirá los leads */
-    fetch('https://EDITAR-tu-endpoint.com/api/leads-agentes', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    }).then(function(res){
-      if(!res.ok) throw new Error('Bad response');
-      onSuccess();
-    }).catch(function(){
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
-      errorBanner.classList.add('show');
-    });
-  });
-
-  function onSuccess(){
     if(typeof fbq === 'function') fbq('track', 'Lead');
-    form.style.display = 'none';
-    errorBanner.classList.remove('show');
-    confirmBox.classList.add('show');
-  }
+  });
 })();
 </script>
 </body>
