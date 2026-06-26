@@ -1029,47 +1029,73 @@ section[id]{scroll-margin-top:84px;}
 .sim2-why p{font-size:0.84rem;color:var(--text-secondary);line-height:1.6;margin:0;}
 /* ============ SECCIÓN 7: OFERTA / FOMO ============ */
 #oferta{background:var(--bg-primary);text-align:center;}
-.offer-card-outer{
-  background:var(--gradient-blue);padding:2px;border-radius:22px;
-  max-width:680px;margin:28px auto 36px;animation:offerGlow 3s ease-in-out infinite;
+.of7-badge{display:inline-flex;align-items:center;gap:8px;font-size:0.72rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--red-alert);border:1px solid rgba(239,68,68,0.35);border-radius:100px;padding:6px 16px;margin-bottom:20px;}
+.of7-sub{font-size:1rem;color:var(--text-secondary);margin-top:8px;margin-bottom:36px;}
+.of7-card-wrap{
+  position:relative;max-width:700px;margin:0 auto 48px;border-radius:22px;padding:1px;
+  background:linear-gradient(var(--bg-card),var(--bg-card)) padding-box,var(--gradient-blue) border-box;
+  border:1px solid transparent;
 }
-@keyframes offerGlow{0%,100%{box-shadow:0 0 36px var(--blue-glow);}50%{box-shadow:0 0 64px var(--blue-glow-strong);}}
-.offer-card{background:var(--bg-card);border-radius:20px;padding:clamp(26px,5vw,40px);}
-.price-row{display:flex;align-items:baseline;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:6px;}
-.price-old{font-size:1.35rem;color:var(--text-muted);position:relative;}
-.price-old::after{content:'';position:absolute;left:-6%;right:-6%;top:48%;height:2px;background:var(--red-alert);transform:rotate(-9deg);}
-.price-new{font-size:clamp(2.6rem,7vw,3.7rem);font-weight:800;color:#fff;letter-spacing:-0.02em;}
-.price-badge{
-  display:inline-block;font-size:0.66rem;font-weight:800;color:var(--text-muted);
-  text-transform:uppercase;letter-spacing:0.08em;border:1px solid var(--border);border-radius:100px;
-  padding:4px 12px;margin-top:10px;
+.of7-card-wrap::before{
+  content:'';position:absolute;inset:4px;border-radius:18px;pointer-events:none;z-index:0;
+  background:linear-gradient(var(--bg-card),var(--bg-card)) padding-box,var(--gradient-blue) border-box;
+  border:1px solid transparent;
 }
-.price-savings{color:var(--green-available);font-weight:700;font-size:0.92rem;margin-top:10px;}
-.offer-checks{display:grid;grid-template-columns:1fr;gap:10px;text-align:left;max-width:480px;margin:26px auto;}
-@media(min-width:560px){.offer-checks{grid-template-columns:1fr 1fr;}}
-.offer-checks div{font-size:0.84rem;color:var(--text-secondary);display:flex;gap:8px;}
-.offer-checks div b{color:var(--green-available);}
-.offer-scarcity{
-  display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,0.1);
-  border:1px solid rgba(245,158,11,0.3);color:var(--amber);font-weight:700;font-size:0.84rem;
-  padding:9px 18px;border-radius:100px;margin-bottom:22px;
+.of7-card-wrap::after{
+  content:'';position:absolute;inset:-1px;border-radius:22px;pointer-events:none;z-index:-1;
+  background:radial-gradient(ellipse 60% 40% at 50% 100%,rgba(37,99,235,0.28) 0%,transparent 70%);
+  animation:of7Glow 4s ease-in-out infinite;
 }
-.avail-map-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:680px;margin:0 auto 18px;}
-@media(min-width:680px){.avail-map-grid{grid-template-columns:repeat(3,1fr);}}
-.avail-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:left;}
-.avail-card .ac-name{font-size:0.84rem;font-weight:700;margin-bottom:6px;}
-.avail-card .ac-status{font-size:0.72rem;font-weight:700;padding:3px 9px;border-radius:100px;display:inline-block;}
-.avail-card .ac-status.amber{background:rgba(245,158,11,0.12);color:var(--amber);}
-.avail-card .ac-status.green{background:rgba(16,185,129,0.12);color:var(--green-available);}
-.avail-card .ac-status.blue{background:var(--blue-glow);color:var(--blue-bright);}
-.avail-legend{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;font-size:0.74rem;color:var(--text-muted);margin-bottom:32px;}
-.avail-legend span{display:inline-flex;align-items:center;gap:6px;}
-.avail-legend i{width:9px;height:9px;border-radius:50%;display:inline-block;}
-.close-alert{
-  display:flex;align-items:center;gap:10px;justify-content:center;max-width:560px;margin:0 auto;
-  background:rgba(239,68,68,0.07);border:1px solid rgba(239,68,68,0.25);border-radius:12px;
-  padding:14px 18px;font-size:0.84rem;color:var(--text-secondary);
-}
+@keyframes of7Glow{0%,100%{opacity:0.6;}50%{opacity:1;}}
+.of7-card{position:relative;z-index:1;background:var(--bg-card);border-radius:20px;padding:clamp(28px,5vw,44px);}
+.of7-price-row{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:10px;}
+.of7-price-old{font-size:1.5rem;color:var(--text-muted);position:relative;display:inline-block;}
+.of7-price-old::after{content:'';position:absolute;left:-8%;right:-8%;top:50%;height:2.5px;background:var(--red-alert);transform:rotate(-12deg);}
+.of7-price-new{font-size:clamp(3rem,7vw,5rem);font-weight:900;color:#fff;letter-spacing:-0.03em;line-height:1;text-shadow:0 0 40px rgba(37,99,235,0.5),0 0 80px rgba(37,99,235,0.25);}
+.of7-pago-pill{display:inline-block;font-size:0.64rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);border:1px solid var(--border);border-radius:100px;padding:4px 14px;margin-top:8px;}
+.of7-savings{color:var(--cyan-accent);font-weight:700;font-size:0.95rem;margin-top:10px;opacity:0;transition:opacity 0.6s ease;}
+.of7-savings.visible{opacity:1;}
+.of7-checks{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;text-align:left;max-width:520px;margin:28px auto 24px;}
+@media(max-width:500px){.of7-checks{grid-template-columns:1fr;}}
+.of7-check{display:flex;align-items:center;gap:9px;font-size:0.84rem;color:var(--text-secondary);opacity:0;transform:translateY(10px);transition:opacity 0.4s,transform 0.4s;}
+.of7-check.in{opacity:1;transform:none;}
+.of7-check svg{flex-shrink:0;color:var(--green-available);}
+.of7-scarcity{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);color:var(--amber);font-weight:700;font-size:0.84rem;padding:10px 20px;border-radius:100px;margin-bottom:24px;}
+.of7-cta{display:block;width:100%;padding:18px 24px;border-radius:14px;font-size:1rem;font-weight:800;color:#fff;text-decoration:none;text-align:center;letter-spacing:0.01em;background:var(--gradient-blue);position:relative;overflow:hidden;transition:filter 0.25s,box-shadow 0.25s;}
+.of7-cta::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent);animation:of7Shimmer 3.5s ease-in-out infinite;}
+@keyframes of7Shimmer{0%{left:-100%;}60%,100%{left:200%;}}
+.of7-cta:hover{filter:brightness(1.15);box-shadow:0 8px 32px rgba(37,99,235,0.4);}
+.of7-trust{font-size:0.75rem;color:var(--text-muted);margin-top:12px;}
+.of7-map-wrap{margin-top:64px;}
+.of7-map-title{font-size:1.2rem;font-weight:800;margin-bottom:6px;}
+.of7-map-sub{font-size:0.84rem;color:var(--text-secondary);margin-bottom:32px;}
+.of7-svg-container{max-width:580px;margin:0 auto;position:relative;}
+.of7-map-path{fill:none;stroke:var(--border);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;}
+.of7-map-path.drawn{stroke-dashoffset:0;transition:stroke-dashoffset 1.5s var(--ease);}
+.of7-m-group{cursor:pointer;}
+.of7-dot-ring{fill:none;stroke-width:1.5;transform-box:fill-box;transform-origin:center;animation:of7DotPulse 2s ease-in-out infinite;}
+@keyframes of7DotPulse{0%,100%{transform:scale(1);opacity:0.4;}50%{transform:scale(1.8);opacity:0;}}
+.of7-tip-group{opacity:0;pointer-events:none;transition:opacity 0.2s;}
+.of7-m-group:hover .of7-tip-group{opacity:1;}
+.of7-tip-text{font-size:11px;font-weight:700;fill:var(--text-primary);}
+.of7-tip-status{font-size:9px;font-weight:600;}
+.of7-marker{opacity:0;transition:opacity 0.4s;}
+.of7-marker.in{opacity:1;}
+.of7-prov-grid{display:none;grid-template-columns:1fr 1fr;gap:10px;max-width:480px;margin:0 auto 20px;}
+@media(max-width:540px){.of7-svg-container{display:none;}.of7-prov-grid{display:grid;}}
+.of7-prov-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;text-align:left;}
+.of7-prov-name{font-size:0.84rem;font-weight:700;margin-bottom:5px;}
+.of7-prov-status{font-size:0.72rem;font-weight:700;padding:3px 9px;border-radius:100px;display:inline-block;}
+.of7-prov-status.amber{background:rgba(245,158,11,0.12);color:var(--amber);}
+.of7-prov-status.green{background:rgba(16,185,129,0.12);color:var(--green-available);}
+.of7-legend{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;font-size:0.74rem;color:var(--text-muted);margin-top:20px;}
+.of7-legend span{display:inline-flex;align-items:center;gap:6px;}
+.of7-legend i{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.of7-map-updated{font-size:0.7rem;color:var(--text-muted);margin-top:10px;}
+.of7-map-cta{font-size:0.84rem;font-weight:700;color:var(--electric-blue);text-decoration:none;display:inline-block;margin-top:16px;}
+.of7-map-cta:hover{text-decoration:underline;}
+.of7-alert{display:flex;align-items:flex-start;gap:12px;max-width:580px;margin:40px auto 0;text-align:left;background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:12px;padding:16px 20px;font-size:0.84rem;color:var(--text-secondary);line-height:1.6;}
+.of7-alert svg{flex-shrink:0;color:var(--amber);margin-top:2px;}
 /* ============ SECCIÓN 8: FAQ ============ */
 #faq{background:var(--bg-secondary);}
 .faq-list{max-width:700px;margin:0 auto;border-top:1px solid var(--border);}
@@ -2194,51 +2220,130 @@ section[id]{scroll-margin-top:84px;}
 <!-- ============ SECCIÓN 7 — OFERTA / FOMO ============ -->
 <section id="oferta" class="section-pad">
   <div class="wrap">
-    <div class="reveal" style="margin-bottom:16px;">
-      <span class="pill" style="border-color:rgba(239,68,68,0.35);color:var(--red-alert)"><span class="dot-pulse red"></span> Plazas limitadas por provincia</span>
+
+    <div class="reveal" style="margin-bottom:20px;">
+      <span class="of7-badge"><span class="dot-pulse red"></span> Plazas limitadas por provincia</span>
     </div>
+
     <h2 class="h2 reveal">Acceso fundador</h2>
+    <p class="of7-sub reveal">para agentes que quieren ir primero</p>
 
-    <div class="offer-card-outer reveal">
-      <div class="offer-card">
-        <div class="price-row">
-          <span class="price-old">997 €</span>
-          <span class="price-new" data-countup="399" data-prefix="" data-suffix=" €">0 €</span>
+    <div class="of7-card-wrap reveal" id="of7Card">
+      <div class="of7-card">
+        <div class="of7-price-row">
+          <span class="of7-price-old">997 €</span>
+          <span class="of7-price-new" id="of7PriceNew" data-countup="399" data-suffix=" €">0 €</span>
         </div>
-        <span class="price-badge">Pago único</span>
-        <div class="price-savings">Ahorras 598 € respecto al precio estándar</div>
+        <div><span class="of7-pago-pill">Pago único</span></div>
+        <div class="of7-savings" id="of7Savings">Ahorras 598 € respecto al precio estándar</div>
 
-        <div class="offer-checks">
-          <div><b>✓</b> Calculadora con tu marca y tu dominio</div>
-          <div><b>✓</b> Informes automáticos ilimitados</div>
-          <div><b>✓</b> Panel CRM para gestionar tus leads</div>
-          <div><b>✓</b> Configuración inicial incluida</div>
-          <div><b>✓</b> Soporte directo por WhatsApp</div>
-          <div><b>✓</b> Sin permanencia ni cuotas mensuales</div>
+        <div class="of7-checks" id="of7Checks">
+          <div class="of7-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="rgba(16,185,129,0.15)"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Calculadora con tu marca y dominio</div>
+          <div class="of7-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="rgba(16,185,129,0.15)"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Informes automáticos ilimitados</div>
+          <div class="of7-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="rgba(16,185,129,0.15)"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Panel CRM para gestionar leads</div>
+          <div class="of7-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="rgba(16,185,129,0.15)"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Configuración inicial incluida</div>
+          <div class="of7-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="rgba(16,185,129,0.15)"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Soporte directo por WhatsApp</div>
+          <div class="of7-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="rgba(16,185,129,0.15)"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Sin permanencia ni cuotas mensuales</div>
         </div>
 
-        <div class="offer-scarcity">⚠️ Solo 3 agentes por provincia</div>
-        <br>
-        <a href="#cta-final" class="btn btn-primary btn-block">Solicitar acceso fundador →</a>
+        <div class="of7-scarcity">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Solo 3 agentes por provincia
+        </div>
+
+        <a href="#cta-final" class="of7-cta">Solicitar acceso fundador →</a>
+        <p class="of7-trust">🔒 Pago seguro · Configuración incluida · Empiezas en días</p>
       </div>
     </div>
 
-    <div class="avail-map-grid reveal">
-      <div class="avail-card"><div class="ac-name">Madrid</div><span class="ac-status amber">2/3 ocupadas</span></div>
-      <div class="avail-card"><div class="ac-name">Barcelona</div><span class="ac-status amber">2/3 ocupadas</span></div>
-      <div class="avail-card"><div class="ac-name">Valencia</div><span class="ac-status amber">2/3 ocupadas</span></div>
-      <div class="avail-card"><div class="ac-name">Málaga</div><span class="ac-status green">1/3 ocupadas</span></div>
-      <div class="avail-card"><div class="ac-name">Tarragona</div><span class="ac-status amber">2/3 ocupadas</span></div>
-      <div class="avail-card"><div class="ac-name">Tu provincia</div><span class="ac-status blue">Consultar →</span></div>
-    </div>
-    <!-- EDITAR: plazas — actualizar disponibilidad real por provincia -->
-    <div class="avail-legend reveal">
-      <span><i style="background:var(--amber)"></i> Quedan pocas plazas</span>
-      <span><i style="background:var(--green-available)"></i> Disponible</span>
-      <span><i style="background:var(--blue-bright)"></i> Consulta tu provincia</span>
+    <!-- Mapa SVG -->
+    <div class="of7-map-wrap reveal">
+      <div class="of7-map-title">Disponibilidad por provincia</div>
+      <div class="of7-map-sub">Estado actualizado de las plazas disponibles en España</div>
+
+      <!-- Mobile fallback -->
+      <div class="of7-prov-grid">
+        <div class="of7-prov-card"><div class="of7-prov-name">Madrid</div><span class="of7-prov-status amber">Últimas plazas</span></div>
+        <div class="of7-prov-card"><div class="of7-prov-name">Barcelona</div><span class="of7-prov-status amber">Últimas plazas</span></div>
+        <div class="of7-prov-card"><div class="of7-prov-name">Valencia</div><span class="of7-prov-status amber">Últimas plazas</span></div>
+        <div class="of7-prov-card"><div class="of7-prov-name">Málaga</div><span class="of7-prov-status green">Disponible</span></div>
+        <div class="of7-prov-card"><div class="of7-prov-name">Tarragona</div><span class="of7-prov-status amber">Últimas plazas</span></div>
+      </div>
+
+      <!-- Desktop SVG -->
+      <div class="of7-svg-container">
+        <svg id="of7Svg" viewBox="0 0 580 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+          <path id="of7SpainPath" class="of7-map-path" pathLength="1"
+            d="M 95 80 L 130 55 L 180 45 L 230 40 L 290 38 L 350 42 L 410 55 L 450 70 L 470 90 L 475 115 L 490 130 L 510 140 L 520 160 L 510 185 L 495 200 L 480 220 L 460 240 L 440 260 L 420 275 L 400 285 L 375 295 L 350 300 L 330 310 L 310 320 L 290 325 L 265 320 L 240 310 L 215 295 L 190 280 L 165 265 L 145 245 L 120 225 L 100 200 L 80 175 L 70 155 L 68 130 L 75 105 L 95 80 Z"
+          />
+          <!-- Madrid -->
+          <g class="of7-m-group of7-marker" id="of7M0">
+            <circle cx="300" cy="190" r="5" fill="var(--amber)"/>
+            <circle cx="300" cy="190" r="10" stroke="var(--amber)" class="of7-dot-ring" style="animation-delay:0s"/>
+            <g class="of7-tip-group">
+              <rect x="260" y="160" width="96" height="44" rx="6" ry="6" fill="var(--bg-card)" stroke="var(--border)"/>
+              <text x="308" y="177" text-anchor="middle" class="of7-tip-text">Madrid</text>
+              <text x="308" y="193" text-anchor="middle" class="of7-tip-status" fill="var(--amber)">2/3 · Últimas plazas</text>
+            </g>
+          </g>
+          <!-- Barcelona -->
+          <g class="of7-m-group of7-marker" id="of7M1">
+            <circle cx="435" cy="108" r="5" fill="var(--amber)"/>
+            <circle cx="435" cy="108" r="10" stroke="var(--amber)" class="of7-dot-ring" style="animation-delay:0.4s"/>
+            <g class="of7-tip-group">
+              <rect x="390" y="78" width="102" height="44" rx="6" ry="6" fill="var(--bg-card)" stroke="var(--border)"/>
+              <text x="441" y="95" text-anchor="middle" class="of7-tip-text">Barcelona</text>
+              <text x="441" y="111" text-anchor="middle" class="of7-tip-status" fill="var(--amber)">2/3 · Últimas plazas</text>
+            </g>
+          </g>
+          <!-- Valencia -->
+          <g class="of7-m-group of7-marker" id="of7M2">
+            <circle cx="418" cy="210" r="5" fill="var(--amber)"/>
+            <circle cx="418" cy="210" r="10" stroke="var(--amber)" class="of7-dot-ring" style="animation-delay:0.8s"/>
+            <g class="of7-tip-group">
+              <rect x="374" y="180" width="96" height="44" rx="6" ry="6" fill="var(--bg-card)" stroke="var(--border)"/>
+              <text x="422" y="197" text-anchor="middle" class="of7-tip-text">Valencia</text>
+              <text x="422" y="213" text-anchor="middle" class="of7-tip-status" fill="var(--amber)">2/3 · Últimas plazas</text>
+            </g>
+          </g>
+          <!-- Málaga -->
+          <g class="of7-m-group of7-marker" id="of7M3">
+            <circle cx="248" cy="305" r="5" fill="var(--green-available)"/>
+            <circle cx="248" cy="305" r="10" stroke="var(--green-available)" class="of7-dot-ring" style="animation-delay:1.2s"/>
+            <g class="of7-tip-group">
+              <rect x="206" y="275" width="96" height="44" rx="6" ry="6" fill="var(--bg-card)" stroke="var(--border)"/>
+              <text x="254" y="292" text-anchor="middle" class="of7-tip-text">Málaga</text>
+              <text x="254" y="308" text-anchor="middle" class="of7-tip-status" fill="var(--green-available)">1/3 · Disponible</text>
+            </g>
+          </g>
+          <!-- Tarragona -->
+          <g class="of7-m-group of7-marker" id="of7M4">
+            <circle cx="422" cy="145" r="5" fill="var(--amber)"/>
+            <circle cx="422" cy="145" r="10" stroke="var(--amber)" class="of7-dot-ring" style="animation-delay:1.6s"/>
+            <g class="of7-tip-group">
+              <rect x="376" y="115" width="106" height="44" rx="6" ry="6" fill="var(--bg-card)" stroke="var(--border)"/>
+              <text x="429" y="132" text-anchor="middle" class="of7-tip-text">Tarragona</text>
+              <text x="429" y="148" text-anchor="middle" class="of7-tip-status" fill="var(--amber)">2/3 · Últimas plazas</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <a href="#cta-final" class="of7-map-cta">Consulta tu provincia →</a>
+      <div class="of7-legend">
+        <span><i style="background:var(--green-available)"></i> Disponible</span>
+        <span><i style="background:var(--amber)"></i> Últimas plazas</span>
+        <span><i style="background:var(--red-alert)"></i> Completo</span>
+      </div>
+      <div class="of7-map-updated">Actualizado junio 2026</div>
     </div>
 
-    <div class="close-alert reveal">⚠️ Si otro agente solicita antes que tú, pierde prioridad quien llega después.</div>
+    <!-- Alerta de cierre -->
+    <div class="of7-alert reveal">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span>Si otro agente de tu provincia solicita antes que tú, perderás la plaza disponible. Las reservas se gestionan por orden de llegada.</span>
+    </div>
+
   </div>
 </section>
 
@@ -3624,6 +3729,42 @@ function wireTabs(tabSel, panelSel, tabAttr, panelAttr, onShow){
   }
 })();
 
+/* ============ SECCIÓN 7: OFERTA / FOMO ============ */
+(function(){
+  var card = document.getElementById('of7Card');
+  if(!card) return;
+  var savings = document.getElementById('of7Savings');
+  var checks  = document.querySelectorAll('#of7Checks .of7-check');
+  var svg     = document.getElementById('of7Svg');
+  var mapPath = document.getElementById('of7SpainPath');
+  var markers = document.querySelectorAll('.of7-marker');
+
+  var cardObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      cardObs.unobserve(e.target);
+      setTimeout(function(){ savings.classList.add('visible'); }, 1600);
+      checks.forEach(function(ch, i){
+        setTimeout(function(){ ch.classList.add('in'); }, 200 + i * 80);
+      });
+    });
+  }, {threshold: 0.25});
+  cardObs.observe(card);
+
+  if(svg && mapPath){
+    var mapObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        mapObs.unobserve(e.target);
+        mapPath.classList.add('drawn');
+        markers.forEach(function(m, i){
+          setTimeout(function(){ m.classList.add('in'); }, 1600 + i * 160);
+        });
+      });
+    }, {threshold: 0.2});
+    mapObs.observe(svg);
+  }
+})();
 /* ============ FAQ ACORDEÓN ============ */
 (function(){
   var items = document.querySelectorAll('#faqList .faq-item');
