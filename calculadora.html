@@ -316,7 +316,7 @@ function applyTheme(hex) {
 function init() {
   var m = new URLSearchParams(window.location.search).get('agente');
       if (!m) { showError(); return; }
-  sbGet('agentes', { 'slug': 'eq.'+m[1], 'select': '*' }).then(function(rows) {
+  sbGet('agentes', { 'slug': 'eq.'+m, 'select': '*' }).then(function(rows) {
     if (!rows || !rows.length || !rows[0].activo) { showError(); return; }
     agent = rows[0];
     applyTheme(agent.color_primario);
@@ -788,5 +788,6 @@ init();
 </script>
 </body>
 </html>
+
 
 
