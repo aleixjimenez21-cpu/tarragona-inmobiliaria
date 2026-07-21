@@ -203,9 +203,11 @@ window.PCONTENT = {
     note:      'Revisaré personalmente la información y responderé si considero que puedo aportar valor al proyecto.',
     submitBtn: 'Enviar solicitud',
     links: {
-      email:     'hola@aleixjimenez.com',   // ← sustituir
-      instagram: 'https://instagram.com/',  // ← sustituir con perfil real
-      linkedin:  'https://linkedin.com/',   // ← sustituir con perfil real
+      email:     'aleix.proptech@gmail.com',
+      instagram: 'https://www.instagram.com/aleixjimenezz_',
+      linkedin:  'https://www.linkedin.com/in/aleixjimenezz/',
+      whatsapp:  'https://wa.me/34633716169',
+      phone:     '633 716 169',
     },
   },
 

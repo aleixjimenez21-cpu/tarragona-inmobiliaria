@@ -392,6 +392,7 @@
           '</form>' +
           '<div class="p-contact-links p-reveal">' +
             '<a class="p-contact-link" href="mailto:' + attr(ct.links.email) + '">' + esc(ct.links.email) + '</a>' +
+            '<a class="p-contact-link" href="' + attr(ct.links.whatsapp) + '" target="_blank" rel="noopener noreferrer">WhatsApp · ' + esc(ct.links.phone) + '</a>' +
             '<a class="p-contact-link" href="' + attr(ct.links.instagram) + '" target="_blank" rel="noopener noreferrer">Instagram</a>' +
             '<a class="p-contact-link" href="' + attr(ct.links.linkedin) + '" target="_blank" rel="noopener noreferrer">LinkedIn</a>' +
           '</div>' +
@@ -460,6 +461,7 @@
               '<a href="' + attr(ct.links.instagram) + '" target="_blank" rel="noopener noreferrer">Instagram</a>' +
               '<a href="' + attr(ct.links.linkedin) + '" target="_blank" rel="noopener noreferrer">LinkedIn</a>' +
               '<a href="mailto:' + attr(ct.links.email) + '">Email</a>' +
+              '<a href="' + attr(ct.links.whatsapp) + '" target="_blank" rel="noopener noreferrer">WhatsApp</a>' +
             '</div>' +
             '<div class="p-footer-closing">' + esc(f.closing) + '</div>' +
           '</div>' +
