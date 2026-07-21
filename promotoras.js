@@ -387,7 +387,7 @@
               '<button type="submit" id="p-submit" class="p-btn-primary">' + esc(ct.submitBtn) + '</button>' +
             '</div>' +
             '<p class="p-form-info">' + esc(ct.note) + '</p>' +
-            '<div class="p-form-msg" id="p-msg-ok" role="alert">Solicitud recibida. Revisaré tu mensaje y me pondré en contacto si hay sintonía.</div>' +
+            '<div class="p-form-msg" id="p-msg-ok" role="alert">Se ha abierto WhatsApp con tu solicitud. Envía el mensaje para que lo reciba.</div>' +
             '<div class="p-form-msg" id="p-msg-err" role="alert">Ha ocurrido un error. Escríbeme directamente a <a href="mailto:' + attr(ct.links.email) + '" style="color:inherit;text-decoration:underline">' + esc(ct.links.email) + '</a>.</div>' +
           '</form>' +
           '<div class="p-contact-links p-reveal">' +
@@ -622,36 +622,45 @@
     obs.observe(section);
   }
 
-  /* Form handling */
+  /* Form → WhatsApp */
   function initForm() {
     var form = document.getElementById('p-form');
     var submitBtn = document.getElementById('p-submit');
     var msgOk  = document.getElementById('p-msg-ok');
-    var msgErr = document.getElementById('p-msg-err');
     if (!form) return;
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       if (!validate()) return;
 
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Enviando…';
-      msgOk.classList.remove('success');
-      msgErr.classList.remove('error');
+      var get = function(id) {
+        var el = form.querySelector('#' + id);
+        if (!el) return '';
+        if (el.tagName === 'SELECT') return el.value ? el.options[el.selectedIndex].text : '';
+        return el.value.trim();
+      };
 
-      doSubmit(new FormData(form))
-        .then(function() {
-          form.reset();
-          msgOk.classList.add('success');
-          msgOk.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        })
-        .catch(function() {
-          msgErr.classList.add('error');
-        })
-        .finally(function() {
-          submitBtn.disabled = false;
-          submitBtn.textContent = C.contact.submitBtn;
-        });
+      var lines = [
+        '*Nueva solicitud — Aleix Jiménez*',
+        '',
+        '*Nombre:* '  + get('f-nombre'),
+        '*Empresa:* ' + get('f-empresa'),
+        '*Correo:* '  + get('f-email'),
+      ];
+      if (get('f-telefono'))  lines.push('*Teléfono:* '  + get('f-telefono'));
+      if (get('f-tipo'))      lines.push('*Tipo:* '      + get('f-tipo'));
+      if (get('f-ubicacion')) lines.push('*Ubicación:* ' + get('f-ubicacion'));
+      if (get('f-fase'))      lines.push('*Fase:* '      + get('f-fase'));
+      if (get('f-unidades'))  lines.push('*Unidades:* '  + get('f-unidades'));
+      if (get('f-reto'))      lines.push('*Reto:* '      + get('f-reto'));
+      if (get('f-mensaje'))   lines.push('', '*Mensaje:*', get('f-mensaje'));
+
+      var waUrl = 'https://wa.me/34633716169?text=' + encodeURIComponent(lines.join('\n'));
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+
+      form.reset();
+      msgOk.classList.add('success');
+      msgOk.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
 
     function validate() {
@@ -671,31 +680,6 @@
       }
       return ok;
     }
-  }
-
-  /* ── CONECTAR FORMULARIO ─────────────────────────────────
-     Reemplaza el cuerpo de esta función con una de las opciones:
-
-     OPCIÓN A — Formspree:
-       var res = await fetch('https://formspree.io/f/TU_ID', {
-         method: 'POST', headers: { Accept: 'application/json' }, body: data
-       });
-       if (!res.ok) throw new Error();
-
-     OPCIÓN B — Función serverless propia (/api/contact):
-       var res = await fetch('/api/contact', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify(Object.fromEntries(data)),
-       });
-       if (!res.ok) throw new Error();
-
-     OPCIÓN C — EmailJS:
-       await emailjs.sendForm('SERVICE_ID', 'TEMPLATE_ID', form);
-  ─────────────────────────────────────────────────────────── */
-  function doSubmit(data) {
-    // STUB — simula envío exitoso para preview. Sustituir por fetch real.
-    return new Promise(function(resolve) { setTimeout(resolve, 1000); });
   }
 
   /* ── Boot ──────────────────────────────────────────────── */

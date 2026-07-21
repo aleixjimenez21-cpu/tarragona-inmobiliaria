@@ -200,7 +200,7 @@ window.PCONTENT = {
   contact: {
     headline:  'Hablemos.',
     note:      'Revisaré personalmente la información y responderé si considero que puedo aportar valor al proyecto.',
-    submitBtn: 'Enviar solicitud',
+    submitBtn: 'Enviar por WhatsApp',
     links: {
       email:     'aleix.proptech@gmail.com',
       instagram: 'https://www.instagram.com/aleixjimenezz_',
