@@ -171,9 +171,8 @@ window.PCONTENT = {
 
   /* ── SOBRE ALEIX ─────────────────────────────────────── */
   about: {
-    /* Sustituir por foto editorial de Aleix cuando esté disponible */
-    image:    'aleix/hero-2.jpg',
-    imageAlt: 'Aleix Jiménez, estrategia digital para promotoras inmobiliarias',
+    image:    'aleix/sobre-aleix.jpg',
+    imageAlt: 'Aleix Jiménez trabajando — estrategia digital para promotoras inmobiliarias',
     label:    'ALEIX JIMÉNEZ',
     headline: 'La parte digital detrás de cada promoción debería ser tan sólida como el propio proyecto.',
     body:     'Trabajo en la intersección entre estrategia, captación, contenido y tecnología aplicada al sector inmobiliario. Mi objetivo es ayudar a las promotoras a construir demanda antes de finalizar la obra, evitando depender únicamente de portales, acciones aisladas o procesos comerciales lentos. Cada colaboración parte del proyecto, de su comprador y de sus objetivos. No de una solución cerrada.',
