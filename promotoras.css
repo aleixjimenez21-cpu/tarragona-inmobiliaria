@@ -422,7 +422,7 @@
 
 /* ── Animaciones de entrada del hero ─────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
-  .p-hl-line {
+  .p-hero .p-hl-line {
     transform: translateY(112%);
     animation: p-line-reveal 0.72s var(--p-spring) forwards;
     animation-delay: calc(0.18s + var(--li, 0) * 0.1s);
@@ -769,79 +769,197 @@
    IMPACTO
 ══════════════════════════════════════════════════════════ */
 .p-impact {
-  background: var(--p-bg-3);
-  padding: 11rem 2.5rem;
-  text-align: center;
+  background: #0C0C0B;
+  min-height: 70svh;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  padding: 5rem 3rem;
 }
-.p-impact-inner { max-width: 860px; margin: 0 auto; }
-.p-impact-headline {
-  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  color: var(--p-text);
-  margin-bottom: 1.5rem;
-}
-.p-impact-body {
-  font-size: 1.05rem;
-  line-height: 1.7;
-  color: var(--p-text-2);
-  max-width: 520px;
+.p-impact-inner {
+  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
 }
-@media (max-width: 640px) { .p-impact { padding: 7rem 1.25rem; } }
+.p-impact-label {
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #6E6A60;
+  margin-bottom: 2rem;
+}
+.p-impact-headline {
+  font-size: clamp(2rem, 6vw, 3.75rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  color: #F1EEE8;
+  max-width: 800px;
+  margin-bottom: 2.5rem;
+}
+.p-impact-line-wrap { display: block; overflow: hidden; }
+.p-impact-line { display: block; }
+.p-impact-support-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.p-impact-support-rule {
+  width: 28px;
+  height: 0.5px;
+  background: #4A4842;
+  flex-shrink: 0;
+  margin-top: 0.65em;
+  display: inline-block;
+}
+.p-impact-support-text {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: #8A867C;
+  max-width: 440px;
+}
+
+/* Animación scroll-triggered para la sección de impacto */
+@media (prefers-reduced-motion: no-preference) {
+  .p-impact-label {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  .p-impact-line { transform: translateY(110%); }
+  .p-impact-support {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  .p-impact.p-impact-entered .p-impact-label {
+    animation: p-fade-up 0.45s ease-out 0.05s forwards;
+  }
+  .p-impact.p-impact-entered .p-impact-line {
+    animation: p-line-reveal 0.72s var(--p-spring) forwards;
+    animation-delay: calc(0.15s + var(--li, 0) * 0.12s);
+  }
+  .p-impact.p-impact-entered .p-impact-support {
+    animation: p-fade-up 0.5s ease-out 0.6s forwards;
+  }
+}
+
+@media (max-width: 768px) {
+  .p-impact {
+    min-height: 55svh;
+    min-height: 55vh;
+    padding: 4rem 1.25rem;
+  }
+}
 
 /* ══════════════════════════════════════════════════════════
    PARA QUIÉN
 ══════════════════════════════════════════════════════════ */
 .p-forwhom {
   background: var(--p-bg);
-  padding: 9rem 2.5rem;
+  padding: 8rem 3rem;
 }
-.p-forwhom-inner { max-width: 1280px; margin: 0 auto; }
-.p-forwhom-intro {
-  font-size: 0.93rem;
-  line-height: 1.7;
-  color: var(--p-text-2);
-  max-width: 460px;
-  margin-bottom: 4.5rem;
+.p-forwhom-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 3.5rem;
+  align-items: start;
 }
-.p-forwhom-item {
+
+/* Columna izquierda */
+.p-forwhom-left-meta {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 2rem;
-  padding: 2.5rem 0;
-  border-bottom: 0.5px solid var(--p-divider);
-  transition: padding-left 0.3s var(--p-ease);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.p-forwhom-left-rule {
+  width: 24px;
+  height: 0.5px;
+  background: #4A4842;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.p-forwhom-left-label {
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #7E7B72;
+}
+.p-forwhom-left-title {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: #F1EEE8;
+}
+
+/* Columna derecha: filas */
+.p-forwhom-item {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 1.25rem;
+  padding: 1.625rem 0;
+  border-top: 0.5px solid var(--p-divider);
+  align-items: start;
   cursor: default;
 }
-.p-forwhom-item:first-of-type { border-top: 0.5px solid var(--p-divider); }
-@media (hover: hover) { .p-forwhom-item:hover { padding-left: 0.75rem; } }
-.p-forwhom-item-title {
-  font-size: clamp(1.2rem, 2.8vw, 1.9rem);
+.p-forwhom-item:last-child { border-bottom: 0.5px solid var(--p-divider); }
+
+.p-forwhom-item-role {
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding-top: 0.4em;
+  line-height: 1;
+}
+.p-forwhom-item--featured .p-forwhom-item-role { color: #8A867C; }
+.p-forwhom-item:not(.p-forwhom-item--featured) .p-forwhom-item-role { color: #4A4842; }
+
+.p-forwhom-item-name {
   font-weight: 500;
-  letter-spacing: -0.025em;
-  margin-bottom: 0.35rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  transition: color 0.3s ease;
 }
-.p-forwhom-item-body {
-  font-size: 0.86rem;
-  color: var(--p-text-2);
-  line-height: 1.6;
+.p-forwhom-item--featured .p-forwhom-item-name {
+  font-size: 1.875rem;
+  color: #F1EEE8;
 }
-.p-forwhom-arrow {
-  color: var(--p-text-3);
-  font-size: 1.1rem;
-  opacity: 0;
-  transform: translateX(-10px);
-  transition: opacity 0.25s, transform 0.25s var(--p-ease);
-  flex-shrink: 0;
+.p-forwhom-item:not(.p-forwhom-item--featured) .p-forwhom-item-name {
+  font-size: 1.25rem;
+  color: #9E9A90;
 }
 @media (hover: hover) {
-  .p-forwhom-item:hover .p-forwhom-arrow { opacity: 1; transform: none; }
+  .p-forwhom-item:not(.p-forwhom-item--featured):hover .p-forwhom-item-name {
+    color: #F1EEE8;
+  }
 }
-@media (max-width: 640px) {
-  .p-forwhom { padding: 6rem 1.25rem; }
-  .p-forwhom-arrow { display: none; }
+
+.p-forwhom-item-desc {
+  margin-top: 0.4rem;
+  line-height: 1.55;
+}
+.p-forwhom-item--featured .p-forwhom-item-desc {
+  font-size: 0.875rem;
+  color: #8A867C;
+}
+.p-forwhom-item:not(.p-forwhom-item--featured) .p-forwhom-item-desc {
+  font-size: 0.8125rem;
+  color: #6E6A60;
+}
+
+@media (max-width: 768px) {
+  .p-forwhom {
+    padding: 5.5rem 1.25rem;
+  }
+  .p-forwhom-inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .p-forwhom-item--featured .p-forwhom-item-name { font-size: 1.5rem; }
 }
 
 /* ══════════════════════════════════════════════════════════

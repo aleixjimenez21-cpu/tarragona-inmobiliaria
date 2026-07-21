@@ -123,17 +123,38 @@ window.PCONTENT = {
 
   /* ── IMPACTO ─────────────────────────────────────────── */
   impact: {
-    headline: 'No más acciones desconectadas.',
-    body:     'Estrategia, medios, contenido y tecnología trabajando como un único sistema comercial.',
+    label:          'EL SISTEMA',
+    /* Las líneas ANTES del acento van en headlineLines;
+       headlineAccent aparece solo en la última línea en serif itálica */
+    headlineLines:  ['No más acciones'],
+    headlineAccent: 'desconectadas.',
+    support: 'Estrategia, medios, contenido y tecnología trabajando como un único sistema comercial.',
   },
 
   /* ── PARA QUIÉN ──────────────────────────────────────── */
   forWhom: {
-    title: 'Trabajo con empresas que no quieren dejar la demanda al azar.',
+    label:       'PARA QUIÉN',
+    title:       'Trabajo con empresas que no quieren dejar la demanda al azar.',
+    titleAccent: 'azar.',   /* ← palabra que se renderiza en Instrument Serif italic */
     items: [
-      { title: 'Promotoras inmobiliarias',              body: 'Lanzamiento y comercialización de obra nueva.' },
-      { title: 'Constructoras con promociones propias', body: 'Posicionamiento y captación directa de compradores.' },
-      { title: 'Firmas inmobiliarias seleccionadas',    body: 'Sistemas digitales para proyectos y activos de alto valor.' },
+      {
+        role: 'FOCO',
+        name: 'Promotoras inmobiliarias',
+        body: 'Lanzamiento y comercialización de obra nueva.',
+        featured: true,
+      },
+      {
+        role: 'TAMBIÉN',
+        name: 'Constructoras con promociones propias',
+        body: 'Posicionamiento y captación directa de compradores.',
+        featured: false,
+      },
+      {
+        role: 'TAMBIÉN',
+        name: 'Firmas inmobiliarias seleccionadas',
+        body: 'Sistemas digitales para proyectos y activos de alto valor.',
+        featured: false,
+      },
     ],
   },
 

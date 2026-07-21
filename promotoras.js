@@ -214,11 +214,31 @@
 
   function buildImpact() {
     var im = C.impact;
+    var lines = im.headlineLines.map(function(line, i) {
+      return (
+        '<span class="p-impact-line-wrap">' +
+          '<span class="p-impact-line" style="--li:' + i + '">' + esc(line) + '</span>' +
+        '</span>'
+      );
+    }).join('');
+    var accentLine = (
+      '<span class="p-impact-line-wrap">' +
+        '<span class="p-impact-line" style="--li:' + im.headlineLines.length + '">' +
+          '<em class="p-serif">' + esc(im.headlineAccent) + '</em>' +
+        '</span>' +
+      '</span>'
+    );
     return (
       '<section class="p-impact" aria-label="Frase de impacto">' +
         '<div class="p-impact-inner">' +
-          '<h2 class="p-impact-headline p-reveal">' + esc(im.headline) + '</h2>' +
-          '<p class="p-impact-body p-reveal p-reveal-d1">' + esc(im.body) + '</p>' +
+          '<p class="p-impact-label">' + esc(im.label) + '</p>' +
+          '<h2 class="p-impact-headline">' + lines + accentLine + '</h2>' +
+          '<div class="p-impact-support">' +
+            '<div class="p-impact-support-inner">' +
+              '<span class="p-impact-support-rule" aria-hidden="true"></span>' +
+              '<p class="p-impact-support-text">' + esc(im.support) + '</p>' +
+            '</div>' +
+          '</div>' +
         '</div>' +
       '</section>'
     );
@@ -226,22 +246,31 @@
 
   function buildForWhom() {
     var fw = C.forWhom;
-    var items = fw.items.map(function(item) {
+    var titleParts = fw.title.split(fw.titleAccent);
+    var titleHtml = esc(titleParts[0]) + '<em class="p-serif">' + esc(fw.titleAccent) + '</em>' + (titleParts[1] ? esc(titleParts[1]) : '');
+    var items = fw.items.map(function(item, i) {
+      var cls = 'p-forwhom-item' + (item.featured ? ' p-forwhom-item--featured' : '') + ' p-reveal p-reveal-d' + (i + 1);
       return (
-        '<div class="p-forwhom-item p-reveal">' +
+        '<div class="' + cls + '">' +
+          '<div class="p-forwhom-item-role">' + esc(item.role) + '</div>' +
           '<div>' +
-            '<div class="p-forwhom-item-title">' + esc(item.title) + '</div>' +
-            '<div class="p-forwhom-item-body">' + esc(item.body) + '</div>' +
+            '<div class="p-forwhom-item-name">' + esc(item.name) + '</div>' +
+            '<div class="p-forwhom-item-desc">' + esc(item.body) + '</div>' +
           '</div>' +
-          '<span class="p-forwhom-arrow" aria-hidden="true">→</span>' +
         '</div>'
       );
     }).join('');
     return (
       '<section class="p-forwhom" aria-label="Para quién">' +
         '<div class="p-forwhom-inner">' +
-          '<p class="p-forwhom-intro p-reveal">' + esc(fw.title) + '</p>' +
-          items +
+          '<div class="p-forwhom-left p-reveal">' +
+            '<div class="p-forwhom-left-meta">' +
+              '<span class="p-forwhom-left-rule" aria-hidden="true"></span>' +
+              '<span class="p-forwhom-left-label">' + esc(fw.label) + '</span>' +
+            '</div>' +
+            '<h2 class="p-forwhom-left-title">' + titleHtml + '</h2>' +
+          '</div>' +
+          '<div class="p-forwhom-right">' + items + '</div>' +
         '</div>' +
       '</section>'
     );
@@ -475,6 +504,7 @@
     initSmoothScroll();
     initMobileNav();
     initSystem();
+    initImpact();
     initForm();
   }
 
@@ -575,6 +605,19 @@
         }
       });
     });
+  }
+
+  /* Scroll-triggered animation for the impact section */
+  function initImpact() {
+    var section = document.querySelector('.p-impact');
+    if (!section) return;
+    var obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        section.classList.add('p-impact-entered');
+        obs.disconnect();
+      }
+    }, { threshold: 0.15 });
+    obs.observe(section);
   }
 
   /* Form handling */
