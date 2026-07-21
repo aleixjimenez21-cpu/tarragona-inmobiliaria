@@ -6,3 +6,8 @@ package-lock.json
 .claude/
 *.png
 preview_*.png
+
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
