@@ -74,7 +74,7 @@ for name, (fn, x0, exp, con, gam) in PHOTOS.items():
     img = ImageOps.exif_transpose(Image.open(SRC / fn)).convert("RGB")
     if x0 == "portrait":
         # retrato en obra: encuadre 4:5 sobre cara y casco
-        img = img.crop((110, 160, 1390, 1760))
+        img = img.crop((110, 190, 1830, 2340))
     else:
         img = crop_916(img, x0)
     gray = ImageOps.grayscale(img)

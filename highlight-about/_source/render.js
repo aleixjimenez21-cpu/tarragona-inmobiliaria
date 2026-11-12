@@ -15,14 +15,14 @@ const TMP = process.env.TMPDIR_RENDER || path.join(__dirname, ".tmp");
 fs.mkdirSync(TMP, { recursive: true });
 
 const NAMES = {
-  1: "portada", 2: "origen", 3: "obra", 4: "lo-que-vi",
-  5: "prospectus", 6: "enfoque", 7: "hacia-donde", 8: "hablemos",
+  1: "portada", 2: "origen", 3: "lo-que-vi", 4: "prospectus",
+  5: "enfoque", 6: "hacia-donde", 7: "hablemos",
 };
 
 (async () => {
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
-  const list = ONLY.length ? ONLY : [1, 2, 3, 4, 5, 6, 7, 8];
+  const list = ONLY.length ? ONLY : [1, 2, 3, 4, 5, 6, 7];
   for (const n of list) {
     const base = `${String(n).padStart(2, "0")}-${NAMES[n]}`;
     await page.goto("file://" + path.join(__dirname, "story.html") + "?n=" + n);
