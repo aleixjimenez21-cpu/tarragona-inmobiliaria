@@ -6,440 +6,114 @@
 <style>
 @font-face { font-family: "Serif"; src: url(fonts/instrument-serif.woff2) format("woff2"); font-style: normal; }
 @font-face { font-family: "Serif"; src: url(fonts/instrument-serif-italic.woff2) format("woff2"); font-style: italic; }
-@font-face { font-family: "Sans"; src: url(fonts/switzer-400.woff2) format("woff2"); font-weight: 400; }
 @font-face { font-family: "Sans"; src: url(fonts/switzer-500.woff2) format("woff2"); font-weight: 500; }
-@font-face { font-family: "Sans"; src: url(fonts/switzer-600.woff2) format("woff2"); font-weight: 600; }
 
-:root {
-  --ink: #090908;
-  --bone: #E8E3D9;
-  --bone-2: rgba(232, 227, 217, .74);
-  --bone-3: rgba(232, 227, 217, .52);
-  --hair: rgba(232, 227, 217, .22);
-  --m: 84px;
-}
+:root { --paper: #F2EFE9; --ink: #121110; --m: 84px; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 1080px; height: 1920px; background: var(--ink); overflow: hidden; }
-body { font-family: "Sans", sans-serif; color: var(--bone); -webkit-font-smoothing: antialiased; }
+html, body { width: 1080px; height: 1920px; background: #0f0e0d; overflow: hidden; }
+body { color: var(--paper); -webkit-font-smoothing: antialiased; }
 
-.frame { position: absolute; inset: 0; overflow: hidden; background: var(--ink); }
-.bg { position: absolute; inset: -4%; background-size: cover; background-position: center; will-change: transform; }
-.shade { position: absolute; inset: 0; }
-.vignette { position: absolute; inset: 0; background: radial-gradient(120% 85% at 50% 45%, rgba(9,9,8,0) 55%, rgba(9,9,8,.55) 100%); }
-#grain { position: absolute; inset: 0; width: 1080px; height: 1920px; opacity: .085; mix-blend-mode: screen; pointer-events: none; }
+.ph { position: absolute; background-size: cover; background-repeat: no-repeat; }
+.full { inset: 0; }
+.fade { position: absolute; left: 0; right: 0; }
 
-/* ── cabecera fija ── */
-.top { position: absolute; top: 236px; left: var(--m); right: var(--m); display: flex; justify-content: space-between; align-items: baseline;
-  font-size: 19px; font-weight: 500; letter-spacing: .34em; text-transform: uppercase; color: var(--bone-2); }
-.top .n { font-weight: 400; letter-spacing: .18em; font-variant-numeric: tabular-nums; }
-.top .n i { font-style: normal; color: var(--bone-3); }
-.rule { position: absolute; left: var(--m); right: var(--m); height: 1px; background: var(--hair); transform-origin: left center; }
-
-/* ── tipografía ── */
-.label { font-size: 20px; font-weight: 500; letter-spacing: .34em; text-transform: uppercase; color: var(--bone-2); display: flex; align-items: center; gap: 22px; }
-.label b { font-weight: 500; color: var(--bone-3); letter-spacing: .2em; }
-.label .dash { width: 44px; height: 1px; background: var(--bone-3); display: inline-block; }
-.h { font-family: "Serif"; font-weight: 400; font-size: 112px; line-height: .98; letter-spacing: -.018em; color: var(--bone); }
-.h em, .em { font-style: italic; }
-.h .soft { color: rgba(232, 227, 217, .62); }
-.body { font-size: 33px; line-height: 1.5; color: var(--bone-2); letter-spacing: -.003em; max-width: 860px; }
-.body strong { font-weight: 500; color: var(--bone); }
-.cap { font-family: "Serif"; font-style: italic; font-size: 29px; color: var(--bone-3); letter-spacing: .005em; }
-.meta { font-size: 18px; font-weight: 500; letter-spacing: .3em; text-transform: uppercase; color: var(--bone-3); }
-
-.ln { display: block; overflow: hidden; padding-bottom: .09em; margin-bottom: -.09em; }
-.ln > span { display: block; will-change: transform; }
-
-.blk { position: absolute; left: var(--m); right: var(--m); }
-
-/* listas */
-.list { border-top: 1px solid var(--hair); }
-.row { display: flex; align-items: baseline; gap: 34px; padding: 26px 0 25px; border-bottom: 1px solid var(--hair); }
-.row .k { font-size: 18px; font-weight: 500; letter-spacing: .26em; color: var(--bone-3); width: 52px; flex: none; font-variant-numeric: tabular-nums; }
-.row .v { font-size: 32px; color: var(--bone); letter-spacing: -.005em; }
-.row.c { justify-content: space-between; gap: 20px; }
-.row.c .k { width: auto; text-transform: uppercase; }
-.row.c .v { font-size: 31px; }
-
-/* marcas de encuadre (dibujo técnico) */
-.tick { position: absolute; width: 28px; height: 28px; border-color: rgba(232,227,217,.55); border-style: solid; border-width: 0; }
+.t { position: absolute; left: var(--m); right: var(--m); }
+.big { font-family: "Serif"; font-weight: 400; font-size: 138px; line-height: .94; letter-spacing: -.025em; }
+.big em { font-style: italic; }
+.small { font-family: "Sans"; font-weight: 500; font-size: 22px; letter-spacing: .28em; text-transform: uppercase; opacity: .82; margin-top: 40px; line-height: 1.9; }
+.ink { color: var(--ink); }
+#grain { position: absolute; inset: 0; width: 1080px; height: 1920px; opacity: .035; mix-blend-mode: screen; pointer-events: none; }
 </style>
 </head>
 <body>
-<div class="frame" id="frame"></div>
+<div id="frame"></div>
 <canvas id="grain" width="540" height="960"></canvas>
-
 <script>
-/* ═════════════════════════════════════════════════════════════
-   CONTENIDO — 7 historias. data-a = tipo de animación, data-d = retardo (s)
-   ═════════════════════════════════════════════════════════════ */
-const TOTAL = 7;
-const L = (txt, d) => `<span class="ln" data-a="mask" data-d="${d}"><span>${txt}</span></span>`;
-const LBL = (num, txt, d) => `<div class="label" data-a="fade" data-d="${d}"><b>${num}</b><span class="dash"></span>${txt}</div>`;
-
+/* Una foto. Una frase. Nada más. */
 const STORIES = {
-  /* 01 — PORTADA */
-  1: {
-    dur: 6, bg: "img/corridor.jpg", kb: [1.10, 1.02], pan: [0, -10],
-    shade: `linear-gradient(180deg, rgba(9,9,8,.62) 0%, rgba(9,9,8,.0) 22%, rgba(9,9,8,0) 44%, rgba(9,9,8,.72) 64%, rgba(9,9,8,.97) 82%, #090908 100%)`,
-    html: `
-      <div class="blk" style="bottom: 286px">
-        ${LBL("—", "Quién soy", .5)}
-        <h1 class="h" style="font-size: 214px; line-height: .9; margin-top: 40px; letter-spacing: -.03em">
-          ${L("Aleix", .75)}${L("<em>Jiménez</em>", .9)}
-        </h1>
-        <p class="body" data-a="fade" data-d="1.55" style="margin-top: 44px; font-size: 35px; max-width: 760px">
-          Del taller de aluminio familiar a la comercialización inmobiliaria.
-        </p>
-        <div class="rule" data-a="line" data-d="1.9" style="position: relative; left: 0; right: 0; margin-top: 56px"></div>
-        <div data-a="fade" data-d="2.15" style="display: flex; justify-content: space-between; margin-top: 30px" class="meta">
-          <span>20 años</span><span>Tarragona</span><span>Cofundador · Prospectus</span>
-        </div>
-      </div>`
-  },
+  /* 01 — Portada: nombre en tinta sobre el mármol */
+  1: `
+    <div class="ph full" style="background-image:url(img/corridor.jpg); background-position: 30% 50%"></div>
+    <div class="t ink" style="top: 316px; text-align: right">
+      <div class="big" style="font-size: 112px">Aleix<br><em>Jiménez</em></div>
+    </div>`,
 
-  /* 02 — ORIGEN: díptico taller + obra */
-  2: {
-    dur: 7, bg: null,
-    html: `
-      <div style="position: absolute; left: var(--m); top: 340px; width: 444px; height: 700px; overflow: hidden" data-a="reveal" data-d=".3">
-        <div data-kb="1.12,1.03" style="position: absolute; inset: 0; background: url(img/workshop.jpg) center 64%/cover"></div>
-      </div>
-      <div style="position: absolute; left: 552px; top: 490px; width: 444px; height: 550px; overflow: hidden" data-a="reveal" data-d=".5">
-        <div data-kb="1.12,1.03" style="position: absolute; inset: 0; background: url(img/hardhat.jpg) center 40%/cover"></div>
-      </div>
-      <div class="tick" style="left: calc(var(--m) - 16px); top: 324px; border-left-width: 1px; border-top-width: 1px" data-a="fade" data-d=".2"></div>
-      <div class="tick" style="left: 984px; top: 1028px; border-right-width: 1px; border-bottom-width: 1px" data-a="fade" data-d=".2"></div>
-      <div class="meta" data-a="fade" data-d="1.0" style="position: absolute; left: 552px; top: 340px; line-height: 2.1">Fig. 01 — 02<br><span style="color: var(--bone-2)">Taller y obra</span></div>
-      <span class="cap" data-a="fade" data-d="1.2" style="position: absolute; left: var(--m); top: 1062px">Taller familiar.</span>
-      <span class="cap" data-a="fade" data-d="1.3" style="position: absolute; left: 552px; top: 1062px">En obra.</span>
-      <div class="blk" style="top: 1176px">
-        ${LBL("01", "Origen", .8)}
-        <h2 class="h" style="margin-top: 36px; font-size: 104px">${L("Empecé por", 1.0)}${L("el <em>material.</em>", 1.12)}</h2>
-        <p class="body" data-a="fade" data-d="1.7" style="margin-top: 34px; max-width: 890px">
-          Vengo de una empresa familiar de carpintería de aluminio. Taller y obra: tiempos, oficios y decisiones que no salen en ningún render.
-        </p>
-      </div>`
-  },
+  /* 02 — Origen: taller arriba, obra abajo */
+  2: `
+    <div class="ph" style="left:0; top:0; width:1080px; height:956px; background-image:url(img/workshop.jpg); background-position: 50% 40%"></div>
+    <div class="ph" style="left:0; top:964px; width:1080px; height:956px; background-image:url(img/hardhat.jpg); background-position: 50% 42%"></div>
+    <div class="fade" style="top:0; height:760px; background: linear-gradient(180deg, rgba(10,10,9,.78) 0%, rgba(10,10,9,.45) 55%, rgba(10,10,9,0) 100%)"></div>
+    <div class="t" style="top: 300px">
+      <div class="big">Crecí entre<br><em>aluminio y obra.</em></div>
+      <div class="small">Empresa familiar · Carpintería de aluminio</div>
+    </div>`,
 
-  /* 03 — LO QUE VI */
-  3: {
-    dur: 8, bg: "img/galleria.jpg", kb: [1.04, 1.13], pan: [0, -20],
-    shade: `linear-gradient(180deg, rgba(9,9,8,.94) 0%, rgba(9,9,8,.7) 13%, rgba(9,9,8,.08) 26%, rgba(9,9,8,.15) 36%, rgba(9,9,8,.78) 50%, rgba(9,9,8,.95) 66%, #090908 100%)`,
-    html: `
-      <div class="blk" style="top: 936px">
-        ${LBL("02", "Lo que vi", .45)}
-        <h2 class="h" style="margin-top: 38px; font-size: 92px; line-height: 1.0">
-          ${L("Una promoción tarda", .7)}${L("años en construirse.", .82)}
-          <span style="display:block; height: 26px"></span>
-          ${L("<em class='soft'>Y muchas veces se vende</em>", 1.5)}${L("<em class='soft'>con un plano y un render.</em>", 1.62)}
-        </h2>
-        <p class="body" data-a="fade" data-d="2.5" style="margin-top: 40px">
-          Ahí vi la oportunidad: que la forma de vender esté a la altura de lo que se construye.
-        </p>
-      </div>
-      <div class="blk" style="bottom: 270px">
-        <span class="cap" data-a="fade" data-d="3.0">Galleria Vittorio Emanuele II, Milán.</span>
-      </div>`
-  },
+  /* 03 — Lo que vi */
+  3: `
+    <div class="ph full" style="background-image:url(img/galleria.jpg); background-position: 50% 40%"></div>
+    <div class="fade" style="bottom:0; height:900px; background: linear-gradient(0deg, rgba(10,10,9,.82) 0%, rgba(10,10,9,.5) 50%, rgba(10,10,9,0) 100%)"></div>
+    <div class="t" style="bottom: 300px">
+      <div class="big">Años de obra.<br><em>Y se vende<br>con un render.</em></div>
+    </div>`,
 
-  /* 04 — PROSPECTUS: captura real de Villa Aurea */
-  4: {
-    dur: 8, bg: null,
-    html: `
-      <div style="position: absolute; left: var(--m); top: 340px; width: 912px; height: 700px; overflow: hidden; box-shadow: 0 40px 90px rgba(0,0,0,.55); outline: 1px solid rgba(232,227,217,.18)" data-a="reveal" data-d=".3">
-        <div data-kb="1.06,1.0" style="position: absolute; inset: 0; background: url(img/villa-aurea.jpg) center/cover; transform-origin: 60% 60%"></div>
-      </div>
-      <div class="tick" style="left: calc(var(--m) - 16px); top: 324px; border-left-width: 1px; border-top-width: 1px" data-a="fade" data-d=".2"></div>
-      <div class="tick" style="left: 984px; top: 1028px; border-right-width: 1px; border-bottom-width: 1px" data-a="fade" data-d=".2"></div>
-      <div class="blk" style="top: 1064px; display: flex; justify-content: space-between; align-items: baseline">
-        <span class="cap" data-a="fade" data-d="1.1">Villa Aurea — Port d'Andratx, Mallorca.</span>
-        <span class="meta" data-a="fade" data-d="1.2">Experiencia 3D</span>
-      </div>
-      <div class="blk" style="top: 1176px">
-        ${LBL("03", "Hoy", .8)}
-        <h2 class="h" style="margin-top: 36px; font-size: 104px">${L("Cofundador de", 1.0)}${L("<em>Prospectus.</em>", 1.12)}</h2>
-        <p class="body" data-a="fade" data-d="1.7" style="margin-top: 34px; max-width: 900px">
-          Experiencias interactivas en 3D para comercializar promociones: que el comprador recorra su casa <strong>antes de que exista.</strong>
-        </p>
-      </div>`
-  },
+  /* 04 — Prospectus: la experiencia real de Villa Aurea */
+  4: `
+    <div class="ph full" style="background-image:url(img/villa-aurea-mobile.jpg); background-position: 50% 50%"></div>
+    <div class="fade" style="bottom:0; height:820px; background: linear-gradient(0deg, rgba(10,10,9,.92) 0%, rgba(10,10,9,.72) 45%, rgba(10,10,9,0) 100%)"></div>
+    <div class="t" style="bottom: 300px">
+      <div class="big">Hoy, <em>Prospectus.</em></div>
+      <div class="small">Cofundador · Promociones en 3D<br>Villa Aurea — Mallorca</div>
+    </div>`,
 
-  /* 05 — ENFOQUE */
-  5: {
-    dur: 8, bg: "img/window.jpg", kb: [1.11, 1.03], pan: [10, 0],
-    shade: `linear-gradient(180deg, rgba(9,9,8,.88) 0%, rgba(9,9,8,.55) 13%, rgba(9,9,8,.05) 24%, rgba(9,9,8,.12) 32%, rgba(9,9,8,.82) 46%, rgba(9,9,8,.97) 60%, #090908 100%)`,
-    html: `
-      <div class="blk" style="top: 852px">
-        ${LBL("04", "Enfoque", .45)}
-        <h2 class="h" style="margin-top: 36px; font-size: 96px; line-height: 1.0">
-          ${L("Primero, entender", .7)}${L("el negocio.", .82)}${L("Después, <em>proponer.</em>", .94)}
-        </h2>
-        <div class="list" style="margin-top: 52px" data-a="line" data-d="1.6">
-          <div class="row" data-a="fade" data-d="1.75"><span class="k">01</span><span class="v">Comercialización de obra nueva</span></div>
-          <div class="row" data-a="fade" data-d="1.9"><span class="k">02</span><span class="v">Experiencias 3D para promociones</span></div>
-          <div class="row" data-a="fade" data-d="2.05"><span class="k">03</span><span class="v">Consultoría comercial y colaboraciones</span></div>
-        </div>
-        <div class="meta" data-a="fade" data-d="2.5" style="margin-top: 34px">Promotoras · Constructoras · Inmobiliarias</div>
-      </div>`
-  },
+  /* 05 — Enfoque */
+  5: `
+    <div class="ph full" style="background-image:url(img/window.jpg); background-position: 50% 50%"></div>
+    <div class="fade" style="bottom:0; height:860px; background: linear-gradient(0deg, rgba(10,10,9,.85) 0%, rgba(10,10,9,.5) 50%, rgba(10,10,9,0) 100%)"></div>
+    <div class="t" style="bottom: 300px">
+      <div class="big">Primero, entender<br><em>el negocio.</em></div>
+      <div class="small">Comercialización · 3D · Consultoría</div>
+    </div>`,
 
-  /* 06 — HACIA DÓNDE */
-  6: {
-    dur: 8, bg: "img/duomo.jpg", kb: [1.03, 1.12], pan: [0, 16],
-    shade: `linear-gradient(180deg, rgba(9,9,8,.8) 0%, rgba(9,9,8,.2) 16%, rgba(9,9,8,.12) 34%, rgba(9,9,8,.8) 50%, rgba(9,9,8,.96) 64%, #090908 100%)`,
-    html: `
-      <div class="blk" style="top: 936px">
-        ${LBL("05", "Hacia dónde", .45)}
-        <h2 class="h" style="margin-top: 38px; font-size: 98px; line-height: 1.0">
-          ${L("Ayudar a vender", .7)}${L("mejor lo que se", .82)}${L("<em>construye.</em>", .94)}
-        </h2>
-        <p class="body" data-a="fade" data-d="1.8" style="margin-top: 40px; max-width: 880px">
-          Construir relaciones a largo plazo con quienes hacen ciudad. Aprender de quien lleva años en el sector y aportar una mirada nueva.
-        </p>
-      </div>
-      <div class="blk" style="bottom: 270px">
-        <span class="cap" data-a="fade" data-d="2.6">Duomo di Como.</span>
-      </div>`
-  },
+  /* 06 — Hacia dónde */
+  6: `
+    <div class="ph full" style="background-image:url(img/duomo.jpg); background-position: 50% 50%"></div>
+    <div class="fade" style="bottom:0; height:860px; background: linear-gradient(0deg, rgba(10,10,9,.85) 0%, rgba(10,10,9,.5) 50%, rgba(10,10,9,0) 100%)"></div>
+    <div class="t" style="bottom: 300px">
+      <div class="big">Vender mejor<br><em>lo que se construye.</em></div>
+    </div>`,
 
-  /* 07 — HABLEMOS */
-  7: {
-    dur: 9, bg: "img/night.jpg", kb: [1.10, 1.03], pan: [0, 40], offY: 300, bgOpacity: .95,
-    shade: `linear-gradient(180deg, #090908 0%, rgba(9,9,8,.92) 30%, rgba(9,9,8,.3) 44%, rgba(9,9,8,.08) 52%, rgba(9,9,8,.75) 63%, rgba(9,9,8,.97) 72%, #090908 100%)`,
-    html: `
-      <div class="blk" style="top: 340px">
-        ${LBL("06", "Contacto", .45)}
-        <h2 class="h" style="margin-top: 30px; font-size: 196px; line-height: .95; letter-spacing: -.03em">${L("<em>Hablemos.</em>", .7)}</h2>
-        <p class="body" data-a="fade" data-d="1.4" style="margin-top: 30px; max-width: 820px">
-          Si promueves, construyes o comercializas vivienda, me encantará conocer tu proyecto.
-        </p>
-      </div>
-      <div class="blk" style="top: 1222px">
-        <div class="list" data-a="line" data-d="2.0">
-          <div class="row c" data-a="fade" data-d="2.15"><span class="k">Mensaje directo</span><span class="v">@aleixjimenezz_</span></div>
-          <div class="row c" data-a="fade" data-d="2.3"><span class="k">WhatsApp</span><span class="v">633 716 169</span></div>
-          <div class="row c" data-a="fade" data-d="2.45"><span class="k">Email</span><span class="v">aleix.proptech@gmail.com</span></div>
-          <div class="row c" data-a="fade" data-d="2.6"><span class="k">LinkedIn</span><span class="v">in/aleixjimenezz</span></div>
-        </div>
-      </div>`
-  },
+  /* 07 — Hablemos */
+  7: `
+    <div class="ph full" style="background-image:url(img/night.jpg); background-size: 1188px 2112px; background-position: 50% 130px"></div>
+    <div class="fade" style="top:0; height:760px; background: linear-gradient(180deg, #0f0e0d 0%, #0f0e0d 15%, rgba(10,10,9,.55) 45%, rgba(10,10,9,0) 100%)"></div>
+    <div class="t" style="top: 300px">
+      <div class="big" style="font-size: 190px"><em>Hablemos.</em></div>
+      <div class="small">DM · @aleixjimenezz_<br>WhatsApp · 633 716 169</div>
+    </div>`,
 };
 
-/* ═════════════════════════════════════════════════════════════
-   MOTOR — render(t) determinista
-   ═════════════════════════════════════════════════════════════ */
 const n = parseInt(new URLSearchParams(location.search).get("n") || "1", 10);
-const S = STORIES[n];
-const frame = document.getElementById("frame");
-frame.innerHTML = `
-  ${S.bg ? `<div class="bg" id="bg" style="background-image:url(${S.bg})"></div>` : ""}
-  ${S.model ? `<canvas id="model" width="2160" height="1800" style="position:absolute; left:0; top:250px; width:1080px; height:900px"></canvas>` : ""}
-  ${S.shade ? `<div class="shade" style="background:${S.shade}"></div>` : ""}
-  <div class="vignette"></div>
-  <div class="top" data-a="fade" data-d=".15"><span>About</span><span class="n">${String(n).padStart(2,"0")} <i>/ ${String(TOTAL).padStart(2,"0")}</i></span></div>
-  <div class="rule" data-a="line" data-d=".1" style="top: 290px"></div>
-  ${S.html}`;
+document.getElementById("frame").innerHTML = STORIES[n];
 
-const clamp = (x) => Math.max(0, Math.min(1, x));
-const outExpo = (x) => (x >= 1 ? 1 : 1 - Math.pow(2, -10 * x));
-const outCubic = (x) => 1 - Math.pow(1 - x, 3);
-const inOutCubic = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-const inOutSine = (x) => -(Math.cos(Math.PI * x) - 1) / 2;
-
-const els = [...frame.querySelectorAll("[data-a]")];
-const kbs = [...frame.querySelectorAll("[data-kb]")];
-
-function render(t) {
-  // fondo: entrada desde negro + movimiento de cámara lento
-  const bg = document.getElementById("bg");
-  if (bg) {
-    const p = inOutSine(clamp(t / S.dur));
-    const s = S.kb[0] + (S.kb[1] - S.kb[0]) * p;
-    const px = S.pan[0] * p, py = S.pan[1] * p + (S.offY || 0);
-    bg.style.transform = `translate(${px}px, ${py}px) scale(${s})`;
-    bg.style.opacity = (S.bgOpacity ?? 1) * outCubic(clamp(t / 1.4));
-  }
-  for (const k of kbs) {
-    const [a, b] = k.dataset.kb.split(",").map(Number);
-    const p = inOutSine(clamp(t / S.dur));
-    k.style.transform = `scale(${a + (b - a) * p})`;
-  }
-  for (const el of els) {
-    const d = parseFloat(el.dataset.d || 0);
-    const a = el.dataset.a;
-    if (a === "mask") {
-      const p = outExpo(clamp((t - d) / 1.3));
-      el.firstElementChild.style.transform = `translateY(${(1 - p) * 108}%)`;
-    } else if (a === "fade") {
-      const p = outCubic(clamp((t - d) / 1.1));
-      el.style.opacity = p;
-      el.style.transform = `translateY(${(1 - p) * 22}px)`;
-    } else if (a === "line") {
-      const p = inOutCubic(clamp((t - d) / 1.5));
-      if (el.classList.contains("rule")) el.style.transform = `scaleX(${p})`;
-      else el.style.borderTopColor = `rgba(232,227,217,${.22 * p})`;
-    } else if (a === "reveal") {
-      const p = outExpo(clamp((t - d) / 1.8));
-      el.style.clipPath = `inset(${(1 - p) * 100}% 0 0 0)`;
-    }
-  }
-  if (S.model) drawModel(t);
-  drawGrain(t);
-}
-
-/* ── grano de película (semilla por fotograma: reproducible) ── */
+// grano casi imperceptible: da textura de foto, no de filtro
 const gc = document.getElementById("grain").getContext("2d");
 const gimg = gc.createImageData(540, 960);
-function drawGrain(t) {
-  let seed = ((Math.floor(t * 10) + 1) * 2654435761) >>> 0 || 1;
-  const d = gimg.data;
-  for (let i = 0; i < d.length; i += 4) {
-    seed ^= seed << 13; seed >>>= 0; seed ^= seed >>> 17; seed ^= seed << 5; seed >>>= 0;
-    const v = seed & 255;
-    d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255;
-  }
-  gc.putImageData(gimg, 0, 0);
+let seed = 12345;
+for (let i = 0; i < gimg.data.length; i += 4) {
+  seed ^= seed << 13; seed >>>= 0; seed ^= seed >>> 17; seed ^= seed << 5; seed >>>= 0;
+  gimg.data[i] = gimg.data[i + 1] = gimg.data[i + 2] = seed & 255; gimg.data[i + 3] = 255;
 }
+gc.putImageData(gimg, 0, 0);
 
-/* ── 05: edificio en 3D que se construye planta a planta ── */
-function drawModel(t) {
-  const cv = document.getElementById("model");
-  const c = cv.getContext("2d");
-  const W = cv.width, H = cv.height;
-  c.setTransform(1, 0, 0, 1, 0, 0);
-  c.clearRect(0, 0, W, H);
-  c.setTransform(2, 0, 0, 2, 0, 0); // dibujamos en coordenadas de 1080×900
-
-  const BW = 15, BD = 7, FLOORS = 9, FH = 3.1, BAY = 5;
-  const ang = (28 + 24 * inOutSine(clamp(t / S.dur))) * Math.PI / 180;
-  const R = 66, CAMY = 17, TY = 12.5, F = 1080, CX = 500, CY = 440;
-  const ca = Math.cos(ang), sa = Math.sin(ang);
-  // cámara orbitando alrededor del eje Y mirando al objetivo
-  const cam = [R * sa, CAMY, R * ca];
-  const fwd = norm([-cam[0], TY - cam[1], -cam[2]]);
-  const right = norm(cross(fwd, [0, 1, 0]));
-  const up = cross(right, fwd);
-  function proj(p) {
-    const v = [p[0] - cam[0], p[1] - cam[1], p[2] - cam[2]];
-    const x = dot(v, right), y = dot(v, up), z = dot(v, fwd);
-    return [CX + F * x / z, CY - F * y / z, z];
-  }
-  function seg(a, b, alpha, prog = 1, w = 1.1) {
-    if (prog <= 0) return;
-    const pa = proj(a), pb = proj(b);
-    const ex = pa[0] + (pb[0] - pa[0]) * prog, ey = pa[1] + (pb[1] - pa[1]) * prog;
-    const depth = clamp(1.3 - ((pa[2] + pb[2]) / 2 - 45) / 45);
-    c.strokeStyle = `rgba(232,227,217,${alpha * (.45 + .55 * depth)})`;
-    c.lineWidth = w;
-    c.beginPath(); c.moveTo(pa[0], pa[1]); c.lineTo(ex, ey); c.stroke();
-  }
-  const rect = (y, x0, x1, z0, z1, alpha, prog = 1, w) => {
-    const pts = [[x0, y, z0], [x1, y, z0], [x1, y, z1], [x0, y, z1]];
-    for (let i = 0; i < 4; i++) seg(pts[i], pts[(i + 1) % 4], alpha, clamp(prog * 4 - i), w);
-  };
-
-  const P = clamp((t - .3) / 3.6); // progreso de obra
-
-  // parcela y retícula del suelo
-  const g = clamp(P / .22);
-  for (let x = -30; x <= 30; x += 5) seg([x, 0, -16], [x, 0, 16], .07, g, .8);
-  for (let z = -15; z <= 15; z += 5) seg([-30, 0, z], [30, 0, z], .07, g, .8);
-  rect(0, -26, 26, -13, 13, .28, g, 1);
-
-  // pilares: suben
-  const colP = clamp((P - .12) / .35);
-  const H_ = FLOORS * FH;
-  for (let x = -BW; x <= BW + .01; x += BAY) {
-    for (const z of [-BD, BD]) seg([x, 0, z], [x, H_, z], .5, colP, 1.1);
-  }
-  // forjados + balcones, planta a planta
-  for (let f = 0; f <= FLOORS; f++) {
-    const fp = clamp((P - .3 - f * .075) / .12);
-    if (fp <= 0) continue;
-    const y = f * FH;
-    rect(y, -BW, BW, -BD, BD, f === FLOORS ? .85 : .62, fp, f === 0 || f === FLOORS ? 1.4 : 1.1);
-    if (f > 0 && f < FLOORS) {
-      for (let b = 0; b < BW * 2 / BAY; b++) {
-        if ((b + f) % 2) continue; // balcones alternos: fachada rítmica
-        const x0 = -BW + b * BAY + .6, x1 = x0 + BAY - 1.2;
-        seg([x0, y, BD], [x0, y, BD + 1.7], .55, fp);
-        seg([x0, y, BD + 1.7], [x1, y, BD + 1.7], .55, fp);
-        seg([x1, y, BD + 1.7], [x1, y, BD], .55, fp);
-        seg([x0, y + 1.05, BD + 1.7], [x1, y + 1.05, BD + 1.7], .3, fp, .9); // barandilla
-      }
-    }
-  }
-  // remate de cubierta
-  const rp = clamp((P - .92) / .08);
-  rect(H_ + .9, -BW, BW, -BD, BD, .35, rp, 1);
-  for (const [x, z] of [[-BW, -BD], [BW, -BD], [BW, BD], [-BW, BD]]) seg([x, H_, z], [x, H_ + .9, z], .35, rp);
-
-  // vivienda destacada (interactividad)
-  const hp = outCubic(clamp((t - 4.4) / 1.0));
-  if (hp > 0) {
-    const f = 4, y0 = (f - 1) * FH, y1 = f * FH, x0 = -5, x1 = 0, z0 = 0, z1 = BD;
-    const faces = [
-      [[x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1]],
-      [[x1, y0, z0], [x1, y0, z1], [x1, y1, z1], [x1, y1, z0]],
-      [[x0, y1, z0], [x1, y1, z0], [x1, y1, z1], [x0, y1, z1]],
-    ];
-    c.fillStyle = `rgba(232,227,217,${.13 * hp})`;
-    for (const fc of faces) {
-      c.beginPath();
-      fc.forEach((p, i) => { const q = proj(p); i ? c.lineTo(q[0], q[1]) : c.moveTo(q[0], q[1]); });
-      c.closePath(); c.fill();
-    }
-    const edges = [[[x0,y0,z1],[x1,y0,z1]],[[x1,y0,z1],[x1,y1,z1]],[[x1,y1,z1],[x0,y1,z1]],[[x0,y1,z1],[x0,y0,z1]],
-                   [[x1,y0,z0],[x1,y0,z1]],[[x1,y1,z0],[x1,y1,z1]],[[x1,y0,z0],[x1,y1,z0]],[[x0,y1,z0],[x1,y1,z0]],[[x0,y1,z0],[x0,y1,z1]]];
-    for (const [a, b] of edges) seg(a, b, .95 * hp, 1, 1.6);
-
-    // punto + línea guía + etiqueta
-    const anchor = proj([x1, (y0 + y1) / 2, z1 + .01]);
-    const lp = outExpo(clamp((t - 4.9) / 1.2));
-    const tx = 996, ty = anchor[1] - 190;
-    const pulse = .5 + .5 * Math.sin(t * 3.2);
-    c.fillStyle = `rgba(232,227,217,${hp})`;
-    c.beginPath(); c.arc(anchor[0], anchor[1], 5, 0, Math.PI * 2); c.fill();
-    c.strokeStyle = `rgba(232,227,217,${.45 * hp * (1 - pulse * .6)})`;
-    c.lineWidth = 1;
-    c.beginPath(); c.arc(anchor[0], anchor[1], 10 + pulse * 10, 0, Math.PI * 2); c.stroke();
-    if (lp > 0) {
-      const mx = anchor[0] + (tx - 70 - anchor[0]) * .55, my = ty;
-      c.strokeStyle = "rgba(232,227,217,.7)";
-      c.beginPath(); c.moveTo(anchor[0], anchor[1]);
-      const p1 = Math.min(1, lp * 2), p2 = clamp(lp * 2 - 1);
-      const ax = anchor[0] + (mx - anchor[0]) * p1, ay = anchor[1] + (my - anchor[1]) * p1;
-      c.lineTo(ax, ay);
-      if (p2 > 0) c.lineTo(mx + (tx - mx) * p2, my);
-      c.stroke();
-      c.globalAlpha = clamp((t - 5.6) / .7);
-      c.fillStyle = "#E8E3D9";
-      c.textAlign = "right";
-      c.font = "italic 40px Serif";
-      c.fillText("Vivienda 3ºB", tx, ty - 18);
-      c.font = "500 15px Sans";
-      c.fillStyle = "rgba(232,227,217,.6)";
-      c.letterSpacing = "4px";
-      c.fillText("RECORRER EN 3D  →", tx, ty + 36);
-      c.letterSpacing = "0px";
-      c.globalAlpha = 1;
-    }
-  }
-}
-function dot(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
-function cross(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
-function norm(a) { const l = Math.hypot(...a); return [a[0] / l, a[1] / l, a[2] / l]; }
-
-window.render = render;
-window.DURATION = S.dur;
+window.DURATION = 1;
+window.render = () => {};
 window.ready = document.fonts.ready.then(() => Promise.all(
-  [...document.querySelectorAll(".bg,[data-kb]")].map(el => new Promise(res => {
-    const m = /url\(["']?(.*?)["']?\)/.exec(el.style.backgroundImage || el.style.background);
+  [...document.querySelectorAll(".ph")].map(el => new Promise(res => {
+    const m = /url\(["']?(.*?)["']?\)/.exec(el.style.backgroundImage);
     if (!m) return res();
     const i = new Image(); i.onload = i.onerror = res; i.src = m[1];
   }))
-)).then(() => render(0));
+));
 </script>
 </body>
 </html>

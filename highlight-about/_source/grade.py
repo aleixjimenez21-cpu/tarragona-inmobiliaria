@@ -15,19 +15,19 @@ SRC = Path(sys.argv[1])
 OUT = Path(sys.argv[2])
 OUT.mkdir(parents=True, exist_ok=True)
 
-SHADOW = (9, 9, 8)        # negro cálido, no negro puro (look mate)
-MID = (112, 109, 103)     # gris piedra
-HIGH = (232, 227, 217)    # hueso
+SHADOW = (16, 15, 14)     # negro cálido, abierto: look natural
+MID = (124, 121, 116)     # gris piedra
+HIGH = (242, 239, 233)    # blanco roto
 
 # nombre_salida: (archivo, x0 del recorte 9:16, exposición, contraste, gamma)
 PHOTOS = {
-    "corridor": ("736a76bc-image.jpg", 70, 0.80, 1.18, 1.10),
-    "workshop": ("b7993196-image.jpg", None, 0.84, 1.32, 1.12),
-    "hardhat": ("0516d47e-image.jpg", "portrait", 0.95, 1.12, 1.00),
-    "galleria": ("da50a4d5-image.jpg", 190, 0.85, 1.20, 1.12),
-    "window": ("95b6ce37-image.jpg", 130, 0.78, 1.15, 1.12),
-    "duomo": ("f5376582-image.jpg", 170, 0.82, 1.22, 1.10),
-    "night": ("599ed169-image.jpg", None, 1.00, 1.10, 1.00),
+    "corridor": ("736a76bc-image.jpg", 70, 0.98, 1.06, 1.00),
+    "workshop": ("b7993196-image.jpg", None, 0.98, 1.12, 1.02),
+    "hardhat": ("0516d47e-image.jpg", "portrait", 1.00, 1.06, 0.98),
+    "galleria": ("da50a4d5-image.jpg", 190, 1.00, 1.08, 1.02),
+    "window": ("95b6ce37-image.jpg", 130, 0.96, 1.06, 1.02),
+    "duomo": ("f5376582-image.jpg", 170, 0.98, 1.10, 1.02),
+    "night": ("599ed169-image.jpg", None, 1.12, 1.04, 0.95),
 }
 
 
