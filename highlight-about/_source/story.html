@@ -143,14 +143,23 @@ const STORIES = {
       </div>`
   },
 
-  /* 04 — PROSPECTUS */
+  /* 04 — PROSPECTUS: captura real de Villa Aurea */
   4: {
-    dur: 9, bg: null, model: true,
+    dur: 8, bg: null,
     html: `
-      <div class="blk" style="top: 1112px">
-        ${LBL("03", "Hoy", 2.6)}
-        <h2 class="h" style="margin-top: 36px; font-size: 104px">${L("Cofundador de", 2.85)}${L("<em>Prospectus.</em>", 3.0)}</h2>
-        <p class="body" data-a="fade" data-d="3.6" style="margin-top: 36px; max-width: 880px">
+      <div style="position: absolute; left: var(--m); top: 340px; width: 912px; height: 700px; overflow: hidden; box-shadow: 0 40px 90px rgba(0,0,0,.55); outline: 1px solid rgba(232,227,217,.18)" data-a="reveal" data-d=".3">
+        <div data-kb="1.06,1.0" style="position: absolute; inset: 0; background: url(img/villa-aurea.jpg) center/cover; transform-origin: 60% 60%"></div>
+      </div>
+      <div class="tick" style="left: calc(var(--m) - 16px); top: 324px; border-left-width: 1px; border-top-width: 1px" data-a="fade" data-d=".2"></div>
+      <div class="tick" style="left: 984px; top: 1028px; border-right-width: 1px; border-bottom-width: 1px" data-a="fade" data-d=".2"></div>
+      <div class="blk" style="top: 1064px; display: flex; justify-content: space-between; align-items: baseline">
+        <span class="cap" data-a="fade" data-d="1.1">Villa Aurea — Port d'Andratx, Mallorca.</span>
+        <span class="meta" data-a="fade" data-d="1.2">Experiencia 3D</span>
+      </div>
+      <div class="blk" style="top: 1176px">
+        ${LBL("03", "Hoy", .8)}
+        <h2 class="h" style="margin-top: 36px; font-size: 104px">${L("Cofundador de", 1.0)}${L("<em>Prospectus.</em>", 1.12)}</h2>
+        <p class="body" data-a="fade" data-d="1.7" style="margin-top: 34px; max-width: 900px">
           Experiencias interactivas en 3D para comercializar promociones: que el comprador recorra su casa <strong>antes de que exista.</strong>
         </p>
       </div>`
