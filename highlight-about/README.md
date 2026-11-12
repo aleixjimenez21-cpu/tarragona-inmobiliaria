@@ -1,0 +1,53 @@
+# Destacada «About» — Aleix Jiménez
+
+Ocho historias de 1080 × 1920, en vídeo (MP4, 30 fps, animadas) y en fijo (JPG).
+Publica **el MP4** de cada historia; el JPG es la alternativa estática o para otros usos.
+
+## Orden de publicación
+
+| # | Archivo | Duración | Qué cuenta |
+|---|---|---|---|
+| 00 | `00-portada-destacada.jpg` | — | Icono circular de la destacada |
+| 01 | `01-portada` | 6 s | Quién soy: del taller familiar a la comercialización inmobiliaria |
+| 02 | `02-origen` | 7 s | Empresa familiar de carpintería de aluminio |
+| 03 | `03-obra` | 7 s | Experiencia real en taller y obra |
+| 04 | `04-lo-que-vi` | 8 s | La oportunidad: el producto evoluciona, la forma de venderlo no tanto |
+| 05 | `05-prospectus` | 9 s | Hoy: cofundador de Prospectus (edificio 3D que se construye planta a planta) |
+| 06 | `06-enfoque` | 8 s | Qué hago y para quién |
+| 07 | `07-hacia-donde` | 8 s | Visión y ambición, sin aparentar una trayectoria que aún no existe |
+| 08 | `08-hablemos` | 9 s | Contacto |
+
+## Al publicar
+
+1. Sube las historias **en orden, de la 01 a la 08**, y añádelas a una destacada nueva llamada **About**.
+2. Como portada de la destacada, elige `00-portada-destacada.jpg` y céntrala en el círculo.
+3. **Historia 08**: añade un sticker de enlace (WhatsApp `https://wa.me/34633716169` o tu web)
+   y colócalo justo debajo de la lista de contactos, sobre el negro. Sin más stickers: el diseño ya respira.
+4. No añadas música de tendencia. Si quieres audio, pon algo ambiental muy bajo o déjalo en silencio
+   (los MP4 llevan una pista de audio muda para que Instagram no los rechace).
+5. Las zonas superior (≈ 230 px) e inferior (≈ 260 px) se dejaron libres para la interfaz de Instagram.
+
+## Sistema visual
+
+- **Tipografía**: Instrument Serif (titulares; la cursiva marca la palabra clave) + Switzer (texto y etiquetas).
+  La misma pareja que la landing de promotoras, para que perfil y web se reconozcan como una sola marca.
+- **Color**: monocromo cálido. Negro `#090908`, hueso `#E8E3D9`, gris piedra `#706D67`. Todas las fotos
+  pasan por el mismo etalonaje (`_source/grade.py`).
+- **Movimiento**: entrada desde negro, cámara lenta sobre la foto, titulares que emergen por máscara,
+  líneas finas que se trazan y grano de película a 10 fps.
+- **Hilo narrativo**: vidrio y metal. Perfil de aluminio en el taller → cúpula de vidrio de la Galleria →
+  edificio en 3D.
+
+## Regenerar o editar
+
+Los textos están en `_source/story.html` (objeto `STORIES`). Tras editarlos:
+
+```bash
+cd highlight-about/_source
+python3 grade.py <carpeta-con-fotos-originales> img   # solo si cambian las fotos
+node render.js stills          # fijos (rápido)
+node render.js video 3         # vídeo de una sola historia
+node render.js video           # todos los vídeos
+```
+
+Requiere Node con Playwright (Chromium) y ffmpeg.

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>About — portada de destacada</title>
+<style>
+@font-face { font-family: "Serif"; src: url(fonts/instrument-serif-italic.woff2) format("woff2"); font-style: italic; }
+@font-face { font-family: "Sans"; src: url(fonts/switzer-500.woff2) format("woff2"); font-weight: 500; }
+html, body { margin: 0; width: 1080px; height: 1920px; background: #090908; overflow: hidden; }
+/* Instagram recorta un círculo centrado: todo el contenido vive en el centro */
+.c { position: absolute; left: 50%; top: 50%; width: 600px; height: 600px; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ring { position: absolute; inset: 70px; border: 1.5px solid rgba(232,227,217,.28); border-radius: 50%; }
+.a { font-family: "Serif"; font-style: italic; font-size: 170px; line-height: .8; color: #E8E3D9; letter-spacing: -.02em; margin-top: -6px; }
+.l { font-family: "Sans"; font-weight: 500; font-size: 22px; letter-spacing: .5em; margin-left: .5em; color: rgba(232,227,217,.6); text-transform: uppercase; margin-top: 30px; }
+</style>
+</head>
+<body>
+<div class="c"><div class="ring"></div><div class="a">About</div></div>
+</body>
+</html>
