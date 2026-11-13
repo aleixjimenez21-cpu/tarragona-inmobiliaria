@@ -6,3 +6,7 @@ package-lock.json
 .claude/
 *.png
 preview_*.png
+
+# Reel: intermedios de render
+reel/build/
+__pycache__/

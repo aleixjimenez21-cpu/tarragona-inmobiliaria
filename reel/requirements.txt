@@ -1,0 +1,9 @@
+numpy
+scipy
+pillow
+skia-python==144.1   # en Linux necesita libegl1 y libgl1 (apt)
+soundfile
+pyloudnorm
+fonttools
+# Sólo para sincronizar con una voz real (palabra a palabra):
+faster-whisper
