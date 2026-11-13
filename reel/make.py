@@ -85,7 +85,7 @@ def render_video(tl, ss, clips_dir, jobs):
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", montage], check=True)
     graded = os.path.join(BUILD, "video_etalonado.mp4")
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", montage, "-vf", GRADE, "-c:v", "libx264", "-preset", "slow",
-                    "-crf", "17", "-profile:v", "high", "-level", "4.2", "-r", str(FPS), "-an", graded], check=True)
+                    "-crf", "19", "-profile:v", "high", "-level", "4.2", "-r", str(FPS), "-an", graded], check=True)
     return graded
 
 

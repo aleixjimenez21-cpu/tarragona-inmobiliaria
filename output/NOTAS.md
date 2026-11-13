@@ -11,16 +11,17 @@
   - Comprobación: la voz editada se vuelve a transcribir y sale el guion completo y en orden. Además, todos los cortes caen en silencio.
 - **Subtítulos:** siguen el guion exacto, salvo «Pero hay **una** trampa», que es lo que dices en la grabación.
 - **Imagen:**
-  - Madrid: maqueta 3D propia.
+  - **Madrid real:** ortofotos oficiales del PNOA (© IGN, CC BY 4.0) en el gancho, en el contraste final, en la pantalla partida y en la portada. La manzana es del barrio de Salamanca.
   - Candelago y A Barca: tus capturas de Google Earth, giradas a vertical, sin los rótulos de Google y con movimiento de cámara. En pantalla se rotula «Imágenes: Google Earth».
   - En A Barca no se marcan casas concretas (no se sabe cuál es exactamente cada una): solo el rótulo del lugar y el contador de 12 casas.
-- **Gancho rehecho:**
-  1. Acelerón de cámara por la calle de Madrid, con «390.000 €» ya en el fotograma 0.
-  2. Barrido al mapa de España.
-  3. Vuelo trazado Madrid → Candelago.
-  4. Zoom de transición a la imagen real y golpe «UN PUEBLO ENTERO».
-  5. Desdoble de color (RGB) en los golpes fuertes.
-- **Formato:** 1080×1920, 30 fps, H.264 High. Final: −14,1 LUFS, pico real −1,7 dBTP. Sin voz: −14,2 LUFS.
+  - El resto: gráficos y mapas propios. La maqueta 3D de Madrid queda solo de respaldo si no hay conexión al PNOA.
+- **Gancho (fotos aéreas reales):**
+  1. Zoom desde el espacio hasta una azotea de Madrid, con giro, rampa de velocidad y desenfoque de movimiento. «390.000 €» está en pantalla desde el fotograma 0, con coordenadas en vivo.
+  2. La planta de 60 m² se dibuja a escala real en el tejado y se levanta como holograma.
+  3. Despegue y vuelo sobre España, con una estela naranja, hasta la Costa da Morte, donde se ve el mar real.
+  4. Fundido a tu captura de Candelago y golpe «UN PUEBLO ENTERO».
+  5. Cada movimiento tiene su efecto de sonido: caída, aterrizaje, vuelo y golpe.
+- **Formato:** 1080×1920, 30 fps, H.264 High (52 MB). Final: −14,0 LUFS, pico real −1,2 dBTP. Sin voz: −14,1 LUFS.
   - En la versión con voz, la música va unos 9 dB por debajo de la voz y los efectos unos 10 dB.
 
 ## Regenerar (un solo comando)
@@ -49,6 +50,8 @@ Imágenes de Google Earth en `input/clips/` con los nombres `madrid`, `candelago
 - `.mp4`.
 - El `.zip` de fotogramas de Google Earth Studio.
 - Una captura fija (`.jpg`, `.png` o `.webp`). Puede llevar un `.json` al lado con `girar`, `ancla` y `tapar` (zonas de rótulos a borrar); ver `reel/stills.py`.
+
+Las ortofotos del PNOA se descargan solas (`tms-pnoa-ma.idee.es`) y se guardan en caché en `reel/build/teselas_pnoa/`. Sin conexión, se usa la maqueta 3D (`REEL_SIN_PNOA=1` lo fuerza).
 
 Instalación: `ffmpeg` y `pip install -r reel/requirements.txt` (más `opencv-python-headless` para borrar rótulos). En Linux, skia necesita `libegl1 libgl1`.
 
@@ -80,6 +83,7 @@ Comprobado en esta versión:
 Detalle en `licencias/LEEME.md`:
 - Tipografías: Inter Display e IBM Plex Mono (OFL).
 - Mapas: es-atlas (© IGN) y Natural Earth.
+- Ortofotos PNOA © IGN: CC BY 4.0, con atribución en pantalla.
 - Capturas de Google Earth: con atribución en pantalla.
 - Música y efectos: sintetizados por código (creación propia).
 - Whisper: solo para sincronizar la voz.

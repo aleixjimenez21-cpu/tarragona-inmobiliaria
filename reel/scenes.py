@@ -16,9 +16,20 @@ from gfx import (BLUE, CX, FPS, GRAPHITE, GREEN, GREY, H, ORANGE, PAPER, SAFE_LE
                  punch_curve, rrect, stroke_paint, text_width, PLAN_W, PLAN_D)
 from subs import build_pages, draw_subs
 from stills import StillSource, find_still
+import aerial as AE
 
 CANDELAGO_LONLAT = (-8.9621, 43.2710)   # de la captura de Google Earth del autor (43°16'15.6"N 8°57'43.6"W)
 MADRID_LONLAT = (-3.7038, 40.4168)
+MADRID_ROOF = (-3.68300, 40.42620)       # manzana del barrio de Salamanca (PNOA)
+
+
+def dms(v, pos, neg):
+    h = pos if v >= 0 else neg
+    v = abs(v)
+    d = int(v)
+    m = int((v - d) * 60)
+    sec = (v - d - m / 60) * 3600
+    return f"{d}°{m:02d}'{sec:04.1f}\"{h}"
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORNER = (890.0, 368.0)
@@ -90,6 +101,14 @@ class Reel:
                 if p:
                     self.stills[name] = p
         self._still_obj = {}
+        self.aer = None
+        if os.environ.get("REEL_SIN_PNOA") != "1":
+            try:
+                r = AE.AerialRenderer()
+                if r.cache.check_online():
+                    self.aer = r
+            except Exception:
+                self.aer = None
         self._models = {}
         self._readers = {}
         # gancho: whip (tw) -> vuelo por el mapa -> zoom a la imagen real (tc)
@@ -485,7 +504,7 @@ class Reel:
         c.drawCircle(float(hx), float(hy), 13, glow_paint(ORANGE, 0.9, 10))
         c.drawCircle(float(hx), float(hy), 9, fill_paint(PAPER))
 
-    def scene1(self, c, t):
+    def scene1_legacy(self, c, t):
         s = self.tl.s
         tw, tc = self.tw, self.tc
         tw_end = tw + 0.24
@@ -583,6 +602,228 @@ class Reel:
         self.tag(c, t, tw_end + 0.1, "GALICIA", "Costa da Morte, A Coruña", GREEN)
         self.draw_plan_overlay(c, t)
         return (), [("Fuente: anuncio de Candelago en idealista (prensa, feb. 2026)", prog(t, tc, tc + 0.3))], self.disc3d("candelago")
+
+
+    # ================================================================================
+    # GANCHO con ortofotos reales (PNOA): del espacio a una azotea de Madrid -> vuelo a Galicia
+    # ================================================================================
+    def hook_cams(self):
+        if hasattr(self, "_hook"):
+            return self._hook
+        s = self.tl.s
+        tA = 1.22
+        c_space = AE.Cam(MADRID_ROOF[0] + 0.6, MADRID_ROOF[1] - 0.4, 5.7, -32.0)
+        c_roof = AE.Cam(MADRID_ROOF[0], MADRID_ROOF[1], 19.6, 0.0)
+        dive, _ = AE.van_wijk(c_space, c_roof)
+        c_roof2 = AE.Cam(MADRID_ROOF[0], MADRID_ROOF[1], 19.85, 0.0)
+        c_cand = AE.Cam(CANDELAGO_LONLAT[0], CANDELAGO_LONLAT[1], 14.6, 18.0)
+        fly, _ = AE.van_wijk(c_roof2, c_cand, rho=1.6)
+        self._hook = dict(tA=tA, dive=dive, fly=fly, roof=c_roof, roof2=c_roof2, cand=c_cand)
+        return self._hook
+
+    def hook_cam(self, t):
+        h = self.hook_cams()
+        if t < h["tA"]:
+            u = prog(t, 0, h["tA"])
+            u = 1 - (1 - u) ** 2.6 if u > 0.0 else 0.0        # rampa: rapidísimo y frena al llegar
+            return h["dive"](u), u
+        if t < self.tw:
+            k = prog(t, h["tA"], self.tw)
+            c = AE.Cam(MADRID_ROOF[0], MADRID_ROOF[1], lerp(19.6, 19.85, ease_out(k)), 0.0)
+            return c, 1.0
+        u = ease_io(prog(t, self.tw, self.tc))
+        return h["fly"](u), u
+
+    def zoom_blur(self, c, img, amount, center=(W / 2, H * 0.45)):
+        """Desenfoque de movimiento radial (zoom) a partir de una imagen."""
+        if amount < 0.004:
+            c.drawImage(img, 0, 0)
+            return
+        n = 5
+        samp = skia.SamplingOptions(skia.FilterMode.kLinear)
+        for i in range(n):
+            sc = 1 + amount * i / (n - 1)
+            p = skia.Paint()
+            p.setAlphaf(1.0 / (i + 1))
+            c.save()
+            c.translate(center[0], center[1])
+            c.scale(sc, sc)
+            c.translate(-center[0], -center[1])
+            c.drawImage(img, 0, 0, samp, p)
+            c.restore()
+
+    def aerial_top(self, cam):
+        surf = skia.Surface(W, H)
+        self.aer.draw(surf.getCanvas(), cam, vp=(0, -250, W, H))
+        return surf.makeImageSnapshot().withDefaultMipmaps()
+
+    def aerial_img(self, cam):
+        surf = skia.Surface(W, H)
+        self.aer.draw(surf.getCanvas(), cam)
+        return surf.makeImageSnapshot()
+
+    def hud(self, c, cam, alpha):
+        if alpha <= 0.01:
+            return
+        f = font("mono_sb", 26)
+        txt = f"{dms(cam.lat, 'N', 'S')}  {dms(cam.lon, 'E', 'O')}"
+        draw_text(c, txt, SAFE_LEFT, 312, f, PAPER, alpha * 0.9, align="left", stroke=5, stroke_alpha=0.7)
+        alt_km = AE.meters_per_px(cam.lat, cam.zoom) * 1920 / 1000
+        lab = f"VISTA DE {alt_km:,.1f} KM".replace(",", "X").replace(".", ",").replace("X", ".") if alt_km >= 1 else f"VISTA DE {alt_km * 1000:.0f} M"
+        draw_text(c, lab, SAFE_LEFT, 348, font("mono_m", 24), LIGHT_GREY, alpha * 0.85, align="left", stroke=5, stroke_alpha=0.7)
+
+    def roof_plan_map(self, cam):
+        mpp = AE.meters_per_px(MADRID_ROOF[1], cam.zoom)
+        cx, cy = self.aer.to_screen(cam, (0, 0, W, H), *MADRID_ROOF)
+        th = math.radians(cam.rot)
+
+        def f(x, y):
+            px, py = x / mpp, -y / mpp
+            return (cx + px * math.cos(th) - py * math.sin(th), cy + px * math.sin(th) + py * math.cos(th))
+        return f, 1 / mpp
+
+    def scene1(self, c, t):
+        if self.aer is None:
+            return self.scene1_legacy(c, t)
+        s = self.tl.s
+        h = self.hook_cams()
+        tA, tw, tc = h["tA"], self.tw, self.tc
+        disc = (AE.ATTRIBUTION, 1.0)
+        # ----------------------- D · aterrizaje en la captura de Candelago -----------------------
+        if t >= tc:
+            cam_end = h["fly"](1.0)
+            k = prog(t, tc, tc + 0.4)
+            c.save()
+            self.cam_xform(c, t, tc, self.b[1] + 4)
+            if k < 1:
+                cam_d = AE.Cam(cam_end.lon, cam_end.lat, cam_end.zoom + 1.6 * ease_in(k), cam_end.rot)
+                self.zoom_blur(c, self.aerial_img(cam_d), 0.08 * (1 - k))
+            cimg, csf, _ = self.cand_bg(t)
+            self.blit(c, cimg, csf, alpha=ease_out(k), blur=(10 * (1 - k), 10 * (1 - k)))
+            if k < 1:
+                c.drawRect(skia.Rect.MakeWH(W, H), fill_paint(PAPER, 0.45 * math.sin(math.pi * k)))
+            self.scrim(c, 0.55, 0.55)
+            a1 = prog(t, s("menos"), s("menos") + 0.15) * (1 - prog(t, s("pueblo") - 0.12, s("pueblo") + 0.02))
+            if a1 > 0:
+                draw_text(c, "POR MENOS DE LA MITAD…", CX, 560, font("xb", 66), PAPER, a1, stroke=8, stroke_alpha=0.75, shadow=12)
+            if t >= s("pueblo"):
+                rrect(c, CX - 430, 460, 860, 350, 60, GRAPHITE, 0.72 * prog(t, s("pueblo"), s("pueblo") + 0.2), blur=40)
+                self.big_figure(c, "UN PUEBLO", CX, 615, 132, GREEN, t, s("pueblo"), kind="xb")
+                self.big_figure(c, "ENTERO", CX, 752, 132, GREEN, t, s("entero"), kind="xb")
+            c.restore()
+            self.tag(c, t, tc + 0.15, "GALICIA", "Costa da Morte, A Coruña", GREEN)
+            self.draw_plan_overlay(c, t)
+            return (), [("Fuente: anuncio de Candelago en idealista (prensa, feb. 2026)", prog(t, tc, tc + 0.3))], \
+                (("Imágenes: Google Earth" if k > 0.5 else AE.ATTRIBUTION), 1.0)
+        cam, u = self.hook_cam(t)
+        img = self.aerial_img(cam)
+        # velocidad de zoom -> desenfoque de movimiento
+        cam2, _ = self.hook_cam(t + 1 / FPS)
+        vz = abs(cam2.zoom - cam.zoom)
+        c.save()
+        self.cam_xform(c, t, 0, tw if t < tw else tc)
+        self.zoom_blur(c, img, min(0.12, vz * 0.09))
+        if t < tw:
+            # ----------------------- A+B · del espacio a la azotea -----------------------
+            kl = prog(t, tA - 0.05, tA + 0.25)
+            # foco: oscurece la ciudad alrededor del edificio
+            mp, ppm = self.roof_plan_map(cam)
+            cx_, cy_ = mp(0, 0)
+            if kl > 0:
+                g = skia.GradientShader.MakeRadial(skia.Point(cx_, cy_), 520,
+                                                   [col(GRAPHITE, 0.0), col(GRAPHITE, 0.0), col(GRAPHITE, 0.55 * kl)], [0.0, 0.25, 1.0])
+                c.drawRect(skia.Rect.MakeWH(W, H), skia.Paint(Shader=g))
+            self.scrim(c, 0.5, 0.45)
+            if kl > 0:
+                hw, hd = PLAN_W / 2, PLAN_D / 2
+                ca = 1 - prog(t, tA + 0.45, tA + 0.65)
+                self.draw_cota(c, mp(-hw, -hd - 1.6), mp(hw, -hd - 1.6), "7,5 m", prog(t, tA, tA + 0.25), a=ca, offset_px=34)
+                self.draw_cota(c, mp(-hw - 1.6, -hd), mp(-hw - 1.6, hd), "8 m", prog(t, tA + 0.05, tA + 0.3), a=ca, offset_px=-46)
+                draw_plan(c, mp, alpha=1.0 - 0.6 * prog(t, tA + 0.55, tA + 0.8), draw=prog(t, tA, tA + 0.4), width=4.0)
+                # la planta "se levanta" del tejado y crece para leerse (holograma)
+                kg = ease_io(prog(t, tA + 0.5, tA + 0.95))
+                if kg > 0:
+                    big_ppm = 40.0
+                    bx, by = cx_, cy_ - 150 * kg
+                    ppm_ = lerp(ppm, big_ppm, kg)
+                    mpb = lambda x, y: (bx + x * ppm_, by - y * ppm_)
+                    # haz de luz entre el tejado y la planta flotante
+                    hw_, hd_ = PLAN_W / 2, PLAN_D / 2
+                    beam = skia.Path()
+                    for (x0_, y0_), (x1_, y1_) in (((-hw_, -hd_), (hw_, -hd_)),):
+                        pass
+                    a0, a1_, a2, a3 = mp(-hw_, -hd_), mp(hw_, -hd_), mpb(hw_, -hd_), mpb(-hw_, -hd_)
+                    beam.moveTo(*a0); beam.lineTo(*a1_); beam.lineTo(*a2); beam.lineTo(*a3); beam.close()
+                    c.drawPath(beam, fill_paint(BLUE, 0.18 * kg))
+                    c.drawRect(skia.Rect.MakeLTRB(bx - hw_ * ppm_ - 26, by - hd_ * ppm_ - 26, bx + hw_ * ppm_ + 26, by + hd_ * ppm_ + 26),
+                               glow_paint(GRAPHITE, 0.55 * kg, 30))
+                    draw_plan(c, mpb, alpha=kg, width=lerp(4.0, 7.0, kg))
+                    draw_text(c, "60 m²", bx + hw_ * ppm_ + 28, by + 20, font("mono", 58), PAPER, kg, align="left",
+                              stroke=8, stroke_alpha=0.85, shadow=10)
+            # pin de Madrid durante la caída
+            km = 1 - prog(t, tA - 0.35, tA - 0.1)
+            if km > 0:
+                px_, py_ = self.aer.to_screen(cam, (0, 0, W, H), *MADRID_ROOF)
+                draw_pin(c, px_, py_, 14, BLUE, km, pulse=(t * 1.4) % 1)
+                draw_text(c, "MADRID", px_, py_ - 34, font("xb", 48), PAPER, km, stroke=7, stroke_alpha=0.8)
+            draw_text(c, "UN PISO DE 60 m² EN MADRID", CX, 470, font("sb", 42), PAPER, 1.0, stroke=6, stroke_alpha=0.7, shadow=8)
+            k0 = ease_out(prog(t, 0.0, 0.18))
+            sc = 1.1 - 0.1 * k0
+            c.save()
+            c.translate(CX, 546)
+            c.scale(sc, sc)
+            f = font("mono", 150)
+            pulse = punch_curve(t - s("p390"), 0.04, 0.2)
+            c.drawString("390.000 €", -text_width("390.000 €", f) / 2, 54, f, glow_paint(ORANGE, 0.45 + 0.4 * pulse, 18 + 14 * pulse))
+            draw_text(c, "390.000 €", 0, 54, f, ORANGE, 1.0, stroke=9, stroke_alpha=0.85, shadow=12)
+            c.restore()
+            c.restore()
+            self.hud(c, cam, 1 - prog(t, tA, tA + 0.2))
+            return (), [("Fuente: idealista, precio medio de Madrid (ago. 2026): 6.471 €/m² × 60 m² ≈ 388.000 €", 1.0)], disc
+        # ----------------------- C · vuelo Madrid -> Galicia -----------------------
+        self.scrim(c, 0.45, 0.45)
+        # estela de la ruta
+        us = np.linspace(0, 1, 60)
+        p0 = AE.lonlat_to_world(*MADRID_ROOF)
+        p1 = AE.lonlat_to_world(*CANDELAGO_LONLAT)
+        pts = []
+        for x in us[: max(2, int(60 * u))]:
+            w_ = p0 + (p1 - p0) * x
+            lon, lat = AE.world_to_lonlat(*w_)
+            pts.append(self.aer.to_screen(cam, (0, 0, W, H), lon, lat))
+        ka = prog(t, tw + 0.15, tw + 0.35) * (1 - prog(t, tc - 0.3, tc - 0.1))
+        if len(pts) > 1 and ka > 0:
+            c.drawPath(poly_path(pts, close=False), glow_paint(ORANGE, 0.6 * ka, 8, 10))
+            c.drawPath(poly_path(pts, close=False), stroke_paint(ORANGE, ka, 6, dash=[24, 14]))
+        mx_, my_ = self.aer.to_screen(cam, (0, 0, W, H), *MADRID_ROOF)
+        draw_pin(c, mx_, my_, 14, BLUE, ka)
+        gx_, gy_ = self.aer.to_screen(cam, (0, 0, W, H), *CANDELAGO_LONLAT)
+        kg = prog(u, 0.55, 0.75) * (1 - prog(t, tc - 0.25, tc - 0.05))
+        if kg > 0:
+            draw_pin(c, gx_, gy_, 15, GREEN, kg, pulse=(t * 1.6) % 1)
+            draw_text(c, "GALICIA", gx_, gy_ - 36, font("xb", 50), PAPER, kg, stroke=7, stroke_alpha=0.8)
+        a1 = prog(t, s("menos") - 0.05, s("menos") + 0.15)
+        if a1 > 0:
+            c.save()
+            c.translate(CX, 560)
+            sc = 0.9 + 0.1 * back_out(a1)
+            c.scale(sc, sc)
+            draw_text(c, "POR MENOS DE LA MITAD…", 0, 0, font("xb", 66), PAPER, a1, stroke=8, stroke_alpha=0.75, shadow=12)
+            c.restore()
+        c.restore()
+        # la planta vuela a la esquina al despegar
+        kf = prog(t, tw, tw + 0.3)
+        if kf < 1:
+            cr = h["roof2"]
+            rx, ry = self.aer.to_screen(cr, (0, 0, W, H), *MADRID_ROOF)
+            mp = lambda x, y: (rx + x * 40.0, ry - 150 - y * 40.0)
+            mp2 = lambda x, y: (CORNER[0] + x * CORNER_PPM, CORNER[1] - y * CORNER_PPM)
+            e = ease_io(kf)
+            draw_plan(c, lambda x, y: tuple(np.array(mp(x, y)) * (1 - e) + np.array(mp2(x, y)) * e), width=lerp(4.5, 3.0, e))
+        else:
+            self.draw_plan_overlay(c, t)
+        self.hud(c, cam, prog(t, tw + 0.1, tw + 0.3) * (1 - prog(t, tc - 0.3, tc - 0.1)))
+        return (), [], disc
 
     # ================================================================================
     # ESCENA 2 · PRIMER IMPACTO: Candelago, 150.000 €, la planta encoge a 23 m²
@@ -913,8 +1154,23 @@ class Reel:
             draw_text(c, "PUEBLOS ABANDONADOS", CX, 525, font("xb", 60), PAPER, ka, stroke=7, stroke_alpha=0.7, shadow=10)
             draw_text(c, "la mayoría en Galicia, Asturias y Castilla y León", CX, 1170, font("sb", 34), LIGHT_GREY,
                       ka * prog(t, s("miles") + 0.5, s("miles") + 0.8), stroke=5, stroke_alpha=0.7)
+        if self.aer is not None and t >= s("mientras"):
+            if not hasattr(self, "_dive5"):
+                self._dive5, _ = AE.van_wijk(AE.Cam(-3.70, 40.30, 6.3, 0.0), AE.Cam(MADRID_ROOF[0], MADRID_ROOF[1], 18.9, 0.0))
+            u5 = prog(t, s("mientras"), s("madrid3") + 0.4)
+            u5 = 1 - (1 - u5) ** 2.4
+            cam5 = self._dive5(u5)
+            cam5b = self._dive5(min(1.0, 1 - (1 - prog(t + 1 / FPS, s("mientras"), s("madrid3") + 0.4)) ** 2.4))
+            cam5.zoom += 0.25 * prog(t, s("madrid3") + 0.4, self.b[5])
+            ka5 = prog(t, s("mientras"), s("mientras") + 0.3)
+            surf5 = skia.Surface(W, H)
+            self.zoom_blur(surf5.getCanvas(), self.aerial_img(cam5), min(0.12, abs(cam5b.zoom - cam5.zoom) * 0.09))
+            self.blit(c, surf5.makeImageSnapshot(), 1.0, alpha=ka5)
+            g = skia.GradientShader.MakeRadial(skia.Point(CX, 880), 700, [col(GRAPHITE, 0.15), col(GRAPHITE, 0.6)])
+            c.drawRect(skia.Rect.MakeWH(W, H), skia.Paint(Shader=g, Alphaf=ka5))
+            self.scrim(c, 0.5 * ka5, 0.5 * ka5)
         km = prog(t, s("madrid3") - 0.15, s("madrid3") + 0.15)
-        if km > 0:
+        if km > 0 and self.aer is None:
             mx, my = v(-3.7038, 40.4168)
             draw_pin(c, float(mx), float(my), 16, BLUE, km, pulse=((t - s("madrid3")) * 1.3) % 1)
             draw_text(c, "MADRID", float(mx), float(my) - 210 - 40 * (1 - km), font("xb", 64), (0x8F, 0xB0, 0xFF),
@@ -931,7 +1187,8 @@ class Reel:
             src = [("Fuente: Xataka (sept. 2026). Puntos ilustrativos, no uno por pueblo", 1 - prog(t, s("mientras"), s("mientras") + 0.2))]
         else:
             src = [("Fuente: idealista, precio medio de Madrid (ago. 2026): 6.471 €/m² × 60 m² ≈ 388.000 €", prog(t, s("mientras"), s("mientras") + 0.25))]
-        return (), src, ("Mapa: IGN (es-atlas) · Natural Earth", 1.0)
+        disc5 = (AE.ATTRIBUTION, 1.0) if (self.aer is not None and t >= s("mientras") + 0.2) else ("Mapa: IGN (es-atlas) · Natural Earth", 1.0)
+        return (), src, disc5
 
     # ================================================================================
     # ESCENA 6 · CTA: pantalla partida + encuesta
@@ -946,7 +1203,11 @@ class Reel:
         # arriba: Madrid con la planta de 60 m²
         M = self.model("madrid")
         mcam = M.camera(t - t0, vp=(0, -420, W, H))
-        if "madrid" in self.clip_paths:
+        real_top = self.aer is not None
+        if real_top:
+            camt = AE.Cam(MADRID_ROOF[0], MADRID_ROOF[1], 18.7 + 0.04 * (t - t0), -6.0 + 0.6 * (t - t0))
+            mimg, msf = self.aerial_top(camt), 1.0
+        elif "madrid" in self.clip_paths:
             mimg, msf = self.rgba_image(self.clip_frame("madrid", 0.0)), 1.0
         else:
             mimg, msf = self.render3d(lambda cc, ss: M.render(cc, mcam, ss)), self.ss
@@ -962,8 +1223,12 @@ class Reel:
         c.clipRect(skia.Rect.MakeXYWH(0, 0, W, half))
         c.translate(0, -half * (1 - kin))
         self.blit(c, mimg, msf, dark=0.35 * hi_bot)
-        mp = (lambda x, y: mcam.p2(x, M.PLAN_Y + y, 0.08)) if "madrid" not in self.clip_paths else \
-            (lambda x, y: (CX + x * 40, 640 - y * 40))
+        if real_top:
+            mp = lambda x, y: (CX + x * 30, 650 - y * 30)
+            c.drawCircle(CX, 650, 230, glow_paint(GRAPHITE, 0.5, 60))
+        else:
+            mp = (lambda x, y: mcam.p2(x, M.PLAN_Y + y, 0.08)) if "madrid" not in self.clip_paths else \
+                (lambda x, y: (CX + x * 40, 640 - y * 40))
         draw_plan(c, mp, width=5)
         self.scrim(c, 0.6, 0.0)
         rrect(c, CX - 250, 262, 500, 172, 26, GRAPHITE, 0.6)
@@ -1006,7 +1271,7 @@ class Reel:
         pill_label(c, "¿QUÉ ELIGES?", CX, half - 130, font("xb", 46), GRAPHITE, PAPER, kq)
         fa = 1 - prog(t, self.tl.duration - 1.3, self.tl.duration - 1.0)
         src = [("Fuentes: idealista (ago. 2026); anuncio de Candelago en idealista (feb. 2026)", fa)]
-        return (), src, (("Recreación 3D · Imágenes: Google Earth" if self.stills else "Recreación 3D ilustrativa"), 1.0)
+        return (), src, ((("PNOA © IGN · Imágenes: Google Earth" if self.aer is not None else "Recreación 3D · Imágenes: Google Earth") if self.stills else "Recreación 3D ilustrativa"), 1.0)
 
     # ================================================================================
     # PORTADA (1080x1920): MADRID arriba, PUEBLO abajo, ¿QUÉ ELIGES? en el centro
@@ -1017,7 +1282,10 @@ class Reel:
         half = H // 2
         M = self.model("madrid")
         mcam = M.camera(1.0, vp=(0, -260, W, H))
-        if "madrid" in self.clip_paths:
+        real_top = self.aer is not None
+        if real_top:
+            mimg, msf = self.aerial_top(AE.Cam(MADRID_ROOF[0], MADRID_ROOF[1], 18.6, -6.0)), 1.0
+        elif "madrid" in self.clip_paths:
             mimg, msf = self.rgba_image(self.clip_frame("madrid", 1.0)), 1.0
         else:
             mimg, msf = self.render3d(lambda cc, ss: M.render(cc, mcam, ss)), self.ss
@@ -1032,8 +1300,12 @@ class Reel:
         c.save()
         c.clipRect(skia.Rect.MakeXYWH(0, 0, W, half))
         self.blit(c, mimg, msf)
-        mp = (lambda x, y: mcam.p2(x, M.PLAN_Y + y, 0.08)) if "madrid" not in self.clip_paths else \
-            (lambda x, y: (CX + x * 40, 700 - y * 40))
+        if real_top:
+            mp = lambda x, y: (CX + x * 30, 735 - y * 30)
+            c.drawCircle(CX, 735, 200, glow_paint(GRAPHITE, 0.55, 60))
+        else:
+            mp = (lambda x, y: mcam.p2(x, M.PLAN_Y + y, 0.08)) if "madrid" not in self.clip_paths else \
+                (lambda x, y: (CX + x * 40, 700 - y * 40))
         draw_plan(c, mp, width=6)
         g = skia.GradientShader.MakeLinear([skia.Point(0, 0), skia.Point(0, 640)], [col(GRAPHITE, 0.85), col(GRAPHITE, 0)])
         c.drawRect(skia.Rect.MakeWH(W, 640), skia.Paint(Shader=g))
@@ -1054,6 +1326,6 @@ class Reel:
         rrect(c, CX - tw / 2 - 50, half - 92, tw + 100, 184, 92, GRAPHITE, 0.7, blur=24)
         rrect(c, CX - tw / 2 - 44, half - 84, tw + 88, 168, 84, ORANGE)
         draw_text(c, "¿QUÉ ELIGES?", CX, half + 35, f, PAPER)
-        draw_text(c, "Recreación 3D · Imágenes: Google Earth" if self.stills else "Recreación 3D ilustrativa", SAFE_RIGHT, 278,
-                  font("mono_m", 22), LIGHT_GREY, 0.85, align="right")
+        draw_text(c, ("PNOA © IGN · Imágenes: Google Earth" if self.aer is not None else "Recreación 3D · Imágenes: Google Earth") if self.stills else "Recreación 3D ilustrativa", SAFE_LEFT, 268,
+                  font("mono_m", 22), LIGHT_GREY, 0.85, align="left")
         return surf.makeImageSnapshot().toarray(colorType=skia.kRGBA_8888_ColorType)

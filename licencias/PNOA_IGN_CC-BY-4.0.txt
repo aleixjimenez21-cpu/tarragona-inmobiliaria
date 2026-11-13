@@ -1,0 +1,12 @@
+Ortofotos PNOA (Plan Nacional de Ortofotografía Aérea) — servicio TMS https://tms-pnoa-ma.idee.es
+
+Titular: Instituto Geográfico Nacional (IGN) / Centro Nacional de Información Geográfica (CNIG), Gobierno de España.
+Licencia: Creative Commons Reconocimiento 4.0 Internacional (CC BY 4.0), según la Orden FOM/2807/2015
+(política de datos del IGN/CNIG: uso libre y gratuito, incluido el comercial, citando la fuente).
+Texto de la licencia: https://creativecommons.org/licenses/by/4.0/legalcode.es
+
+Atribución usada en pantalla mientras se ven las imágenes:
+  "Imágenes: PNOA © Instituto Geográfico Nacional"
+
+Uso en el Reel: zoom desde el espacio hasta una manzana del barrio de Salamanca (Madrid), vuelo Madrid -> Costa da Morte,
+picado sobre Madrid en el contraste final, pantalla partida y portada.

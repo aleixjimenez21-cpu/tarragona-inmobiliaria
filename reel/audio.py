@@ -95,6 +95,9 @@ def place(buf, x, t0, gain=1.0):
     i0 = int(round(t0 * SR))
     if x.ndim == 1:
         x = np.stack([x, x], 1)
+    x = x.copy()
+    fi = min(len(x), int(0.003 * SR))  # ataque de 3 ms: evita picos del códec en golpes tras silencio
+    x[:fi] *= np.linspace(0, 1, fi)[:, None]
     if i0 < 0:
         x = x[-i0:]
         i0 = 0
@@ -371,6 +374,10 @@ def build_sfx(tl, total):
     n = int(total * SR) + 3 * SR
     fx = np.zeros((n, 2))
     place(fx, sfx_boom(), 0.0, 1.0)
+    place(fx, sfx_whoosh(1.2), 0.0, 0.9)  # caída desde el espacio
+    place(fx, sfx_boom()[: int(0.9 * SR)], 1.22, 0.55)                                                                    # aterrizaje en la azotea
+    place(fx, sfx_grow(0.5), 1.72, 0.35)                                                                                   # la planta se levanta
+    place(fx, sfx_whoosh(1.3), s("mientras") - 0.05, 0.6)                                                                  # picado sobre Madrid
     place(fx, sfx_whip(), s("galicia") - 0.12, 0.9)
     tc = max(s("galicia") - 0.1 + 1.0, s("pueblo") - 0.42)
     place(fx, sfx_whoosh(0.9), s("galicia") + 0.1, 0.45)          # vuelo sobre el mapa
@@ -403,7 +410,6 @@ def build_sfx(tl, total):
     place(fx, sfx_whoosh(0.4), s("espana") - 0.15, 0.4)
     for k in range(10):
         place(fx, sfx_tick(3000 + 60 * k), s("miles") + k * 0.1, 0.25)
-    place(fx, sfx_whoosh(0.5), s("mientras"), 0.5)
     place(fx, sfx_grow(), s("m60"), 0.8)
     place(fx, sfx_boom()[: int(0.8 * SR)], s("p400"), 0.4)
     place(fx, sfx_whip(0.3), s("elegir") - 0.1, 0.6)
