@@ -9,6 +9,9 @@
 | Música y efectos de sonido | Banda sonora completa | Creación propia: sintetizados por código en `reel/audio.py` (no se ha usado ninguna muestra ni bucle de terceros) | — |
 | Maquetas 3D (Madrid, Candelago, A Barca), planta del piso, iconos y mapas estilizados | Imagen | Creación propia (`reel/engine3d.py`, `reel/gfx.py`, `reel/maps.py`) | — |
 
+| Capturas de Google Earth de Candelago y A Barca (aportadas por el autor) | Fondos de las escenas de Candelago y A Barca | Uso permitido por Google con atribución visible: se rotula «Imágenes: Google Earth» mientras se ven. Se han borrado los rótulos de calles/lugares de Google y se han girado 90° para el formato vertical | — |
+| Modelo Whisper *small* (OpenAI), en formato CTranslate2 | Sólo para transcribir y sincronizar la voz (no forma parte del vídeo) | MIT | — |
+
 No se han usado fotos de anuncios inmobiliarios ni de prensa.
 
 Si se añaden las grabaciones de Google Earth en `input/clips/`, el vídeo muestra "Imágenes: Google Earth" en pantalla

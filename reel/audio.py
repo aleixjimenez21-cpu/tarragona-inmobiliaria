@@ -372,7 +372,11 @@ def build_sfx(tl, total):
     fx = np.zeros((n, 2))
     place(fx, sfx_boom(), 0.0, 1.0)
     place(fx, sfx_whip(), s("galicia") - 0.12, 0.9)
-    place(fx, sfx_whoosh(), s("pueblo") - 0.12, 0.35)
+    tc = max(s("galicia") - 0.1 + 1.0, s("pueblo") - 0.42)
+    place(fx, sfx_whoosh(0.9), s("galicia") + 0.1, 0.45)          # vuelo sobre el mapa
+    place(fx, sfx_whoosh(0.45), tc - 0.35, 0.7)                     # zoom de transición
+    place(fx, sfx_boom()[: int(0.7 * SR)], tc, 0.35)
+    place(fx, sfx_impact()[: int(1.2 * SR)], s("pueblo"), 0.45)     # UN PUEBLO ENTERO
     # contadores: tic en cada cifra
     for key, dur, nt in (("p150", 0.55, 9), ("p59", 0.5, 8), ("p400", 0.5, 8), ("m23", 0.6, 7), ("nueve", 0.6, 6), ("m60", 0.75, 7)):
         for k in range(nt):
@@ -444,7 +448,7 @@ def smooth_env(env, attack=0.04, release=0.28):
     return out
 
 
-def limiter(x, ceiling_db=-1.2, lookahead=0.005, release=0.08):
+def limiter(x, ceiling_db=-2.0, lookahead=0.005, release=0.08):
     ceil = 10 ** (ceiling_db / 20)
     # sobremuestreo x4 para aproximar true peak
     peak = np.abs(signal.resample_poly(x, 4, 1, axis=0)).max(1).reshape(-1, 4).max(1)[: len(x)]
@@ -501,6 +505,7 @@ def mix(tl, total, voice=None):
     v = voice if voice.ndim > 1 else np.stack([voice, voice], 1)
     v = np.pad(v, ((0, max(0, len(bed) - len(v))), (0, 0)))[: len(bed)]
     v = hp(v, 80)
-    full = bed * 0.55 + v * 1.0
+    # con voz: música -9 dB y efectos ~-10 dB por debajo de la voz mientras habla
+    full = mus * 0.55 * duck[:, None] * 0.55 + fx * 0.8 * 0.4 + v * 1.0
     full, l_f = loudness_normalize(full)
     return full, no_voice, l_f, l_nv

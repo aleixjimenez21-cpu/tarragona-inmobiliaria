@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import difflib
 import json
+import os
 import re
 import unicodedata
 
@@ -28,7 +29,7 @@ SCRIPT = [
     ("escalada", "Lo|loque que cuestan nueve|nueve metros en Madrid.|m9end"),
     ("wow", "¿Y|sabes sabes qué es lo más increíble?|increible"),
     ("wow", "En|ourense Ourense hay una aldea con doce|doce casas|casas por…|por CERO|cero euros.|euros0"),
-    ("wow", "Pero|trampa hay trampa:|trampa2 es una concesión|concesion de 50 años.|anos Y|ponerla ponerla en marcha puede costar millones.|millones"),
+    ("wow", "Pero|trampa hay una trampa:|trampa2 es una concesión|concesion de 50 años.|anos Y|ponerla ponerla en marcha puede costar millones.|millones"),
     ("contraste", "En|espana España hay miles|miles de pueblos abandonados.|abandonados"),
     ("contraste", "Y|mientras mientras tanto, en Madrid,|madrid3 60|m60 metros cuadrados cuestan casi|casi 400.000|p400 euros.|p400end"),
     ("cta", "Te|elegir doy a elegir:"),
@@ -225,7 +226,7 @@ def transcribe(wav_path: str) -> list[dict]:
     """Marcas por palabra con faster-whisper (preferido) o WhisperX."""
     try:
         from faster_whisper import WhisperModel  # type: ignore
-        model = WhisperModel("large-v3", device="auto", compute_type="auto")
+        model = WhisperModel(os.environ.get("WHISPER_MODEL", "small"), device="auto", compute_type="auto")
         segs, _ = model.transcribe(wav_path, language="es", word_timestamps=True,
                                    initial_prompt=" ".join(" ".join(p.split("|")[0] for p in l.split()) for _, l in SCRIPT),
                                    vad_filter=False)

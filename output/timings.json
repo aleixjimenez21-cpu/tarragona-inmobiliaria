@@ -1,261 +1,261 @@
 {
- "fuente_tiempos": "sintético (sin voz): sílabas del guion, locución ajustada a 38,9 s",
- "duracion_s": 41.2,
+ "fuente_tiempos": "voz editada de voz.mp3 (faster-whisper, palabra a palabra)",
+ "duracion_s": 46.78,
  "fps": 30,
  "anclas": {
   "madrid": {
-   "start": 0.05,
-   "end": 0.196,
+   "start": 0.06,
+   "end": 0.5,
    "texto": "En"
   },
   "p390": {
-   "start": 1.055,
-   "end": 1.972,
+   "start": 1.64,
+   "end": 2.94,
    "texto": "390.000"
   },
   "galicia": {
-   "start": 2.444,
-   "end": 2.59,
+   "start": 3.39,
+   "end": 3.52,
    "texto": "En"
   },
   "menos": {
-   "start": 3.194,
-   "end": 3.449,
+   "start": 4.24,
+   "end": 4.4,
    "texto": "menos"
   },
   "pueblo": {
-   "start": 4.845,
-   "end": 5.1,
+   "start": 5.74,
+   "end": 5.9,
    "texto": "pueblo"
   },
   "entero": {
-   "start": 5.1,
-   "end": 5.464,
+   "start": 5.9,
+   "end": 6.24,
    "texto": "entero."
   },
   "candelago": {
-   "start": 5.681,
-   "end": 6.155,
+   "start": 6.49,
+   "end": 6.96,
    "texto": "Candelago."
   },
   "vistas": {
-   "start": 6.372,
-   "end": 6.627,
+   "start": 7.26,
+   "end": 7.46,
    "texto": "Vistas"
   },
   "mar": {
-   "start": 6.773,
-   "end": 6.918,
+   "start": 7.64,
+   "end": 7.78,
    "texto": "mar."
   },
   "p150": {
-   "start": 7.135,
-   "end": 7.926,
+   "start": 8.1,
+   "end": 9.16,
    "texto": "150.000"
   },
   "madrid2": {
-   "start": 8.398,
-   "end": 8.544,
+   "start": 9.61,
+   "end": 9.74,
    "texto": "En"
   },
   "m23": {
-   "start": 10.278,
-   "end": 10.692,
+   "start": 11.36,
+   "end": 12.0,
    "texto": "23"
   },
   "m23end": {
-   "start": 10.947,
-   "end": 11.311,
+   "start": 12.42,
+   "end": 12.96,
    "texto": "cuadrados."
   },
   "espera": {
-   "start": 11.888,
-   "end": 12.143,
+   "start": 13.42,
+   "end": 13.56,
    "texto": "Pero"
   },
   "espera2": {
-   "start": 12.143,
-   "end": 12.508,
+   "start": 13.56,
+   "end": 13.74,
    "texto": "espera."
   },
   "lugo": {
-   "start": 12.724,
-   "end": 12.87,
+   "start": 14.12,
+   "end": 14.24,
    "texto": "En"
   },
   "dos": {
-   "start": 14.291,
-   "end": 14.436,
+   "start": 15.92,
+   "end": 16.08,
    "texto": "dos"
   },
   "p59": {
-   "start": 15.238,
-   "end": 16.155,
+   "start": 17.22,
+   "end": 18.16,
    "texto": "59.000"
   },
   "loque": {
-   "start": 16.627,
-   "end": 16.773,
+   "start": 18.7,
+   "end": 18.8,
    "texto": "Lo"
   },
   "nueve": {
-   "start": 17.173,
-   "end": 17.428,
+   "start": 19.3,
+   "end": 19.66,
    "texto": "nueve"
   },
   "m9end": {
-   "start": 17.829,
-   "end": 18.084,
+   "start": 20.2,
+   "end": 20.44,
    "texto": "Madrid."
   },
   "sabes": {
-   "start": 18.301,
-   "end": 18.447,
+   "start": 20.85,
+   "end": 20.983,
    "texto": "¿Y"
   },
   "increible": {
-   "start": 19.284,
-   "end": 19.649,
+   "start": 21.75,
+   "end": 22.4,
    "texto": "increíble?"
   },
   "ourense": {
-   "start": 19.923,
-   "end": 20.069,
+   "start": 22.5,
+   "end": 22.631,
    "texto": "En"
   },
   "doce": {
-   "start": 21.344,
-   "end": 21.599,
+   "start": 23.664,
+   "end": 23.927,
    "texto": "doce"
   },
   "casas": {
-   "start": 21.599,
-   "end": 21.854,
+   "start": 23.927,
+   "end": 24.172,
    "texto": "casas"
   },
   "por": {
-   "start": 21.854,
-   "end": 22.0,
+   "start": 24.172,
+   "end": 25.03,
    "texto": "por…"
   },
   "cero": {
-   "start": 22.643,
-   "end": 22.931,
+   "start": 25.44,
+   "end": 25.76,
    "texto": "CERO"
   },
   "euros0": {
-   "start": 22.931,
-   "end": 23.186,
+   "start": 25.76,
+   "end": 26.06,
    "texto": "euros."
   },
   "trampa": {
-   "start": 23.743,
-   "end": 23.998,
+   "start": 26.65,
+   "end": 27.117,
    "texto": "Pero"
   },
   "trampa2": {
-   "start": 24.144,
-   "end": 24.399,
+   "start": 27.29,
+   "end": 27.53,
    "texto": "trampa:"
   },
   "concesion": {
-   "start": 24.973,
-   "end": 25.337,
+   "start": 28.073,
+   "end": 28.607,
    "texto": "concesión"
   },
   "anos": {
-   "start": 25.897,
-   "end": 26.152,
+   "start": 29.013,
+   "end": 29.4,
    "texto": "años."
   },
   "ponerla": {
-   "start": 26.369,
-   "end": 26.514,
+   "start": 29.5,
+   "end": 29.781,
    "texto": "Y"
   },
   "millones": {
-   "start": 27.79,
-   "end": 28.154,
+   "start": 31.169,
+   "end": 31.41,
    "texto": "millones."
   },
   "espana": {
-   "start": 28.371,
-   "end": 28.517,
+   "start": 31.7,
+   "end": 31.8,
    "texto": "En"
   },
   "miles": {
-   "start": 29.027,
-   "end": 29.282,
+   "start": 32.52,
+   "end": 32.88,
    "texto": "miles"
   },
   "abandonados": {
-   "start": 29.682,
-   "end": 30.266,
+   "start": 33.4,
+   "end": 33.96,
    "texto": "abandonados."
   },
   "mientras": {
-   "start": 30.483,
-   "end": 30.628,
+   "start": 34.16,
+   "end": 34.806,
    "texto": "Y"
   },
   "madrid3": {
-   "start": 31.378,
-   "end": 31.633,
+   "start": 35.708,
+   "end": 35.943,
    "texto": "Madrid,"
   },
   "m60": {
-   "start": 31.727,
-   "end": 32.141,
+   "start": 35.943,
+   "end": 36.667,
    "texto": "60"
   },
   "casi": {
-   "start": 33.016,
-   "end": 33.271,
+   "start": 38.097,
+   "end": 38.352,
    "texto": "casi"
   },
   "p400": {
-   "start": 33.271,
-   "end": 33.936,
+   "start": 38.352,
+   "end": 39.155,
    "texto": "400.000"
   },
   "p400end": {
-   "start": 33.936,
-   "end": 34.191,
+   "start": 39.155,
+   "end": 39.41,
    "texto": "euros."
   },
   "elegir": {
-   "start": 34.408,
-   "end": 34.554,
+   "start": 39.64,
+   "end": 39.7,
    "texto": "Te"
   },
   "piso": {
-   "start": 35.383,
-   "end": 35.528,
+   "start": 40.65,
+   "end": 41.112,
    "texto": "¿Un"
   },
   "madrid4": {
-   "start": 35.929,
-   "end": 36.184,
+   "start": 41.445,
+   "end": 41.63,
    "texto": "Madrid"
   },
   "o": {
-   "start": 36.184,
-   "end": 36.33,
+   "start": 41.63,
+   "end": 42.092,
    "texto": "o"
   },
   "galicia2": {
-   "start": 37.241,
-   "end": 37.605,
+   "start": 42.999,
+   "end": 43.35,
    "texto": "Galicia?"
   },
   "leo": {
-   "start": 37.88,
-   "end": 38.025,
+   "start": 43.56,
+   "end": 43.64,
    "texto": "Te"
   },
   "fin": {
-   "start": 38.426,
-   "end": 38.9,
+   "start": 43.82,
+   "end": 44.24,
    "texto": "comentarios."
   }
  },
@@ -263,1024 +263,1032 @@
   {
    "i": 0,
    "texto": "En",
-   "start": 0.05,
-   "end": 0.196,
+   "start": 0.06,
+   "end": 0.5,
    "seccion": "gancho",
    "clave": "madrid"
   },
   {
    "i": 1,
    "texto": "Madrid,",
-   "start": 0.196,
-   "end": 0.451,
+   "start": 0.5,
+   "end": 0.74,
    "seccion": "gancho",
    "clave": null
   },
   {
    "i": 2,
    "texto": "esto",
-   "start": 0.545,
-   "end": 0.8,
+   "start": 1.09,
+   "end": 1.28,
    "seccion": "gancho",
    "clave": null
   },
   {
    "i": 3,
    "texto": "cuesta",
-   "start": 0.8,
-   "end": 1.055,
+   "start": 1.28,
+   "end": 1.64,
    "seccion": "gancho",
    "clave": null
   },
   {
    "i": 4,
    "texto": "390.000",
-   "start": 1.055,
-   "end": 1.972,
+   "start": 1.64,
+   "end": 2.94,
    "seccion": "gancho",
    "clave": "p390"
   },
   {
    "i": 5,
    "texto": "euros.",
-   "start": 1.972,
-   "end": 2.227,
+   "start": 2.94,
+   "end": 3.16,
    "seccion": "gancho",
    "clave": null
   },
   {
    "i": 6,
    "texto": "En",
-   "start": 2.444,
-   "end": 2.59,
+   "start": 3.39,
+   "end": 3.52,
    "seccion": "gancho",
    "clave": "galicia"
   },
   {
    "i": 7,
    "texto": "Galicia,",
-   "start": 2.59,
-   "end": 2.954,
+   "start": 3.52,
+   "end": 3.86,
    "seccion": "gancho",
    "clave": null
   },
   {
    "i": 8,
    "texto": "por",
-   "start": 3.048,
-   "end": 3.194,
+   "start": 4.14,
+   "end": 4.24,
    "seccion": "gancho",
    "clave": null
   },
   {
    "i": 9,
    "texto": "menos",
-   "start": 3.194,
-   "end": 3.449,
+   "start": 4.24,
+   "end": 4.4,
    "seccion": "gancho",
    "clave": "menos"
   },
   {
    "i": 10,
    "texto": "de",
-   "start": 3.449,
-   "end": 3.594,
+   "start": 4.4,
+   "end": 4.54,
    "seccion": "gancho",
    "clave": null
   },
   {
    "i": 11,
    "texto": "la",
-   "start": 3.594,
-   "end": 3.74,
+   "start": 4.54,
+   "end": 4.6,
    "seccion": "gancho",
    "clave": null
   },
   {
    "i": 12,
    "texto": "mitad…",
-   "start": 3.74,
-   "end": 3.995,
+   "start": 4.6,
+   "end": 4.8,
    "seccion": "gancho",
    "clave": null
   },
   {
    "i": 13,
    "texto": "te",
-   "start": 4.298,
-   "end": 4.444,
+   "start": 5.1,
+   "end": 5.18,
    "seccion": "gancho",
    "clave": null
   },
   {
    "i": 14,
    "texto": "compras",
-   "start": 4.444,
-   "end": 4.699,
+   "start": 5.18,
+   "end": 5.48,
    "seccion": "gancho",
    "clave": null
   },
   {
    "i": 15,
    "texto": "un",
-   "start": 4.699,
-   "end": 4.845,
+   "start": 5.48,
+   "end": 5.74,
    "seccion": "gancho",
    "clave": null
   },
   {
    "i": 16,
    "texto": "pueblo",
-   "start": 4.845,
-   "end": 5.1,
+   "start": 5.74,
+   "end": 5.9,
    "seccion": "gancho",
    "clave": "pueblo"
   },
   {
    "i": 17,
    "texto": "entero.",
-   "start": 5.1,
-   "end": 5.464,
+   "start": 5.9,
+   "end": 6.24,
    "seccion": "gancho",
    "clave": "entero"
   },
   {
    "i": 18,
    "texto": "Candelago.",
-   "start": 5.681,
-   "end": 6.155,
+   "start": 6.49,
+   "end": 6.96,
    "seccion": "impacto",
    "clave": "candelago"
   },
   {
    "i": 19,
    "texto": "Vistas",
-   "start": 6.372,
-   "end": 6.627,
+   "start": 7.26,
+   "end": 7.46,
    "seccion": "impacto",
    "clave": "vistas"
   },
   {
    "i": 20,
    "texto": "al",
-   "start": 6.627,
-   "end": 6.773,
+   "start": 7.46,
+   "end": 7.64,
    "seccion": "impacto",
    "clave": null
   },
   {
    "i": 21,
    "texto": "mar.",
-   "start": 6.773,
-   "end": 6.918,
+   "start": 7.64,
+   "end": 7.78,
    "seccion": "impacto",
    "clave": "mar"
   },
   {
    "i": 22,
    "texto": "150.000",
-   "start": 7.135,
-   "end": 7.926,
+   "start": 8.1,
+   "end": 9.16,
    "seccion": "impacto",
    "clave": "p150"
   },
   {
    "i": 23,
    "texto": "euros.",
-   "start": 7.926,
-   "end": 8.182,
+   "start": 9.16,
+   "end": 9.42,
    "seccion": "impacto",
    "clave": null
   },
   {
    "i": 24,
    "texto": "En",
-   "start": 8.398,
-   "end": 8.544,
+   "start": 9.61,
+   "end": 9.74,
    "seccion": "impacto",
    "clave": "madrid2"
   },
   {
    "i": 25,
    "texto": "Madrid,",
-   "start": 8.544,
-   "end": 8.799,
+   "start": 9.74,
+   "end": 9.96,
    "seccion": "impacto",
    "clave": null
   },
   {
    "i": 26,
    "texto": "con",
-   "start": 8.893,
-   "end": 9.038,
+   "start": 10.14,
+   "end": 10.26,
    "seccion": "impacto",
    "clave": null
   },
   {
    "i": 27,
    "texto": "ese",
-   "start": 9.038,
-   "end": 9.294,
+   "start": 10.26,
+   "end": 10.4,
    "seccion": "impacto",
    "clave": null
   },
   {
    "i": 28,
    "texto": "dinero",
-   "start": 9.294,
-   "end": 9.658,
+   "start": 10.4,
+   "end": 10.66,
    "seccion": "impacto",
    "clave": null
   },
   {
    "i": 29,
    "texto": "compras",
-   "start": 9.658,
-   "end": 9.913,
+   "start": 11.02,
+   "end": 11.14,
    "seccion": "impacto",
    "clave": null
   },
   {
    "i": 30,
    "texto": "apenas",
-   "start": 9.913,
-   "end": 10.278,
+   "start": 11.14,
+   "end": 11.36,
    "seccion": "impacto",
    "clave": null
   },
   {
    "i": 31,
    "texto": "23",
-   "start": 10.278,
-   "end": 10.692,
+   "start": 11.36,
+   "end": 12.0,
    "seccion": "impacto",
    "clave": "m23"
   },
   {
    "i": 32,
    "texto": "metros",
-   "start": 10.692,
-   "end": 10.947,
+   "start": 12.0,
+   "end": 12.42,
    "seccion": "impacto",
    "clave": null
   },
   {
    "i": 33,
    "texto": "cuadrados.",
-   "start": 10.947,
-   "end": 11.311,
+   "start": 12.42,
+   "end": 12.96,
    "seccion": "impacto",
    "clave": "m23end"
   },
   {
    "i": 34,
    "texto": "Pero",
-   "start": 11.888,
-   "end": 12.143,
+   "start": 13.42,
+   "end": 13.56,
    "seccion": "escalada",
    "clave": "espera"
   },
   {
    "i": 35,
    "texto": "espera.",
-   "start": 12.143,
-   "end": 12.508,
+   "start": 13.56,
+   "end": 13.74,
    "seccion": "escalada",
    "clave": "espera2"
   },
   {
    "i": 36,
    "texto": "En",
-   "start": 12.724,
-   "end": 12.87,
+   "start": 14.12,
+   "end": 14.24,
    "seccion": "escalada",
    "clave": "lugo"
   },
   {
    "i": 37,
    "texto": "Lugo",
-   "start": 12.87,
-   "end": 13.125,
+   "start": 14.24,
+   "end": 14.48,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 38,
    "texto": "se",
-   "start": 13.125,
-   "end": 13.271,
+   "start": 14.48,
+   "end": 14.86,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 39,
    "texto": "vendió",
-   "start": 13.271,
-   "end": 13.526,
+   "start": 14.86,
+   "end": 15.18,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 40,
    "texto": "una",
-   "start": 13.526,
-   "end": 13.781,
+   "start": 15.18,
+   "end": 15.48,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 41,
    "texto": "aldea",
-   "start": 13.781,
-   "end": 14.145,
+   "start": 15.48,
+   "end": 15.72,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 42,
    "texto": "con",
-   "start": 14.145,
-   "end": 14.291,
+   "start": 15.72,
+   "end": 15.92,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 43,
    "texto": "dos",
-   "start": 14.291,
-   "end": 14.436,
+   "start": 15.92,
+   "end": 16.08,
    "seccion": "escalada",
    "clave": "dos"
   },
   {
    "i": 44,
    "texto": "casas",
-   "start": 14.436,
-   "end": 14.692,
+   "start": 16.08,
+   "end": 16.36,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 45,
    "texto": "de",
-   "start": 14.692,
-   "end": 14.837,
+   "start": 16.36,
+   "end": 16.48,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 46,
    "texto": "piedra",
-   "start": 14.837,
-   "end": 15.092,
+   "start": 16.48,
+   "end": 16.84,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 47,
    "texto": "por",
-   "start": 15.092,
-   "end": 15.238,
+   "start": 16.84,
+   "end": 17.22,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 48,
    "texto": "59.000",
-   "start": 15.238,
-   "end": 16.155,
+   "start": 17.22,
+   "end": 18.16,
    "seccion": "escalada",
    "clave": "p59"
   },
   {
    "i": 49,
    "texto": "euros.",
-   "start": 16.155,
-   "end": 16.41,
+   "start": 18.16,
+   "end": 18.44,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 50,
    "texto": "Lo",
-   "start": 16.627,
-   "end": 16.773,
+   "start": 18.7,
+   "end": 18.8,
    "seccion": "escalada",
    "clave": "loque"
   },
   {
    "i": 51,
    "texto": "que",
-   "start": 16.773,
-   "end": 16.918,
+   "start": 18.8,
+   "end": 18.9,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 52,
    "texto": "cuestan",
-   "start": 16.918,
-   "end": 17.173,
+   "start": 18.9,
+   "end": 19.3,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 53,
    "texto": "nueve",
-   "start": 17.173,
-   "end": 17.428,
+   "start": 19.3,
+   "end": 19.66,
    "seccion": "escalada",
    "clave": "nueve"
   },
   {
    "i": 54,
    "texto": "metros",
-   "start": 17.428,
-   "end": 17.684,
+   "start": 19.66,
+   "end": 19.92,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 55,
    "texto": "en",
-   "start": 17.684,
-   "end": 17.829,
+   "start": 19.92,
+   "end": 20.2,
    "seccion": "escalada",
    "clave": null
   },
   {
    "i": 56,
    "texto": "Madrid.",
-   "start": 17.829,
-   "end": 18.084,
+   "start": 20.2,
+   "end": 20.44,
    "seccion": "escalada",
    "clave": "m9end"
   },
   {
    "i": 57,
    "texto": "¿Y",
-   "start": 18.301,
-   "end": 18.447,
+   "start": 20.85,
+   "end": 20.983,
    "seccion": "wow",
    "clave": "sabes"
   },
   {
    "i": 58,
    "texto": "sabes",
-   "start": 18.447,
-   "end": 18.702,
+   "start": 20.983,
+   "end": 21.19,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 59,
    "texto": "qué",
-   "start": 18.702,
-   "end": 18.847,
+   "start": 21.19,
+   "end": 21.396,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 60,
    "texto": "es",
-   "start": 18.847,
-   "end": 18.993,
+   "start": 21.396,
+   "end": 21.485,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 61,
    "texto": "lo",
-   "start": 18.993,
-   "end": 19.138,
+   "start": 21.485,
+   "end": 21.573,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 62,
    "texto": "más",
-   "start": 19.138,
-   "end": 19.284,
+   "start": 21.573,
+   "end": 21.75,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 63,
    "texto": "increíble?",
-   "start": 19.284,
-   "end": 19.649,
+   "start": 21.75,
+   "end": 22.4,
    "seccion": "wow",
    "clave": "increible"
   },
   {
    "i": 64,
    "texto": "En",
-   "start": 19.923,
-   "end": 20.069,
+   "start": 22.5,
+   "end": 22.631,
    "seccion": "wow",
    "clave": "ourense"
   },
   {
    "i": 65,
    "texto": "Ourense",
-   "start": 20.069,
-   "end": 20.433,
+   "start": 22.631,
+   "end": 23.034,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 66,
    "texto": "hay",
-   "start": 20.433,
-   "end": 20.579,
+   "start": 23.034,
+   "end": 23.209,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 67,
    "texto": "una",
-   "start": 20.579,
-   "end": 20.834,
+   "start": 23.209,
+   "end": 23.314,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 68,
    "texto": "aldea",
-   "start": 20.834,
-   "end": 21.199,
+   "start": 23.314,
+   "end": 23.472,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 69,
    "texto": "con",
-   "start": 21.199,
-   "end": 21.344,
+   "start": 23.472,
+   "end": 23.664,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 70,
    "texto": "doce",
-   "start": 21.344,
-   "end": 21.599,
+   "start": 23.664,
+   "end": 23.927,
    "seccion": "wow",
    "clave": "doce"
   },
   {
    "i": 71,
    "texto": "casas",
-   "start": 21.599,
-   "end": 21.854,
+   "start": 23.927,
+   "end": 24.172,
    "seccion": "wow",
    "clave": "casas"
   },
   {
    "i": 72,
    "texto": "por…",
-   "start": 21.854,
-   "end": 22.0,
+   "start": 24.172,
+   "end": 25.03,
    "seccion": "wow",
    "clave": "por"
   },
   {
    "i": 73,
    "texto": "CERO",
-   "start": 22.643,
-   "end": 22.931,
+   "start": 25.44,
+   "end": 25.76,
    "seccion": "wow",
    "clave": "cero"
   },
   {
    "i": 74,
    "texto": "euros.",
-   "start": 22.931,
-   "end": 23.186,
+   "start": 25.76,
+   "end": 26.06,
    "seccion": "wow",
    "clave": "euros0"
   },
   {
    "i": 75,
    "texto": "Pero",
-   "start": 23.743,
-   "end": 23.998,
+   "start": 26.65,
+   "end": 27.117,
    "seccion": "wow",
    "clave": "trampa"
   },
   {
    "i": 76,
    "texto": "hay",
-   "start": 23.998,
-   "end": 24.144,
+   "start": 27.117,
+   "end": 27.21,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 77,
-   "texto": "trampa:",
-   "start": 24.144,
-   "end": 24.399,
-   "seccion": "wow",
-   "clave": "trampa2"
-  },
-  {
-   "i": 78,
-   "texto": "es",
-   "start": 24.572,
-   "end": 24.718,
+   "texto": "una",
+   "start": 27.21,
+   "end": 27.29,
    "seccion": "wow",
    "clave": null
   },
   {
+   "i": 78,
+   "texto": "trampa:",
+   "start": 27.29,
+   "end": 27.53,
+   "seccion": "wow",
+   "clave": "trampa2"
+  },
+  {
    "i": 79,
-   "texto": "una",
-   "start": 24.718,
-   "end": 24.973,
+   "texto": "es",
+   "start": 27.63,
+   "end": 27.962,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 80,
-   "texto": "concesión",
-   "start": 24.973,
-   "end": 25.337,
-   "seccion": "wow",
-   "clave": "concesion"
-  },
-  {
-   "i": 81,
-   "texto": "de",
-   "start": 25.337,
-   "end": 25.483,
+   "texto": "una",
+   "start": 27.962,
+   "end": 28.073,
    "seccion": "wow",
    "clave": null
   },
   {
+   "i": 81,
+   "texto": "concesión",
+   "start": 28.073,
+   "end": 28.607,
+   "seccion": "wow",
+   "clave": "concesion"
+  },
+  {
    "i": 82,
-   "texto": "50",
-   "start": 25.483,
-   "end": 25.897,
+   "texto": "de",
+   "start": 28.607,
+   "end": 28.792,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 83,
-   "texto": "años.",
-   "start": 25.897,
-   "end": 26.152,
-   "seccion": "wow",
-   "clave": "anos"
-  },
-  {
-   "i": 84,
-   "texto": "Y",
-   "start": 26.369,
-   "end": 26.514,
-   "seccion": "wow",
-   "clave": "ponerla"
-  },
-  {
-   "i": 85,
-   "texto": "ponerla",
-   "start": 26.514,
-   "end": 26.879,
+   "texto": "50",
+   "start": 28.792,
+   "end": 29.013,
    "seccion": "wow",
    "clave": null
   },
   {
+   "i": 84,
+   "texto": "años.",
+   "start": 29.013,
+   "end": 29.4,
+   "seccion": "wow",
+   "clave": "anos"
+  },
+  {
+   "i": 85,
+   "texto": "Y",
+   "start": 29.5,
+   "end": 29.781,
+   "seccion": "wow",
+   "clave": "ponerla"
+  },
+  {
    "i": 86,
-   "texto": "en",
-   "start": 26.879,
-   "end": 27.024,
+   "texto": "ponerla",
+   "start": 29.781,
+   "end": 30.123,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 87,
-   "texto": "marcha",
-   "start": 27.024,
-   "end": 27.28,
+   "texto": "en",
+   "start": 30.123,
+   "end": 30.224,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 88,
-   "texto": "puede",
-   "start": 27.28,
-   "end": 27.535,
+   "texto": "marcha",
+   "start": 30.224,
+   "end": 30.545,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 89,
-   "texto": "costar",
-   "start": 27.535,
-   "end": 27.79,
+   "texto": "puede",
+   "start": 30.545,
+   "end": 30.807,
    "seccion": "wow",
    "clave": null
   },
   {
    "i": 90,
+   "texto": "costar",
+   "start": 30.807,
+   "end": 31.169,
+   "seccion": "wow",
+   "clave": null
+  },
+  {
+   "i": 91,
    "texto": "millones.",
-   "start": 27.79,
-   "end": 28.154,
+   "start": 31.169,
+   "end": 31.41,
    "seccion": "wow",
    "clave": "millones"
   },
   {
-   "i": 91,
+   "i": 92,
    "texto": "En",
-   "start": 28.371,
-   "end": 28.517,
+   "start": 31.7,
+   "end": 31.8,
    "seccion": "contraste",
    "clave": "espana"
   },
   {
-   "i": 92,
-   "texto": "España",
-   "start": 28.517,
-   "end": 28.881,
-   "seccion": "contraste",
-   "clave": null
-  },
-  {
    "i": 93,
-   "texto": "hay",
-   "start": 28.881,
-   "end": 29.027,
+   "texto": "España",
+   "start": 31.8,
+   "end": 32.08,
    "seccion": "contraste",
    "clave": null
   },
   {
    "i": 94,
-   "texto": "miles",
-   "start": 29.027,
-   "end": 29.282,
-   "seccion": "contraste",
-   "clave": "miles"
-  },
-  {
-   "i": 95,
-   "texto": "de",
-   "start": 29.282,
-   "end": 29.427,
+   "texto": "hay",
+   "start": 32.08,
+   "end": 32.52,
    "seccion": "contraste",
    "clave": null
   },
   {
+   "i": 95,
+   "texto": "miles",
+   "start": 32.52,
+   "end": 32.88,
+   "seccion": "contraste",
+   "clave": "miles"
+  },
+  {
    "i": 96,
-   "texto": "pueblos",
-   "start": 29.427,
-   "end": 29.682,
+   "texto": "de",
+   "start": 32.88,
+   "end": 33.16,
    "seccion": "contraste",
    "clave": null
   },
   {
    "i": 97,
-   "texto": "abandonados.",
-   "start": 29.682,
-   "end": 30.266,
-   "seccion": "contraste",
-   "clave": "abandonados"
-  },
-  {
-   "i": 98,
-   "texto": "Y",
-   "start": 30.483,
-   "end": 30.628,
-   "seccion": "contraste",
-   "clave": "mientras"
-  },
-  {
-   "i": 99,
-   "texto": "mientras",
-   "start": 30.628,
-   "end": 30.883,
+   "texto": "pueblos",
+   "start": 33.16,
+   "end": 33.4,
    "seccion": "contraste",
    "clave": null
   },
   {
+   "i": 98,
+   "texto": "abandonados.",
+   "start": 33.4,
+   "end": 33.96,
+   "seccion": "contraste",
+   "clave": "abandonados"
+  },
+  {
+   "i": 99,
+   "texto": "Y",
+   "start": 34.16,
+   "end": 34.806,
+   "seccion": "contraste",
+   "clave": "mientras"
+  },
+  {
    "i": 100,
-   "texto": "tanto,",
-   "start": 30.883,
-   "end": 31.138,
+   "texto": "mientras",
+   "start": 34.806,
+   "end": 35.042,
    "seccion": "contraste",
    "clave": null
   },
   {
    "i": 101,
-   "texto": "en",
-   "start": 31.232,
-   "end": 31.378,
+   "texto": "tanto,",
+   "start": 35.042,
+   "end": 35.433,
    "seccion": "contraste",
    "clave": null
   },
   {
    "i": 102,
-   "texto": "Madrid,",
-   "start": 31.378,
-   "end": 31.633,
-   "seccion": "contraste",
-   "clave": "madrid3"
-  },
-  {
-   "i": 103,
-   "texto": "60",
-   "start": 31.727,
-   "end": 32.141,
-   "seccion": "contraste",
-   "clave": "m60"
-  },
-  {
-   "i": 104,
-   "texto": "metros",
-   "start": 32.141,
-   "end": 32.396,
+   "texto": "en",
+   "start": 35.433,
+   "end": 35.708,
    "seccion": "contraste",
    "clave": null
   },
   {
+   "i": 103,
+   "texto": "Madrid,",
+   "start": 35.708,
+   "end": 35.943,
+   "seccion": "contraste",
+   "clave": "madrid3"
+  },
+  {
+   "i": 104,
+   "texto": "60",
+   "start": 35.943,
+   "end": 36.667,
+   "seccion": "contraste",
+   "clave": "m60"
+  },
+  {
    "i": 105,
-   "texto": "cuadrados",
-   "start": 32.396,
-   "end": 32.76,
+   "texto": "metros",
+   "start": 36.667,
+   "end": 36.961,
    "seccion": "contraste",
    "clave": null
   },
   {
    "i": 106,
-   "texto": "cuestan",
-   "start": 32.76,
-   "end": 33.016,
+   "texto": "cuadrados",
+   "start": 36.961,
+   "end": 37.49,
    "seccion": "contraste",
    "clave": null
   },
   {
    "i": 107,
+   "texto": "cuestan",
+   "start": 37.49,
+   "end": 38.097,
+   "seccion": "contraste",
+   "clave": null
+  },
+  {
+   "i": 108,
    "texto": "casi",
-   "start": 33.016,
-   "end": 33.271,
+   "start": 38.097,
+   "end": 38.352,
    "seccion": "contraste",
    "clave": "casi"
   },
   {
-   "i": 108,
+   "i": 109,
    "texto": "400.000",
-   "start": 33.271,
-   "end": 33.936,
+   "start": 38.352,
+   "end": 39.155,
    "seccion": "contraste",
    "clave": "p400"
   },
   {
-   "i": 109,
+   "i": 110,
    "texto": "euros.",
-   "start": 33.936,
-   "end": 34.191,
+   "start": 39.155,
+   "end": 39.41,
    "seccion": "contraste",
    "clave": "p400end"
   },
   {
-   "i": 110,
+   "i": 111,
    "texto": "Te",
-   "start": 34.408,
-   "end": 34.554,
+   "start": 39.64,
+   "end": 39.7,
    "seccion": "cta",
    "clave": "elegir"
   },
   {
-   "i": 111,
-   "texto": "doy",
-   "start": 34.554,
-   "end": 34.699,
-   "seccion": "cta",
-   "clave": null
-  },
-  {
    "i": 112,
-   "texto": "a",
-   "start": 34.699,
-   "end": 34.845,
+   "texto": "doy",
+   "start": 39.75,
+   "end": 39.81,
    "seccion": "cta",
    "clave": null
   },
   {
    "i": 113,
-   "texto": "elegir:",
-   "start": 34.845,
-   "end": 35.209,
+   "texto": "a",
+   "start": 39.8,
+   "end": 39.9,
    "seccion": "cta",
    "clave": null
   },
   {
    "i": 114,
-   "texto": "¿Un",
-   "start": 35.383,
-   "end": 35.528,
-   "seccion": "cta",
-   "clave": "piso"
-  },
-  {
-   "i": 115,
-   "texto": "piso",
-   "start": 35.528,
-   "end": 35.783,
+   "texto": "elegir:",
+   "start": 39.9,
+   "end": 40.3,
    "seccion": "cta",
    "clave": null
   },
   {
+   "i": 115,
+   "texto": "¿Un",
+   "start": 40.65,
+   "end": 41.112,
+   "seccion": "cta",
+   "clave": "piso"
+  },
+  {
    "i": 116,
-   "texto": "en",
-   "start": 35.783,
-   "end": 35.929,
+   "texto": "piso",
+   "start": 41.112,
+   "end": 41.353,
    "seccion": "cta",
    "clave": null
   },
   {
    "i": 117,
-   "texto": "Madrid",
-   "start": 35.929,
-   "end": 36.184,
-   "seccion": "cta",
-   "clave": "madrid4"
-  },
-  {
-   "i": 118,
-   "texto": "o",
-   "start": 36.184,
-   "end": 36.33,
-   "seccion": "cta",
-   "clave": "o"
-  },
-  {
-   "i": 119,
-   "texto": "un",
-   "start": 36.33,
-   "end": 36.475,
+   "texto": "en",
+   "start": 41.353,
+   "end": 41.445,
    "seccion": "cta",
    "clave": null
   },
   {
+   "i": 118,
+   "texto": "Madrid",
+   "start": 41.445,
+   "end": 41.63,
+   "seccion": "cta",
+   "clave": "madrid4"
+  },
+  {
+   "i": 119,
+   "texto": "o",
+   "start": 41.63,
+   "end": 42.092,
+   "seccion": "cta",
+   "clave": "o"
+  },
+  {
    "i": 120,
-   "texto": "pueblo",
-   "start": 36.475,
-   "end": 36.73,
+   "texto": "un",
+   "start": 42.092,
+   "end": 42.444,
    "seccion": "cta",
    "clave": null
   },
   {
    "i": 121,
-   "texto": "entero",
-   "start": 36.73,
-   "end": 37.095,
+   "texto": "pueblo",
+   "start": 42.444,
+   "end": 42.61,
    "seccion": "cta",
    "clave": null
   },
   {
    "i": 122,
-   "texto": "en",
-   "start": 37.095,
-   "end": 37.241,
+   "texto": "entero",
+   "start": 42.61,
+   "end": 42.906,
    "seccion": "cta",
    "clave": null
   },
   {
    "i": 123,
-   "texto": "Galicia?",
-   "start": 37.241,
-   "end": 37.605,
-   "seccion": "cta",
-   "clave": "galicia2"
-  },
-  {
-   "i": 124,
-   "texto": "Te",
-   "start": 37.88,
-   "end": 38.025,
-   "seccion": "cta",
-   "clave": "leo"
-  },
-  {
-   "i": 125,
-   "texto": "leo",
-   "start": 38.025,
-   "end": 38.28,
+   "texto": "en",
+   "start": 42.906,
+   "end": 42.999,
    "seccion": "cta",
    "clave": null
   },
   {
+   "i": 124,
+   "texto": "Galicia?",
+   "start": 42.999,
+   "end": 43.35,
+   "seccion": "cta",
+   "clave": "galicia2"
+  },
+  {
+   "i": 125,
+   "texto": "Te",
+   "start": 43.56,
+   "end": 43.64,
+   "seccion": "cta",
+   "clave": "leo"
+  },
+  {
    "i": 126,
-   "texto": "en",
-   "start": 38.28,
-   "end": 38.426,
+   "texto": "leo",
+   "start": 43.7,
+   "end": 43.760000000000005,
    "seccion": "cta",
    "clave": null
   },
   {
    "i": 127,
+   "texto": "en",
+   "start": 43.76,
+   "end": 43.82,
+   "seccion": "cta",
+   "clave": null
+  },
+  {
+   "i": 128,
    "texto": "comentarios.",
-   "start": 38.426,
-   "end": 38.9,
+   "start": 43.82,
+   "end": 44.24,
    "seccion": "cta",
    "clave": "fin"
   }

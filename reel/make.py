@@ -187,15 +187,39 @@ def main():
     ap.add_argument("--clips", default=os.path.join(ROOT, "input", "clips"))
     ap.add_argument("--ss", type=float, default=2.0, help="supermuestreo del 3D (2 = máxima calidad)")
     ap.add_argument("--preview", action="store_true")
+    ap.add_argument("--modelo", default=os.environ.get("WHISPER_MODEL", "small"),
+                    help="modelo de faster-whisper (nombre o carpeta)")
+    ap.add_argument("--sin-edicion", action="store_true", help="usa la voz tal cual, sin cortar tomas ni silencios")
     ap.add_argument("--jobs", type=int, default=max(1, min(6, os.cpu_count() or 2)))
     a = ap.parse_args()
-    voice = a.voz or (os.path.join(ROOT, "input", "voz.wav") if os.path.exists(os.path.join(ROOT, "input", "voz.wav")) else None)
+    voice = a.voz
+    if not voice:
+        for ext in (".wav", ".mp3", ".m4a", ".aac", ".ogg", ".flac"):
+            p = os.path.join(ROOT, "input", "voz" + ext)
+            if os.path.exists(p):
+                voice = p
+                break
     if a.preview:
         a.ss = 1.0
     os.makedirs(OUT, exist_ok=True)
     os.makedirs(BUILD, exist_ok=True)
     log("voz:", voice or "no hay voz -> tiempos del guion")
-    tl = build_timeline(voice, a.timings)
+    if voice and not a.timings and not a.sin_edicion:
+        import voice as vz
+        from timing import align, tokens
+        edited, kept, bounds = vz.process(voice, BUILD, a.modelo, log=log)
+        toks = vz.apply_phrase_bounds(align(tokens(), kept), bounds)
+        import soundfile as sf
+        dur = sf.info(edited).duration
+        tl = Timeline(toks, max(dur, toks[-1]["end"]) + 2.2, f"voz editada de {os.path.basename(voice)} (faster-whisper, palabra a palabra)")
+        voice = edited
+    elif voice and a.timings:
+        tl = build_timeline(None, a.timings)
+        edited = os.path.join(BUILD, "voz_editada.wav")
+        if not a.sin_edicion and os.path.exists(edited):
+            voice = edited
+    else:
+        tl = build_timeline(voice, a.timings)
     log(f"duración: {tl.duration:.2f} s ({tl.source})")
     with open(os.path.join(OUT, "timings.json"), "w", encoding="utf-8") as f:
         json.dump(tl.to_json(), f, ensure_ascii=False, indent=1)
@@ -204,8 +228,11 @@ def main():
         f.write(srt(build_pages(tl.toks)))
     prepare_clips(a.clips)
     clips = a.clips if os.path.isdir(a.clips) else None
-    found = [n for n in ("madrid", "candelago", "a_barca") if clips and os.path.exists(os.path.join(clips, n + ".mp4"))]
-    log("clips de Google Earth:", ", ".join(found) or "ninguno -> maquetas 3D propias")
+    from stills import find_still
+    found = [n + (" (vídeo)" if os.path.exists(os.path.join(clips, n + ".mp4")) else " (captura animada)")
+             for n in ("madrid", "candelago", "a_barca")
+             if clips and (os.path.exists(os.path.join(clips, n + ".mp4")) or find_still(clips, n))]
+    log("Google Earth:", ", ".join(found) or "nada -> maquetas 3D propias")
     video = render_video(tl, a.ss, clips, a.jobs)
     pf, pn = render_audio(tl, voice)
     mux(video, pf, os.path.join(OUT, "madrid_vs_pueblo_final.mp4"))

@@ -15,6 +15,10 @@ from gfx import (BLUE, CX, FPS, GRAPHITE, GREEN, GREY, H, ORANGE, PAPER, SAFE_LE
                  fill_paint, fmt_es, font, glow_paint, lerp, mix, partial_polyline, pill_label, poly_path, prog,
                  punch_curve, rrect, stroke_paint, text_width, PLAN_W, PLAN_D)
 from subs import build_pages, draw_subs
+from stills import StillSource, find_still
+
+CANDELAGO_LONLAT = (-8.9621, 43.2710)   # de la captura de Google Earth del autor (43°16'15.6"N 8°57'43.6"W)
+MADRID_LONLAT = (-3.7038, 40.4168)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORNER = (890.0, 368.0)
@@ -79,15 +83,41 @@ class Reel:
                 p = os.path.join(clips_dir, f"{name}.mp4")
                 if os.path.exists(p):
                     self.clip_paths[name] = p
+        self.stills = {}
+        for name in ("candelago", "a_barca"):
+            if name not in self.clip_paths:
+                p = find_still(clips_dir, name)
+                if p:
+                    self.stills[name] = p
+        self._still_obj = {}
         self._models = {}
         self._readers = {}
+        # gancho: whip (tw) -> vuelo por el mapa -> zoom a la imagen real (tc)
+        self.tc = max(self.tw + 1.0, s("pueblo") - 0.42)
         self._build_tracks()
         self.punches = [(0.0, 0.07), (s("p390"), 0.05), (s("p150"), 0.06), (s("m23"), 0.05), (s("espera"), 0.05),
                         (s("p59"), 0.06), (s("nueve"), 0.05), (s("cero"), 0.15), (s("trampa"), 0.04),
                         (s("miles"), 0.04), (s("m60"), 0.05), (s("p400"), 0.07)]
-        self.shakes = [(s("cero"), 22.0, 0.55), (s("espera"), 7.0, 0.3), (s("trampa"), 10.0, 0.35)]
+        self.shakes = [(s("cero"), 22.0, 0.55), (s("espera"), 7.0, 0.3), (s("trampa"), 10.0, 0.35),
+                       (s("pueblo"), 9.0, 0.3), (s("p390"), 6.0, 0.25)]
+        self.punches += [(s("pueblo"), 0.06), (self.tc, 0.05)]
+        # desdoble RGB en los golpes fuertes
+        self.rgb_hits = [(0.0, 5.0), (s("p390"), 9.0), (self.tc, 12.0), (s("pueblo"), 10.0), (s("espera"), 8.0),
+                         (s("cero"), 16.0), (s("trampa"), 9.0), (s("p400"), 8.0)]
 
     # ---- recursos perezosos ---------------------------------------------------------
+    def still(self, name):
+        if name not in self._still_obj:
+            self._still_obj[name] = StillSource(self.stills[name])
+        return self._still_obj[name]
+
+    def still_image(self, name, zoom, angle, anchor_frame=(440.0, 900.0), vp=(0, 0, W, H)):
+        surf = skia.Surface(W, H)
+        c = surf.getCanvas()
+        c.clear(col(GRAPHITE))
+        self.still(name).draw(c, zoom, angle, anchor_frame, vp)
+        return surf.makeImageSnapshot().withDefaultMipmaps()
+
     def model(self, name):
         if name not in self._models:
             self._models[name] = {"madrid": Madrid, "cand": Candelago, "abarca": ABarca, "atlas": maps.Atlas}[name]()
@@ -241,7 +271,7 @@ class Reel:
 
     def disclaimer(self, c, text, alpha=1.0):
         if alpha > 0:
-            draw_text(c, text, SAFE_RIGHT, 278, font("mono_m", 22), LIGHT_GREY, 0.85 * alpha, align="right",
+            draw_text(c, text, SAFE_LEFT, 268, font("mono_m", 22), LIGHT_GREY, 0.85 * alpha, align="left",
                       stroke=4, stroke_alpha=0.5)
 
     def draw_plan_overlay(self, c, t, label=None, show_label=True):
@@ -335,10 +365,21 @@ class Reel:
         ta = prog(t, self.tl.duration - 1.1, self.tl.duration - 0.8)
         if ta > 0:
             draw_text(c, "ALEIX JIMÉNEZ", CX, 1515, font("sb", 32), PAPER, ta, tracking=0.32, stroke=5, stroke_alpha=0.6)
-        return surf.makeImageSnapshot().toarray(colorType=skia.kRGBA_8888_ColorType)
+        arr = surf.makeImageSnapshot().toarray(colorType=skia.kRGBA_8888_ColorType)
+        d = 0.0
+        for th, amp in self.rgb_hits:
+            d = max(d, amp * punch_curve(t - th, 0.02, 0.09))
+        d = int(round(d))
+        if d >= 1:
+            arr = arr.copy()
+            arr[:, :, 0] = np.roll(arr[:, :, 0], d, axis=1)
+            arr[:, :, 2] = np.roll(arr[:, :, 2], -d, axis=1)
+        return arr
 
     def disc3d(self, name):
-        return ("Imágenes: Google Earth", 1.0) if name in self.clip_paths else ("Recreación 3D ilustrativa", 1.0)
+        if name in self.clip_paths or name in self.stills:
+            return ("Imágenes: Google Earth", 1.0)
+        return ("Recreación 3D ilustrativa", 1.0)
 
     # ================================================================================
     # ESCENA 1 · GANCHO: Madrid + planta de 60 m² sobre la calle -> whip a Galicia
@@ -346,7 +387,8 @@ class Reel:
     def madrid_bg(self, t, vp=(0, 0, W, H), clip_t0=0.0):
         fr = self.clip_frame("madrid", clip_t0) if "madrid" in self.clip_paths else None
         M = self.model("madrid")
-        cam = M.camera(t, vp=vp)
+        dolly = -15.0 * (1 - ease_out(prog(t, 0.0, 1.3))) if vp == (0, 0, W, H) else 0.0
+        cam = M.camera(t, vp=vp, dolly=dolly)
         if fr is not None:
             return self.rgba_image(fr), 1.0, cam
         return self.render3d(lambda cc, ss: M.render(cc, cam, ss)), self.ss, cam
@@ -354,7 +396,17 @@ class Reel:
     def cand_cam_t(self, t):
         return t - self.tw
 
-    def cand_bg(self, t, vp=(0, 0, W, H), zoom=0.0, clip_t0=None):
+    def cand_still_params(self, t, zoom=0.0):
+        k = ease_out(prog(t, self.tc, self.tc + 0.5))
+        z = (1.0 + 0.028 * max(0.0, t - self.tc)) * (1 + 0.55 * zoom) * (1 + 0.9 * (1 - k))
+        ang = 2.0 + 0.35 * (t - self.tc) - 6.0 * (1 - k)
+        return z, ang
+
+    def cand_bg(self, t, vp=(0, 0, W, H), zoom=0.0, clip_t0=None, anchor_frame=(440.0, 900.0)):
+        if "candelago" in self.stills:
+            z, ang = self.cand_still_params(t, zoom)
+            self._cand_view = (z, ang, anchor_frame, vp)
+            return self.still_image("candelago", z, ang, anchor_frame, vp), 1.0, None
         C = self.model("cand")
         ct = self.cand_cam_t(t)
         cam = C.camera(ct, vp=vp, zoom=zoom)
@@ -387,69 +439,150 @@ class Reel:
             rrect(c, mid[0] - tw / 2 - 10, mid[1] - 22, tw + 20, 42, 8, GRAPHITE, 0.8 * a * prog(k, 0.6, 1))
             draw_text(c, text, mid[0], mid[1] + 10, f, ORANGE, a * prog(k, 0.6, 1))
 
+    def route_point(self, u):
+        """Arco Madrid -> Candelago (lon, lat) en el parámetro u."""
+        p0 = np.array(MADRID_LONLAT)
+        p2 = np.array(CANDELAGO_LONLAT)
+        p1 = (p0 + p2) / 2 + np.array([0.9, 1.6])
+        return (1 - u) ** 2 * p0 + 2 * (1 - u) * u * p1 + u ** 2 * p2
+
+    def journey_view(self, t):
+        """Vuelo de cámara sobre el mapa: sale de Madrid, se aleja y aterriza en Candelago."""
+        t0, t1 = self.tw + 0.08, self.tc
+        u = ease_io(prog(t, t0, t1))
+        head = self.route_point(u)
+        lk = math.log(230) * (1 - u) + math.log(2600) * u - 1.15 * math.sin(math.pi * u)
+        k = math.exp(lk)
+        # remate final acelerado (zoom de transición)
+        k *= 1 + 2.5 * ease_in(prog(t, t1 - 0.22, t1))
+        return maps.View(head[0], head[1], k, CX, 880), u
+
+    def draw_journey(self, c, t, alpha=1.0):
+        A = self.model("atlas")
+        v, u = self.journey_view(t)
+        maps.map_background(c, W, H)
+        for nm in ("Portugal", "France", "Morocco"):
+            maps.draw_feature(c, A.countries[nm], v, fill=(0x1B, 0x1D, 0x21), line=GREY, line_alpha=0.3, width=1.3)
+        for nm, reg in A.regions.items():
+            gal = "Galicia" in nm
+            maps.draw_feature(c, reg, v, fill=(0x2A, 0x33, 0x2E) if gal else (0x26, 0x29, 0x2E),
+                              line=GREEN if gal else PAPER, line_alpha=0.85 if gal else 0.28, width=2.4 if gal else 1.2)
+        # ruta
+        us = np.linspace(0, u, 90)
+        pts = np.array([v(*self.route_point(x)) for x in us], float)
+        if len(pts) > 1:
+            c.drawPath(poly_path(pts, close=False), glow_paint(ORANGE, 0.6, 8, 10))
+            c.drawPath(poly_path(pts, close=False), stroke_paint(ORANGE, 1.0, 6, dash=[24, 14]))
+        mx, my = v(*MADRID_LONLAT)
+        draw_pin(c, float(mx), float(my), 15, BLUE, 1.0)
+        draw_text(c, "MADRID", float(mx), float(my) - 40, font("xb", 46), (0x8F, 0xB0, 0xFF), 1 - prog(u, 0.25, 0.45),
+                  stroke=6, stroke_alpha=0.7)
+        gx, gy = v(*CANDELAGO_LONLAT)
+        ka = prog(u, 0.55, 0.8)
+        if ka > 0:
+            draw_pin(c, float(gx), float(gy), 15, GREEN, ka, pulse=(t * 1.6) % 1)
+        hx, hy = pts[-1]
+        c.drawCircle(float(hx), float(hy), 13, glow_paint(ORANGE, 0.9, 10))
+        c.drawCircle(float(hx), float(hy), 9, fill_paint(PAPER))
+
     def scene1(self, c, t):
         s = self.tl.s
-        tw, twe = self.tw, self.tw_end
-        disc = None
+        tw, tc = self.tw, self.tc
+        tw_end = tw + 0.24
         src = []
-        if t < tw + 0.17:
+        # ---------- A · Madrid: acelerón de cámara, planta a escala y 390.000 € ----------
+        if t < tw_end:
             img, sf, cam = self.madrid_bg(t)
         if t < tw:
             c.save()
-            self.cam_xform(c, t, 0, self.b[1])
+            self.cam_xform(c, t, 0, tw)
             self.blit(c, img, sf)
-            self.scrim(c, 0.5, 0.55)
+            self.scrim(c, 0.55, 0.55)
             mp = self.plan3d_map(cam if "madrid" not in self.clip_paths else self.model("madrid").camera(0))
-            # cota naranja (fotograma 0) y planta azul a escala real
             kc = prog(t, 0.0, 0.22)
             hw, hd = PLAN_W / 2, PLAN_D / 2
             self.draw_cota(c, mp(-hw, -hd - 1.1), mp(hw, -hd - 1.1), "7,5 m", kc, offset_px=34)
             self.draw_cota(c, mp(-hw - 1.1, -hd), mp(-hw - 1.1, hd), "8 m", prog(t, 0.04, 0.3), offset_px=-46)
-            draw_plan(c, mp, alpha=1.0, draw=prog(t, 0.0, 0.5), width=5.0)
-            if t > 0.35:
+            draw_plan(c, mp, alpha=1.0, draw=0.6 + 0.4 * prog(t, 0.0, 0.35), width=5.0)
+            if t > 0.3:
                 ctr = mp(0, 0.4)
-                draw_text(c, "60 m²", ctr[0], ctr[1] + 14, font("mono", 46), PAPER, prog(t, 0.35, 0.55), stroke=7, stroke_alpha=0.85)
-            # etiqueta 390.000 €
-            draw_text(c, "UN PISO DE 60 m² EN MADRID", CX, 470, font("sb", 40), PAPER, prog(t, 0.0, 0.12),
-                      stroke=6, stroke_alpha=0.6, shadow=8)
-            self.big_figure(c, "390.000 €", CX, 600, 150, ORANGE, t, 0.0)
+                draw_text(c, "60 m²", ctr[0], ctr[1] + 14, font("mono", 46), PAPER, prog(t, 0.3, 0.5), stroke=7, stroke_alpha=0.85)
+            draw_text(c, "UN PISO DE 60 m² EN MADRID", CX, 470, font("sb", 40), PAPER, 1.0, stroke=6, stroke_alpha=0.6, shadow=8)
+            # el precio está ya en el fotograma 0 (miniatura) y asienta con un pequeño golpe
+            k0 = ease_out(prog(t, 0.0, 0.18))
+            sc = 1.08 - 0.08 * k0
+            c.save()
+            c.translate(CX, 600 - 54)
+            c.scale(sc, sc)
+            f = font("mono", 150)
+            pulse = punch_curve(t - s("p390"), 0.04, 0.2)
+            c.drawString("390.000 €", -text_width("390.000 €", f) / 2, 54, f, glow_paint(ORANGE, 0.45 + 0.4 * pulse, 18 + 14 * pulse))
+            draw_text(c, "390.000 €", 0, 54, f, ORANGE, 1.0, stroke=9, stroke_alpha=0.8, shadow=12)
             c.restore()
-            disc = self.disc3d("madrid")
+            c.restore()
             src = [("Fuente: idealista, precio medio de Madrid (ago. 2026): 6.471 €/m² × 60 m² ≈ 388.000 €", 1.0)]
-            return (), src, disc
-        # ---- whip pan a Galicia ----
-        cimg, csf, ccam = self.cand_bg(t)
-        if t < twe:
-            k = ease_io(prog(t, tw, twe))
-            blur = 70 * math.sin(math.pi * k)
-            if t < tw + 0.17:
-                self.blit(c, img, sf, blur=(blur, 0), dx=-W * k)
-            self.blit(c, cimg, csf, blur=(blur, 0), dx=W * (1 - k))
-            # la planta vuela a la esquina
+            return (), src, self.disc3d("madrid")
+        # ---------- B · whip pan al mapa ----------
+        if t < tw_end:
+            k = ease_io(prog(t, tw, tw_end))
+            blur = 80 * math.sin(math.pi * k)
+            self.blit(c, img, sf, blur=(blur, 0), dx=-W * k)
+            surf = skia.Surface(W, H)
+            self.draw_journey(surf.getCanvas(), t)
+            mimg = surf.makeImageSnapshot()
+            self.blit(c, mimg, 1.0, blur=(blur, 0), dx=W * (1 - k))
             M = self.model("madrid")
             mcam = M.camera(tw)
             mp3 = lambda x, y: mcam.p2(x, M.PLAN_Y + y, 0.08)
             mp2 = lambda x, y: (CORNER[0] + x * CORNER_PPM, CORNER[1] - y * CORNER_PPM)
             mpm = lambda x, y: tuple(np.array(mp3(x, y)) * (1 - k) + np.array(mp2(x, y)) * k)
             draw_plan(c, mpm, width=lerp(5.0, 3.0, k))
-            disc = self.disc3d("candelago")
-            return (), [], disc
+            return (), [], ("Mapa: IGN (es-atlas) · Natural Earth", 1.0)
+        # ---------- C · vuelo Madrid -> Candelago sobre el mapa ----------
+        if t < tc:
+            c.save()
+            self.cam_xform(c, t, tw_end, tc)
+            kb = prog(t, tc - 0.22, tc)
+            if kb > 0:
+                surf = skia.Surface(W, H)
+                self.draw_journey(surf.getCanvas(), t)
+                self.blit(c, surf.makeImageSnapshot(), 1.0, blur=(14 * kb, 14 * kb))
+                c.drawRect(skia.Rect.MakeWH(W, H), fill_paint(PAPER, 0.35 * kb ** 2))
+            else:
+                self.draw_journey(c, t)
+            self.scrim(c, 0.45, 0.5)
+            a1 = prog(t, s("menos") - 0.05, s("menos") + 0.15)
+            if a1 > 0:
+                c.save()
+                c.translate(CX, 540)
+                sc = 0.9 + 0.1 * back_out(a1)
+                c.scale(sc, sc)
+                draw_text(c, "POR MENOS DE LA MITAD…", 0, 0, font("xb", 64), PAPER, a1, stroke=8, stroke_alpha=0.75, shadow=12)
+                c.restore()
+            c.restore()
+            self.tag(c, t, tw_end + 0.1, "GALICIA", "Costa da Morte, A Coruña", GREEN)
+            self.draw_plan_overlay(c, t)
+            return (), [], ("Mapa: IGN (es-atlas) · Natural Earth", 1.0)
+        # ---------- D · aterrizaje en Candelago (imagen real) + UN PUEBLO ENTERO ----------
+        cimg, csf, ccam = self.cand_bg(t)
         c.save()
-        self.cam_xform(c, t, twe, self.b[1] + 6)
-        self.blit(c, cimg, csf)
+        self.cam_xform(c, t, tc, self.b[1] + 4)
+        kz = prog(t, tc, tc + 0.3)
+        self.blit(c, cimg, csf, blur=(16 * (1 - kz), 16 * (1 - kz)))
+        if kz < 1:
+            c.drawRect(skia.Rect.MakeWH(W, H), fill_paint(PAPER, 0.35 * (1 - kz) ** 2))
         self.scrim(c, 0.55, 0.55)
-        a1 = prog(t, s("menos"), s("menos") + 0.2)
+        a1 = prog(t, s("menos"), s("menos") + 0.15) * (1 - prog(t, s("pueblo") - 0.12, s("pueblo") + 0.02))
         if a1 > 0:
-            a1 *= 1 - prog(t, s("pueblo") - 0.1, s("pueblo") + 0.1)
-            draw_text(c, "POR MENOS DE LA MITAD…", CX, 560, font("xb", 60), PAPER, a1, stroke=7, stroke_alpha=0.7, shadow=10)
+            draw_text(c, "POR MENOS DE LA MITAD…", CX, 540, font("xb", 64), PAPER, a1, stroke=8, stroke_alpha=0.75, shadow=12)
         if t >= s("pueblo"):
             rrect(c, CX - 420, 460, 840, 340, 60, GRAPHITE, 0.72 * prog(t, s("pueblo"), s("pueblo") + 0.2), blur=40)
-            self.big_figure(c, "UN PUEBLO", CX, 610, 124, GREEN, t, s("pueblo"), kind="xb")
-            self.big_figure(c, "ENTERO", CX, 740, 124, GREEN, t, s("pueblo") + 0.1, kind="xb")
+            self.big_figure(c, "UN PUEBLO", CX, 610, 128, GREEN, t, s("pueblo"), kind="xb")
+            self.big_figure(c, "ENTERO", CX, 745, 128, GREEN, t, s("entero"), kind="xb")
         c.restore()
-        self.tag(c, t, twe, "GALICIA", "Costa da Morte, A Coruña", GREEN)
+        self.tag(c, t, tw_end + 0.1, "GALICIA", "Costa da Morte, A Coruña", GREEN)
         self.draw_plan_overlay(c, t)
-        return (), [("Fuente: anuncio de Candelago en idealista (prensa, feb. 2026)", prog(t, twe, twe + 0.3))], self.disc3d("candelago")
+        return (), [("Fuente: anuncio de Candelago en idealista (prensa, feb. 2026)", prog(t, tc, tc + 0.3))], self.disc3d("candelago")
 
     # ================================================================================
     # ESCENA 2 · PRIMER IMPACTO: Candelago, 150.000 €, la planta encoge a 23 m²
@@ -468,7 +601,16 @@ class Reel:
         # cota naranja alrededor de la aldea
         kc = prog(t, s("candelago"), s("candelago") + 0.7)
         if kc > 0:
-            if "candelago" in self.clip_paths:
+            if "candelago" in self.stills:
+                z_, ang_, af_, vp_ = self._cand_view
+                ctr_, rr = self.still("candelago").village_screen(z_, ang_, af_, vp_)
+                th_ = math.radians(ang_)
+                ring = []
+                for a in np.linspace(0, 2 * math.pi, 80):
+                    wob = 1 + 0.05 * math.sin(a * 3 + 1)
+                    x0, y0 = rr[0] * 1.15 * wob * math.cos(a), rr[1] * 1.15 * wob * math.sin(a)
+                    ring.append((ctr_[0] + x0 * math.cos(th_) - y0 * math.sin(th_), ctr_[1] + x0 * math.sin(th_) + y0 * math.cos(th_)))
+            elif "candelago" in self.clip_paths:
                 ring = [(CX + 300 * math.cos(a), 900 + 200 * math.sin(a)) for a in np.linspace(0, 2 * math.pi, 64)]
             else:
                 hx = [p for _, p in C.houses]
@@ -484,8 +626,14 @@ class Reel:
             c.drawPath(poly_path(pts, close=False), stroke_paint(ORANGE, a_ring, 5, dash=[22, 12]))
         # vistas al mar
         kv = prog(t, s("vistas"), s("vistas") + 0.25) * (1 - prog(t, s("p150"), s("p150") + 0.25))
-        if kv > 0:
-            sp = (260, 1010) if "candelago" in self.clip_paths else cam.p2(*C.sea_point)
+        if kv > 0 and ("candelago" in self.stills or "candelago" in self.clip_paths):
+            c.save()
+            c.translate(CX, 520)
+            c.scale(0.85 + 0.15 * back_out(min(1, kv * 1.4)), 0.85 + 0.15 * back_out(min(1, kv * 1.4)))
+            pill_label(c, "VISTAS AL MAR", 0, 0, font("xb", 48), GRAPHITE, PAPER, kv, pad_x=34, pad_y=22)
+            c.restore()
+        elif kv > 0:
+            sp = cam.p2(*C.sea_point)
             sp = (clamp(sp[0], 110, 700), clamp(sp[1], 700, 1120))
             draw_pin(c, sp[0], sp[1], 12, PAPER, kv, pulse=(t * 1.5) % 1)
             pill_label(c, "VISTAS AL MAR", sp[0] + 30, sp[1] - 60, font("xb", 40), GRAPHITE, PAPER, kv, align="left")
@@ -581,6 +729,10 @@ class Reel:
     # ESCENA 4 · EFECTO WOW: A Barca, 12 casas, 0 €, la trampa
     # ================================================================================
     def abarca_img(self, t, descend, lit=None):
+        if "a_barca" in self.stills:
+            z = 1.0 + 0.25 * descend + 0.01 * max(0.0, t - self.tl.s("doce"))
+            ang = -14.0 * (1 - descend) + 0.12 * (t - self.b[3])
+            return self.still_image("a_barca", z, ang, (540.0, 900.0)), 1.0, None
         Bm = self.model("abarca")
         cam = Bm.camera(t - self.b[3], descend=descend)
         if "a_barca" in self.clip_paths:
@@ -629,10 +781,15 @@ class Reel:
         crack = t >= s("trampa")
         c.save()
         self.cam_xform(c, t, s("ourense"), self.b[4])
-        self.blit(c, img, sf, desat=0.6 * prog(t, s("trampa"), s("trampa") + 0.3), dark=0.35 * prog(t, s("cero"), s("cero") + 0.3))
+        kh = prog(t, s("ourense") - 0.05, s("ourense") + 0.9)
+        haze = (1 - ease_out(kh)) if "a_barca" in self.stills else 0.0
+        self.blit(c, img, sf, desat=0.6 * prog(t, s("trampa"), s("trampa") + 0.3), dark=0.35 * prog(t, s("cero"), s("cero") + 0.3),
+                  blur=(14 * haze, 14 * haze))
+        if haze > 0:
+            c.drawRect(skia.Rect.MakeWH(W, H), fill_paint((0xE8, 0xEC, 0xF0), 0.55 * haze))
         self.scrim(c, 0.6, 0.6)
-        # casas que se iluminan
-        if "a_barca" not in self.clip_paths:
+        # casas que se iluminan (sólo en la maqueta 3D: en la imagen real no se marcan casas concretas)
+        if "a_barca" not in self.clip_paths and "a_barca" not in self.stills:
             for (o, p), a in zip(Bm.houses, lit):
                 if a > 0:
                     x, y = cam.p2(*p)
@@ -795,7 +952,9 @@ class Reel:
             mimg, msf = self.render3d(lambda cc, ss: M.render(cc, mcam, ss)), self.ss
         C = self.model("cand")
         ccam = C.camera(t - self.tw, vp=(0, 260, W, H), zoom=0.05)
-        if "candelago" in self.clip_paths:
+        if "candelago" in self.stills:
+            cimg, csf = self.still_image("candelago", 1.05 + 0.02 * (t - t0), 4.0 + 0.4 * (t - t0), (440.0, 1430.0), (0, half, W, half)), 1.0
+        elif "candelago" in self.clip_paths:
             cimg, csf = self.rgba_image(self.clip_frame("candelago", 4.0)), 1.0
         else:
             cimg, csf = self.render3d(lambda cc, ss: C.render(cc, ccam, ss, t - self.tw)), self.ss
@@ -847,7 +1006,7 @@ class Reel:
         pill_label(c, "¿QUÉ ELIGES?", CX, half - 130, font("xb", 46), GRAPHITE, PAPER, kq)
         fa = 1 - prog(t, self.tl.duration - 1.3, self.tl.duration - 1.0)
         src = [("Fuentes: idealista (ago. 2026); anuncio de Candelago en idealista (feb. 2026)", fa)]
-        return (), src, None
+        return (), src, (("Recreación 3D · Imágenes: Google Earth" if self.stills else "Recreación 3D ilustrativa"), 1.0)
 
     # ================================================================================
     # PORTADA (1080x1920): MADRID arriba, PUEBLO abajo, ¿QUÉ ELIGES? en el centro
@@ -864,7 +1023,9 @@ class Reel:
             mimg, msf = self.render3d(lambda cc, ss: M.render(cc, mcam, ss)), self.ss
         C = self.model("cand")
         ccam = C.camera(3.0, vp=(0, 380, W, H), zoom=0.15)
-        if "candelago" in self.clip_paths:
+        if "candelago" in self.stills:
+            cimg, csf = self.still_image("candelago", 1.08, 3.0, (440.0, 1300.0), (0, half, W, half)), 1.0
+        elif "candelago" in self.clip_paths:
             cimg, csf = self.rgba_image(self.clip_frame("candelago", 3.0)), 1.0
         else:
             cimg, csf = self.render3d(lambda cc, ss: C.render(cc, ccam, ss, 3.0)), self.ss
@@ -893,6 +1054,6 @@ class Reel:
         rrect(c, CX - tw / 2 - 50, half - 92, tw + 100, 184, 92, GRAPHITE, 0.7, blur=24)
         rrect(c, CX - tw / 2 - 44, half - 84, tw + 88, 168, 84, ORANGE)
         draw_text(c, "¿QUÉ ELIGES?", CX, half + 35, f, PAPER)
-        draw_text(c, "Recreación 3D ilustrativa" if not self.clip_paths else "Imágenes: Google Earth", SAFE_RIGHT, 278,
+        draw_text(c, "Recreación 3D · Imágenes: Google Earth" if self.stills else "Recreación 3D ilustrativa", SAFE_RIGHT, 278,
                   font("mono_m", 22), LIGHT_GREY, 0.85, align="right")
         return surf.makeImageSnapshot().toarray(colorType=skia.kRGBA_8888_ColorType)

@@ -1,53 +1,56 @@
-# Reel «Un piso en Madrid o un pueblo entero en Galicia» — notas de producción
+# Reel «Un piso en Madrid o un pueblo entero en Galicia»: notas de producción
 
-## Estado de esta versión
+## Esta versión
 
-- **Sin voz ni clips.** En la carpeta no había `input/voz.wav` ni `input/clips/*.mp4`, así que:
-  - Los tiempos salen del guion exacto (sílabas por palabra, locución ajustada a ~38,9 s, con los silencios de 0,3 s antes de «Pero espera», «CERO euros» y «Pero hay trampa»). Están en `timings.json`.
-  - Los planos de Google Earth se sustituyen por **maquetas 3D propias** (calle de Madrid, Candelago con el mar, A Barca junto al Miño) y **mapas estilizados**. En pantalla aparece «Recreación 3D ilustrativa».
-  - `madrid_vs_pueblo_final.mp4` y `madrid_vs_pueblo_sin_voz.mp4` tienen hoy el mismo audio (música + efectos). Cuando grabes la voz, regenera con el comando de abajo y el «final» llevará la voz con la música en *ducking*.
-- Formato: 1080×1920, 30 fps, H.264 High 4.2, AAC 48 kHz, -14 LUFS integrados, pico real ≤ -1 dBTP.
+- **Voz:** `input/voz.mp3` (63,8 s en bruto) editada automáticamente a **44,6 s**. Vídeo final: **46,8 s**.
+  - Tomas repetidas: «Y ponerla en marcha puede costar millones» estaba grabada 3 veces; se usa la última.
+  - Se quitan los silencios muertos (3,9 s al inicio, huecos de 2–3 s) y las pausas internas largas se dejan en ≤ 0,17 s.
+  - Pausas dramáticas añadidas de ~0,36–0,40 s antes de «Pero espera», «CERO euros» y «Pero hay una trampa». En la toma original «por cero» iba seguido; el corte se hace en el silencio real entre las dos palabras.
+  - **La velocidad de la voz no se toca:** solo se cortan silencios y tomas.
+  - Realce de voz: filtro de graves, reducción de ruido, menos «barro» (200–420 Hz), más presencia (3,2 kHz) y aire, de-esser, compresión y limitador.
+  - Comprobación: la voz editada se vuelve a transcribir y sale el guion completo y en orden. Además, todos los cortes caen en silencio.
+- **Subtítulos:** siguen el guion exacto, salvo «Pero hay **una** trampa», que es lo que dices en la grabación.
+- **Imagen:**
+  - Madrid: maqueta 3D propia.
+  - Candelago y A Barca: tus capturas de Google Earth, giradas a vertical, sin los rótulos de Google y con movimiento de cámara. En pantalla se rotula «Imágenes: Google Earth».
+  - En A Barca no se marcan casas concretas (no se sabe cuál es exactamente cada una): solo el rótulo del lugar y el contador de 12 casas.
+- **Gancho rehecho:**
+  1. Acelerón de cámara por la calle de Madrid, con «390.000 €» ya en el fotograma 0.
+  2. Barrido al mapa de España.
+  3. Vuelo trazado Madrid → Candelago.
+  4. Zoom de transición a la imagen real y golpe «UN PUEBLO ENTERO».
+  5. Desdoble de color (RGB) en los golpes fuertes.
+- **Formato:** 1080×1920, 30 fps, H.264 High. Final: −14,1 LUFS, pico real −1,7 dBTP. Sin voz: −14,2 LUFS.
+  - En la versión con voz, la música va unos 9 dB por debajo de la voz y los efectos unos 10 dB.
 
-## Regenerar con otra voz (un solo comando)
-
-1. Copia la locución a `input/voz.wav` (cualquier frecuencia de muestreo; la velocidad no se toca nunca).
-2. (Opcional) Copia los clips a `input/clips/`: `madrid`, `candelago` y `a_barca`, como `.mp4` o tal cual los exporta
-   Google Earth Studio (`.zip` con los fotogramas JPG, o la carpeta descomprimida). El montaje los convierte solo.
-3. Ejecuta, desde la raíz de la carpeta:
+## Regenerar (un solo comando)
 
 ```bash
 python3 reel/make.py
 ```
 
-Hace todo: transcribe la voz palabra a palabra con faster-whisper (modelo `large-v3`; la primera vez lo descarga),
-la alinea con el guion exacto, recalcula todos los tiempos (cada efecto visual y sonoro está anclado a una palabra),
-renderiza las 6 escenas en paralelo, las une con `ffmpeg concat`, etalona (sombras frías, luces cálidas, viñeta, grano),
-mezcla a -14 LUFS y regenera vídeos, portada, `subtitulos.srt` y `timings.json`. La duración la marca la voz.
+Ese comando:
+1. Coge `input/voz.(wav|mp3|m4a…)` y la edita (elige tomas, quita silencios, mete las pausas y la limpia).
+2. La sincroniza palabra a palabra con faster-whisper.
+3. Renderiza las 6 escenas en paralelo y las une con `ffmpeg concat`.
+4. Etalona, mezcla a −14 LUFS y regenera los vídeos, la portada, `subtitulos.srt` y `timings.json`.
 
-Otras opciones:
+Opciones:
 
 ```bash
-python3 reel/make.py --voz ruta/otra_toma.wav      # otra toma
-python3 reel/make.py --timings output/timings.json # reutiliza/corrige a mano los tiempos sin volver a transcribir
-python3 reel/make.py --preview                     # render rápido para revisar (sin supermuestreo)
+python3 reel/make.py --voz otra_toma.mp3          # otra locución
+python3 reel/make.py --modelo large-v3             # modelo de Whisper (por defecto "small"; acepta una carpeta)
+python3 reel/make.py --sin-edicion                # usa la voz tal cual, sin cortar tomas ni silencios
+python3 reel/make.py --timings output/timings.json  # reutiliza tiempos (sin volver a transcribir)
+python3 reel/make.py --preview                    # render rápido para revisar
 ```
 
-Instalación (una vez): `ffmpeg` en el sistema y `pip install -r reel/requirements.txt`
-(en Linux, skia necesita `libegl1 libgl1`). Si prefieres WhisperX, se usa automáticamente cuando faster-whisper no está instalado.
+Imágenes de Google Earth en `input/clips/` con los nombres `madrid`, `candelago` y `a_barca`. Valen tres formatos:
+- `.mp4`.
+- El `.zip` de fotogramas de Google Earth Studio.
+- Una captura fija (`.jpg`, `.png` o `.webp`). Puede llevar un `.json` al lado con `girar`, `ancla` y `tapar` (zonas de rótulos a borrar); ver `reel/stills.py`.
 
-Con clips reales, cada escena usa el clip en lugar de la maqueta: se recorta un 10 % por cada borde para quitar la interfaz,
-se reencuadra a 9:16 y se rotula «Imágenes: Google Earth» mientras se ve.
-
-## Estructura del montaje (tiempos de esta versión)
-
-| Escena | Tramo | Qué pasa |
-|---|---|---|
-| 1 Gancho | 0,0–5,6 s | Calle de Madrid. Fotograma 0: cota naranja + planta azul de 60 m² a escala real sobre la calzada, «390.000 €» con golpe grave. Whip pan a Galicia en «En Galicia», «UN PUEBLO ENTERO» en verde; la planta queda en la esquina. |
-| 2 Primer impacto | 5,6–11,9 s | Candelago con el mar, cota naranja alrededor de la aldea, contador a 150.000 € con 200.000 € tachado. La planta vuela al centro y encoge de 60 a 23 m². |
-| 3 Escalada | 11,9–18,3 s | «PERO ESPERA» con parada seca. Mapa de Galicia, se enciende Lugo, dos casas de piedra, 59.000 €. La planta encoge a 9 m² (cuadrado con bañera). |
-| 4 Efecto wow | 18,3–28,4 s | Pregunta gigante con *riser*, bajada desde el cielo a A Barca, 12 casas que se encienden. «0 €» con flash, temblor e impacto; la planta desaparece con un *pop*. Disco rayado: el 0 € se agrieta, «CONCESIÓN DE 50 AÑOS» y «HASTA 3 M€ PARA PONERLA EN MARCHA». |
-| 5 Contraste | 28,4–34,4 s | Mapa de España, puntos verdes sobre todo en Galicia, Asturias y Castilla y León, «≈ 3.000 PUEBLOS ABANDONADOS». Zoom a Madrid: la planta vuelve a 60 m², «CASI 400.000 €». |
-| 6 CTA | 34,4–41,2 s | Pantalla partida (Madrid arriba / Candelago abajo), botones «MADRID» y «PUEBLO», «¿QUÉ ELIGES?», firma «ALEIX JIMÉNEZ» en el último segundo. |
+Instalación: `ffmpeg` y `pip install -r reel/requirements.txt` (más `opencv-python-headless` para borrar rótulos). En Linux, skia necesita `libegl1 libgl1`.
 
 ## Datos y cálculos (solo cifras del encargo)
 
@@ -56,27 +59,27 @@ se reencuadra a 9:16 y se rotula «Imágenes: Google Earth» mientras se ve.
 | 390.000 € / casi 400.000 € (60 m² en Madrid) | idealista, precio medio de Madrid, ago. 2026 | 6.471 €/m² × 60 m² = 388.260 € ≈ 388.000 € |
 | 150.000 € (antes 200.000 €), Candelago | anuncio en idealista; prensa, feb. 2026 | 150.000 ÷ 6.471 ≈ 23,2 m² → «23 m²» |
 | 59.000 €, aldea de Lugo con dos casas de piedra | Xataka, sept. 2026 | 59.000 ÷ 6.471 ≈ 9,1 m² → «9 m²» |
-| 0 €, A Barca, 12 casas, concesión 50 años, hasta 3 M€ | anuncio en Aldeas Abandonadas; Ayto. de Cortegada (prensa, oct. 2026) | — |
-| ≈ 3.000 pueblos abandonados | Xataka, sept. 2026 | los puntos del mapa son ilustrativos (rotulado), no uno por pueblo |
+| 0 €, A Barca, 12 casas, concesión de 50 años, hasta 3 M€ | anuncio en Aldeas Abandonadas; Ayto. de Cortegada (prensa, oct. 2026) | — |
+| ≈ 3.000 pueblos abandonados | Xataka, sept. 2026 | Los puntos del mapa son ilustrativos (rotulado) |
 
-La aldea de Lugo se señala por provincia (no hay ubicación exacta en los datos), y las maquetas 3D no reproducen los pueblos reales: por eso el rótulo «Recreación 3D ilustrativa».
+- Las coordenadas de Candelago para el vuelo del mapa salen de tu captura de Google Earth (43°16'15,6"N 8°57'43,6"W).
+- La aldea de Lugo se señala por provincia.
 
-## Revisión de fotogramas clave
+## Revisión
 
-Se exportan 10 fotogramas a `reel/build/fotogramas_clave/` (con `hoja_contacto.png`) en cada render.
-Comprobado en esta versión: legibilidad a tamaño móvil, nada importante en los 250 px superiores ni en los 380 px inferiores
-ni a menos de 120 px del borde derecho, subtítulos de 76 px (máx. 2 líneas, palabra activa en naranja, con contorno),
-y cada cifra con su fuente en IBM Plex Mono de 27 px.
+En cada render se exportan 10 fotogramas clave a `reel/build/fotogramas_clave/` (con `hoja_contacto.png`).
+
+Comprobado en esta versión:
+- Legibilidad en móvil.
+- Zonas seguras: nada importante en los 250 px superiores, en los 380 px inferiores ni a menos de 120 px del borde derecho.
+- Subtítulos de 76 px, con un máximo de 2 líneas y la palabra activa en naranja.
+- Cada cifra con su fuente en IBM Plex Mono de 27 px.
 
 ## Licencias
 
-Detalle y textos en `licencias/` (`licencias/LEEME.md`):
-Inter Display e IBM Plex Mono (SIL OFL 1.1), mapas es-atlas (MIT; datos © IGN, atribuidos en pantalla) y world-atlas (ISC; Natural Earth, dominio público).
-Música y efectos: **creación propia**, sintetizados por código en `reel/audio.py` (sin muestras de terceros).
-No se han usado fotos de anuncios ni de prensa.
-
-## Archivos
-
-- `madrid_vs_pueblo_final.mp4`, `madrid_vs_pueblo_sin_voz.mp4`, `portada.jpg`
-- `subtitulos.srt`, `timings.json`, `comentario_fijado.txt`, este `NOTAS.md`
-- Código: `reel/` (`make.py` orquesta; `timing.py` guion y sincronía; `scenes.py` montaje; `engine3d.py` maquetas; `maps.py`; `audio.py`; `subs.py`)
+Detalle en `licencias/LEEME.md`:
+- Tipografías: Inter Display e IBM Plex Mono (OFL).
+- Mapas: es-atlas (© IGN) y Natural Earth.
+- Capturas de Google Earth: con atribución en pantalla.
+- Música y efectos: sintetizados por código (creación propia).
+- Whisper: solo para sincronizar la voz.

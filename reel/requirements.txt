@@ -7,3 +7,4 @@ pyloudnorm
 fonttools
 # Sólo para sincronizar con una voz real (palabra a palabra):
 faster-whisper
+opencv-python-headless   # borrar rótulos de capturas de Google Earth
