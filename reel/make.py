@@ -147,6 +147,39 @@ def cover(tl, ss, clips_dir):
     Image.fromarray(arr[..., :3]).save(os.path.join(OUT, "portada.jpg"), quality=93)
 
 
+def prepare_clips(clips_dir):
+    """Acepta lo que exporta Google Earth Studio (ZIP o carpeta de fotogramas JPG)
+    y lo convierte en <nombre>.mp4 a 30 fps. Un .mp4 ya existente tiene prioridad."""
+    import glob
+    import zipfile
+    if not clips_dir or not os.path.isdir(clips_dir):
+        return
+    for name in ("madrid", "candelago", "a_barca"):
+        mp4 = os.path.join(clips_dir, name + ".mp4")
+        if os.path.exists(mp4):
+            continue
+        src = os.path.join(clips_dir, name)
+        z = os.path.join(clips_dir, name + ".zip")
+        if os.path.exists(z):
+            src = os.path.join(BUILD, "fotogramas_" + name)
+            shutil.rmtree(src, ignore_errors=True)
+            with zipfile.ZipFile(z) as zf:
+                zf.extractall(src)
+        if not os.path.isdir(src):
+            continue
+        frames = sorted(f for ext in ("jpg", "jpeg", "png")
+                        for f in glob.glob(os.path.join(src, "**", f"*.{ext}"), recursive=True))
+        if not frames:
+            continue
+        lst = os.path.join(BUILD, f"fotogramas_{name}.txt")
+        with open(lst, "w") as f:
+            for fr in frames:
+                f.write(f"file '{os.path.abspath(fr)}'\nduration {1 / FPS:.6f}\n")
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", lst, "-r", str(FPS),
+                        "-c:v", "libx264", "-crf", "14", "-pix_fmt", "yuv420p", mp4], check=True)
+        log(f"clip {name}: {len(frames)} fotogramas de Earth Studio -> {mp4}")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--voz", default=None, help="locución (por defecto input/voz.wav si existe)")
@@ -169,6 +202,7 @@ def main():
     from subs import build_pages, srt
     with open(os.path.join(OUT, "subtitulos.srt"), "w", encoding="utf-8") as f:
         f.write(srt(build_pages(tl.toks)))
+    prepare_clips(a.clips)
     clips = a.clips if os.path.isdir(a.clips) else None
     found = [n for n in ("madrid", "candelago", "a_barca") if clips and os.path.exists(os.path.join(clips, n + ".mp4"))]
     log("clips de Google Earth:", ", ".join(found) or "ninguno -> maquetas 3D propias")

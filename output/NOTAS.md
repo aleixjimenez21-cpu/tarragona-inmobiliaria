@@ -11,7 +11,8 @@
 ## Regenerar con otra voz (un solo comando)
 
 1. Copia la locución a `input/voz.wav` (cualquier frecuencia de muestreo; la velocidad no se toca nunca).
-2. (Opcional) Copia los clips a `input/clips/madrid.mp4`, `input/clips/candelago.mp4`, `input/clips/a_barca.mp4`.
+2. (Opcional) Copia los clips a `input/clips/`: `madrid`, `candelago` y `a_barca`, como `.mp4` o tal cual los exporta
+   Google Earth Studio (`.zip` con los fotogramas JPG, o la carpeta descomprimida). El montaje los convierte solo.
 3. Ejecuta, desde la raíz de la carpeta:
 
 ```bash
