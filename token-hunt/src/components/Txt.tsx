@@ -56,8 +56,8 @@ export const Stack: React.FC<{ children: React.ReactNode; top?: number; gap?: nu
   <div
     style={{
       position: 'absolute',
-      left: 60,
-      width: 840,
+      left: 90,
+      width: 900,
       top: top ?? 170,
       bottom: top === undefined ? 250 : undefined,
       display: 'flex',

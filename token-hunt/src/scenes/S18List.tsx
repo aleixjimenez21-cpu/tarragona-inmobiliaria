@@ -25,7 +25,7 @@ export const S18List: React.FC = () => {
     <>
       <GodRays x={190} y={top + 2 * rowH + 60} radius={900} opacity={0.7 * beam} speed={0.8} />
       <Particles count={26} seed="list" opacity={beam} area={{ x: 60, y: top + rowH, w: 840, h: 700 }} speed={1.6} />
-      <div style={{ position: 'absolute', left: 90, top, width: 800 }}>
+      <div style={{ position: 'absolute', left: 130, top, width: 820 }}>
         {rows.map((r, i) => {
           const st = springAt(f, r.strike, fps, { damping: 20, stiffness: 220 });
           const dim = f >= r.strike ? 0.45 : 1;

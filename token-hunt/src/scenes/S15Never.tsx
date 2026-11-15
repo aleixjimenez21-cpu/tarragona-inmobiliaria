@@ -24,7 +24,7 @@ export const S15Never: React.FC = () => {
   const ny = -Math.cos(ANG) * coinR;
   const roll = ((coinX - 400) / (2 * Math.PI * coinR)) * 360;
   return (
-    <div style={{ position: 'absolute', inset: 0, transform: `scale(${zoom})`, transformOrigin: '480px 900px' }}>
+    <div style={{ position: 'absolute', inset: 0, transform: `scale(${zoom})`, transformOrigin: '540px 900px' }}>
       <Stack top={150} style={{ height: 1300 }}>
         <Kinetic text="NEVER" at={c.never} size={420} mode="drop" stagger={1} />
         <Kinetic text="GIVING" at={c.giving} size={420} mode="drop" stagger={1} />

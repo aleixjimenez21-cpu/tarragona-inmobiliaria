@@ -20,7 +20,7 @@ export const Desk: React.FC<{ bubbleAt: number; coinFrom: number; coinTo: number
   const pulse = 1 + 0.04 * Math.sin(f / 4);
   const scr = 0.82 + 0.18 * Math.sin(f / 2.3) * Math.sin(f / 5.7);
   return (
-    <div style={{ position: 'absolute', inset: 0, transform: 'translateY(150px)' }}>
+    <div style={{ position: 'absolute', inset: 0, transform: 'translate(65px, 150px)' }}>
       {/* cono de luz del monitor hacia el monigote */}
       <div
         style={{

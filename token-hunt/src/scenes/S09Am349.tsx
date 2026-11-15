@@ -15,7 +15,7 @@ export const S09Am349: React.FC = () => {
   const vel = Math.abs(interpolate(f + 1, [c.time, c.time + 9], [47, 49], ease) - m);
   return (
     <>
-      <div style={{ position: 'absolute', inset: 0, transform: 'scale(1.12)', transformOrigin: '480px 1000px' }}>
+      <div style={{ position: 'absolute', inset: 0, transform: 'scale(1.12)', transformOrigin: '540px 1000px' }}>
         <Desk bubbleAt={-30} coinFrom={0.85} coinTo={1} typingSpeed={1.8} growFrames={60} />
       </div>
       <Stack top={180} style={{ height: 300 }}>

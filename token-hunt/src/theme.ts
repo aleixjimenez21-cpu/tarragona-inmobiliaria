@@ -16,7 +16,8 @@ export const C = {
  */
 export const SAFE = { left: 60, right: 1080 - 180, top: 170, bottom: 1920 - 250 } as const;
 export const SAFE_W = SAFE.right - SAFE.left; // 840
-export const CX = (SAFE.left + SAFE.right) / 2; // 480 — centro óptico de la zona segura
+/** Centro horizontal REAL del vídeo (antes 480 = centro de la zona segura; se veía descentrado). */
+export const CX = 540;
 export const CY = (SAFE.top + SAFE.bottom) / 2; // 920
 
 /** El MISMO glow para todos los textos sobre negro (se tiñe del color del texto). */

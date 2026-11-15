@@ -16,7 +16,7 @@ export const S08Am347: React.FC = () => {
   const clock = springAt(f, c.time, fps, { damping: 12 });
   return (
     <>
-      <div style={{ position: 'absolute', inset: 0, transform: `scale(${z})`, transformOrigin: '480px 1000px' }}>
+      <div style={{ position: 'absolute', inset: 0, transform: `scale(${z})`, transformOrigin: '540px 1000px' }}>
         <Desk bubbleAt={c.bubble} coinFrom={0.25} coinTo={0.85} growFrames={45} />
       </div>
       <Stack top={180} style={{ height: 300, transform: `scale(${interpolate(clock, [0, 1], [1.4, 1])})`, opacity: Math.min(1, clock * 2) }}>
