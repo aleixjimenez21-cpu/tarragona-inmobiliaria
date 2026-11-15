@@ -1,0 +1,13 @@
+# El .gitignore de la raíz ignora package.json / *.png: aquí los reincluimos
+!package.json
+!package-lock.json
+
+node_modules/
+out/master.mp4
+out/sync_monitor.mp4
+out/stills/
+assets/*.wav
+public/audio.mp3
+referencia.mp4
+musica.mp3
+out/*.log

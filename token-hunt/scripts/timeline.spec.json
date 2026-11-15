@@ -1,0 +1,328 @@
+{
+ "fps": 30,
+ "contentEnd": 32.5,
+ "_doc": "Tiempos en segundos (tabla del guion). build_timeline.mjs los ajusta al beat m\u00e1s cercano (grid) o a la corchea m\u00e1s cercana si sub=true. hit=true => zoom-punch + shake. transition: cut | flash | glitch | whip.",
+ "scenes": [
+  {
+   "id": "intro",
+   "start": 0.0,
+   "bg": "black",
+   "transition": "cut",
+   "cues": {
+    "in": 0.0
+   }
+  },
+  {
+   "id": "giveUp",
+   "start": 0.5,
+   "bg": "black",
+   "transition": "flash",
+   "cues": {
+    "giveUp": {
+     "t": 0.5,
+     "hit": true
+    },
+    "q": {
+     "t": 1.5,
+     "hit": true
+    }
+   }
+  },
+  {
+   "id": "chests",
+   "start": 2.0,
+   "bg": "black",
+   "transition": "flash",
+   "cues": {
+    "c1": 2.0,
+    "c2": 2.5,
+    "c3": 3.0,
+    "c4": 3.5
+   }
+  },
+  {
+   "id": "stillNo",
+   "start": 4.0,
+   "bg": "gray",
+   "transition": "glitch",
+   "cues": {
+    "title": 4.0,
+    "sub": 4.5
+   }
+  },
+  {
+   "id": "oneMore",
+   "start": 5.0,
+   "bg": "black",
+   "transition": "glitch",
+   "cues": {
+    "one": 5.0,
+    "more": 5.5,
+    "chest": {
+     "t": 5.75,
+     "sub": true,
+     "hit": true
+    }
+   }
+  },
+  {
+   "id": "dontGiveUp",
+   "start": 6.0,
+   "bg": "black",
+   "transition": "flash",
+   "cues": {
+    "light": 6.0,
+    "man": 6.5,
+    "title": 7.0,
+    "sub": 7.5
+   }
+  },
+  {
+   "id": "days",
+   "start": 8.0,
+   "bg": "black",
+   "transition": "flash",
+   "cues": {
+    "d1": {
+     "t": 8.0,
+     "hit": true
+    },
+    "d2": 8.5,
+    "d3": 9.0,
+    "d4": 9.5
+   }
+  },
+  {
+   "id": "am347",
+   "start": 10.0,
+   "bg": "gray",
+   "transition": "whip",
+   "cues": {
+    "time": 10.0,
+    "bubble": 10.5,
+    "sub": 11.0
+   }
+  },
+  {
+   "id": "am349",
+   "start": 12.0,
+   "bg": "gray",
+   "transition": "cut",
+   "cues": {
+    "time": 12.0,
+    "sub": 12.5
+   }
+  },
+  {
+   "id": "odds",
+   "start": 13.0,
+   "bg": "black",
+   "transition": "glitch",
+   "cues": {
+    "a": 13.0,
+    "label": 13.5,
+    "b": {
+     "t": 14.0,
+     "hit": true
+    }
+   }
+  },
+  {
+   "id": "onlyNeed",
+   "start": 14.5,
+   "bg": "gray",
+   "transition": "whip",
+   "cues": {
+    "need": 14.5,
+    "one": {
+     "t": 15.0,
+     "hit": true
+    }
+   }
+  },
+  {
+   "id": "giveUpQ",
+   "start": 15.5,
+   "bg": "black",
+   "transition": "glitch",
+   "cues": {
+    "q": {
+     "t": 15.5,
+     "hit": true
+    }
+   }
+  },
+  {
+   "id": "nah",
+   "start": 16.0,
+   "bg": "black",
+   "transition": "flash",
+   "cues": {
+    "nah": {
+     "t": 16.0,
+     "hit": true
+    }
+   }
+  },
+  {
+   "id": "illFind",
+   "start": 17.0,
+   "bg": "black",
+   "transition": "cut",
+   "cues": {
+    "ill": 17.0,
+    "find": {
+     "t": 17.5,
+     "hit": true
+    },
+    "coin": {
+     "t": 17.75,
+     "sub": true
+    }
+   }
+  },
+  {
+   "id": "never",
+   "start": 18.0,
+   "bg": "gray",
+   "transition": "glitch",
+   "cues": {
+    "never": {
+     "t": 18.0,
+     "hit": true
+    },
+    "giving": 18.5,
+    "up": {
+     "t": 19.0,
+     "hit": true
+    }
+   }
+  },
+  {
+   "id": "empty",
+   "start": 20.0,
+   "bg": "gray",
+   "transition": "cut",
+   "cues": {
+    "c1": 20.0,
+    "s1": {
+     "t": 20.25,
+     "sub": true,
+     "hit": true
+    },
+    "c2": 20.5,
+    "s2": {
+     "t": 20.75,
+     "sub": true,
+     "hit": true
+    },
+    "c3": 21.0,
+    "s3": {
+     "t": 21.25,
+     "sub": true,
+     "hit": true
+    },
+    "c4": 21.5,
+    "s4": {
+     "t": 21.75,
+     "sub": true,
+     "hit": true
+    }
+   }
+  },
+  {
+   "id": "now",
+   "start": 22.0,
+   "bg": "black",
+   "transition": "glitch",
+   "cues": {
+    "now": {
+     "t": 22.0,
+     "hit": true
+    }
+   }
+  },
+  {
+   "id": "list",
+   "start": 22.5,
+   "bg": "black",
+   "transition": "cut",
+   "cues": {
+    "m": 22.5,
+    "d": 23.0,
+    "o": {
+     "t": 23.5,
+     "hit": true
+    }
+   }
+  },
+  {
+   "id": "outThere",
+   "start": 24.0,
+   "bg": "black",
+   "transition": "flash",
+   "cues": {
+    "coin": {
+     "t": 24.0,
+     "hit": true
+    },
+    "its": 24.5,
+    "out": 25.0
+   }
+  },
+  {
+   "id": "climb",
+   "start": 26.0,
+   "bg": "black",
+   "transition": "flash",
+   "cues": {
+    "stairs": 26.0,
+    "keep": 26.5,
+    "climbing": {
+     "t": 27.0,
+     "hit": true
+    }
+   }
+  },
+  {
+   "id": "iCan",
+   "start": 28.0,
+   "bg": "gray",
+   "transition": "whip",
+   "cues": {
+    "can": {
+     "t": 28.0,
+     "hit": true
+    },
+    "will": {
+     "t": 28.5,
+     "hit": true
+    },
+    "must": {
+     "t": 29.0,
+     "hit": true
+    },
+    "mustPunch": {
+     "t": 29.5,
+     "hit": true
+    }
+   }
+  },
+  {
+   "id": "again",
+   "start": 30.0,
+   "bg": "gray",
+   "transition": "flash",
+   "cues": {
+    "coin": {
+     "t": 30.0,
+     "hit": true
+    },
+    "again1": 30.5,
+    "again2": 31.0,
+    "fade": 31.5,
+    "loop": 32.0
+   }
+  }
+ ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "token-hunt",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio",
+    "beats": "python3 scripts/analyze_beats.py",
+    "timeline": "node scripts/build_timeline.mjs",
+    "render": "bash scripts/render_all.sh",
+    "prestudio": "bash scripts/prepare_audio.sh"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.535",
+    "@remotion/google-fonts": "4.0.535",
+    "@remotion/media-utils": "4.0.535",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "remotion": "4.0.535"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.12",
+    "typescript": "5.9.3"
+  }
+}
