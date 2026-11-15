@@ -23,7 +23,7 @@
      "hit": true
     },
     "q": {
-     "t": 1.5,
+     "t": 1.0,
      "hit": true
     }
    }
@@ -57,10 +57,12 @@
    "transition": "glitch",
    "cues": {
     "one": 5.0,
-    "more": 5.5,
+    "more": {
+     "t": 5.25,
+     "sub": true
+    },
     "chest": {
-     "t": 5.75,
-     "sub": true,
+     "t": 5.5,
      "hit": true
     }
    }
@@ -72,9 +74,12 @@
    "transition": "flash",
    "cues": {
     "light": 6.0,
-    "man": 6.5,
-    "title": 7.0,
-    "sub": 7.5
+    "man": 6.0,
+    "title": {
+     "t": 6.0,
+     "hit": true
+    },
+    "sub": 6.5
    }
   },
   {
@@ -99,8 +104,15 @@
    "transition": "whip",
    "cues": {
     "time": 10.0,
-    "bubble": 10.5,
-    "sub": 11.0
+    "bubble": {
+     "t": 10.25,
+     "sub": true
+    },
+    "sub": 10.5,
+    "zoom": {
+     "t": 11.0,
+     "hit": true
+    }
    }
   },
   {
@@ -110,7 +122,10 @@
    "transition": "cut",
    "cues": {
     "time": 12.0,
-    "sub": 12.5
+    "sub": {
+     "t": 12.25,
+     "sub": true
+    }
    }
   },
   {
@@ -120,11 +135,15 @@
    "transition": "glitch",
    "cues": {
     "a": 13.0,
-    "label": 13.5,
+    "roll": {
+     "t": 13.25,
+     "sub": true
+    },
     "b": {
-     "t": 14.0,
+     "t": 13.5,
      "hit": true
-    }
+    },
+    "label": 13.5
    }
   },
   {
@@ -171,13 +190,11 @@
    "transition": "cut",
    "cues": {
     "ill": 17.0,
+    "coin": 17.0,
     "find": {
-     "t": 17.5,
+     "t": 17.25,
+     "sub": true,
      "hit": true
-    },
-    "coin": {
-     "t": 17.75,
-     "sub": true
     }
    }
   },
@@ -191,8 +208,15 @@
      "t": 18.0,
      "hit": true
     },
-    "giving": 18.5,
+    "giving": {
+     "t": 18.25,
+     "sub": true
+    },
     "up": {
+     "t": 18.5,
+     "hit": true
+    },
+    "zoom": {
      "t": 19.0,
      "hit": true
     }
@@ -249,9 +273,12 @@
    "transition": "cut",
    "cues": {
     "m": 22.5,
-    "d": 23.0,
+    "d": {
+     "t": 22.75,
+     "sub": true
+    },
     "o": {
-     "t": 23.5,
+     "t": 23.0,
      "hit": true
     }
    }
@@ -266,8 +293,11 @@
      "t": 24.0,
      "hit": true
     },
-    "its": 24.5,
-    "out": 25.0
+    "its": {
+     "t": 24.25,
+     "sub": true
+    },
+    "out": 24.5
    }
   },
   {
@@ -277,9 +307,12 @@
    "transition": "flash",
    "cues": {
     "stairs": 26.0,
-    "keep": 26.5,
+    "keep": {
+     "t": 26.25,
+     "sub": true
+    },
     "climbing": {
-     "t": 27.0,
+     "t": 26.5,
      "hit": true
     }
    }
@@ -318,11 +351,15 @@
      "t": 30.0,
      "hit": true
     },
-    "again1": 30.5,
-    "again2": 31.0,
+    "again1": {
+     "t": 30.25,
+     "sub": true
+    },
+    "again2": 30.5,
     "fade": 31.5,
     "loop": 32.0
    }
   }
- ]
+ ],
+ "_reference": "Tiempos verificados contra referencia.mp4 a 10 fps (cortes ffmpeg: 2,4,5,6,8,10,11,12,13,14.5,15.5,16,18,19,20,22,24,26,28; outro TikTok desde 32.5)"
 }

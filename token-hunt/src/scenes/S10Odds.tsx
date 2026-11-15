@@ -9,8 +9,8 @@ import { rel } from '../timeline';
 export const S10Odds: React.FC = () => {
   const c = rel('odds');
   const f = useCurrentFrame();
-  const num = countUp(f, c.b - 6, 6, 8, 1);
-  const den = countUp(f, c.b - 6, 8, 895136, 137500);
+  const num = f < c.roll ? countUp(f, c.a, c.roll - c.a - 1, 0, 8) : countUp(f, c.roll, c.b - c.roll, 8, 1);
+  const den = f < c.roll ? countUp(f, c.a, c.roll - c.a - 1, 0, 895136) : countUp(f, c.roll, c.b - c.roll, 895136, 137500);
   const col = interpolateColors(f, [c.b, c.b + 4], [C.white, C.gold]);
   return (
     <Stack gap={10}>

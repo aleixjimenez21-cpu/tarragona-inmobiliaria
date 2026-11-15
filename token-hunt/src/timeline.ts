@@ -1,11 +1,11 @@
 // ⚠️ ARCHIVO GENERADO por scripts/build_timeline.mjs — no editar a mano.
-// Fuente de audio: public/audio.mp3 · 119.968 BPM · offset 0.00246s
+// Fuente de audio: public/audio.mp3 · 120.03 BPM · offset 0.01094s
 export const FPS = 30;
 export const WIDTH = 1080;
 export const HEIGHT = 1920;
 export const TOTAL_FRAMES = 975;
-export const BPM = 119.968;
-export const BEAT_FRAMES = 15.0039;
+export const BPM = 120.03;
+export const BEAT_FRAMES = 14.9961;
 export const BEATS: number[] = [0,15,30,45,60,75,90,105,120,135,150,165,180,195,210,225,240,255,270,285,300,315,330,345,360,375,390,405,420,435,450,465,480,495,510,525,540,555,570,585,600,615,630,645,660,675,690,705,720,735,750,765,780,795,810,825,840,855,870,885,900,915,930,945,960,975];
 
 export type Bg = 'black' | 'gray';
@@ -44,11 +44,11 @@ export const SCENES: SceneTiming[] = [
   "start": 15,
   "cues": {
    "giveUp": 15,
-   "q": 45
+   "q": 30
   },
   "hits": [
    15,
-   45
+   30
   ],
   "end": 60,
   "duration": 45
@@ -88,11 +88,11 @@ export const SCENES: SceneTiming[] = [
   "start": 150,
   "cues": {
    "one": 150,
-   "more": 165,
-   "chest": 173
+   "more": 158,
+   "chest": 165
   },
   "hits": [
-   173
+   165
   ],
   "end": 180,
   "duration": 30
@@ -104,11 +104,13 @@ export const SCENES: SceneTiming[] = [
   "start": 180,
   "cues": {
    "light": 180,
-   "man": 195,
-   "title": 210,
-   "sub": 225
+   "man": 180,
+   "title": 180,
+   "sub": 195
   },
-  "hits": [],
+  "hits": [
+   180
+  ],
   "end": 240,
   "duration": 60
  },
@@ -136,10 +138,13 @@ export const SCENES: SceneTiming[] = [
   "start": 300,
   "cues": {
    "time": 300,
-   "bubble": 315,
-   "sub": 330
+   "bubble": 308,
+   "sub": 315,
+   "zoom": 330
   },
-  "hits": [],
+  "hits": [
+   330
+  ],
   "end": 360,
   "duration": 60
  },
@@ -150,7 +155,7 @@ export const SCENES: SceneTiming[] = [
   "start": 360,
   "cues": {
    "time": 360,
-   "sub": 375
+   "sub": 368
   },
   "hits": [],
   "end": 390,
@@ -163,11 +168,12 @@ export const SCENES: SceneTiming[] = [
   "start": 390,
   "cues": {
    "a": 390,
-   "label": 405,
-   "b": 420
+   "roll": 398,
+   "b": 405,
+   "label": 405
   },
   "hits": [
-   420
+   405
   ],
   "end": 435,
   "duration": 45
@@ -222,11 +228,11 @@ export const SCENES: SceneTiming[] = [
   "start": 510,
   "cues": {
    "ill": 510,
-   "find": 525,
-   "coin": 533
+   "coin": 510,
+   "find": 518
   },
   "hits": [
-   525
+   518
   ],
   "end": 540,
   "duration": 30
@@ -238,11 +244,13 @@ export const SCENES: SceneTiming[] = [
   "start": 540,
   "cues": {
    "never": 540,
-   "giving": 555,
-   "up": 570
+   "giving": 548,
+   "up": 555,
+   "zoom": 570
   },
   "hits": [
    540,
+   555,
    570
   ],
   "end": 600,
@@ -293,11 +301,11 @@ export const SCENES: SceneTiming[] = [
   "start": 675,
   "cues": {
    "m": 675,
-   "d": 690,
-   "o": 705
+   "d": 683,
+   "o": 690
   },
   "hits": [
-   705
+   690
   ],
   "end": 720,
   "duration": 45
@@ -309,8 +317,8 @@ export const SCENES: SceneTiming[] = [
   "start": 720,
   "cues": {
    "coin": 720,
-   "its": 735,
-   "out": 750
+   "its": 728,
+   "out": 735
   },
   "hits": [
    720
@@ -325,11 +333,11 @@ export const SCENES: SceneTiming[] = [
   "start": 780,
   "cues": {
    "stairs": 780,
-   "keep": 795,
-   "climbing": 810
+   "keep": 788,
+   "climbing": 795
   },
   "hits": [
-   810
+   795
   ],
   "end": 840,
   "duration": 60
@@ -361,8 +369,8 @@ export const SCENES: SceneTiming[] = [
   "start": 900,
   "cues": {
    "coin": 900,
-   "again1": 915,
-   "again2": 930,
+   "again1": 908,
+   "again2": 915,
    "fade": 945,
    "loop": 960
   },

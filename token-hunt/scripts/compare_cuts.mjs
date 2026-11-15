@@ -22,9 +22,10 @@ const rows = scenes.slice(1).map((s, i) => {
   const t = s.start / fps;
   let o = near(ours, t);
   if (o !== null && Math.abs(o - t) > TOL) o = null;
-  const r = ref ? near(ref, spec.scenes[i + 1].start) : null;
+  let r = ref ? near(ref, spec.scenes[i + 1].start) : null;
+  if (r !== null && Math.abs(r - spec.scenes[i + 1].start) > TOL) r = 'nd';
   const b = near(beats.grid, t);
-  return `| ${s.id} | ${spec.scenes[i + 1].start.toFixed(2)} | ${t.toFixed(3)} | ${ms(t - b)} | ${o === null ? `no detectado: ${why(s, scenes[i])}` : o.toFixed(3)} | ${o === null ? '—' : ms(o - t)} | ${r === null ? '—' : r.toFixed(3)} | ${r === null ? '—' : ms(r - spec.scenes[i + 1].start)} |`;
+  return `| ${s.id} | ${spec.scenes[i + 1].start.toFixed(2)} | ${t.toFixed(3)} | ${ms(t - b)} | ${o === null ? `no detectado: ${why(s, scenes[i])}` : o.toFixed(3)} | ${o === null ? '—' : ms(o - t)} | ${r === null ? '—' : r === 'nd' ? 'no detectado' : r.toFixed(3)} | ${r === null || r === 'nd' ? '—' : ms(r - spec.scenes[i + 1].start)} |`;
 });
 const offBeat = ours.map((t) => ({ t, d: t - near(beats.grid, t), h: t - near(beats.half_grid, t) }));
 const md = [
@@ -42,9 +43,22 @@ const md = [
   '| t (s) | Δ al beat más cercano (ms) | Δ a la corchea más cercana (ms) |',
   '|---|---|---|',
   ...offBeat.map((x) => `| ${x.t.toFixed(3)} | ${ms(x.d)} | ${ms(x.h)} |`),
+  ...(ref
+    ? [
+        '',
+        `## Cortes detectados en referencia.mp4 (${ref.length})`,
+        '',
+        '| t (s) | Δ al beat (ms) | ¿Hay inicio de escena en el timeline? |',
+        '|---|---|---|',
+        ...ref.map((t) => {
+          const sc = scenes.find((s) => Math.abs(s.start / fps - t) <= TOL);
+          return `| ${t.toFixed(3)} | ${ms(t - near(beats.grid, t))} | ${sc ? sc.id : Math.abs(t - Math.round(t * 1)) < TOL ? 'no (cambio de plano dentro de escena: push-in/zoom)' : 'no (2º frame de transición)'} |`;
+        }),
+      ]
+    : []),
   '',
   'Los cortes a +33 ms de un beat son el 2º frame del flash blanco (1 → 0,55 → 0) o el final de un whip; el corte real es el frame anterior.',
-  `Δ beat crece de -3 a -10 ms porque la rejilla es ${beats.tempo} BPM y los frames son de 33,3 ms: siempre por debajo de medio frame.`,
+  `Δ beat: la rejilla es de ${beats.tempo} BPM y los frames de 33,3 ms, así que cada corte queda a menos de medio frame (±17 ms) del beat.`,
 ].join('\n');
 fs.writeFileSync(path.join(root, 'out/cuts_report.md'), md + '\n');
 console.log(`cuts_report.md: ${ours.length} cortes en video.mp4${ref ? `, ${ref.length} en referencia` : ''}`);

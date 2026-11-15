@@ -19,14 +19,14 @@ export const S03Chests: React.FC = () => {
     <>
       <Particles count={18} seed="ch" opacity={0.5} />
       <Stack gap={40}>
-        <Txt at={c.c1} size={150} spacing={6}>
-          <span style={{ color: C.red, textShadow: 'inherit' }}>0</span> TOKENS
-        </Txt>
-        <div style={{ transform: `translateY(${b.y}px) scale(${b.sx}, ${b.sy})`, transformOrigin: '50% 100%', marginTop: 30 }}>
-          <Chest width={470} glow />
-        </div>
         <Txt at={c.c1} size={175} spacing={2}>
           CHEST <span style={{ color: C.gold }}>#{n}</span>
+        </Txt>
+        <div style={{ transform: `translateY(${b.y}px) scale(${b.sx}, ${b.sy})`, transformOrigin: '50% 100%', margin: '20px 0' }}>
+          <Chest width={470} glow />
+        </div>
+        <Txt at={c.c1 + 3} size={130} spacing={6} color="#D0D0D0" glow={0.6}>
+          <span style={{ color: C.red, textShadow: 'inherit' }}>0</span> TOKENS
         </Txt>
       </Stack>
     </>

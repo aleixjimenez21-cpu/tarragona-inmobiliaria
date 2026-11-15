@@ -16,6 +16,7 @@ export const S15Never: React.FC = () => {
   const f = useCurrentFrame();
   const dur = sceneById('never').duration;
   const x = interpolate(f, [0, dur], [250, 380]);
+  const zoom = interpolate(f, [c.zoom, c.zoom + 8], [1, 1.1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   const coinR = 95;
   const coinX = x + 150;
   // centro de la moneda: punto de la pendiente + normal * radio
@@ -24,7 +25,7 @@ export const S15Never: React.FC = () => {
   const cyC = slopeY(coinX) + ny;
   const roll = ((coinX - 400) / (2 * Math.PI * coinR)) * 360;
   return (
-    <>
+    <div style={{ position: 'absolute', inset: 0, transform: `scale(${zoom})`, transformOrigin: '480px 900px' }}>
       <svg width="1080" height="1920" style={{ position: 'absolute', inset: 0 }}>
         <defs>
           <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
@@ -44,6 +45,6 @@ export const S15Never: React.FC = () => {
         <Txt at={c.giving} size={390}>GIVING</Txt>
         <Txt at={c.up} size={390} from={2}>UP</Txt>
       </Stack>
-    </>
+    </div>
   );
 };
