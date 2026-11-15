@@ -46,6 +46,17 @@ strengths = env[peak_frames]  # fuerza = altura del pico
 thr = np.percentile(strengths, 75) if len(strengths) else 0
 strong = onsets[strengths >= thr]
 
+# Energía por frame de vídeo (30 fps): RMS total y graves (<150 Hz), normalizadas 0..1
+FPS_V = 30
+hop_v = int(round(sr / FPS_V))
+rms = librosa.feature.rms(y=y, frame_length=2048, hop_length=hop_v, center=True)[0]
+S = np.abs(librosa.stft(y, n_fft=2048, hop_length=hop_v))
+freqs = librosa.fft_frequencies(sr=sr, n_fft=2048)
+bass = S[freqs < 150].mean(axis=0)
+norm = lambda v: np.clip(v / (np.percentile(v, 98) + 1e-9), 0, 1)
+data_energy = norm(rms)
+data_bass = norm(bass)
+
 data = {
     "source": path,
     "duration": round(dur, 4),
@@ -60,6 +71,9 @@ data = {
     "half_grid": [round(float(b), 4) for b in np.arange(t0, dur + 1e-6, period / 2)],
     "onsets": [round(float(o), 4) for o in onsets],
     "strong_onsets": [round(float(o), 4) for o in strong],
+    "energy_fps": FPS_V,
+    "energy": [round(float(v), 3) for v in data_energy],
+    "bass": [round(float(v), 3) for v in data_bass],
 }
 json.dump(data, open(out, "w"), indent=1)
 print(f"tempo={data['tempo']} BPM (librosa {tempo:.2f}) offset={t0:.3f}s "

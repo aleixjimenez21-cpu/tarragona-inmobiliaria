@@ -3,8 +3,10 @@ import { AbsoluteFill, Easing, interpolate, useCurrentFrame, useVideoConfig } fr
 import { springAt } from '../anim';
 import { Coin } from '../components/Coin';
 import { Background, Particles, Vignette } from '../components/Fx';
-import { COIN_INTRO, IntroArt } from '../components/IntroArt';
-import { Stack, Txt } from '../components/Txt';
+import { Coin3D } from '../components/Coin3D';
+import { COIN_INTRO, IntroArt, LOOP_ZOOM } from '../components/IntroArt';
+import { Kinetic } from '../components/Kinetic';
+import { Stack } from '../components/Txt';
 import { CX } from '../theme';
 import { rel, sceneById } from '../timeline';
 
@@ -50,6 +52,10 @@ export const S22Again: React.FC = () => {
   // fase B: aparece el arte del primer frame; en el último frame es idéntico al frame 0
   const b = interpolate(f, [c.loop, last], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.quad) });
   const coinSize = interpolate(a, [0, 1], [320, COIN_INTRO.size]);
+  // la moneda gira en 3D y queda exactamente de frente al empezar el fundido
+  const coinAngle = interpolate(f, [c.coin, c.fade], [-540, 0], { easing: Easing.out(Easing.cubic), extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+  // zoom-in final dentro de la moneda = zoom del frame 0 (bucle infinito)
+  const zoomIn = interpolate(f, [c.loop, last], [1, LOOP_ZOOM], { easing: Easing.in(Easing.cubic), extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   const coinY = interpolate(a, [0, 1], [cy, COIN_INTRO.y]);
   return (
     <>
@@ -59,8 +65,8 @@ export const S22Again: React.FC = () => {
           <Arrows r={300} rot={rot} />
         </svg>
         <Stack top={1230} style={{ height: 400 }}>
-          <Txt at={c.again1} size={210}>AGAIN</Txt>
-          <Txt at={c.again2} size={210}>AND AGAIN</Txt>
+          <Kinetic text="AGAIN" at={c.again1} size={210} mode="drop" />
+          <Kinetic text="AND AGAIN" at={c.again2} size={210} mode="drop" stagger={0.8} />
         </Stack>
       </div>
       {/* fundido a negro */}
@@ -70,11 +76,15 @@ export const S22Again: React.FC = () => {
         <Vignette strength={0.52} />
       </AbsoluteFill>
       <div style={{ position: 'absolute', left: CX - coinSize / 2, top: coinY - coinSize / 2, transform: `scale(${interpolate(inS, [0, 1], [0.4, 1])})`, opacity: 1 - b }}>
-        <Coin size={coinSize} glow={interpolate(a, [0, 1], [0.9, 1.2])} t={f - last} />
+        {f < c.fade ? (
+          <Coin3D size={coinSize} angle={coinAngle} glow={0.9} />
+        ) : (
+          <Coin size={coinSize} glow={interpolate(a, [0, 1], [0.9, 1.2])} t={f - last} />
+        )}
       </div>
       {b > 0 ? (
         <AbsoluteFill style={{ opacity: b }}>
-          <IntroArt t={f - last} />
+          <IntroArt t={f - last} zoom={zoomIn} />
         </AbsoluteFill>
       ) : null}
     </>

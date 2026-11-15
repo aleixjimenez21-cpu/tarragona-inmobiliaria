@@ -23,13 +23,13 @@ import { S21ICan } from './scenes/S21ICan';
 import { S22Again } from './scenes/S22Again';
 
 /** id de escena (timeline) → componente + intensidad del shake */
-export const REGISTRY: Record<string, { C: React.FC; shake?: number }> = {
-  intro: { C: S01Intro },
+export const REGISTRY: Record<string, { C: React.FC; shake?: number; leak?: boolean; drift?: number }> = {
+  intro: { C: S01Intro, drift: 0 },
   giveUp: { C: S02GiveUp },
   chests: { C: S03Chests },
   stillNo: { C: S04StillNo },
   oneMore: { C: S05OneMore },
-  dontGiveUp: { C: S06DontGiveUp },
+  dontGiveUp: { C: S06DontGiveUp, leak: true },
   days: { C: S07Days, shake: 0.6 },
   am347: { C: S08Am347 },
   am349: { C: S09Am349 },
@@ -40,10 +40,10 @@ export const REGISTRY: Record<string, { C: React.FC; shake?: number }> = {
   illFind: { C: S14IllFind },
   never: { C: S15Never, shake: 1.2 },
   empty: { C: S16Empty, shake: 1.3 },
-  now: { C: S17Now, shake: 1.6 },
+  now: { C: S17Now, shake: 1.6, leak: true },
   list: { C: S18List },
-  outThere: { C: S19OutThere },
-  climb: { C: S20Climb, shake: 0.7 },
+  outThere: { C: S19OutThere, leak: true },
+  climb: { C: S20Climb, shake: 0.7, leak: true },
   iCan: { C: S21ICan, shake: 0.8 },
-  again: { C: S22Again, shake: 0.6 },
+  again: { C: S22Again, shake: 0.6, drift: 0 },
 };

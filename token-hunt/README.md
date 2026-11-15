@@ -25,6 +25,17 @@ npm run studio         # previsualizar en Remotion Studio
 > Si cambias la música, basta con volver a ejecutar `npm run render`: todo el timeline se recalcula desde los beats.
 > Si el original no dura 32,5 s de contenido, cambia `contentEnd` en `scripts/timeline.spec.json`.
 
+## Lenguaje visual propio (v2)
+
+- **Tipografía cinética letra a letra** (`Kinetic.tsx`) con ecos de contorno que se expanden en cada golpe.
+- **Todo late con la música**: `analyze_beats.py` exporta la energía y los graves por frame; la cámara «respira» en cada beat.
+- **Cámara siempre viva** (push-in + deriva), **aberración cromática** 4 frames tras cada golpe y **destellos de luz cálida**.
+- **Cofres que se abren vacíos** con polvo y polillas; **sello EMPTY** que aplasta el cofre.
+- **Contadores tipo cuentakilómetros** (`Odometer.tsx`), **calendario** que se arranca hoja a hoja y **reloj LED** en una habitación a oscuras a las 3 AM.
+- **Moneda 3D** con canto (`Coin3D.tsx`), destello anamórfico, **grietas** en la pantalla con el «NAH».
+- «NEVER GIVING UP» **detrás de la colina**; MOTIVATION y DISCIPLINE **tachadas**, OBSESSION abre el único cofre **lleno de luz**.
+- **Bucle de zoom infinito**: el vídeo termina entrando en la moneda y empieza saliendo de ella.
+
 ## Estructura
 
 | Ruta | Qué es |

@@ -79,6 +79,17 @@ export const rel = (id: string): Record<string, number> => {
   const s = sceneById(id);
   return Object.fromEntries(Object.entries(s.cues).map(([k, v]) => [k, v - s.start]));
 };
+/** Energía de la música por frame (0..1): RMS total y graves. */
+export const ENERGY: number[] = ${JSON.stringify((beats.energy ?? []).slice(0, totalFrames + 1))};
+export const BASS: number[] = ${JSON.stringify((beats.bass ?? []).slice(0, totalFrames + 1))};
+export const energyAt = (f: number) => ENERGY[Math.max(0, Math.min(ENERGY.length - 1, Math.round(f)))] ?? 0;
+export const bassAt = (f: number) => BASS[Math.max(0, Math.min(BASS.length - 1, Math.round(f)))] ?? 0;
+/** Pulso que decae tras cada beat (1 en el beat → 0). */
+export const beatPulse = (f: number, decay = 4) => {
+  let last = -999;
+  for (const b of BEATS) { if (b <= f) last = b; else break; }
+  return Math.exp(-(f - last) / decay);
+};
 export const ALL_HITS: number[] = SCENES.flatMap((s) => s.hits);
 `;
 fs.writeFileSync(path.join(root, 'src/timeline.ts'), out);

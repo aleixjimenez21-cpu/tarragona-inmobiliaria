@@ -11,10 +11,10 @@ Referencia: 23 cortes detectados en referencia.mp4.
 | oneMore | 5.00 | 5.000 | -10 | 5.000 | 0 | 5.000 | 0 |
 | dontGiveUp | 6.00 | 6.000 | -9 | 6.000 | 0 | 6.000 | 0 |
 | days | 8.00 | 8.000 | -9 | 8.000 | 0 | 8.000 | 0 |
-| am347 | 10.00 | 10.000 | -8 | no detectado: whip-pan (entrada progresiva) | — | 10.000 | 0 |
+| am347 | 10.00 | 10.000 | -8 | 10.000 | 0 | 10.000 | 0 |
 | am349 | 12.00 | 12.000 | -8 | no detectado: mismo fondo (cut) | — | 12.000 | 0 |
-| odds | 13.00 | 13.000 | -8 | 13.000 | 0 | 13.000 | 0 |
-| onlyNeed | 14.50 | 14.500 | -7 | no detectado: whip-pan (entrada progresiva) | — | 14.500 | 0 |
+| odds | 13.00 | 13.000 | -8 | no detectado: mismo fondo (glitch) | — | 13.000 | 0 |
+| onlyNeed | 14.50 | 14.500 | -7 | 14.567 | 67 | 14.500 | 0 |
 | giveUpQ | 15.50 | 15.500 | -7 | 15.500 | 0 | 15.500 | 0 |
 | nah | 16.00 | 16.000 | -7 | 16.000 | 0 | 16.000 | 0 |
 | illFind | 17.00 | 17.000 | -7 | no detectado: mismo fondo (cut) | — | no detectado | — |
@@ -27,7 +27,7 @@ Referencia: 23 cortes detectados en referencia.mp4.
 | iCan | 28.00 | 28.000 | -4 | 28.067 | 67 | 28.000 | 0 |
 | again | 30.00 | 30.000 | -3 | 30.000 | 0 | no detectado | — |
 
-## Todos los cortes detectados en video.mp4 (27)
+## Todos los cortes detectados en video.mp4 (29)
 
 | t (s) | Δ al beat más cercano (ms) | Δ a la corchea más cercana (ms) |
 |---|---|---|
@@ -41,14 +41,16 @@ Referencia: 23 cortes detectados en referencia.mp4.
 | 6.033 | 24 | 24 |
 | 8.000 | -9 | -9 |
 | 8.033 | 24 | 24 |
-| 13.000 | -8 | -8 |
+| 10.000 | -8 | -8 |
+| 14.567 | 59 | 59 |
+| 15.033 | 26 | 26 |
 | 15.500 | -7 | -7 |
 | 16.000 | -7 | -7 |
 | 16.033 | 26 | 26 |
 | 18.000 | -6 | -6 |
-| 18.033 | 27 | 27 |
 | 18.500 | -6 | -6 |
 | 19.000 | -6 | -6 |
+| 19.033 | 27 | 27 |
 | 20.000 | -6 | -6 |
 | 22.000 | -5 | -5 |
 | 22.033 | 28 | 28 |

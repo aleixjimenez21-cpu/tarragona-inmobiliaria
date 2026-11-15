@@ -8,6 +8,8 @@ import { poses, Stickman } from './Stickman';
 /** Primer plano del vídeo: la moneda brillando en lo alto de unas escaleras, monigote pequeño abajo.
  *  Se usa también al final para que el bucle de TikTok sea invisible. `t` = tiempo propio. */
 export const COIN_INTRO = { x: CX, y: 770, size: 270 };
+/** Zoom del primer frame (dentro de la estrella de la moneda) = zoom del último frame. */
+export const LOOP_ZOOM = 3.4;
 export const STEPS = Array.from({ length: 6 }, (_, i) => ({
   y: 1640 - (i + 1) * 118,
   h: 118,

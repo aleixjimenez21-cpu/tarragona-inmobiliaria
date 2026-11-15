@@ -14,9 +14,9 @@ export const SceneById: React.FC<{ scene: SceneTiming; prev?: SceneTiming }> = (
       </AbsoluteFill>
     );
   }
-  const { C, shake } = entry;
+  const { C, shake, leak, drift } = entry;
   return (
-    <SceneShell scene={scene} prevBg={prev?.bg} shake={shake}>
+    <SceneShell scene={scene} prevBg={prev?.bg} shake={shake} leak={leak} drift={drift}>
       <C />
     </SceneShell>
   );

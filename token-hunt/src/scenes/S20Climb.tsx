@@ -4,7 +4,8 @@ import { springAt } from '../anim';
 import { Coin } from '../components/Coin';
 import { GodRays, Particles } from '../components/Fx';
 import { poses, Stickman } from '../components/Stickman';
-import { Stack, Txt } from '../components/Txt';
+import { Kinetic } from '../components/Kinetic';
+import { Stack } from '../components/Txt';
 import { CX } from '../theme';
 import { BEAT_FRAMES, rel } from '../timeline';
 
@@ -53,8 +54,8 @@ export const S20Climb: React.FC = () => {
       <Stickman pose={poses.climb(f, BEAT_FRAMES * 2)} x={CX + 10} y={1010} scale={1.05} rim="#FFC93C" />
       <div style={{ position: 'absolute', left: 0, right: 0, top: 1240, height: 680, background: 'linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0.75) 35%)', opacity: textIn }} />
       <Stack top={1270} style={{ height: 400 }}>
-        <Txt at={c.keep} size={200}>KEEP</Txt>
-        <Txt at={c.climbing} size={210} spacing={2}>CLIMBING</Txt>
+        <Kinetic text="KEEP" at={c.keep} size={210} mode="rise" />
+        <Kinetic text="CLIMBING" at={c.climbing} size={220} mode="rise" stagger={0.8} spacing={2} echo={2} />
       </Stack>
     </>
   );

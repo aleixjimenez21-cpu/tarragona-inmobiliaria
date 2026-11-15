@@ -100,8 +100,8 @@
   {
    "id": "am347",
    "start": 10.0,
-   "bg": "gray",
-   "transition": "whip",
+   "bg": "black",
+   "transition": "glitch",
    "cues": {
     "time": 10.0,
     "bubble": {
@@ -118,7 +118,7 @@
   {
    "id": "am349",
    "start": 12.0,
-   "bg": "gray",
+   "bg": "black",
    "transition": "cut",
    "cues": {
     "time": 12.0,

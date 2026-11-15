@@ -2,8 +2,8 @@ import React from 'react';
 import { AbsoluteFill, interpolate, random, spring, useCurrentFrame, useVideoConfig } from 'remotion';
 import { punch } from '../anim';
 import { CX, CY } from '../theme';
-import type { Bg, SceneTiming } from '../timeline';
-import { Background, Vignette } from './Fx';
+import { bassAt, beatPulse, type Bg, type SceneTiming } from '../timeline';
+import { Background, LightLeak, Vignette } from './Fx';
 import { useSvgId } from './ids';
 import { BgContext } from './Txt';
 
@@ -18,20 +18,56 @@ export const SceneShell: React.FC<{
   shake?: number;
   vignette?: number;
   extraHits?: number[]; // relativos
+  leak?: boolean; // destello cálido al entrar
+  drift?: number; // intensidad del movimiento de cámara
   children: React.ReactNode;
-}> = ({ scene, prevBg, shake = 1, vignette, extraHits = [], children }) => {
+}> = ({ scene, prevBg, shake = 1, vignette, extraHits = [], leak = false, drift = 1, children }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const id = useSvgId('fx');
+  const caId = useSvgId('ca');
   const hits = [...scene.hits.map((h) => h - scene.start), ...extraHits];
   const p = punch(frame, hits, shake);
+
+  // cámara siempre viva: push-in lento + deriva, y "respiración" con los graves en cada beat
+  const abs = scene.start + frame;
+  const prog = frame / Math.max(1, scene.duration);
+  const pulse = beatPulse(abs, 4) * (0.4 + 0.6 * bassAt(abs));
+  const seed = scene.start * 0.37;
+  const camScale = (1 + 0.045 * prog * drift) * (1 + 0.014 * pulse * Math.min(1, drift));
+  const camRot = Math.sin(frame / 38 + seed) * 0.45 * drift;
+  const camX = Math.sin(frame / 52 + seed) * 8 * drift;
+  const camY = Math.cos(frame / 47 + seed) * 6 * drift;
+
+  // aberración cromática en los 4 frames siguientes a cada golpe
+  const lastHit = hits.filter((h) => h <= frame).pop();
+  const ca = lastHit !== undefined && frame - lastHit < 4 ? (1 - (frame - lastHit) / 4) * 14 : 0;
 
   const inner = (
     <BgContext.Provider value={scene.bg}>
       <AbsoluteFill>
         <Background bg={scene.bg} />
-        <AbsoluteFill style={{ transform: p.transform, transformOrigin: `${CX}px ${CY}px` }}>{children}</AbsoluteFill>
+        {scene.bg === 'black' ? (
+          <AbsoluteFill style={{ background: `radial-gradient(circle at ${CX}px ${CY}px, rgba(255,235,190,${0.07 * pulse}) 0%, rgba(0,0,0,0) 60%)` }} />
+        ) : null}
+        <AbsoluteFill style={{ transform: `translate(${camX}px, ${camY}px) rotate(${camRot}deg) scale(${camScale})`, transformOrigin: `${CX}px ${CY}px` }}>
+          <AbsoluteFill style={{ transform: p.transform, transformOrigin: `${CX}px ${CY}px`, filter: ca > 0.5 ? `url(#${caId})` : undefined }}>{children}</AbsoluteFill>
+        </AbsoluteFill>
+        {ca > 0.5 ? (
+          <svg width="0" height="0" style={{ position: 'absolute' }}>
+            <filter id={caId} x="-5%" y="-5%" width="110%" height="110%" colorInterpolationFilters="sRGB">
+              <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r" />
+              <feOffset in="r" dx={ca} dy={ca * 0.3} result="ro" />
+              <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g" />
+              <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b" />
+              <feOffset in="b" dx={-ca} dy={-ca * 0.3} result="bo" />
+              <feBlend in="ro" in2="g" mode="screen" result="rg" />
+              <feBlend in="rg" in2="bo" mode="screen" />
+            </filter>
+          </svg>
+        ) : null}
         <Vignette strength={vignette ?? (scene.bg === 'black' ? 0.7 : 0.38)} />
+        {leak ? <LightLeak at={0} dur={16} from={scene.start % 2 ? 'left' : 'right'} /> : null}
       </AbsoluteFill>
     </BgContext.Provider>
   );

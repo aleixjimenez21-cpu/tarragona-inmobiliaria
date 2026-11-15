@@ -1,23 +1,28 @@
 import React from 'react';
-import { useCurrentFrame } from 'remotion';
-import { Stack, Txt } from '../components/Txt';
+import { interpolate, useCurrentFrame } from 'remotion';
+import { Kinetic } from '../components/Kinetic';
+import { Stack } from '../components/Txt';
+import { BEBAS } from '../fonts';
+import { C, CX } from '../theme';
 import { rel } from '../timeline';
-import { C } from '../theme';
 
-// 0,5–2,0 · "GIVE UP" → aparece la "?" en un golpe
+// 0,5–2,0 · "GIVE UP" letra a letra → la "?" cae como un mazazo; un "?" gigante respira al fondo
 export const S02GiveUp: React.FC = () => {
   const c = rel('giveUp');
   const f = useCurrentFrame();
-  const breathe = 1 + 0.012 * Math.sin(f / 5);
+  const bgQ = interpolate(f, [c.q, c.q + 8], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   return (
-    <Stack>
-      <div style={{ transform: `scale(${breathe})`, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Txt at={c.giveUp} size={420}>GIVE</Txt>
-        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-          <Txt at={c.giveUp + 3} size={420}>UP</Txt>
-          <Txt at={c.q} size={420} color={C.red} from={2.6}>?</Txt>
-        </div>
+    <>
+      <div style={{ position: 'absolute', left: CX - 700, top: 120, width: 1400, textAlign: 'center', fontFamily: BEBAS, fontSize: 1700, lineHeight: 1, color: 'transparent', WebkitTextStroke: '6px rgba(225,6,0,0.35)', opacity: bgQ, transform: `rotate(${-8 + f * 0.15}deg) scale(${1.25 - 0.25 * bgQ})` }}>
+        ?
       </div>
-    </Stack>
+      <Stack>
+        <Kinetic text="GIVE" at={c.giveUp} size={430} mode="drop" />
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+          <Kinetic text="UP" at={c.giveUp + 4} size={430} mode="drop" />
+          <Kinetic text="?" at={c.q} size={430} color={C.red} mode="slam" echo />
+        </div>
+      </Stack>
+    </>
   );
 };
