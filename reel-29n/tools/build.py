@@ -59,9 +59,23 @@ def main():
     mudo = os.path.join(BUILD, "video_mudo.mp4")
     run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", mudo])
     dur = "%.3f" % tl["timeline"]["duration"]
-    for wav, name in (("mezcla_con_voz.wav", "test_29N_final.mp4"), ("mezcla_sin_voz.wav", "test_29N_sin_voz.mp4")):
-        run(["ffmpeg", "-y", "-loglevel", "error", "-i", mudo, "-i", os.path.join(BUILD, "audio", wav),
-             "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-c:a", "aac", "-b:a", "320k", "-ar", "48000",
+    # loudnorm en dos pasadas: -14 LUFS integrados y techo de pico verdadero -1,5 dBTP
+    for wav in ("mezcla_con_voz.wav", "mezcla_sin_voz.wav"):
+        src = os.path.join(BUILD, "audio", wav)
+        r = subprocess.run(["ffmpeg", "-hide_banner", "-i", src, "-af", "loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json", "-f", "null", "-"],
+                           capture_output=True, text=True, cwd=ROOT)
+        js = r.stderr[r.stderr.rindex("{"):r.stderr.rindex("}") + 1]
+        m = json.loads(js)
+        af = ("loudnorm=I=-14:TP=-1.5:LRA=11:measured_I=%s:measured_TP=%s:measured_LRA=%s:measured_thresh=%s:offset=%s:linear=true,"
+              "aresample=48000" % (m["input_i"], m["input_tp"], m["input_lra"], m["input_thresh"], m["target_offset"]))
+        run(["ffmpeg", "-y", "-loglevel", "error", "-i", src, "-af", af, "-ar", "48000", "-c:a", "pcm_s24le", src.replace(".wav", "_master.wav")])
+    # vídeo de entrega: H.264 High, ~11 Mbps (Reels recomprime; el archivo queda < 100 MB)
+    entrega = os.path.join(BUILD, "video_entrega.mp4")
+    run(["ffmpeg", "-y", "-loglevel", "error", "-i", mudo, "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-maxrate", "11M", "-bufsize", "22M",
+         "-profile:v", "high", "-pix_fmt", "yuv420p", "-tune", "grain", "-r", "30", entrega])
+    for wav, name in (("mezcla_con_voz_master.wav", "test_29N_final.mp4"), ("mezcla_sin_voz_master.wav", "test_29N_sin_voz.mp4")):
+        run(["ffmpeg", "-y", "-loglevel", "error", "-i", entrega, "-i", os.path.join(BUILD, "audio", wav),
+             "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-c:a", "aac", "-b:a", "256k", "-ar", "48000",
              "-t", dur, "-movflags", "+faststart", os.path.join(OUT, name)])
     if not a.sin_portada and not a.solo_audio:
         run(["node", "tools/render.js", "cover"])
