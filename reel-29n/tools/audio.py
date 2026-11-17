@@ -15,6 +15,8 @@ import soundfile as sf
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SR = 48000
+VOICE_DB = -4.0   # nivel de la voz en la mezcla
+SFX_DB = 4.0      # nivel de los efectos de sonido
 RNG = np.random.default_rng(29)
 
 
@@ -341,7 +343,8 @@ def build(timings, voice_path=None):
             g = 1 - 0.6 * np.clip(envv / (np.percentile(envv[envv > 1e-4], 70) + 1e-9), 0, 1)
             g = lp(g, 3)
             d *= g[:, None]
-        mix = d * db(-7) + sfx + (voice if with_voice else 0)
+        # equilibrio: voz -4 dB, efectos +4 dB respecto a la mezcla anterior
+        mix = d * db(-7) + sfx * db(SFX_DB) + (voice * db(VOICE_DB) if with_voice else 0)
         mix = hp(mix.T, 25).T
         return loudness(mix)
 
