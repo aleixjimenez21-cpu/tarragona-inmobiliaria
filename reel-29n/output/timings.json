@@ -3,7 +3,7 @@
  "width": 1080,
  "height": 1920,
  "method": "cortes manuales",
- "voice_file": "build/voz/voz_limpia.wav",
+ "voice_file": "/home/user/tarragona-inmobiliaria/reel-29n/build/voz/voz_limpia.wav",
  "timeline": {
   "s1": [
    0.0,
