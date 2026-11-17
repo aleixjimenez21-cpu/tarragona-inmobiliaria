@@ -1,0 +1,2 @@
+Deja aquí tu narración como voz.wav (WAV o FLAC renombrado a .wav, cualquier frecuencia de muestreo).
+Después ejecuta desde reel-29n/:   python3 tools/build.py

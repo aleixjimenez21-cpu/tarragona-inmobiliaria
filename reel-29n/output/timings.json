@@ -1,0 +1,1965 @@
+{
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "method": "sintetico",
+ "voice_file": null,
+ "timeline": {
+  "s1": [
+   0.0,
+   2.6
+  ],
+  "seal_hit": 0.62,
+  "cut_to_urn": 1.3,
+  "s2": [
+   2.6,
+   6.947000000000001
+  ],
+  "title_rules": 4.029,
+  "P": 7.033333333333333,
+  "blocks_p": [
+   [
+    6.947000000000001,
+    13.980333333333334
+   ],
+   [
+    13.980333333333334,
+    21.013666666666666
+   ],
+   [
+    21.013666666666666,
+    28.046999999999997
+   ],
+   [
+    28.047000000000004,
+    35.080333333333336
+   ],
+   [
+    35.080333333333336,
+    42.11366666666667
+   ]
+  ],
+  "s3": [
+   6.947000000000001,
+   42.11366666666667
+  ],
+  "s4": [
+   42.11366666666667,
+   47.065666666666665
+  ],
+  "quiet": [
+   44.86566666666666,
+   47.065666666666665
+  ],
+  "R": 1.9666666666666666,
+  "flip_land": 0.8,
+  "flip_dur": 0.55,
+  "blocks_r": [
+   [
+    48.965666666666664,
+    50.93233333333333
+   ],
+   [
+    50.93233333333333,
+    52.899
+   ],
+   [
+    52.898999999999994,
+    54.86566666666666
+   ],
+   [
+    54.86566666666666,
+    56.83233333333333
+   ],
+   [
+    56.83233333333333,
+    58.799
+   ]
+  ],
+  "s5": [
+   47.065666666666665,
+   59.398999999999994
+  ],
+  "s6": [
+   59.398999999999994,
+   62.6
+  ],
+  "duration": 62.6,
+  "frames": 1878
+ },
+ "voice_clips": [
+  {
+   "clip": "intro",
+   "dst": 0.7,
+   "dur": 5.847,
+   "src_start": null,
+   "src_end": null,
+   "pad_pre": 0.0,
+   "pad_post": 0.0
+  },
+  {
+   "clip": "p1",
+   "dst": 7.247,
+   "dur": 2.881,
+   "src_start": null,
+   "src_end": null,
+   "pad_pre": 0.0,
+   "pad_post": 0.0
+  },
+  {
+   "clip": "p2",
+   "dst": 14.2803,
+   "dur": 4.069,
+   "src_start": null,
+   "src_end": null,
+   "pad_pre": 0.0,
+   "pad_post": 0.0
+  },
+  {
+   "clip": "p3",
+   "dst": 21.3137,
+   "dur": 6.114,
+   "src_start": null,
+   "src_end": null,
+   "pad_pre": 0.0,
+   "pad_post": 0.0
+  },
+  {
+   "clip": "p4",
+   "dst": 28.347,
+   "dur": 3.956,
+   "src_start": null,
+   "src_end": null,
+   "pad_pre": 0.0,
+   "pad_post": 0.0
+  },
+  {
+   "clip": "p5",
+   "dst": 35.3803,
+   "dur": 2.709,
+   "src_start": null,
+   "src_end": null,
+   "pad_pre": 0.0,
+   "pad_post": 0.0
+  },
+  {
+   "clip": "q1",
+   "dst": 42.6637,
+   "dur": 2.202,
+   "src_start": null,
+   "src_end": null,
+   "pad_pre": 0.0,
+   "pad_post": 0.0
+  },
+  {
+   "clip": "q2",
+   "dst": 47.2157,
+   "dur": 1.376,
+   "src_start": null,
+   "src_end": null,
+   "pad_pre": 0.0,
+   "pad_post": 0.0
+  },
+  {
+   "clip": "r1",
+   "dst": 49.3447,
+   "dur": 0.579,
+   "src_start": null,
+   "src_end": null,
+   "pad_pre": 0.0,
+   "pad_post": 0.0
+  },
+  {
+   "clip": "r2",
+   "dst": 51.4543,
+   "dur": 0.579,
+   "src_start": null,
+   "src_end": null,
+   "pad_pre": 0.0,
+   "pad_post": 0.0
+  },
+  {
+   "clip": "r3",
+   "dst": 53.421,
+   "dur": 0.436,
+   "src_start": null,
+   "src_end": null,
+   "pad_pre": 0.0,
+   "pad_post": 0.0
+  },
+  {
+   "clip": "r4",
+   "dst": 55.2447,
+   "dur": 0.864,
+   "src_start": null,
+   "src_end": null,
+   "pad_pre": 0.0,
+   "pad_post": 0.0
+  },
+  {
+   "clip": "r5",
+   "dst": 57.2113,
+   "dur": 0.721,
+   "src_start": null,
+   "src_end": null,
+   "pad_pre": 0.0,
+   "pad_post": 0.0
+  }
+ ],
+ "words": [
+  {
+   "clip": "intro",
+   "text": "Elecciones",
+   "start": 0.7,
+   "end": 1.286
+  },
+  {
+   "clip": "intro",
+   "text": "del",
+   "start": 1.286,
+   "end": 1.444
+  },
+  {
+   "clip": "intro",
+   "text": "29",
+   "start": 1.444,
+   "end": 1.602
+  },
+  {
+   "clip": "intro",
+   "text": "de",
+   "start": 1.602,
+   "end": 1.76
+  },
+  {
+   "clip": "intro",
+   "text": "noviembre.",
+   "start": 1.76,
+   "end": 2.204
+  },
+  {
+   "clip": "intro",
+   "text": "Cinco",
+   "start": 2.444,
+   "end": 2.744
+  },
+  {
+   "clip": "intro",
+   "text": "propuestas",
+   "start": 2.744,
+   "end": 3.188
+  },
+  {
+   "clip": "intro",
+   "text": "de",
+   "start": 3.188,
+   "end": 3.346
+  },
+  {
+   "clip": "intro",
+   "text": "vivienda.",
+   "start": 3.346,
+   "end": 3.789
+  },
+  {
+   "clip": "intro",
+   "text": "No",
+   "start": 4.029,
+   "end": 4.187
+  },
+  {
+   "clip": "intro",
+   "text": "te",
+   "start": 4.187,
+   "end": 4.345
+  },
+  {
+   "clip": "intro",
+   "text": "digo",
+   "start": 4.345,
+   "end": 4.646
+  },
+  {
+   "clip": "intro",
+   "text": "de",
+   "start": 4.646,
+   "end": 4.804
+  },
+  {
+   "clip": "intro",
+   "text": "qué",
+   "start": 4.804,
+   "end": 4.961
+  },
+  {
+   "clip": "intro",
+   "text": "partido",
+   "start": 4.961,
+   "end": 5.405
+  },
+  {
+   "clip": "intro",
+   "text": "son.",
+   "start": 5.405,
+   "end": 5.563
+  },
+  {
+   "clip": "intro",
+   "text": "Elige",
+   "start": 5.803,
+   "end": 6.246
+  },
+  {
+   "clip": "intro",
+   "text": "una.",
+   "start": 6.246,
+   "end": 6.547
+  },
+  {
+   "clip": "p1",
+   "text": "Uno:",
+   "start": 7.247,
+   "end": 7.548
+  },
+  {
+   "clip": "p1",
+   "text": "IVA",
+   "start": 7.708,
+   "end": 8.008
+  },
+  {
+   "clip": "p1",
+   "text": "cero",
+   "start": 8.008,
+   "end": 8.309
+  },
+  {
+   "clip": "p1",
+   "text": "en",
+   "start": 8.309,
+   "end": 8.467
+  },
+  {
+   "clip": "p1",
+   "text": "la",
+   "start": 8.467,
+   "end": 8.625
+  },
+  {
+   "clip": "p1",
+   "text": "compra",
+   "start": 8.625,
+   "end": 8.926
+  },
+  {
+   "clip": "p1",
+   "text": "de",
+   "start": 8.926,
+   "end": 9.083
+  },
+  {
+   "clip": "p1",
+   "text": "tu",
+   "start": 9.083,
+   "end": 9.241
+  },
+  {
+   "clip": "p1",
+   "text": "primera",
+   "start": 9.241,
+   "end": 9.685
+  },
+  {
+   "clip": "p1",
+   "text": "vivienda.",
+   "start": 9.685,
+   "end": 10.128
+  },
+  {
+   "clip": "p2",
+   "text": "Dos:",
+   "start": 14.28,
+   "end": 14.438
+  },
+  {
+   "clip": "p2",
+   "text": "préstamos",
+   "start": 14.598,
+   "end": 15.041
+  },
+  {
+   "clip": "p2",
+   "text": "sin",
+   "start": 15.041,
+   "end": 15.199
+  },
+  {
+   "clip": "p2",
+   "text": "intereses",
+   "start": 15.199,
+   "end": 15.786
+  },
+  {
+   "clip": "p2",
+   "text": "de",
+   "start": 15.786,
+   "end": 15.944
+  },
+  {
+   "clip": "p2",
+   "text": "hasta",
+   "start": 15.944,
+   "end": 16.244
+  },
+  {
+   "clip": "p2",
+   "text": "cincuenta",
+   "start": 16.244,
+   "end": 16.688
+  },
+  {
+   "clip": "p2",
+   "text": "mil",
+   "start": 16.688,
+   "end": 16.846
+  },
+  {
+   "clip": "p2",
+   "text": "euros",
+   "start": 16.846,
+   "end": 17.146
+  },
+  {
+   "clip": "p2",
+   "text": "para",
+   "start": 17.146,
+   "end": 17.447
+  },
+  {
+   "clip": "p2",
+   "text": "pagar",
+   "start": 17.447,
+   "end": 17.748
+  },
+  {
+   "clip": "p2",
+   "text": "la",
+   "start": 17.748,
+   "end": 17.906
+  },
+  {
+   "clip": "p2",
+   "text": "entrada.",
+   "start": 17.906,
+   "end": 18.349
+  },
+  {
+   "clip": "p3",
+   "text": "Tres:",
+   "start": 21.314,
+   "end": 21.472
+  },
+  {
+   "clip": "p3",
+   "text": "un",
+   "start": 21.632,
+   "end": 21.79
+  },
+  {
+   "clip": "p3",
+   "text": "millón",
+   "start": 21.79,
+   "end": 22.09
+  },
+  {
+   "clip": "p3",
+   "text": "de",
+   "start": 22.09,
+   "end": 22.248
+  },
+  {
+   "clip": "p3",
+   "text": "viviendas,",
+   "start": 22.248,
+   "end": 22.692
+  },
+  {
+   "clip": "p3",
+   "text": "y",
+   "start": 22.812,
+   "end": 22.97
+  },
+  {
+   "clip": "p3",
+   "text": "si",
+   "start": 22.97,
+   "end": 23.128
+  },
+  {
+   "clip": "p3",
+   "text": "el",
+   "start": 23.128,
+   "end": 23.285
+  },
+  {
+   "clip": "p3",
+   "text": "ayuntamiento",
+   "start": 23.285,
+   "end": 24.015
+  },
+  {
+   "clip": "p3",
+   "text": "no",
+   "start": 24.015,
+   "end": 24.173
+  },
+  {
+   "clip": "p3",
+   "text": "responde",
+   "start": 24.173,
+   "end": 24.616
+  },
+  {
+   "clip": "p3",
+   "text": "a",
+   "start": 24.616,
+   "end": 24.774
+  },
+  {
+   "clip": "p3",
+   "text": "una",
+   "start": 24.774,
+   "end": 25.075
+  },
+  {
+   "clip": "p3",
+   "text": "licencia",
+   "start": 25.075,
+   "end": 25.518
+  },
+  {
+   "clip": "p3",
+   "text": "en",
+   "start": 25.518,
+   "end": 25.676
+  },
+  {
+   "clip": "p3",
+   "text": "noventa",
+   "start": 25.676,
+   "end": 26.12
+  },
+  {
+   "clip": "p3",
+   "text": "días,",
+   "start": 26.12,
+   "end": 26.42
+  },
+  {
+   "clip": "p3",
+   "text": "queda",
+   "start": 26.54,
+   "end": 26.841
+  },
+  {
+   "clip": "p3",
+   "text": "aprobada.",
+   "start": 26.841,
+   "end": 27.428
+  },
+  {
+   "clip": "p4",
+   "text": "Cuatro:",
+   "start": 28.347,
+   "end": 28.648
+  },
+  {
+   "clip": "p4",
+   "text": "que",
+   "start": 28.808,
+   "end": 28.966
+  },
+  {
+   "clip": "p4",
+   "text": "ningún",
+   "start": 28.966,
+   "end": 29.266
+  },
+  {
+   "clip": "p4",
+   "text": "hogar",
+   "start": 29.266,
+   "end": 29.567
+  },
+  {
+   "clip": "p4",
+   "text": "pague",
+   "start": 29.567,
+   "end": 29.868
+  },
+  {
+   "clip": "p4",
+   "text": "más",
+   "start": 29.868,
+   "end": 30.026
+  },
+  {
+   "clip": "p4",
+   "text": "del",
+   "start": 30.026,
+   "end": 30.183
+  },
+  {
+   "clip": "p4",
+   "text": "treinta",
+   "start": 30.183,
+   "end": 30.484
+  },
+  {
+   "clip": "p4",
+   "text": "por",
+   "start": 30.484,
+   "end": 30.642
+  },
+  {
+   "clip": "p4",
+   "text": "ciento",
+   "start": 30.642,
+   "end": 30.943
+  },
+  {
+   "clip": "p4",
+   "text": "de",
+   "start": 30.943,
+   "end": 31.101
+  },
+  {
+   "clip": "p4",
+   "text": "sus",
+   "start": 31.101,
+   "end": 31.258
+  },
+  {
+   "clip": "p4",
+   "text": "ingresos",
+   "start": 31.258,
+   "end": 31.702
+  },
+  {
+   "clip": "p4",
+   "text": "en",
+   "start": 31.702,
+   "end": 31.86
+  },
+  {
+   "clip": "p4",
+   "text": "alquiler.",
+   "start": 31.86,
+   "end": 32.303
+  },
+  {
+   "clip": "p5",
+   "text": "Cinco:",
+   "start": 35.38,
+   "end": 35.681
+  },
+  {
+   "clip": "p5",
+   "text": "prohibir",
+   "start": 35.841,
+   "end": 36.284
+  },
+  {
+   "clip": "p5",
+   "text": "que",
+   "start": 36.284,
+   "end": 36.442
+  },
+  {
+   "clip": "p5",
+   "text": "fondos",
+   "start": 36.442,
+   "end": 36.743
+  },
+  {
+   "clip": "p5",
+   "text": "y",
+   "start": 36.743,
+   "end": 36.901
+  },
+  {
+   "clip": "p5",
+   "text": "empresas",
+   "start": 36.901,
+   "end": 37.344
+  },
+  {
+   "clip": "p5",
+   "text": "compren",
+   "start": 37.344,
+   "end": 37.645
+  },
+  {
+   "clip": "p5",
+   "text": "viviendas.",
+   "start": 37.645,
+   "end": 38.089
+  },
+  {
+   "clip": "q1",
+   "text": "¿Ya",
+   "start": 42.664,
+   "end": 42.822
+  },
+  {
+   "clip": "q1",
+   "text": "tienes",
+   "start": 42.822,
+   "end": 43.123
+  },
+  {
+   "clip": "q1",
+   "text": "la",
+   "start": 43.123,
+   "end": 43.28
+  },
+  {
+   "clip": "q1",
+   "text": "tuya?",
+   "start": 43.28,
+   "end": 43.581
+  },
+  {
+   "clip": "q1",
+   "text": "Comenta",
+   "start": 43.821,
+   "end": 44.265
+  },
+  {
+   "clip": "q1",
+   "text": "el",
+   "start": 44.265,
+   "end": 44.423
+  },
+  {
+   "clip": "q1",
+   "text": "número…",
+   "start": 44.423,
+   "end": 44.866
+  },
+  {
+   "clip": "q2",
+   "text": "y",
+   "start": 47.216,
+   "end": 47.374
+  },
+  {
+   "clip": "q2",
+   "text": "ahora",
+   "start": 47.374,
+   "end": 47.817
+  },
+  {
+   "clip": "q2",
+   "text": "mira",
+   "start": 47.817,
+   "end": 48.118
+  },
+  {
+   "clip": "q2",
+   "text": "de",
+   "start": 48.118,
+   "end": 48.276
+  },
+  {
+   "clip": "q2",
+   "text": "quién",
+   "start": 48.276,
+   "end": 48.434
+  },
+  {
+   "clip": "q2",
+   "text": "es.",
+   "start": 48.434,
+   "end": 48.592
+  },
+  {
+   "clip": "r1",
+   "text": "Uno,",
+   "start": 49.345,
+   "end": 49.646
+  },
+  {
+   "clip": "r1",
+   "text": "Vox.",
+   "start": 49.766,
+   "end": 49.924
+  },
+  {
+   "clip": "r2",
+   "text": "Dos,",
+   "start": 51.454,
+   "end": 51.612
+  },
+  {
+   "clip": "r2",
+   "text": "PSOE.",
+   "start": 51.732,
+   "end": 52.033
+  },
+  {
+   "clip": "r3",
+   "text": "Tres,",
+   "start": 53.421,
+   "end": 53.579
+  },
+  {
+   "clip": "r3",
+   "text": "PP.",
+   "start": 53.699,
+   "end": 53.857
+  },
+  {
+   "clip": "r4",
+   "text": "Cuatro,",
+   "start": 55.245,
+   "end": 55.546
+  },
+  {
+   "clip": "r4",
+   "text": "Podemos.",
+   "start": 55.666,
+   "end": 56.109
+  },
+  {
+   "clip": "r5",
+   "text": "Cinco,",
+   "start": 57.211,
+   "end": 57.512
+  },
+  {
+   "clip": "r5",
+   "text": "Sumar.",
+   "start": 57.632,
+   "end": 57.932
+  }
+ ],
+ "subtitles": [
+  {
+   "words": [
+    {
+     "clip": "intro",
+     "text": "Elecciones",
+     "start": 0.7,
+     "end": 1.286
+    },
+    {
+     "clip": "intro",
+     "text": "del",
+     "start": 1.286,
+     "end": 1.444
+    },
+    {
+     "clip": "intro",
+     "text": "29",
+     "start": 1.444,
+     "end": 1.602
+    },
+    {
+     "clip": "intro",
+     "text": "de",
+     "start": 1.602,
+     "end": 1.76
+    },
+    {
+     "clip": "intro",
+     "text": "noviembre.",
+     "start": 1.76,
+     "end": 2.204
+    }
+   ],
+   "start": 0.7,
+   "end": 2.204,
+   "hold": 2.444,
+   "lines": [
+    [
+     0,
+     1,
+     2,
+     3
+    ],
+    [
+     4
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "intro",
+     "text": "Cinco",
+     "start": 2.444,
+     "end": 2.744
+    },
+    {
+     "clip": "intro",
+     "text": "propuestas",
+     "start": 2.744,
+     "end": 3.188
+    },
+    {
+     "clip": "intro",
+     "text": "de",
+     "start": 3.188,
+     "end": 3.346
+    },
+    {
+     "clip": "intro",
+     "text": "vivienda.",
+     "start": 3.346,
+     "end": 3.789
+    }
+   ],
+   "start": 2.444,
+   "end": 3.789,
+   "hold": 4.029,
+   "lines": [
+    [
+     0,
+     1,
+     2
+    ],
+    [
+     3
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "intro",
+     "text": "No",
+     "start": 4.029,
+     "end": 4.187
+    },
+    {
+     "clip": "intro",
+     "text": "te",
+     "start": 4.187,
+     "end": 4.345
+    },
+    {
+     "clip": "intro",
+     "text": "digo",
+     "start": 4.345,
+     "end": 4.646
+    },
+    {
+     "clip": "intro",
+     "text": "de",
+     "start": 4.646,
+     "end": 4.804
+    },
+    {
+     "clip": "intro",
+     "text": "qué",
+     "start": 4.804,
+     "end": 4.961
+    },
+    {
+     "clip": "intro",
+     "text": "partido",
+     "start": 4.961,
+     "end": 5.405
+    },
+    {
+     "clip": "intro",
+     "text": "son.",
+     "start": 5.405,
+     "end": 5.563
+    }
+   ],
+   "start": 4.029,
+   "end": 5.563,
+   "hold": 5.803,
+   "lines": [
+    [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    [
+     5,
+     6
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "intro",
+     "text": "Elige",
+     "start": 5.803,
+     "end": 6.246
+    },
+    {
+     "clip": "intro",
+     "text": "una.",
+     "start": 6.246,
+     "end": 6.547
+    }
+   ],
+   "start": 5.803,
+   "end": 6.547,
+   "hold": 7.047,
+   "lines": [
+    [
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p1",
+     "text": "Uno:",
+     "start": 7.247,
+     "end": 7.548
+    }
+   ],
+   "start": 7.247,
+   "end": 7.548,
+   "hold": 7.708,
+   "lines": [
+    [
+     0
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p1",
+     "text": "IVA",
+     "start": 7.708,
+     "end": 8.008
+    },
+    {
+     "clip": "p1",
+     "text": "cero",
+     "start": 8.008,
+     "end": 8.309
+    },
+    {
+     "clip": "p1",
+     "text": "en",
+     "start": 8.309,
+     "end": 8.467
+    },
+    {
+     "clip": "p1",
+     "text": "la",
+     "start": 8.467,
+     "end": 8.625
+    },
+    {
+     "clip": "p1",
+     "text": "compra",
+     "start": 8.625,
+     "end": 8.926
+    },
+    {
+     "clip": "p1",
+     "text": "de",
+     "start": 8.926,
+     "end": 9.083
+    },
+    {
+     "clip": "p1",
+     "text": "tu",
+     "start": 9.083,
+     "end": 9.241
+    },
+    {
+     "clip": "p1",
+     "text": "primera",
+     "start": 9.241,
+     "end": 9.685
+    }
+   ],
+   "start": 7.708,
+   "end": 9.685,
+   "hold": 9.685,
+   "lines": [
+    [
+     0,
+     1,
+     2,
+     3
+    ],
+    [
+     4,
+     5,
+     6,
+     7
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p1",
+     "text": "vivienda.",
+     "start": 9.685,
+     "end": 10.128
+    }
+   ],
+   "start": 9.685,
+   "end": 10.128,
+   "hold": 10.628,
+   "lines": [
+    [
+     0
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p2",
+     "text": "Dos:",
+     "start": 14.28,
+     "end": 14.438
+    }
+   ],
+   "start": 14.28,
+   "end": 14.438,
+   "hold": 14.598,
+   "lines": [
+    [
+     0
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p2",
+     "text": "préstamos",
+     "start": 14.598,
+     "end": 15.041
+    },
+    {
+     "clip": "p2",
+     "text": "sin",
+     "start": 15.041,
+     "end": 15.199
+    },
+    {
+     "clip": "p2",
+     "text": "intereses",
+     "start": 15.199,
+     "end": 15.786
+    },
+    {
+     "clip": "p2",
+     "text": "de",
+     "start": 15.786,
+     "end": 15.944
+    },
+    {
+     "clip": "p2",
+     "text": "hasta",
+     "start": 15.944,
+     "end": 16.244
+    }
+   ],
+   "start": 14.598,
+   "end": 16.244,
+   "hold": 16.244,
+   "lines": [
+    [
+     0,
+     1
+    ],
+    [
+     2,
+     3,
+     4
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p2",
+     "text": "cincuenta",
+     "start": 16.244,
+     "end": 16.688
+    },
+    {
+     "clip": "p2",
+     "text": "mil",
+     "start": 16.688,
+     "end": 16.846
+    },
+    {
+     "clip": "p2",
+     "text": "euros",
+     "start": 16.846,
+     "end": 17.146
+    },
+    {
+     "clip": "p2",
+     "text": "para",
+     "start": 17.146,
+     "end": 17.447
+    },
+    {
+     "clip": "p2",
+     "text": "pagar",
+     "start": 17.447,
+     "end": 17.748
+    },
+    {
+     "clip": "p2",
+     "text": "la",
+     "start": 17.748,
+     "end": 17.906
+    }
+   ],
+   "start": 16.244,
+   "end": 17.906,
+   "hold": 17.906,
+   "lines": [
+    [
+     0,
+     1,
+     2
+    ],
+    [
+     3,
+     4,
+     5
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p2",
+     "text": "entrada.",
+     "start": 17.906,
+     "end": 18.349
+    }
+   ],
+   "start": 17.906,
+   "end": 18.349,
+   "hold": 18.849,
+   "lines": [
+    [
+     0
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p3",
+     "text": "Tres:",
+     "start": 21.314,
+     "end": 21.472
+    }
+   ],
+   "start": 21.314,
+   "end": 21.472,
+   "hold": 21.632,
+   "lines": [
+    [
+     0
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p3",
+     "text": "un",
+     "start": 21.632,
+     "end": 21.79
+    },
+    {
+     "clip": "p3",
+     "text": "millón",
+     "start": 21.79,
+     "end": 22.09
+    },
+    {
+     "clip": "p3",
+     "text": "de",
+     "start": 22.09,
+     "end": 22.248
+    },
+    {
+     "clip": "p3",
+     "text": "viviendas,",
+     "start": 22.248,
+     "end": 22.692
+    }
+   ],
+   "start": 21.632,
+   "end": 22.692,
+   "hold": 22.812,
+   "lines": [
+    [
+     0,
+     1,
+     2
+    ],
+    [
+     3
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p3",
+     "text": "y",
+     "start": 22.812,
+     "end": 22.97
+    },
+    {
+     "clip": "p3",
+     "text": "si",
+     "start": 22.97,
+     "end": 23.128
+    },
+    {
+     "clip": "p3",
+     "text": "el",
+     "start": 23.128,
+     "end": 23.285
+    },
+    {
+     "clip": "p3",
+     "text": "ayuntamiento",
+     "start": 23.285,
+     "end": 24.015
+    },
+    {
+     "clip": "p3",
+     "text": "no",
+     "start": 24.015,
+     "end": 24.173
+    },
+    {
+     "clip": "p3",
+     "text": "responde",
+     "start": 24.173,
+     "end": 24.616
+    }
+   ],
+   "start": 22.812,
+   "end": 24.616,
+   "hold": 24.616,
+   "lines": [
+    [
+     0,
+     1,
+     2,
+     3
+    ],
+    [
+     4,
+     5
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p3",
+     "text": "a",
+     "start": 24.616,
+     "end": 24.774
+    },
+    {
+     "clip": "p3",
+     "text": "una",
+     "start": 24.774,
+     "end": 25.075
+    },
+    {
+     "clip": "p3",
+     "text": "licencia",
+     "start": 25.075,
+     "end": 25.518
+    },
+    {
+     "clip": "p3",
+     "text": "en",
+     "start": 25.518,
+     "end": 25.676
+    },
+    {
+     "clip": "p3",
+     "text": "noventa",
+     "start": 25.676,
+     "end": 26.12
+    },
+    {
+     "clip": "p3",
+     "text": "días,",
+     "start": 26.12,
+     "end": 26.42
+    }
+   ],
+   "start": 24.616,
+   "end": 26.42,
+   "hold": 26.54,
+   "lines": [
+    [
+     0,
+     1,
+     2,
+     3
+    ],
+    [
+     4,
+     5
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p3",
+     "text": "queda",
+     "start": 26.54,
+     "end": 26.841
+    },
+    {
+     "clip": "p3",
+     "text": "aprobada.",
+     "start": 26.841,
+     "end": 27.428
+    }
+   ],
+   "start": 26.54,
+   "end": 27.428,
+   "hold": 27.928,
+   "lines": [
+    [
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p4",
+     "text": "Cuatro:",
+     "start": 28.347,
+     "end": 28.648
+    }
+   ],
+   "start": 28.347,
+   "end": 28.648,
+   "hold": 28.808,
+   "lines": [
+    [
+     0
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p4",
+     "text": "que",
+     "start": 28.808,
+     "end": 28.966
+    },
+    {
+     "clip": "p4",
+     "text": "ningún",
+     "start": 28.966,
+     "end": 29.266
+    },
+    {
+     "clip": "p4",
+     "text": "hogar",
+     "start": 29.266,
+     "end": 29.567
+    },
+    {
+     "clip": "p4",
+     "text": "pague",
+     "start": 29.567,
+     "end": 29.868
+    },
+    {
+     "clip": "p4",
+     "text": "más",
+     "start": 29.868,
+     "end": 30.026
+    },
+    {
+     "clip": "p4",
+     "text": "del",
+     "start": 30.026,
+     "end": 30.183
+    },
+    {
+     "clip": "p4",
+     "text": "treinta",
+     "start": 30.183,
+     "end": 30.484
+    }
+   ],
+   "start": 28.808,
+   "end": 30.484,
+   "hold": 30.484,
+   "lines": [
+    [
+     0,
+     1,
+     2
+    ],
+    [
+     3,
+     4,
+     5
+    ],
+    [
+     6
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p4",
+     "text": "por",
+     "start": 30.484,
+     "end": 30.642
+    },
+    {
+     "clip": "p4",
+     "text": "ciento",
+     "start": 30.642,
+     "end": 30.943
+    },
+    {
+     "clip": "p4",
+     "text": "de",
+     "start": 30.943,
+     "end": 31.101
+    },
+    {
+     "clip": "p4",
+     "text": "sus",
+     "start": 31.101,
+     "end": 31.258
+    },
+    {
+     "clip": "p4",
+     "text": "ingresos",
+     "start": 31.258,
+     "end": 31.702
+    },
+    {
+     "clip": "p4",
+     "text": "en",
+     "start": 31.702,
+     "end": 31.86
+    },
+    {
+     "clip": "p4",
+     "text": "alquiler.",
+     "start": 31.86,
+     "end": 32.303
+    }
+   ],
+   "start": 30.484,
+   "end": 32.303,
+   "hold": 32.803,
+   "lines": [
+    [
+     0,
+     1,
+     2,
+     3
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     6
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p5",
+     "text": "Cinco:",
+     "start": 35.38,
+     "end": 35.681
+    }
+   ],
+   "start": 35.38,
+   "end": 35.681,
+   "hold": 35.841,
+   "lines": [
+    [
+     0
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p5",
+     "text": "prohibir",
+     "start": 35.841,
+     "end": 36.284
+    },
+    {
+     "clip": "p5",
+     "text": "que",
+     "start": 36.284,
+     "end": 36.442
+    },
+    {
+     "clip": "p5",
+     "text": "fondos",
+     "start": 36.442,
+     "end": 36.743
+    },
+    {
+     "clip": "p5",
+     "text": "y",
+     "start": 36.743,
+     "end": 36.901
+    },
+    {
+     "clip": "p5",
+     "text": "empresas",
+     "start": 36.901,
+     "end": 37.344
+    },
+    {
+     "clip": "p5",
+     "text": "compren",
+     "start": 37.344,
+     "end": 37.645
+    }
+   ],
+   "start": 35.841,
+   "end": 37.645,
+   "hold": 37.645,
+   "lines": [
+    [
+     0,
+     1,
+     2
+    ],
+    [
+     3,
+     4,
+     5
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "p5",
+     "text": "viviendas.",
+     "start": 37.645,
+     "end": 38.089
+    }
+   ],
+   "start": 37.645,
+   "end": 38.089,
+   "hold": 38.589,
+   "lines": [
+    [
+     0
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "q1",
+     "text": "¿Ya",
+     "start": 42.664,
+     "end": 42.822
+    },
+    {
+     "clip": "q1",
+     "text": "tienes",
+     "start": 42.822,
+     "end": 43.123
+    },
+    {
+     "clip": "q1",
+     "text": "la",
+     "start": 43.123,
+     "end": 43.28
+    },
+    {
+     "clip": "q1",
+     "text": "tuya?",
+     "start": 43.28,
+     "end": 43.581
+    }
+   ],
+   "start": 42.664,
+   "end": 43.581,
+   "hold": 43.821,
+   "lines": [
+    [
+     0,
+     1,
+     2,
+     3
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "q1",
+     "text": "Comenta",
+     "start": 43.821,
+     "end": 44.265
+    },
+    {
+     "clip": "q1",
+     "text": "el",
+     "start": 44.265,
+     "end": 44.423
+    },
+    {
+     "clip": "q1",
+     "text": "número…",
+     "start": 44.423,
+     "end": 44.866
+    }
+   ],
+   "start": 43.821,
+   "end": 44.866,
+   "hold": 45.366,
+   "lines": [
+    [
+     0,
+     1,
+     2
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "q2",
+     "text": "y",
+     "start": 47.216,
+     "end": 47.374
+    },
+    {
+     "clip": "q2",
+     "text": "ahora",
+     "start": 47.374,
+     "end": 47.817
+    },
+    {
+     "clip": "q2",
+     "text": "mira",
+     "start": 47.817,
+     "end": 48.118
+    },
+    {
+     "clip": "q2",
+     "text": "de",
+     "start": 48.118,
+     "end": 48.276
+    },
+    {
+     "clip": "q2",
+     "text": "quién",
+     "start": 48.276,
+     "end": 48.434
+    },
+    {
+     "clip": "q2",
+     "text": "es.",
+     "start": 48.434,
+     "end": 48.592
+    }
+   ],
+   "start": 47.216,
+   "end": 48.592,
+   "hold": 49.092,
+   "lines": [
+    [
+     0,
+     1,
+     2,
+     3
+    ],
+    [
+     4,
+     5
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "r1",
+     "text": "Uno,",
+     "start": 49.345,
+     "end": 49.646
+    },
+    {
+     "clip": "r1",
+     "text": "Vox.",
+     "start": 49.766,
+     "end": 49.924
+    }
+   ],
+   "start": 49.345,
+   "end": 49.924,
+   "hold": 50.424,
+   "lines": [
+    [
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "r2",
+     "text": "Dos,",
+     "start": 51.454,
+     "end": 51.612
+    },
+    {
+     "clip": "r2",
+     "text": "PSOE.",
+     "start": 51.732,
+     "end": 52.033
+    }
+   ],
+   "start": 51.454,
+   "end": 52.033,
+   "hold": 52.533,
+   "lines": [
+    [
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "r3",
+     "text": "Tres,",
+     "start": 53.421,
+     "end": 53.579
+    },
+    {
+     "clip": "r3",
+     "text": "PP.",
+     "start": 53.699,
+     "end": 53.857
+    }
+   ],
+   "start": 53.421,
+   "end": 53.857,
+   "hold": 54.357,
+   "lines": [
+    [
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "r4",
+     "text": "Cuatro,",
+     "start": 55.245,
+     "end": 55.546
+    },
+    {
+     "clip": "r4",
+     "text": "Podemos.",
+     "start": 55.666,
+     "end": 56.109
+    }
+   ],
+   "start": 55.245,
+   "end": 56.109,
+   "hold": 56.609,
+   "lines": [
+    [
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "words": [
+    {
+     "clip": "r5",
+     "text": "Cinco,",
+     "start": 57.211,
+     "end": 57.512
+    },
+    {
+     "clip": "r5",
+     "text": "Sumar.",
+     "start": 57.632,
+     "end": 57.932
+    }
+   ],
+   "start": 57.211,
+   "end": 57.932,
+   "hold": 58.432,
+   "lines": [
+    [
+     0,
+     1
+    ]
+   ]
+  }
+ ],
+ "proposals": [
+  "IVA cero en la compra de tu primera vivienda.",
+  "préstamos sin intereses de hasta cincuenta mil euros para pagar la entrada.",
+  "un millón de viviendas, y si el ayuntamiento no responde a una licencia en noventa días, queda aprobada.",
+  "que ningún hogar pague más del treinta por ciento de sus ingresos en alquiler.",
+  "prohibir que fondos y empresas compren viviendas."
+ ],
+ "parties": [
+  "Vox",
+  "PSOE",
+  "PP",
+  "Podemos",
+  "Sumar"
+ ]
+}
