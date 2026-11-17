@@ -351,22 +351,43 @@ def build(timings, voice_path=None):
             ev = lp(np.abs(voice).mean(axis=1), 8)
             gv = 1 - 0.68 * np.clip(ev / (np.percentile(ev[ev > 1e-4], 60) + 1e-9), 0, 1)
             b *= lp(gv, 4)[:, None]
-        mix = d * db(-7) + (sfx + b) * db(SFX_DB) + (voice * db(VOICE_DB) if with_voice else 0)
+        fx = sfx.copy()
+        if with_voice and np.any(voice):
+            fx *= lp(1 - 0.37 * np.clip(ev / (np.percentile(ev[ev > 1e-4], 60) + 1e-9), 0, 1), 4)[:, None]
+        mix = d * db(-7) + (fx + b) * db(SFX_DB) + (voice * db(VOICE_DB) if with_voice else 0)
         mix = hp(mix.T, 25).T
         return loudness(mix)
 
     return master(True), master(False)
 
 
-def loudness(x, target=-14.0, ceiling=-1.0):
+def limiter(x, ceiling_db=-2.0, look=0.004, release=0.12):
+    """Limitador limpio con anticipación: baja la ganancia antes del pico, sin deformar la onda."""
+    from scipy.ndimage import minimum_filter1d
+    c = db(ceiling_db)
+    pk = np.abs(x).max(axis=1)
+    g = np.minimum(1.0, c / np.maximum(pk, 1e-9))
+    n = max(1, int(look * SR))
+    g = minimum_filter1d(g, size=2 * n + 1, mode="nearest")          # anticipación
+    k = 1.0 - np.exp(-1.0 / (release * SR))
+    out = np.empty_like(g); y = 1.0
+    for i in range(len(g)):                                          # liberación suave
+        gi = g[i]
+        y = gi if gi < y else y + (gi - y) * k
+        out[i] = y
+    a = np.exp(-1.0 / (0.0015 * SR))                                 # suaviza el ataque
+    out = signal.lfilter([1 - a], [1, -a], out)
+    out = np.minimum(out, g * 1.0 + (1 - g) * 0)  # nunca por encima de lo necesario
+    return x * out[:, None]
+
+
+def loudness(x, target=-14.0, ceiling=-2.0):
     import pyloudnorm as pyln
     m = pyln.Meter(SR)
     for _ in range(3):
         l = m.integrated_loudness(x)
         x = x * db(target - l)
-        # limitador suave de picos
-        c = db(ceiling - 0.3)
-        x = np.where(np.abs(x) > c * 0.8, np.sign(x) * (c * 0.8 + (c * 0.2) * np.tanh((np.abs(x) - c * 0.8) / (c * 0.2))), x)
+        x = limiter(x, ceiling)
     return x
 
 
