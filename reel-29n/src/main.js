@@ -4,7 +4,7 @@
 import * as THREE from 'three';
 
 const W = 1080, H = 1920;
-const COL = { room: 0x0b0e14, paper: '#EFE6D2', ink: '#141414', amber: '#FFB46B', wax: 0xb3261e };
+const COL = { room: 0x0b0e14, paper: '#F3E9D2', ink: '#141414', amber: '#FFB46B', wax: 0xb3261e };
 
 // ------------------------------------------------------------------ utilidades
 function rng(seed) { let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
@@ -35,8 +35,8 @@ renderer.toneMapping = THREE.NoToneMapping;
 renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x07090d);
-scene.fog = new THREE.FogExp2(0x07090d, 0.16);
+scene.background = new THREE.Color(0x0b1220);
+scene.fog = new THREE.FogExp2(0x0b1220, 0.22);
 const camera = new THREE.PerspectiveCamera(32, W / H, 0.02, 14);
 
 // ---------------------------------------------------------------- texturas 2D
@@ -49,7 +49,7 @@ function paperCanvas(w, h, seed, opt = {}) {
     const px = R() * w, py = R() * h, r = (0.04 + R() * 0.22) * Math.max(w, h);
     const g = x.createRadialGradient(px, py, 0, px, py, r);
     const light = R() < 0.5;
-    g.addColorStop(0, light ? 'rgba(255,251,240,0.05)' : 'rgba(150,120,80,0.028)');
+    g.addColorStop(0, light ? 'rgba(255,251,240,0.05)' : 'rgba(150,120,80,0.014)');
     g.addColorStop(1, 'rgba(0,0,0,0)');
     x.fillStyle = g; x.fillRect(px - r, py - r, 2 * r, 2 * r);
   }
@@ -175,7 +175,7 @@ const ENV = { w: 0.12, l: 0.17, t: 0.0032, r: 0.315 };
 const BAL = { w: 0.10, l: 0.14, out: 0.161 };
 const SEAL_AT = V(3, 0, 0);
 const phiOf = (k) => k * 72 * DEG; // k = 0..4
-const SPOT_I = 15, SSPOT_I = 2.2;
+const SPOT_I = 8.5, SSPOT_I = 1.3;
 
 function buildScene(fontsReady) {
   scene.environment = buildEnvironment();
@@ -189,12 +189,12 @@ function buildScene(fontsReady) {
   scene.add(spot, spot.target); OBJ.spot = spot;
   const sspot = new THREE.SpotLight(amber, 0, 0, 0.085, 0.8, 2);
   sspot.position.copy(SEAL_AT).add(V(0.25, 1.1, 0.35)); sspot.target.position.copy(SEAL_AT);
-  sspot.castShadow = true; sspot.shadow.mapSize.set(1024, 1024); sspot.shadow.bias = -0.0002; sspot.shadow.radius = 3;
+  sspot.castShadow = false; sspot.shadow.mapSize.set(1024, 1024); sspot.shadow.bias = -0.0002; sspot.shadow.radius = 3;
   sspot.shadow.camera.near = 0.5; sspot.shadow.camera.far = 2.2;
   scene.add(sspot, sspot.target); OBJ.sspot = sspot;
-  const hemi = new THREE.HemisphereLight(0x2a3a55, 0x050608, 0.22); scene.add(hemi); OBJ.hemi = hemi;
-  const rim = new THREE.DirectionalLight(0x6f92c8, 0.30); rim.position.set(-1.4, 1.2, -2.2); scene.add(rim); OBJ.rim = rim;
-  const rim2 = new THREE.DirectionalLight(0x5f7fb0, 0.12); rim2.position.set(1.8, 0.9, 1.0); scene.add(rim2); OBJ.rim2 = rim2;
+  const hemi = new THREE.HemisphereLight(0x3d5f94, 0x0b1220, 0.5); scene.add(hemi); OBJ.hemi = hemi;
+  const rim = new THREE.DirectionalLight(0xbcd6ff, 0.9); rim.position.set(-1.4, 1.2, -2.2); scene.add(rim); OBJ.rim = rim;
+  const rim2 = new THREE.DirectionalLight(0x8fb0e0, 0.32); rim2.position.set(1.8, 0.9, 1.0); scene.add(rim2); OBJ.rim2 = rim2;
 
   // --- mesa
   const woodTex = canvasTex(woodCanvas()); woodTex.wrapS = woodTex.wrapT = THREE.RepeatWrapping; woodTex.repeat.set(1.2, 1.2);
@@ -219,9 +219,9 @@ function buildScene(fontsReady) {
   sealPaper.rotation.x = -Math.PI / 2; sealPaper.position.copy(SEAL_AT).add(V(0, 0.0, 0)); sealPaper.receiveShadow = true; scene.add(sealPaper);
 
   // --- urna de metacrilato
-  const acrylic = new THREE.MeshPhysicalMaterial({ color: 0xe4f2ee, metalness: 0, roughness: 0.10, transparent: true, opacity: 0.13, depthWrite: false,
-    clearcoat: 0.6, clearcoatRoughness: 0.12, specularIntensity: 1, envMapIntensity: 2.2, side: THREE.DoubleSide });
-  const edgeMat = new THREE.MeshPhysicalMaterial({ color: 0xd6ece6, roughness: 0.1, transparent: true, opacity: 0.55, depthWrite: false, envMapIntensity: 2.5, emissive: 0x30342e, emissiveIntensity: 0.4 });
+  const acrylic = new THREE.MeshPhysicalMaterial({ color: 0xe4f2ee, metalness: 0, roughness: 0.06, transparent: true, opacity: 0.12, depthWrite: false,
+    clearcoat: 1.0, clearcoatRoughness: 0.05, specularIntensity: 1, envMapIntensity: 2.2, side: THREE.DoubleSide });
+  const edgeMat = new THREE.MeshPhysicalMaterial({ color: 0xe8f2ff, roughness: 0.08, transparent: true, opacity: 0.85, depthWrite: false, envMapIntensity: 2.5, emissive: 0xb4cdff, emissiveIntensity: 0.55 });
   const urn = new THREE.Group(); OBJ.urn = urn;
   const t = URN.t, uw = URN.w, uh = URN.h, ud = URN.d;
   const panel = (sx, sy, sz, px, py, pz) => { const m = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz), acrylic); m.position.set(px, py, pz); urn.add(m); return m; };
@@ -240,11 +240,36 @@ function buildScene(fontsReady) {
   // aristas pulidas (brillo de canto)
   const edgeGeo = new THREE.BoxGeometry(0.0035, uh, 0.0035);
   for (const [ex, ez] of [[1, 1], [1, -1], [-1, 1], [-1, -1]]) { const e = new THREE.Mesh(edgeGeo, edgeMat); e.position.set(ex * (uw / 2 - 0.0018), uh / 2, ez * (ud / 2 - 0.0018)); urn.add(e); }
+  // aristas horizontales (arriba y abajo) con el mismo brillo de canto
+  const hx = new THREE.BoxGeometry(uw, 0.003, 0.003), hz = new THREE.BoxGeometry(0.003, 0.003, ud);
+  for (const y of [0.0015, uh - 0.0015, uh + 0.008]) for (const sgn of [1, -1]) {
+    const a = new THREE.Mesh(hx, edgeMat); a.position.set(0, y, sgn * (ud / 2 - 0.0015)); urn.add(a);
+    const b = new THREE.Mesh(hz, edgeMat); b.position.set(sgn * (uw / 2 - 0.0015), y, 0); urn.add(b);
+  }
+  urn.position.y = 0.0012;
   scene.add(urn);
   // sombra suave bajo la urna (la luz atraviesa el metacrilato: sombra tenue)
   const shTex = canvasTex(softRect(256, 256, 22), false);
-  const urnShadow = new THREE.Mesh(new THREE.PlaneGeometry(uw + 0.07, ud + 0.07), new THREE.MeshBasicMaterial({ color: 0x000000, alphaMap: shTex, transparent: true, opacity: 0.45, depthWrite: false }));
+  const urnShadow = new THREE.Mesh(new THREE.PlaneGeometry(uw + 0.035, ud + 0.035), new THREE.MeshBasicMaterial({ color: 0x000000, alphaMap: shTex, transparent: true, opacity: 0.45, depthWrite: false }));
   urnShadow.rotation.x = -Math.PI / 2; urnShadow.position.y = 0.0006; scene.add(urnShadow);
+  // cáusticas suaves: la luz atraviesa el metacrilato y dibuja líneas cálidas en la mesa
+  const cc = mk(1024, 1024), cx = cc.getContext('2d'), CR = rng(808);
+  cx.fillStyle = '#000'; cx.fillRect(0, 0, 1024, 1024);
+  cx.strokeStyle = 'rgba(255,255,255,0.9)'; cx.filter = 'blur(5px)';
+  for (const [o, a] of [[0, 0.9], [26, 0.45], [52, 0.2]]) { cx.globalAlpha = a; cx.lineWidth = 9; cx.strokeRect(102 - o * 0.5, 102 - o * 0.5, 820 + o, 820 + o); }
+  cx.filter = 'blur(2px)'; cx.globalAlpha = 1;
+  cx.filter = 'blur(4px)';
+  for (let i = 0; i < 36; i++) {
+    const side = i % 4, u0 = CR();
+    const px = [102 + u0 * 820, 922, 102 + u0 * 820, 102][side], py = [102, 102 + u0 * 820, 922, 102 + u0 * 820][side];
+    const dx = [0, 1, 0, -1][side], dy = [-1, 0, 1, 0][side], len = 25 + CR() * 60;
+    cx.strokeStyle = `rgba(255,240,220,${0.08 + CR() * 0.18})`; cx.lineWidth = 3 + CR() * 5;
+    cx.beginPath(); cx.moveTo(px, py);
+    cx.quadraticCurveTo(px + dx * len * 0.5 + (CR() - 0.5) * 60, py + dy * len * 0.5 + (CR() - 0.5) * 60, px + dx * len + (CR() - 0.5) * 40, py + dy * len + (CR() - 0.5) * 40);
+    cx.stroke();
+  }
+  const caus = new THREE.Mesh(new THREE.PlaneGeometry(uw * 1.25, ud * 1.25), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.0, 0.72, 0.45), map: canvasTex(cc, false), transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending, depthWrite: false }));
+  caus.rotation.x = -Math.PI / 2; caus.position.y = 0.0009; scene.add(caus); OBJ.caus = caus;
 
   // --- sobres
   const front = [], back = [];
@@ -263,10 +288,9 @@ function buildScene(fontsReady) {
     fx.strokeStyle = 'rgba(110,88,58,0.18)'; fx.lineWidth = 3; fx.beginPath(); fx.moveTo(40, 1300); fx.lineTo(984, 1300); fx.stroke();
     const lf = mk(1024, 1450), lfx = lf.getContext('2d');
     lfx.textAlign = 'left';
-    const digit = String(k + 1), size = 560;
-    typeChars(lfx, [{ ch: digit, x: 512 - size * 0.3, y: 900, font: `700 ${size}px CourierPrime` }], 900 + 0); // misma semilla para todos
-    lfx.font = '400 64px CourierPrime'; lfx.fillStyle = COL.ink; lfx.globalAlpha = 0.85;
-    typeChars(lfx, [...'Nº'].map((ch, i) => ({ ch, x: 512 - 38 + i * 38.4, y: 330, font: '400 64px CourierPrime' })), 901);
+    const digit = String(k + 1), size = 1250;
+    typeChars(lfx, [{ ch: digit, x: 512 - size * 0.3, y: 1150, font: `700 ${size}px CourierPrime` }], 900 + 0); // misma semilla para todos
+    typeChars(lfx, [...'Nº'].map((ch, i) => ({ ch, x: 70 + i * 38.4, y: 130, font: '400 64px CourierPrime' })), 901);
     inkComposite(fx, lf, 4242);
     const ft = canvasTex(fc); front.push(ft);
     // reverso: solapa + partido (se dibuja tras conocer TL)
@@ -303,12 +327,12 @@ function buildScene(fontsReady) {
     x.lineWidth = 1.5; x.strokeRect(78, 78, 868, 1278);
     x.fillStyle = 'rgba(20,20,20,0.72)'; x.font = '500 36px PlexMono'; x.textAlign = 'left';
     x.letterSpacing = '9px';
-    x.fillText('PROPUESTA', 356, 262);
-    x.fillText('DE VIVIENDA', 356, 318);
+    x.fillText('PROPUESTA', 300, 210);
+    x.fillText('DE VIVIENDA', 300, 262);
     x.letterSpacing = '0px';
-    x.fillRect(120, 420, 784, 3);
+    x.fillRect(120, 340, 784, 3);
     const lay = mk(1024, 1434), lx = lay.getContext('2d');
-    typeChars(lx, [{ ch: String(k + 1), x: 118, y: 392, font: '700 330px CourierPrime' }], 6100);
+    typeChars(lx, [{ ch: String(k + 1), x: 118, y: 300, font: '700 230px CourierPrime' }], 6100);
     inkComposite(x, lay, 4245, 0.96, 1.6);
     return c;
   });
@@ -353,8 +377,13 @@ function buildScene(fontsReady) {
     g.computeVertexNormals();
     return g;
   };
-  const disc = new THREE.Mesh(blob(0.027, 0.0055, 0.025), [waxSide, waxTop, waxSide]); disc.position.y = 0.0055 / 2 + 0.002; disc.castShadow = true;
-  const puddle = new THREE.Mesh(blob(0.034, 0.0022, 0.08), [waxSide, waxSide, waxSide]); puddle.position.y = 0.0011; puddle.castShadow = true; puddle.scale.set(1, 1, 1);
+  const disc = new THREE.Mesh(blob(0.027, 0.0055, 0.025), [waxSide, waxTop, waxSide]); disc.position.y = 0.0055 / 2 + 0.002;
+  const sdc = mk(256, 256), sdx = sdc.getContext('2d'); const sgd = sdx.createRadialGradient(128, 128, 0, 128, 128, 128);
+  sgd.addColorStop(0, 'rgba(255,255,255,1)'); sgd.addColorStop(0.55, 'rgba(255,255,255,0.9)'); sgd.addColorStop(0.8, 'rgba(255,255,255,0.15)'); sgd.addColorStop(1, 'rgba(255,255,255,0)');
+  sdx.fillStyle = sgd; sdx.fillRect(0, 0, 256, 256);
+  const sealShadow = new THREE.Mesh(new THREE.PlaneGeometry(0.066, 0.066), new THREE.MeshBasicMaterial({ color: 0x000000, alphaMap: canvasTex(sdc, false), transparent: true, opacity: 0.7, depthWrite: false }));
+  sealShadow.rotation.x = -Math.PI / 2; scene.add(sealShadow); OBJ.sealShadow = sealShadow;
+  const puddle = new THREE.Mesh(blob(0.034, 0.0022, 0.08), [waxSide, waxSide, waxSide]); puddle.position.y = 0.0011; puddle.scale.set(1, 1, 1);
   sealGroup.add(disc, puddle); OBJ.puddle = puddle; OBJ.disc = disc;
   scene.add(sealGroup);
 
@@ -388,14 +417,14 @@ void main(){
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
   float z = -mv.z;
   float coc = clamp(cocK * abs(1.0/z - 1.0/focus), 0.0, cocMax);
-  float intrinsic = (burst > 0.5 ? 0.0006 : 0.0009) * (0.5 + seed.x*seed.x*1.6 + 0.0) / z * pxPerRad;
+  float intrinsic = (burst > 0.5 ? (seed.w < 0.08 ? 0.004 : 0.0009) : 0.0009) * (0.5 + seed.x*seed.x*1.6 + 0.0) / z * pxPerRad;
   float size = max(max(1.5, intrinsic), coc * 2.0);
   vSize = size;
   gl_PointSize = size;
   float lit = sInt * spotLit(p, sPos, sDir, sCos) + s2Int * spotLit(p, s2Pos, s2Dir, s2Cos);
   float energy = pow(max(1.5, intrinsic) / size, 2.0);
   float tw = 0.55 + 0.45 * sin(time * (1.0 + seed.y*2.0) + seed.w * 40.0);
-  vA = lit * energy * tw * (burst > 0.5 ? smoothstep(0.0, 0.05, time - tImpact) * exp(-max(time - tImpact,0.0)*0.9) * 1.0 : 1.0);
+  vA = lit * energy * tw * (burst > 0.5 ? smoothstep(0.0, 0.05, time - tImpact) * exp(-max(time - tImpact,0.0)*0.9) * (seed.w < 0.08 ? 0.35 : 1.1) : 1.0);
   vC = sCol;
   vZ = z;
   gl_Position = projectionMatrix * mv;
@@ -444,10 +473,10 @@ function buildDust() {
   return { scene: ds, mats: [pts.material, pts2.material] };
 }
 function buildBurst() {
-  const N = 700, R = rng(44);
+  const N = 1600, R = rng(44);
   const pos = new Float32Array(N * 3), sd = new Float32Array(N * 4);
   for (let i = 0; i < N; i++) {
-    const a = R() * Math.PI * 2, sp = 0.03 + Math.pow(R(), 2) * 0.22, up = 0.02 + R() * 0.12;
+    const a = R() * Math.PI * 2, sp = 0.04 + Math.pow(R(), 1.6) * 0.26, up = 0.01 + R() * 0.05;
     const r0 = 0.03 + R() * 0.01;
     pos.set([0, 0, 0], i * 3);
     sd.set([Math.sin(a) * sp + Math.sin(a) * r0, up, Math.cos(a) * sp + Math.cos(a) * r0, R()], i * 4);
@@ -568,7 +597,10 @@ function buildPost() {
         float fall = 1.0 / (0.35 + h*h*0.55);
         float n = n3(p*vec3(5.0,2.2,5.0) + vec3(0.0, time*0.06, time*0.035));
         float n2 = n3(p*vec3(13.0,7.0,13.0) - vec3(time*0.05, 0.0, 0.0));
-        acc += mask * fall * (0.25 + 1.4*n*n + 0.4*n2*n2) * dt;
+        vec2 sl = (p.xz - sPos.xz) / max(h, 0.05);
+        float ray = n3(vec3(sl * 9.0, time * 0.04));
+        ray = 0.35 + 1.5 * ray * ray * ray;
+        acc += mask * fall * (0.25 + 1.4*n*n + 0.4*n2*n2) * ray * dt;
       }
       float ct = rd.y;
       float g = gHG; float ph = (1.0 - g*g) / pow(1.0 + g*g - 2.0*g*ct, 1.5) * 0.25;
@@ -597,7 +629,7 @@ function buildPost() {
       col = col * (1.0 + band * 3.2 + flash * 1.4) + sweepCol * (band * 0.10 + flash * 0.05);
       gl_FragColor = vec4(col, 1.0);
     }`, { ...camU(), tColor: { value: null }, tDepth: { value: null }, tBlur: { value: null }, tBeam: { value: null }, texel: { value: new THREE.Vector2(1 / W, 1 / H) }, dbgBeam: { value: 0 },
-    sweepPos: { value: -1 }, sweepAmt: { value: 0 }, flash: { value: 0 }, haze: { value: 0.02 }, hazeCol: { value: new THREE.Color(0.05, 0.08, 0.13) }, sweepCol: { value: new THREE.Color(1.0, 0.7, 0.42) } });
+    sweepPos: { value: -1 }, sweepAmt: { value: 0 }, flash: { value: 0 }, haze: { value: 0.035 }, hazeCol: { value: new THREE.Color(0.06, 0.11, 0.22) }, sweepCol: { value: new THREE.Color(1.0, 0.7, 0.42) } });
 
   P.bright = makePass(/* glsl */`
     uniform sampler2D tSrc; uniform vec2 texel; uniform float thr; varying vec2 vUv;
@@ -649,7 +681,7 @@ function buildPost() {
       float l = dot(col, vec3(0.2126,0.7152,0.0722));
       col = mix(col, col * vec3(0.86, 0.96, 1.16), (1.0 - smoothstep(0.0, 0.45, l)) * 0.55);
       col = mix(col, col * vec3(1.06, 1.0, 0.9), smoothstep(0.4, 1.0, l) * 0.35);
-      vec3 roomLin = vec3(0.0033, 0.0044, 0.0070);
+      vec3 roomLin = vec3(0.0033, 0.0060, 0.0144); // #0B1220
       col = roomLin * lift + col * (1.0 - roomLin * lift);
       // viñeta
       float vg = smoothstep(0.95, 0.18, length((uv - 0.5) * vec2(1.0, 0.82)) * 1.25);
@@ -704,7 +736,7 @@ function title(lines, t, t0, t1, opt = {}) {
   ux.fillStyle = opt.color || CREAM;
   const x0 = opt.x || (SAFE.left + SAFE.right) / 2;
   if (slam !== 1) { ux.translate(x0, cy); ux.scale(slam, slam); ux.translate(-x0, -cy); }
-  if (opt.kicker) { ux.save(); ux.font = '500 30px PlexMono'; ux.globalAlpha = a * 0.85; spaced(ux, opt.kicker, x0, cy - size * 0.95, 12); ux.restore(); }
+  if (opt.kicker) { ux.save(); ux.font = '500 36px PlexMono'; ux.globalAlpha = a * 0.9; spaced(ux, opt.kicker, x0, cy - size * 1.0, 12); ux.restore(); }
   lines.forEach((ln, i) => spaced(ux, ln, x0, cy + i * lh - (lines.length - 1) * lh / 2 + size * 0.35, track));
   ux.restore();
 }
@@ -714,7 +746,7 @@ function subtitles(t) {
   let cur = null;
   for (const c of subs) if (t >= c.start - 0.06 && t < c.hold) cur = c;
   if (!cur) return;
-  const size = 76, lh = size * 1.18, maxW = SAFE.right - SAFE.left;
+  const size = 78, lh = size * 1.16, maxW = SAFE.right - SAFE.left;
   ux.save();
   ux.font = `600 ${size}px InterDisplay`; ux.textBaseline = 'alphabetic';
   // re-maquetar por anchura real
@@ -738,9 +770,12 @@ function subtitles(t) {
         ux.save();
         ux.globalAlpha = shown * fadeOut;
         ux.translate(x + ww / 2, y - size * 0.35); ux.scale(pop, pop); ux.translate(-(x + ww / 2), -(y - size * 0.35));
-        ux.shadowColor = 'rgba(0,0,0,0.6)'; ux.shadowBlur = 20; ux.shadowOffsetY = 3;
+        ux.textAlign = 'left';
+        ux.shadowColor = 'rgba(0,0,0,0.75)'; ux.shadowBlur = 26; ux.shadowOffsetY = 4;
         ux.fillStyle = active ? COL.amber : CREAM;
-        ux.textAlign = 'left'; ux.fillText(w.text, x, y);
+        ux.fillText(w.text, x, y);
+        ux.shadowColor = 'rgba(0,0,0,0.55)'; ux.shadowBlur = 6; ux.shadowOffsetY = 2;
+        ux.fillText(w.text, x, y);
         ux.restore();
       }
       x += ww + sp;
@@ -775,7 +810,7 @@ function prepareTexts() {
   const font = '400 84px CourierPrime';
   TL.proposals.forEach((p, k) => {
     const txt = p.charAt(0).toUpperCase() + p.slice(1);
-    BALLOT_LAYOUT[k] = layoutMono(txt, 132, 560, 15, 84, 112, font);
+    BALLOT_LAYOUT[k] = layoutMono(txt, 132, 470, 15, 84, 106, font);
   });
   // reversos con partido: misma tipografía, mismo tamaño, misma tinta
   TL.parties.forEach((name, k) => {
@@ -792,7 +827,7 @@ function prepareTexts() {
     x.beginPath(); x.moveTo(20, 1430); x.lineTo(400, 900); x.moveTo(1004, 1430); x.lineTo(624, 900); x.stroke();
     x.restore();
     const lay = mk(1024, 1450), lx = lay.getContext('2d');
-    const size = 150, adv = size * 0.6, up = name.toUpperCase();
+    const size = 185, adv = size * 0.6, up = name.toUpperCase();
     const x0 = 512 - (up.length * adv) / 2;
     typeChars(lx, [...up].map((ch, i) => ({ ch, x: x0 + i * adv, y: 930, font: `700 ${size}px CourierPrime` })), 1200);
     // número pequeño arriba, idéntico tratamiento
@@ -904,13 +939,14 @@ function orbitPoint(phi, rTarget, dist, elevDeg, yT = 0.0) {
   const pos = radial(phi, rTarget + dist * Math.cos(el), dist * Math.sin(el));
   return { pos, tgt };
 }
+const PROP_OFF = 0.012;
 function proposalShot(k, tau, P) {
   const phi = phiOf(k) + lerp(-2.2, 2.2, smooth(tau / P)) * DEG;
   const u = smooth(tau / P);
-  const dist = lerp(0.47, 0.43, u), el = lerp(58, 62, u);
+  const dist = lerp(0.300, 0.282, u), el = lerp(66, 69, u);
   const rB = ENV.r + BAL.out;
-  const o = orbitPoint(phi, rB + 0.036, dist, el, 0.0);
-  return shot(o.pos, o.tgt, 36, 11, null, o.pos.distanceTo(radial(phiOf(k), rB, 0)));
+  const o = orbitPoint(phi, rB + PROP_OFF, dist, el, 0.0);
+  return shot(o.pos, o.tgt, 36, 7, null, o.pos.distanceTo(radial(phiOf(k), rB, 0)));
 }
 function topShot(t, t0, t1, h0, h1, rot0, rot1) {
   const u = smooth(range(t, t0, t1));
@@ -929,7 +965,7 @@ function revealOrbit(t) {
   if (k < 0) ang = 0;
   else if (k >= 4) ang = 288 * DEG + (t - (r0 + 4 * T.R + T.flip_land)) * 2.5 * DEG;
   else ang = 72 * DEG * (k + smoother((f - m0) / (m1 - m0)));
-  const o = orbitPoint(ang, ENV.r + 0.068, 0.50, 77, 0.0);
+  const o = orbitPoint(ang, ENV.r + 0.055, 0.47, 86, 0.0);
   return shot(o.pos, o.tgt, 36, 10, null);
 }
 
@@ -940,30 +976,31 @@ function getCam(t) {
     // macro del sello
     const u = t / T.cut_to_urn;
     const hitU = easeOut(range(t, T.seal_hit, T.seal_hit + 0.14));
-    const dist = lerp(0.35, 0.32, smooth(u)) * (1 - 0.13 * hitU), el = 50 * DEG;
-    const tgt = SEAL_AT.clone().add(V(0, 0.004, 0.022));
+    const dist = lerp(0.30, 0.28, smooth(u)) * (1 - 0.12 * hitU), el = 62 * DEG;
+    const tgt = SEAL_AT.clone().add(V(0, 0.012, 0.012));
     const pos = tgt.clone().add(V(Math.sin(-0.08 + u * 0.05) * dist * Math.cos(el), dist * Math.sin(el), Math.cos(-0.08 + u * 0.05) * dist * Math.cos(el)));
     s = shot(pos, tgt, 30, 9);
     // golpe: sacudida
     const th = t - T.seal_hit;
-    if (th > 0) { const a = Math.exp(-th * 11) * 0.0032; s.pos.add(V(Math.sin(th * 95) * a, Math.sin(th * 73 + 1) * a, Math.sin(th * 61) * a * 0.5)); }
+    const fr = Math.floor(th * 30 + 1e-6);
+    if (th >= 0 && fr < 4) { const a = [0.0045, 0.0032, 0.002, 0.001][fr], sg = [1, -1, 1, -1][fr]; s.pos.add(V(sg * a, -sg * a * 0.8, sg * a * 0.4)); }
   } else if (t < T.s2[0]) {
     const u = range(t, T.cut_to_urn, T.s2[0] + 1.2);
-    const pos = V(lerp(-0.035, -0.02, u), lerp(0.46, 0.40, smooth(u)), lerp(1.78, 1.62, u));
+    const pos = V(lerp(-0.03, -0.02, u), lerp(0.40, 0.36, smooth(u)), lerp(1.50, 1.40, u));
     s = shot(pos, V(0, lerp(0.13, 0.11, u), 0), 32, 6);
   } else if (t < T.s3[0]) {
     const u = range(t, T.s2[0], T.s3[0]);
     const e = smoother(u);
-    const pos = V(lerp(-0.02, 0.0, e), lerp(0.40, 1.05, e), lerp(1.62, 1.25, e));
+    const pos = V(lerp(-0.02, 0.0, e), lerp(0.36, 1.05, e), lerp(1.40, 1.25, e));
     s = shot(pos, V(0, lerp(0.11, 0.03, e), 0), lerp(32, 44, e), lerp(6, 6, e));
   } else if (t < T.s4[0]) {
     const k = Math.min(4, Math.floor((t - T.s3[0]) / T.P));
     const tau = t - T.blocks_p[k][0];
     s = proposalShot(k, tau, T.P);
   } else if (t < T.s5[0]) {
-    s = topShot(t, T.s4[0], T.s5[0], 2.3, 2.15, -6 * DEG, 10 * DEG);
+    s = topShot(t, T.s4[0], T.s5[0], 1.86, 1.74, -6 * DEG, 10 * DEG);
   } else if (t < T.s6[0]) {
-    const topEnd = topShot(T.s5[0], T.s4[0], T.s5[0], 2.3, 2.15, -6 * DEG, 10 * DEG);
+    const topEnd = topShot(T.s5[0], T.s4[0], T.s5[0], 1.86, 1.74, -6 * DEG, 10 * DEG);
     const r0 = T.blocks_r[0][0];
     const orb = revealOrbit(t);
     const w = smoother(range(t, T.s5[0] + 0.05, r0 + 0.2));
@@ -981,7 +1018,7 @@ function getCam(t) {
     const w2 = smoother(range(t, lastLand + 0.45, T.s6[0] + 1.0));
     s = blendShot(orb, fin, w2);
   }
-  if (window.coverMode) s = shot(V(0.0, 1.30, 1.62), V(0, 0.20, 0.0), 46, 6);
+  if (window.coverMode) s = shot(V(0.0, 0.74, 1.10), V(0, 0.27, 0.0), 40, 6);
   if (window.debugCam) { const d = window.debugCam; s = shot(V(...d.pos), V(...d.target), d.fov || 40, 0.5); }
   // respiración de cámara: siempre se mueve un poco
   const br = 0.0016;
@@ -1012,19 +1049,28 @@ function update(t) {
   const switchOn = tc < 0.1 ? 0 : tc < 0.15 ? 0.85 : tc < 0.21 ? 0.08 : tc < 0.26 ? 1.25 : 1.0 + 0.25 * Math.exp(-(tc - 0.26) * 6);
   const spotI = inSeal ? 0 : lerp(SPOT_I, SPOT_I * 0.1, smooth(dimEnd)) * switchOn;
   spot.intensity = spotI;
-  sspot.intensity = inSeal ? SSPOT_I * smooth(range(t, 0.0, 0.1)) * (1 + 0.6 * Math.exp(-Math.max(0, t - T.seal_hit) * 9) * (t >= T.seal_hit ? 1 : 0)) : 0;
-  OBJ.hemi.intensity = inSeal ? 0.05 : lerp(0.22, 0.14, dimEnd);
-  OBJ.rim.intensity = inSeal ? 0.05 : 0.30;
+  sspot.intensity = inSeal ? SSPOT_I * (1 + 0.6 * Math.exp(-Math.max(0, t - T.seal_hit) * 9) * (t >= T.seal_hit ? 1 : 0)) : 0;
+  OBJ.hemi.intensity = inSeal ? 0.12 : lerp(0.5, 0.3, dimEnd);
+  OBJ.rim.intensity = inSeal ? 0.1 : 0.9;
   // --- sello
   const hit = T.seal_hit;
-  const sy = t < hit ? lerp(0.10, 0.0, Math.pow(t / hit, 1.6)) : 0;
+  const sy = t < hit ? lerp(0.05, 0.0, Math.pow(t / hit, 1.6)) : 0;
   OBJ.seal.position.copy(SEAL_AT).add(V(0, sy, 0));
-  OBJ.seal.rotation.set((1 - range(t, 0, hit)) * 0.35, (1 - smooth(range(t, 0, hit))) * 0.5, (1 - range(t, 0, hit)) * -0.2);
-  const squash = t >= hit ? 1 - Math.exp(-(t - hit) * 18) * 0.25 * Math.cos((t - hit) * 40) : 1;
-  OBJ.disc.scale.set(1 + (1 - squash) * 0.3, squash, 1 + (1 - squash) * 0.3);
+  OBJ.seal.rotation.set((1 - range(t, 0, hit)) * 0.14, (1 - smooth(range(t, 0, hit))) * 0.22, (1 - range(t, 0, hit)) * -0.08);
+  // deformación de la cera: se aplasta y se expande, rebota y queda algo más plana
+  const dh = t - hit;
+  const sq = t >= hit ? 0.86 - 0.32 * Math.exp(-dh * 16) * Math.cos(dh * 34) : 1;
+  OBJ.disc.scale.set(1 + (1 - sq) * 0.55, sq, 1 + (1 - sq) * 0.55);
   OBJ.puddle.visible = t >= hit;
-  OBJ.puddle.scale.setScalar(t >= hit ? 0.75 + 0.25 * easeOut(range(t, hit, hit + 0.12)) : 0.01);
+  OBJ.puddle.scale.set(t >= hit ? 0.55 + 0.55 * easeOut(range(t, hit, hit + 0.18)) : 0.01, 1, t >= hit ? 0.55 + 0.55 * easeOut(range(t, hit, hit + 0.18)) : 0.01);
+  // sombra de contacto: difusa cuando está alto, nítida al acercarse
+  const shs = OBJ.sealShadow, lp = OBJ.sspot.position.clone().sub(SEAL_AT);
+  shs.position.set(SEAL_AT.x - lp.x / lp.y * sy, 0.0004, SEAL_AT.z - lp.z / lp.y * sy);
+  shs.scale.setScalar(1 + sy * 16);
+  shs.material.opacity = 0.75 * (1 - sy * 11) / (1 + sy * 30);
+  shs.visible = t < T.cut_to_urn + 0.1;
   OBJ.seal.visible = t < T.cut_to_urn + 0.1;
+  OBJ.caus.material.opacity = 0.28 * spot.intensity / SPOT_I;
   // --- sobres
   for (let k = 0; k < 5; k++) {
     const e = OBJ.envelopes[k];
@@ -1063,21 +1109,25 @@ function sweepParams(t) {
 function drawUI(t) {
   const T = TL.timeline;
   ux.clearRect(0, 0, W, H);
+  // velo inferior suave para que los subtítulos se lean sobre papel claro
+  const sg = ux.createLinearGradient(0, 1150, 0, 1600);
+  sg.addColorStop(0, 'rgba(5,8,14,0)'); sg.addColorStop(0.55, 'rgba(5,8,14,0.42)'); sg.addColorStop(1, 'rgba(5,8,14,0.5)');
+  ux.fillStyle = sg; ux.fillRect(0, 1150, W, H - 1150);
   if (window.coverMode) {
-    title(['¿DE QUIÉN ES', 'CADA', 'PROPUESTA?'], 10, 0, 20, { size: 84, y: 450, fadeIn: 0.001, fadeOut: 0.001 });
+    title(['¿DE QUIÉN ES', 'CADA PROPUESTA?'], 10, 0, 20, { size: 76, y: 420, fadeIn: 0.001, fadeOut: 0.001 });
     ux.save(); ux.font = '500 30px PlexMono'; ux.fillStyle = CREAM; ux.globalAlpha = 0.8; ux.shadowColor = 'rgba(0,0,0,0.7)'; ux.shadowBlur = 12;
-    spaced(ux, 'TEST A CIEGAS · VIVIENDA · 29-N', W / 2, 668, 8); ux.restore();
+    spaced(ux, 'TEST A CIEGAS · VIVIENDA · 29-N', W / 2, 300, 8); ux.restore();
     uiTex.needsUpdate = true; return;
   }
   // títulos
   title(['ELIGE UNA'], t, T.seal_hit, T.s2[0] + 0.15, { size: 96, y: 440, slam: true, fadeIn: 0.06, kicker: 'TEST A CIEGAS · 29-N' });
   title(['NO TE DIGO', 'DE QUIÉN SON'], t, T.title_rules - 0.1, T.s3[0] - 0.12, { size: 76, y: 370 });
-  title(['COMENTA', 'EL NÚMERO'], t, T.s4[0] + 0.35, T.s5[0] + 0.1, { size: 86, y: 430 });
+  title(['COMENTA EL NÚMERO'], t, T.s4[0] + 0.35, T.s5[0] + 0.1, { size: 60, y: 318 });
   title(['¿TE HA', 'SORPRENDIDO?'], t, T.s6[0] + 0.9, T.s6[1] - 0.35, { size: 88, y: 840, fadeOut: 0.6 });
   // firma
   if (t > T.s6[0] + 1.4) {
     const a = smooth(range(t, T.s6[0] + 1.4, T.s6[0] + 2.0)) * (1 - smooth(range(t, T.s6[1] - 0.6, T.s6[1] - 0.25)));
-    ux.save(); ux.globalAlpha = a * 0.72; ux.font = '600 30px InterDisplay'; ux.fillStyle = CREAM; ux.shadowColor = 'rgba(0,0,0,0.6)'; ux.shadowBlur = 10;
+    ux.save(); ux.globalAlpha = a * 0.92; ux.font = '600 32px InterDisplay'; ux.fillStyle = CREAM; ux.shadowColor = 'rgba(0,0,0,0.6)'; ux.shadowBlur = 10;
     spaced(ux, 'ALEIX JIMÉNEZ', W / 2, SAFE.bottom - 40, 9.5); ux.restore();
   }
   // número grande en la esquina (propuestas)
@@ -1151,11 +1201,12 @@ function render(t) {
   F.exposure.value = inSealExposure(t);
   F.ca.value = 0.012 + (t >= T.seal_hit && t < T.cut_to_urn ? 0.07 * Math.exp(-(t - T.seal_hit) * 9) : 0);
   // fundido a negro al final (bucle) y desde negro al principio
-  F.fade.value = smooth(range(t, 0.0, 0.07)) * (1 - smooth(range(t, T.s6[1] - 0.55, T.s6[1] - 0.04)));
+  F.fade.value = (1 - smooth(range(t, T.s6[1] - 0.55, T.s6[1] - 0.04)));
   P.final.run(null);
   mark('final');
 }
-function inSealExposure(t) { const T = TL.timeline; return t < T.cut_to_urn ? 0.95 : 0.86; }
+function inSealExposure(t) { const T = TL.timeline; return (t < T.cut_to_urn ? 0.95 * 0.68 : 0.86) * EXPO; }
+const EXPO = 2.83; // +1,5 pasos
 
 // ------------------------------------------------------------------- API
 window.setup = async (timings) => {
