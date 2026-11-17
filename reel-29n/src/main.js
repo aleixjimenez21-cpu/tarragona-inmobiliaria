@@ -563,7 +563,8 @@ function buildPost() {
         float h = sPos.y - p.y;
         float rc = h * tanA;
         float r = length(p.xz - sPos.xz);
-        float mask = 1.0 - smoothstep(rc*0.78, rc*1.02, r);
+        float mask = 1.0 - smoothstep(rc*0.42, rc*0.80, r);
+        mask *= 0.35 + 0.65 * smoothstep(0.0, 0.5, h);
         float fall = 1.0 / (0.35 + h*h*0.55);
         float n = n3(p*vec3(5.0,2.2,5.0) + vec3(0.0, time*0.06, time*0.035));
         float n2 = n3(p*vec3(13.0,7.0,13.0) - vec3(time*0.05, 0.0, 0.0));
@@ -573,7 +574,7 @@ function buildPost() {
       float g = gHG; float ph = (1.0 - g*g) / pow(1.0 + g*g - 2.0*g*ct, 1.5) * 0.25;
       gl_FragColor = vec4(sCol * sInt * density * acc * ph, 1.0);
     }`, { ...camU(), tDepth: { value: null }, invProj: { value: new THREE.Matrix4() }, camWorld: { value: new THREE.Matrix4() }, camPos: { value: V() },
-    sPos: { value: V(0, 2.6, 0) }, sCol: { value: new THREE.Color(COL.amber) }, sInt: { value: 1 }, tanA: { value: Math.tan(0.24) }, density: { value: 1.5 }, time: { value: 0 }, gHG: { value: 0.35 } });
+    sPos: { value: V(0, 2.6, 0) }, sCol: { value: new THREE.Color(COL.amber) }, sInt: { value: 1 }, tanA: { value: Math.tan(0.24) }, density: { value: 1.1 }, time: { value: 0 }, gHG: { value: 0.35 } });
 
   P.comp = makePass(CORE + /* glsl */`
     uniform sampler2D tColor, tDepth, tBlur, tBeam; uniform vec2 texel; uniform float sweepPos, sweepAmt, flash, haze;
@@ -692,15 +693,18 @@ function title(lines, t, t0, t1, opt = {}) {
   if (a <= 0) return;
   const size = opt.size || 84, cy = opt.y || 430, lh = size * 1.22;
   const track = lerp(0.16, 0.24, easeOut(range(t, t0, t0 + 2.4))) * size;
+  const slam = opt.slam ? 1 + 0.32 * Math.pow(1 - easeOut(range(t, t0, t0 + 0.16)), 2) : 1;
   ux.save();
   ux.font = `600 ${size}px Fraunces`;
   ux.textBaseline = 'alphabetic';
   ux.shadowColor = 'rgba(0,0,0,0.65)'; ux.shadowBlur = 30; ux.shadowOffsetY = 4;
-  const blur = (1 - easeOut(range(t, t0, t0 + fi))) * 8;
+  const blur = opt.slam ? 0 : (1 - easeOut(range(t, t0, t0 + fi))) * 8;
   if (blur > 0.3) ux.filter = `blur(${blur.toFixed(2)}px)`;
   ux.globalAlpha = a;
   ux.fillStyle = opt.color || CREAM;
   const x0 = opt.x || (SAFE.left + SAFE.right) / 2;
+  if (slam !== 1) { ux.translate(x0, cy); ux.scale(slam, slam); ux.translate(-x0, -cy); }
+  if (opt.kicker) { ux.save(); ux.font = '500 30px PlexMono'; ux.globalAlpha = a * 0.85; spaced(ux, opt.kicker, x0, cy - size * 0.95, 12); ux.restore(); }
   lines.forEach((ln, i) => spaced(ux, ln, x0, cy + i * lh - (lines.length - 1) * lh / 2 + size * 0.35, track));
   ux.restore();
 }
@@ -815,7 +819,7 @@ function drawBallot(k, n) {
 
 // ------------------------------------------------------------ animación
 function radial(phi, r, y = 0) { return V(Math.sin(phi) * r, y, Math.cos(phi) * r); }
-const qStand = new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.PI / 2, 0, 0));
+const qStand = new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.PI / 2 - 0.35, 0, 0));
 const INSIDE = [[0.0, 0.07, 0.0], [0.026, 0.037, 0.05], [-0.028, 0.004, -0.045], [0.018, -0.029, 0.06], [-0.02, -0.062, -0.05]];
 function envState(k, t) {
   const T = TL.timeline;
@@ -825,8 +829,8 @@ function envState(k, t) {
   const target = radial(phi, ENV.r, ENV.t / 2);
   const qFlat = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, phi, 0));
   const [ix, iz, tilt] = INSIDE[k];
-  const pIn = V(ix, URN.t + ENV.l / 2 + 0.002, iz);
-  const qIn = new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.PI / 2 - 0.05 + tilt * 0.6, tilt, 0));
+  const pIn = V(ix, URN.t + ENV.l / 2 * 0.93 + 0.002, iz);
+  const qIn = new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.PI / 2 - 0.40 + tilt * 0.6, tilt, 0));
   let pos = pIn.clone(), q = qIn.clone(), sound = 0;
   const u = range(t, f0, f0 + Df);
   if (u > 0) {
@@ -935,21 +939,23 @@ function getCam(t) {
   if (t < T.cut_to_urn) {
     // macro del sello
     const u = t / T.cut_to_urn;
-    const dist = lerp(0.36, 0.31, smooth(u)), el = 50 * DEG;
+    const hitU = easeOut(range(t, T.seal_hit, T.seal_hit + 0.14));
+    const dist = lerp(0.35, 0.32, smooth(u)) * (1 - 0.13 * hitU), el = 50 * DEG;
     const tgt = SEAL_AT.clone().add(V(0, 0.004, 0.022));
     const pos = tgt.clone().add(V(Math.sin(-0.08 + u * 0.05) * dist * Math.cos(el), dist * Math.sin(el), Math.cos(-0.08 + u * 0.05) * dist * Math.cos(el)));
     s = shot(pos, tgt, 30, 9);
     // golpe: sacudida
     const th = t - T.seal_hit;
-    if (th > 0) { const a = Math.exp(-th * 14) * 0.0016; s.pos.add(V(Math.sin(th * 90) * a, Math.sin(th * 71 + 1) * a, 0)); }
+    if (th > 0) { const a = Math.exp(-th * 11) * 0.0032; s.pos.add(V(Math.sin(th * 95) * a, Math.sin(th * 73 + 1) * a, Math.sin(th * 61) * a * 0.5)); }
   } else if (t < T.s2[0]) {
     const u = range(t, T.cut_to_urn, T.s2[0] + 1.2);
-    const pos = V(lerp(-0.05, -0.02, u), lerp(0.60, 0.50, smooth(u)), lerp(2.55, 2.35, u));
-    s = shot(pos, V(0, lerp(0.27, 0.23, u), 0), 30, 5);
+    const pos = V(lerp(-0.035, -0.02, u), lerp(0.46, 0.40, smooth(u)), lerp(1.78, 1.62, u));
+    s = shot(pos, V(0, lerp(0.13, 0.11, u), 0), 32, 6);
   } else if (t < T.s3[0]) {
     const u = range(t, T.s2[0], T.s3[0]);
-    const pos = V(lerp(-0.02, 0.0, u), lerp(0.50, 0.70, smooth(u)), lerp(2.35, 1.45, smooth(u)));
-    s = shot(pos, V(0, lerp(0.23, 0.10, smooth(u)), lerp(0, 0.05, u)), lerp(30, 34, u), lerp(5, 7, u));
+    const e = smoother(u);
+    const pos = V(lerp(-0.02, 0.0, e), lerp(0.40, 1.05, e), lerp(1.62, 1.25, e));
+    s = shot(pos, V(0, lerp(0.11, 0.03, e), 0), lerp(32, 44, e), lerp(6, 6, e));
   } else if (t < T.s4[0]) {
     const k = Math.min(4, Math.floor((t - T.s3[0]) / T.P));
     const tau = t - T.blocks_p[k][0];
@@ -1002,14 +1008,16 @@ function update(t) {
   const spot = OBJ.spot, sspot = OBJ.sspot;
   const inSeal = t < T.cut_to_urn;
   const dimEnd = range(t, T.s6[0] + 0.25, T.s6[0] + 1.0);
-  const spotI = inSeal ? 0 : lerp(SPOT_I, SPOT_I * 0.1, smooth(dimEnd));
+  const tc = t - T.cut_to_urn;
+  const switchOn = tc < 0.1 ? 0 : tc < 0.15 ? 0.85 : tc < 0.21 ? 0.08 : tc < 0.26 ? 1.25 : 1.0 + 0.25 * Math.exp(-(tc - 0.26) * 6);
+  const spotI = inSeal ? 0 : lerp(SPOT_I, SPOT_I * 0.1, smooth(dimEnd)) * switchOn;
   spot.intensity = spotI;
-  sspot.intensity = inSeal ? SSPOT_I * smooth(range(t, 0.0, 0.32)) : 0;
+  sspot.intensity = inSeal ? SSPOT_I * smooth(range(t, 0.0, 0.1)) * (1 + 0.6 * Math.exp(-Math.max(0, t - T.seal_hit) * 9) * (t >= T.seal_hit ? 1 : 0)) : 0;
   OBJ.hemi.intensity = inSeal ? 0.05 : lerp(0.22, 0.14, dimEnd);
   OBJ.rim.intensity = inSeal ? 0.05 : 0.30;
   // --- sello
   const hit = T.seal_hit;
-  const sy = t < hit ? lerp(0.20, 0.0, Math.pow(t / hit, 1.7)) : 0;
+  const sy = t < hit ? lerp(0.10, 0.0, Math.pow(t / hit, 1.6)) : 0;
   OBJ.seal.position.copy(SEAL_AT).add(V(0, sy, 0));
   OBJ.seal.rotation.set((1 - range(t, 0, hit)) * 0.35, (1 - smooth(range(t, 0, hit))) * 0.5, (1 - range(t, 0, hit)) * -0.2);
   const squash = t >= hit ? 1 - Math.exp(-(t - hit) * 18) * 0.25 * Math.cos((t - hit) * 40) : 1;
@@ -1062,7 +1070,7 @@ function drawUI(t) {
     uiTex.needsUpdate = true; return;
   }
   // títulos
-  title(['ELIGE UNA'], t, T.cut_to_urn + 0.12, T.s2[0] + 0.15, { size: 92, y: 440 });
+  title(['ELIGE UNA'], t, T.seal_hit, T.s2[0] + 0.15, { size: 96, y: 440, slam: true, fadeIn: 0.06, kicker: 'TEST A CIEGAS · 29-N' });
   title(['NO TE DIGO', 'DE QUIÉN SON'], t, T.title_rules - 0.1, T.s3[0] - 0.12, { size: 76, y: 370 });
   title(['COMENTA', 'EL NÚMERO'], t, T.s4[0] + 0.35, T.s5[0] + 0.1, { size: 86, y: 430 });
   title(['¿TE HA', 'SORPRENDIDO?'], t, T.s6[0] + 0.9, T.s6[1] - 0.35, { size: 88, y: 840, fadeOut: 0.6 });
@@ -1113,7 +1121,7 @@ function render(t) {
   const sw = sweepParams(t);
   setCam(P.comp.u);
   Object.assign(P.comp.u.tColor, { value: RT.main.texture }); P.comp.u.tDepth.value = RT.main.depthTexture; P.comp.u.tBlur.value = RT.blur.texture; P.comp.u.tBeam.value = RT.beam.texture;
-  P.comp.u.dbgBeam.value = window.dbgBeam ? 1 : 0; P.comp.u.sweepPos.value = sw.pos; P.comp.u.sweepAmt.value = sw.amt; P.comp.u.flash.value = sw.flash;
+  P.comp.u.dbgBeam.value = window.dbgBeam ? 1 : 0; P.comp.u.sweepPos.value = sw.pos; P.comp.u.sweepAmt.value = sw.amt; P.comp.u.flash.value = sw.flash + (t >= T.seal_hit && t < T.cut_to_urn ? 0.55 * Math.exp(-(t - T.seal_hit) * 16) : 0);
   P.comp.run(RT.comp);
   mark('comp');
   // 5) polvo (bokeh) sobre la composición
@@ -1141,8 +1149,9 @@ function render(t) {
   F.tComp.value = RT.comp.texture; F.tB0.value = RT.b[0].texture; F.tB1.value = RT.b[1].texture; F.tB2.value = RT.b[2].texture; F.tB3.value = RT.b[3].texture; F.tUI.value = uiTex;
   F.time.value = t;
   F.exposure.value = inSealExposure(t);
+  F.ca.value = 0.012 + (t >= T.seal_hit && t < T.cut_to_urn ? 0.07 * Math.exp(-(t - T.seal_hit) * 9) : 0);
   // fundido a negro al final (bucle) y desde negro al principio
-  F.fade.value = smooth(range(t, 0.0, 0.12)) * (1 - smooth(range(t, T.s6[1] - 0.55, T.s6[1] - 0.04)));
+  F.fade.value = smooth(range(t, 0.0, 0.07)) * (1 - smooth(range(t, T.s6[1] - 0.55, T.s6[1] - 0.04)));
   P.final.run(null);
   mark('final');
 }

@@ -77,6 +77,41 @@ def sfx_seal_whoosh(d=0.62):
     return norm(out * e, 0.25)
 
 
+def sfx_riser(d):
+    """Subida de tensión hasta el impacto (ruido + tono ascendentes que se cortan en seco)."""
+    tt = t_(d)
+    u = tt / d
+    n = noise(d)
+    out = np.zeros_like(n)
+    seg = 40
+    L = len(n)
+    for i in range(seg):
+        a, b = i * L // seg, (i + 1) * L // seg
+        f = 400 + 5200 * (i / seg) ** 2
+        out[a:b] = bp(n, f * 0.7, f * 1.4)[a:b]
+    f = 80 + 140 * u ** 2
+    tone = np.sin(2 * np.pi * np.cumsum(f) / SR) * 0.5
+    e = u ** 2.5
+    return norm((out * 0.7 + tone) * e, 0.6)
+
+
+def sfx_switch():
+    d = 0.25
+    tt = t_(d)
+    click = hp(noise(d), 2500) * np.exp(-tt * 260)
+    body = bp(noise(d), 300, 2000) * np.exp(-tt * 60) * 0.7
+    thunk = np.sin(2 * np.pi * 95 * tt) * np.exp(-tt * 35) * 0.8
+    return norm(click + body + thunk, 0.7)
+
+
+def sfx_hum(d):
+    tt = t_(d)
+    x = sum(np.sin(2 * np.pi * 50 * k * tt) / k for k in (1, 2, 3, 4)) * 0.4
+    x += bp(noise(d), 2000, 6000) * 0.05
+    e = np.minimum(1, tt / 0.05) * np.exp(-tt * 1.5)
+    return norm(x * e, 0.4)
+
+
 def sfx_seal_hit():
     d = 2.2
     tt = t_(d)
@@ -214,7 +249,13 @@ def build(timings, voice_path=None):
     sfx = np.zeros((N, 2))
     # sello
     place(sfx, sfx_seal_whoosh(), T["seal_hit"] - 0.62, db(-14))
-    place(sfx, sfx_seal_hit(), T["seal_hit"], db(-3))
+    place(sfx, sfx_riser(T["seal_hit"]), 0.0, db(-9), width=0.7)
+    place(sfx, sfx_seal_hit(), T["seal_hit"], db(-2))
+    # encendido del foco: interruptor con parpadeo
+    sw = sfx_switch()
+    place(sfx, sw, T["cut_to_urn"] + 0.10, db(-9))
+    place(sfx, sw * 0.6, T["cut_to_urn"] + 0.21, db(-11))
+    place(sfx, sfx_hum(1.6), T["cut_to_urn"] + 0.21, db(-20))
     # sobres saliendo de la urna y posándose (misma muestra)
     slide = sfx_paper_slide(1.2, 0.8)
     land = sfx_paper_land()
@@ -256,7 +297,7 @@ def build(timings, voice_path=None):
     # dron con curva dramática
     dr = drone(N / SR + 0.01)[:N]
     tt = np.arange(N) / SR
-    curve = np.interp(tt, [0, T["seal_hit"], T["seal_hit"] + 0.5, T["s3"][0], T["s4"][0], T["quiet"][0], T["s5"][0], T["s6"][0] + 0.3, T["s6"][0] + 1.2, total - 0.4, total],
+    curve = np.interp(tt, [0, T["cut_to_urn"] + 0.2, T["cut_to_urn"] + 0.9, T["s3"][0], T["s4"][0], T["quiet"][0], T["s5"][0], T["s6"][0] + 0.3, T["s6"][0] + 1.2, total - 0.4, total],
                       [0, 0, 0.75, 0.8, 0.85, 0.55, 0.95, 0.9, 0.35, 0.0, 0.0])
     dr = dr * curve
     dr_st = np.stack([dr, np.concatenate([np.zeros(240), dr])[:N] * 0.95 + dr * 0.05], axis=1)
