@@ -30,7 +30,10 @@ function serve() {
 async function open() {
   const srv = await serve();
   const port = srv.address().port;
-  const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--disable-gpu-sandbox'] });
+  // RENDER_GPU=1 usa la tarjeta gráfica del equipo (mucho más rápido); por defecto, WebGL por software
+  const gpu = process.env.RENDER_GPU === '1';
+  const args = gpu ? ['--ignore-gpu-blocklist', '--enable-gpu', '--use-angle=default'] : ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--disable-gpu-sandbox'];
+  const browser = await chromium.launch({ args, headless: !gpu ? true : (process.env.RENDER_HEADLESS !== '0') });
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
   page.on('console', (m) => { const t = m.text(); if (!/GPU stall|GL Driver Message/.test(t)) console.log('[page]', t); });
   page.on('pageerror', (e) => console.error('[page error]', e.message));

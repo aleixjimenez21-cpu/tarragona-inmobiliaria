@@ -22,6 +22,8 @@ Qué hace `build.py`:
 Requisitos: Node 18+ con Playwright y Chromium, Python 3 con `numpy scipy soundfile pyloudnorm` (y opcionalmente `faster-whisper`), y `ffmpeg`. Las dependencias JS se instalan con `npm install` dentro de `reel-29n/`.
 El render completo tarda alrededor de una hora en un portátil de 4 núcleos sin GPU (≈3 s por fotograma). Con voz nueva hay que renderizar todo, porque cambian los tiempos.
 
+**Con tarjeta gráfica (recomendado en tu PC):** `RENDER_GPU=1 python3 tools/build.py` (en Windows PowerShell: `$env:RENDER_GPU=1; python tools/build.py`). Usa la GPU en lugar de la emulación por software; el render baja de ~6 s a una fracción de segundo por fotograma. Si tu Chrome sin ventana no detecta la GPU, añade `RENDER_HEADLESS=0` para que abra una ventana durante el render.
+
 Atajos:
 
 - `python3 tools/build.py --solo-audio`: rehace la mezcla y el montaje sin volver a renderizar la imagen (para retocar sonido).
