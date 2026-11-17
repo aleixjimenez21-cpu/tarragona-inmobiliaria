@@ -249,6 +249,7 @@ def build(timings, voice_path=None):
     total = T["duration"]
     N = int(np.ceil(total * SR)) + SR // 10
     sfx = np.zeros((N, 2))
+    bed = np.zeros((N, 2))   # papel y tecleo: bajan bajo la voz para que se entienda
     # sello
     place(sfx, sfx_seal_whoosh(), T["seal_hit"] - 0.62, db(-14))
     place(sfx, sfx_riser(T["seal_hit"]), 0.0, db(-9), width=0.7)
@@ -264,7 +265,7 @@ def build(timings, voice_path=None):
     s2 = T["s2"][0]
     for k in range(5):
         f0 = s2 + 0.15 + k * 0.62
-        place(sfx, slide, f0 + 0.35, db(-17), pan=0.0, width=0.6)
+        place(bed, slide, f0 + 0.35, db(-17), pan=0.0, width=0.6)
         place(sfx, land, f0 + 1.70, db(-15))
     # propuestas: barrido + papel + tecleo IDÉNTICOS
     whoosh = sfx_whoosh_light()
@@ -274,11 +275,11 @@ def build(timings, voice_path=None):
         place(sfx, whoosh, c - 0.42, db(-16), width=0.8)
     for k in range(5):
         b0 = T["blocks_p"][k][0]
-        place(sfx, pslide, b0 + 0.30, db(-16), width=0.4)
+        place(bed, pslide, b0 + 0.30, db(-16), width=0.4)
         # mismo patrón y misma velocidad de tecleo; dura lo que dura el texto
         nchar = sum(1 for ch in timings["proposals"][k] if ch != " ")
         typing = typing_bed(nchar / 32.0)
-        place(sfx, typing, b0 + 1.0, db(-17), width=0.3)
+        place(bed, typing, b0 + 1.0, db(-17), width=0.3)
     # reloj durante la elección
     tick, tock = sfx_clock(0), sfx_clock(1)
     t = T["s4"][0] + 0.5
@@ -293,7 +294,7 @@ def build(timings, voice_path=None):
     hit = sfx_reveal_hit()
     for k in range(5):
         b0 = T["blocks_r"][k][0]
-        place(sfx, flip, b0 + T["flip_land"] - T["flip_dur"], db(-20), width=0.4)
+        place(bed, flip, b0 + T["flip_land"] - T["flip_dur"], db(-20), width=0.4)
         place(sfx, hit, b0 + T["flip_land"], db(-6))
     # apagado del foco
     place(sfx, sfx_light_off(), T["s6"][0] + 0.25, db(-12))
@@ -344,7 +345,13 @@ def build(timings, voice_path=None):
             g = lp(g, 3)
             d *= g[:, None]
         # equilibrio: voz -4 dB, efectos +4 dB respecto a la mezcla anterior
-        mix = d * db(-7) + sfx * db(SFX_DB) + (voice * db(VOICE_DB) if with_voice else 0)
+        b = bed.copy()
+        if with_voice and np.any(voice):
+            # el papel y el tecleo bajan ~10 dB mientras hablas (la voz siempre se entiende)
+            ev = lp(np.abs(voice).mean(axis=1), 8)
+            gv = 1 - 0.68 * np.clip(ev / (np.percentile(ev[ev > 1e-4], 60) + 1e-9), 0, 1)
+            b *= lp(gv, 4)[:, None]
+        mix = d * db(-7) + (sfx + b) * db(SFX_DB) + (voice * db(VOICE_DB) if with_voice else 0)
         mix = hp(mix.T, 25).T
         return loudness(mix)
 
