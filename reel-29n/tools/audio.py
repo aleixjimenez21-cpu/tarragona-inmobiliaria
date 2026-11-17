@@ -15,8 +15,8 @@ import soundfile as sf
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SR = 48000
-VOICE_DB = -4.0   # nivel de la voz en la mezcla
-SFX_DB = 4.0      # nivel de los efectos de sonido
+VOICE_DB = -7.0   # nivel de la voz en la mezcla
+SFX_DB = 7.0      # nivel de los efectos de sonido
 RNG = np.random.default_rng(29)
 
 
