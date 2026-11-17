@@ -66,11 +66,11 @@ def main():
     # loudnorm en dos pasadas: -14 LUFS integrados y techo de pico verdadero -1,5 dBTP
     for wav in ("mezcla_con_voz.wav", "mezcla_sin_voz.wav"):
         src = os.path.join(BUILD, "audio", wav)
-        r = subprocess.run(["ffmpeg", "-hide_banner", "-i", src, "-af", "loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json", "-f", "null", "-"],
+        r = subprocess.run(["ffmpeg", "-hide_banner", "-i", src, "-af", "loudnorm=I=-14:TP=-2.0:LRA=11:print_format=json", "-f", "null", "-"],
                            capture_output=True, text=True, cwd=ROOT)
         js = r.stderr[r.stderr.rindex("{"):r.stderr.rindex("}") + 1]
         m = json.loads(js)
-        af = ("loudnorm=I=-14:TP=-1.5:LRA=11:measured_I=%s:measured_TP=%s:measured_LRA=%s:measured_thresh=%s:offset=%s:linear=true,"
+        af = ("loudnorm=I=-14:TP=-2.0:LRA=11:measured_I=%s:measured_TP=%s:measured_LRA=%s:measured_thresh=%s:offset=%s:linear=true,"
               "aresample=48000" % (m["input_i"], m["input_tp"], m["input_lra"], m["input_thresh"], m["target_offset"]))
         run(["ffmpeg", "-y", "-loglevel", "error", "-i", src, "-af", af, "-ar", "48000", "-c:a", "pcm_s24le", src.replace(".wav", "_master.wav")])
     # vídeo de entrega: H.264 High, ~11 Mbps (Reels recomprime; el archivo queda < 100 MB)

@@ -3,11 +3,17 @@
 Reel 1080×1920, 30 fps, H.264 + AAC, mezcla a −14 LUFS (pico ≤ −1 dBTP).
 Todo el material visual y sonoro está generado por código en este proyecto (escena 3D, texturas de papel y madera, sello de lacre, polvo, diseño sonoro). No hay logos, colores corporativos ni imágenes de partidos o de políticos.
 
+## Tu voz en esta versión
+
+- Archivo: `input/voz.mp3`. Tomas descartadas (en `input/voz_cortes.json`): un «Cinco» en falso a los 4,5 s y el primer «Tres:» a los 20,3 s (repetido a los 21,7 s). Se comprobó comparando la huella acústica de cada tramo.
+- Mejora (`tools/voz.py`, sin cambiar velocidad ni tono): filtro de graves, reducción de ruido suave, ecualización (calidez, menos «barro», presencia y aire), de-esser y compresión suave. El dron baja bajo la voz (*ducking*).
+- `input/voz_cortes.json` marca dónde empieza y acaba cada frase; si grabas otra toma y lo borras, los cortes se detectan solos por las pausas.
+
 ## Regenerar con otra voz (un solo comando)
 
 ```bash
 cd reel-29n
-cp /ruta/a/tu/narracion.wav input/voz.wav
+cp /ruta/a/tu/narracion.mp3 input/voz.mp3   # vale wav, mp3, m4a…
 python3 tools/build.py            # o: python3 tools/build.py --voz /ruta/a/otra.wav
 ```
 
@@ -32,7 +38,7 @@ Atajos:
 
 ## Duración y neutralidad
 
-- Sin `input/voz.wav` el vídeo se monta con un ritmo sintético del guion (≈7 sílabas/s) y dura **51,8 s**. Con tu voz, la duración la marca la voz.
+- **Versión actual (con tu voz, `input/voz.mp3`): 53,7 s.** Propuestas de 3,8 · 5,2 · 6,2 · 5,2 · 4,0 s. Sin voz, el montaje usa un ritmo sintético del guion (≈7 sílabas/s).
 - **Cada propuesta dura lo que dura su frase** más el mismo margen antes (0,3 s) y después (0,6 s). Así las cortas no se hacen largas. Con el ritmo sintético salen 3,8 s · 5,0 s · 7,0 s · 4,9 s · 3,6 s. Esto sustituye la regla inicial de «mismo tiempo en pantalla», que obligaba a que las cinco durasen lo que la más larga.
 - Todo lo demás es **idéntico** para los cinco números: encuadre, luz, movimiento de cámara, deslizamiento de la papeleta, momento en que entra la voz, velocidad de tecleo (32 caracteres/s, el mismo patrón de sonido) y barrido de luz entre propuestas.
 - Las 5 revelaciones sí duran exactamente lo mismo, con el golpe en el mismo instante de cada bloque.
