@@ -32,9 +32,10 @@ Atajos:
 
 ## Duración y neutralidad
 
-- Sin `input/voz.wav` el vídeo se monta con un ritmo sintético del guion (≈7 sílabas/s) y dura **62,6 s**. Con tu voz, la duración la marca la voz.
-- La duración es mayor que los 40 s del storyboard porque la regla de neutralidad obliga a que las **5 propuestas duren lo mismo**: cada bloque dura lo que necesita la propuesta más larga (la 3, unas 19 palabras) más un margen. Lo mismo para las 5 revelaciones.
-- Dentro de cada bloque, la voz empieza en el **mismo instante**; el encuadre, la luz, el movimiento de cámara, el deslizamiento de la papeleta, el tecleo (misma muestra de sonido y misma duración de tecleo), el barrido de luz y el golpe de la revelación son **idénticos** para los cinco números.
+- Sin `input/voz.wav` el vídeo se monta con un ritmo sintético del guion (≈7 sílabas/s) y dura **51,8 s**. Con tu voz, la duración la marca la voz.
+- **Cada propuesta dura lo que dura su frase** más el mismo margen antes (0,3 s) y después (0,6 s). Así las cortas no se hacen largas. Con el ritmo sintético salen 3,8 s · 5,0 s · 7,0 s · 4,9 s · 3,6 s. Esto sustituye la regla inicial de «mismo tiempo en pantalla», que obligaba a que las cinco durasen lo que la más larga.
+- Todo lo demás es **idéntico** para los cinco números: encuadre, luz, movimiento de cámara, deslizamiento de la papeleta, momento en que entra la voz, velocidad de tecleo (32 caracteres/s, el mismo patrón de sonido) y barrido de luz entre propuestas.
+- Las 5 revelaciones sí duran exactamente lo mismo, con el golpe en el mismo instante de cada bloque.
 - Los sobres están dispuestos en pentágono alrededor de la urna, a la misma distancia del foco cenital: reciben exactamente la misma luz. La cámara gira 72° para pasar de uno a otro, así que cada sobre se ve con el mismo encuadre. En las revelaciones la urna queda fuera de cuadro para que el fondo también sea igual.
 - Los nombres de los partidos van en la misma tipografía (Courier Prime Bold), el mismo tamaño y la misma tinta negra. El rojo lacre (#B3261E) solo aparece en el sello «29-N» del arranque.
 - En los subtítulos, la palabra que se está diciendo va en ámbar. Esto se aplica igual a todas las palabras y a todos los partidos.

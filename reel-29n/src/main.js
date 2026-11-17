@@ -902,6 +902,8 @@ function envState(k, t) {
   }
   return { pos, q, flown: u >= 1, lift: Math.max(lift, u > 0 && u < 1 ? pos.y : (u >= 1 ? 0 : 1)) };
 }
+const TYPE_CPS = 32;
+function blockOf(t) { const B = TL.timeline.blocks_p; for (let k = 0; k < 5; k++) if (t < B[k][1]) return k; return 4; }
 function ballotSlide(k, t) {
   const T = TL.timeline;
   const [b0, b1] = T.blocks_p[k];
@@ -909,7 +911,8 @@ function ballotSlide(k, t) {
   const tau = t - b0;
   const out = easeOut(range(tau, 0.32, 1.05)) * BAL.out;
   const len = BALLOT_LAYOUT[k].chars.length;
-  const n = Math.floor(range(tau, 1.0, 1.0 + 2.6) * len + 1e-6);
+  // misma velocidad de tecleo para las cinco (caracteres por segundo)
+  const n = Math.min(len, Math.floor(Math.max(0, tau - 1.0) * TYPE_CPS + 1e-6));
   return { out, n };
 }
 
@@ -994,9 +997,9 @@ function getCam(t) {
     const pos = V(lerp(-0.02, 0.0, e), lerp(0.36, 1.05, e), lerp(1.40, 1.25, e));
     s = shot(pos, V(0, lerp(0.11, 0.03, e), 0), lerp(32, 44, e), lerp(6, 6, e));
   } else if (t < T.s4[0]) {
-    const k = Math.min(4, Math.floor((t - T.s3[0]) / T.P));
+    const k = blockOf(t);
     const tau = t - T.blocks_p[k][0];
-    s = proposalShot(k, tau, T.P);
+    s = proposalShot(k, tau, T.blocks_p[k][1] - T.blocks_p[k][0]);
   } else if (t < T.s5[0]) {
     s = topShot(t, T.s4[0], T.s5[0], 1.86, 1.74, -6 * DEG, 10 * DEG);
   } else if (t < T.s6[0]) {
@@ -1095,7 +1098,7 @@ function update(t) {
 function sweepParams(t) {
   // barrido de luz centrado en cada corte (entrada y salida de cada propuesta, idéntico)
   const T = TL.timeline;
-  const cuts = []; for (let k = 0; k <= 5; k++) cuts.push(T.s3[0] + k * T.P);
+  const cuts = T.blocks_p.map((b) => b[0]).concat([T.blocks_p[4][1]]);
   const half = 0.42;
   for (const c of cuts) {
     if (t >= c - half && t < c + half) {
@@ -1132,9 +1135,9 @@ function drawUI(t) {
   }
   // número grande en la esquina (propuestas)
   if (t >= T.s3[0] && t < T.s4[0]) {
-    const k = Math.min(4, Math.floor((t - T.s3[0]) / T.P));
-    const tau = t - T.blocks_p[k][0];
-    const a = smooth(range(tau, 0.22, 0.6)) * (1 - smooth(range(tau, T.P - 0.5, T.P - 0.3)));
+    const k = blockOf(t);
+    const tau = t - T.blocks_p[k][0], Pk = T.blocks_p[k][1] - T.blocks_p[k][0];
+    const a = smooth(range(tau, 0.22, 0.6)) * (1 - smooth(range(tau, Pk - 0.5, Pk - 0.3)));
   }
   // línea de fuente fija (propuestas, elección y revelación)
   const sa = smooth(range(t, T.s3[0] + 0.2, T.s3[0] + 0.6)) * (1 - smooth(range(t, T.s6[0] + 0.3, T.s6[0] + 0.8)));

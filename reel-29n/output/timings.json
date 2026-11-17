@@ -16,76 +16,76 @@
    6.947000000000001
   ],
   "title_rules": 4.029,
-  "P": 7.033333333333333,
   "blocks_p": [
    [
     6.947000000000001,
-    13.980333333333334
+    10.747
    ],
    [
-    13.980333333333334,
-    21.013666666666666
+    10.747,
+    15.747
    ],
    [
-    21.013666666666666,
-    28.046999999999997
+    15.747,
+    22.78033333333333
    ],
    [
-    28.047000000000004,
-    35.080333333333336
+    22.78033333333333,
+    27.647
    ],
    [
-    35.080333333333336,
-    42.11366666666667
+    27.647,
+    31.28033333333333
    ]
   ],
+  "P": 7.033333333333331,
   "s3": [
    6.947000000000001,
-   42.11366666666667
+   31.28033333333333
   ],
   "s4": [
-   42.11366666666667,
-   47.065666666666665
+   31.28033333333333,
+   36.23233333333334
   ],
   "quiet": [
-   44.86566666666666,
-   47.065666666666665
+   34.032333333333334,
+   36.23233333333334
   ],
   "R": 1.9666666666666666,
   "flip_land": 0.8,
   "flip_dur": 0.55,
   "blocks_r": [
    [
-    48.965666666666664,
-    50.93233333333333
+    38.132333333333335,
+    40.099000000000004
    ],
    [
-    50.93233333333333,
-    52.899
+    40.099000000000004,
+    42.06566666666667
    ],
    [
-    52.898999999999994,
-    54.86566666666666
+    42.065666666666665,
+    44.032333333333334
    ],
    [
-    54.86566666666666,
-    56.83233333333333
+    44.032333333333334,
+    45.999
    ],
    [
-    56.83233333333333,
-    58.799
+    45.999,
+    47.96566666666667
    ]
   ],
   "s5": [
-   47.065666666666665,
-   59.398999999999994
+   36.23233333333334,
+   48.565666666666665
   ],
   "s6": [
-   59.398999999999994,
-   62.6
+   48.565666666666665,
+   51.766666666666666
   ],
-  "duration": 62.6,
-  "frames": 1878
+  "duration": 51.766666666666666,
+  "frames": 1553
  },
  "voice_clips": [
   {
@@ -108,7 +108,7 @@
   },
   {
    "clip": "p2",
-   "dst": 14.2803,
+   "dst": 11.047,
    "dur": 4.069,
    "src_start": null,
    "src_end": null,
@@ -117,7 +117,7 @@
   },
   {
    "clip": "p3",
-   "dst": 21.3137,
+   "dst": 16.047,
    "dur": 6.114,
    "src_start": null,
    "src_end": null,
@@ -126,7 +126,7 @@
   },
   {
    "clip": "p4",
-   "dst": 28.347,
+   "dst": 23.0803,
    "dur": 3.956,
    "src_start": null,
    "src_end": null,
@@ -135,7 +135,7 @@
   },
   {
    "clip": "p5",
-   "dst": 35.3803,
+   "dst": 27.947,
    "dur": 2.709,
    "src_start": null,
    "src_end": null,
@@ -144,7 +144,7 @@
   },
   {
    "clip": "q1",
-   "dst": 42.6637,
+   "dst": 31.8303,
    "dur": 2.202,
    "src_start": null,
    "src_end": null,
@@ -153,7 +153,7 @@
   },
   {
    "clip": "q2",
-   "dst": 47.2157,
+   "dst": 36.3823,
    "dur": 1.376,
    "src_start": null,
    "src_end": null,
@@ -162,7 +162,7 @@
   },
   {
    "clip": "r1",
-   "dst": 49.3447,
+   "dst": 38.5113,
    "dur": 0.579,
    "src_start": null,
    "src_end": null,
@@ -171,7 +171,7 @@
   },
   {
    "clip": "r2",
-   "dst": 51.4543,
+   "dst": 40.621,
    "dur": 0.579,
    "src_start": null,
    "src_end": null,
@@ -180,7 +180,7 @@
   },
   {
    "clip": "r3",
-   "dst": 53.421,
+   "dst": 42.5877,
    "dur": 0.436,
    "src_start": null,
    "src_end": null,
@@ -189,7 +189,7 @@
   },
   {
    "clip": "r4",
-   "dst": 55.2447,
+   "dst": 44.4113,
    "dur": 0.864,
    "src_start": null,
    "src_end": null,
@@ -198,7 +198,7 @@
   },
   {
    "clip": "r5",
-   "dst": 57.2113,
+   "dst": 46.378,
    "dur": 0.721,
    "src_start": null,
    "src_end": null,
@@ -378,470 +378,470 @@
   {
    "clip": "p2",
    "text": "Dos:",
-   "start": 14.28,
-   "end": 14.438
+   "start": 11.047,
+   "end": 11.205
   },
   {
    "clip": "p2",
    "text": "préstamos",
-   "start": 14.598,
-   "end": 15.041
+   "start": 11.365,
+   "end": 11.808
   },
   {
    "clip": "p2",
    "text": "sin",
-   "start": 15.041,
-   "end": 15.199
+   "start": 11.808,
+   "end": 11.966
   },
   {
    "clip": "p2",
    "text": "intereses",
-   "start": 15.199,
-   "end": 15.786
+   "start": 11.966,
+   "end": 12.553
   },
   {
    "clip": "p2",
    "text": "de",
-   "start": 15.786,
-   "end": 15.944
+   "start": 12.553,
+   "end": 12.711
   },
   {
    "clip": "p2",
    "text": "hasta",
-   "start": 15.944,
-   "end": 16.244
+   "start": 12.711,
+   "end": 13.011
   },
   {
    "clip": "p2",
    "text": "cincuenta",
-   "start": 16.244,
-   "end": 16.688
+   "start": 13.011,
+   "end": 13.455
   },
   {
    "clip": "p2",
    "text": "mil",
-   "start": 16.688,
-   "end": 16.846
+   "start": 13.455,
+   "end": 13.613
   },
   {
    "clip": "p2",
    "text": "euros",
-   "start": 16.846,
-   "end": 17.146
+   "start": 13.613,
+   "end": 13.913
   },
   {
    "clip": "p2",
    "text": "para",
-   "start": 17.146,
-   "end": 17.447
+   "start": 13.913,
+   "end": 14.214
   },
   {
    "clip": "p2",
    "text": "pagar",
-   "start": 17.447,
-   "end": 17.748
+   "start": 14.214,
+   "end": 14.515
   },
   {
    "clip": "p2",
    "text": "la",
-   "start": 17.748,
-   "end": 17.906
+   "start": 14.515,
+   "end": 14.673
   },
   {
    "clip": "p2",
    "text": "entrada.",
-   "start": 17.906,
-   "end": 18.349
+   "start": 14.673,
+   "end": 15.116
   },
   {
    "clip": "p3",
    "text": "Tres:",
-   "start": 21.314,
-   "end": 21.472
+   "start": 16.047,
+   "end": 16.205
   },
   {
    "clip": "p3",
    "text": "un",
-   "start": 21.632,
-   "end": 21.79
+   "start": 16.365,
+   "end": 16.523
   },
   {
    "clip": "p3",
    "text": "millón",
-   "start": 21.79,
-   "end": 22.09
+   "start": 16.523,
+   "end": 16.823
   },
   {
    "clip": "p3",
    "text": "de",
-   "start": 22.09,
-   "end": 22.248
+   "start": 16.823,
+   "end": 16.981
   },
   {
    "clip": "p3",
    "text": "viviendas,",
-   "start": 22.248,
-   "end": 22.692
+   "start": 16.981,
+   "end": 17.425
   },
   {
    "clip": "p3",
    "text": "y",
-   "start": 22.812,
-   "end": 22.97
+   "start": 17.545,
+   "end": 17.703
   },
   {
    "clip": "p3",
    "text": "si",
-   "start": 22.97,
-   "end": 23.128
+   "start": 17.703,
+   "end": 17.861
   },
   {
    "clip": "p3",
    "text": "el",
-   "start": 23.128,
-   "end": 23.285
+   "start": 17.861,
+   "end": 18.018
   },
   {
    "clip": "p3",
    "text": "ayuntamiento",
-   "start": 23.285,
-   "end": 24.015
+   "start": 18.018,
+   "end": 18.748
   },
   {
    "clip": "p3",
    "text": "no",
-   "start": 24.015,
-   "end": 24.173
+   "start": 18.748,
+   "end": 18.906
   },
   {
    "clip": "p3",
    "text": "responde",
-   "start": 24.173,
-   "end": 24.616
+   "start": 18.906,
+   "end": 19.349
   },
   {
    "clip": "p3",
    "text": "a",
-   "start": 24.616,
-   "end": 24.774
+   "start": 19.349,
+   "end": 19.507
   },
   {
    "clip": "p3",
    "text": "una",
-   "start": 24.774,
-   "end": 25.075
+   "start": 19.507,
+   "end": 19.808
   },
   {
    "clip": "p3",
    "text": "licencia",
-   "start": 25.075,
-   "end": 25.518
+   "start": 19.808,
+   "end": 20.251
   },
   {
    "clip": "p3",
    "text": "en",
-   "start": 25.518,
-   "end": 25.676
+   "start": 20.251,
+   "end": 20.409
   },
   {
    "clip": "p3",
    "text": "noventa",
-   "start": 25.676,
-   "end": 26.12
+   "start": 20.409,
+   "end": 20.853
   },
   {
    "clip": "p3",
    "text": "días,",
-   "start": 26.12,
-   "end": 26.42
+   "start": 20.853,
+   "end": 21.153
   },
   {
    "clip": "p3",
    "text": "queda",
-   "start": 26.54,
-   "end": 26.841
+   "start": 21.273,
+   "end": 21.574
   },
   {
    "clip": "p3",
    "text": "aprobada.",
-   "start": 26.841,
-   "end": 27.428
+   "start": 21.574,
+   "end": 22.161
   },
   {
    "clip": "p4",
    "text": "Cuatro:",
-   "start": 28.347,
-   "end": 28.648
+   "start": 23.08,
+   "end": 23.381
   },
   {
    "clip": "p4",
    "text": "que",
-   "start": 28.808,
-   "end": 28.966
+   "start": 23.541,
+   "end": 23.699
   },
   {
    "clip": "p4",
    "text": "ningún",
-   "start": 28.966,
-   "end": 29.266
+   "start": 23.699,
+   "end": 23.999
   },
   {
    "clip": "p4",
    "text": "hogar",
-   "start": 29.266,
-   "end": 29.567
+   "start": 23.999,
+   "end": 24.3
   },
   {
    "clip": "p4",
    "text": "pague",
-   "start": 29.567,
-   "end": 29.868
+   "start": 24.3,
+   "end": 24.601
   },
   {
    "clip": "p4",
    "text": "más",
-   "start": 29.868,
-   "end": 30.026
+   "start": 24.601,
+   "end": 24.759
   },
   {
    "clip": "p4",
    "text": "del",
-   "start": 30.026,
-   "end": 30.183
+   "start": 24.759,
+   "end": 24.916
   },
   {
    "clip": "p4",
    "text": "treinta",
-   "start": 30.183,
-   "end": 30.484
+   "start": 24.916,
+   "end": 25.217
   },
   {
    "clip": "p4",
    "text": "por",
-   "start": 30.484,
-   "end": 30.642
+   "start": 25.217,
+   "end": 25.375
   },
   {
    "clip": "p4",
    "text": "ciento",
-   "start": 30.642,
-   "end": 30.943
+   "start": 25.375,
+   "end": 25.676
   },
   {
    "clip": "p4",
    "text": "de",
-   "start": 30.943,
-   "end": 31.101
+   "start": 25.676,
+   "end": 25.834
   },
   {
    "clip": "p4",
    "text": "sus",
-   "start": 31.101,
-   "end": 31.258
+   "start": 25.834,
+   "end": 25.991
   },
   {
    "clip": "p4",
    "text": "ingresos",
-   "start": 31.258,
-   "end": 31.702
+   "start": 25.991,
+   "end": 26.435
   },
   {
    "clip": "p4",
    "text": "en",
-   "start": 31.702,
-   "end": 31.86
+   "start": 26.435,
+   "end": 26.593
   },
   {
    "clip": "p4",
    "text": "alquiler.",
-   "start": 31.86,
-   "end": 32.303
+   "start": 26.593,
+   "end": 27.036
   },
   {
    "clip": "p5",
    "text": "Cinco:",
-   "start": 35.38,
-   "end": 35.681
+   "start": 27.947,
+   "end": 28.248
   },
   {
    "clip": "p5",
    "text": "prohibir",
-   "start": 35.841,
-   "end": 36.284
+   "start": 28.408,
+   "end": 28.851
   },
   {
    "clip": "p5",
    "text": "que",
-   "start": 36.284,
-   "end": 36.442
+   "start": 28.851,
+   "end": 29.009
   },
   {
    "clip": "p5",
    "text": "fondos",
-   "start": 36.442,
-   "end": 36.743
+   "start": 29.009,
+   "end": 29.31
   },
   {
    "clip": "p5",
    "text": "y",
-   "start": 36.743,
-   "end": 36.901
+   "start": 29.31,
+   "end": 29.468
   },
   {
    "clip": "p5",
    "text": "empresas",
-   "start": 36.901,
-   "end": 37.344
+   "start": 29.468,
+   "end": 29.911
   },
   {
    "clip": "p5",
    "text": "compren",
-   "start": 37.344,
-   "end": 37.645
+   "start": 29.911,
+   "end": 30.212
   },
   {
    "clip": "p5",
    "text": "viviendas.",
-   "start": 37.645,
-   "end": 38.089
+   "start": 30.212,
+   "end": 30.656
   },
   {
    "clip": "q1",
    "text": "¿Ya",
-   "start": 42.664,
-   "end": 42.822
+   "start": 31.83,
+   "end": 31.988
   },
   {
    "clip": "q1",
    "text": "tienes",
-   "start": 42.822,
-   "end": 43.123
+   "start": 31.988,
+   "end": 32.289
   },
   {
    "clip": "q1",
    "text": "la",
-   "start": 43.123,
-   "end": 43.28
+   "start": 32.289,
+   "end": 32.446
   },
   {
    "clip": "q1",
    "text": "tuya?",
-   "start": 43.28,
-   "end": 43.581
+   "start": 32.446,
+   "end": 32.747
   },
   {
    "clip": "q1",
    "text": "Comenta",
-   "start": 43.821,
-   "end": 44.265
+   "start": 32.987,
+   "end": 33.431
   },
   {
    "clip": "q1",
    "text": "el",
-   "start": 44.265,
-   "end": 44.423
+   "start": 33.431,
+   "end": 33.589
   },
   {
    "clip": "q1",
    "text": "número…",
-   "start": 44.423,
-   "end": 44.866
+   "start": 33.589,
+   "end": 34.032
   },
   {
    "clip": "q2",
    "text": "y",
-   "start": 47.216,
-   "end": 47.374
+   "start": 36.382,
+   "end": 36.54
   },
   {
    "clip": "q2",
    "text": "ahora",
-   "start": 47.374,
-   "end": 47.817
+   "start": 36.54,
+   "end": 36.983
   },
   {
    "clip": "q2",
    "text": "mira",
-   "start": 47.817,
-   "end": 48.118
+   "start": 36.983,
+   "end": 37.284
   },
   {
    "clip": "q2",
    "text": "de",
-   "start": 48.118,
-   "end": 48.276
+   "start": 37.284,
+   "end": 37.442
   },
   {
    "clip": "q2",
    "text": "quién",
-   "start": 48.276,
-   "end": 48.434
+   "start": 37.442,
+   "end": 37.6
   },
   {
    "clip": "q2",
    "text": "es.",
-   "start": 48.434,
-   "end": 48.592
+   "start": 37.6,
+   "end": 37.758
   },
   {
    "clip": "r1",
    "text": "Uno,",
-   "start": 49.345,
-   "end": 49.646
+   "start": 38.511,
+   "end": 38.812
   },
   {
    "clip": "r1",
    "text": "Vox.",
-   "start": 49.766,
-   "end": 49.924
+   "start": 38.932,
+   "end": 39.09
   },
   {
    "clip": "r2",
    "text": "Dos,",
-   "start": 51.454,
-   "end": 51.612
+   "start": 40.621,
+   "end": 40.779
   },
   {
    "clip": "r2",
    "text": "PSOE.",
-   "start": 51.732,
-   "end": 52.033
+   "start": 40.899,
+   "end": 41.2
   },
   {
    "clip": "r3",
    "text": "Tres,",
-   "start": 53.421,
-   "end": 53.579
+   "start": 42.588,
+   "end": 42.746
   },
   {
    "clip": "r3",
    "text": "PP.",
-   "start": 53.699,
-   "end": 53.857
+   "start": 42.866,
+   "end": 43.024
   },
   {
    "clip": "r4",
    "text": "Cuatro,",
-   "start": 55.245,
-   "end": 55.546
+   "start": 44.411,
+   "end": 44.712
   },
   {
    "clip": "r4",
    "text": "Podemos.",
-   "start": 55.666,
-   "end": 56.109
+   "start": 44.832,
+   "end": 45.275
   },
   {
    "clip": "r5",
    "text": "Cinco,",
-   "start": 57.211,
-   "end": 57.512
+   "start": 46.378,
+   "end": 46.679
   },
   {
    "clip": "r5",
    "text": "Sumar.",
-   "start": 57.632,
-   "end": 57.932
+   "start": 46.799,
+   "end": 47.099
   }
  ],
  "subtitles": [
@@ -1131,13 +1131,13 @@
     {
      "clip": "p2",
      "text": "Dos:",
-     "start": 14.28,
-     "end": 14.438
+     "start": 11.047,
+     "end": 11.205
     }
    ],
-   "start": 14.28,
-   "end": 14.438,
-   "hold": 14.598,
+   "start": 11.047,
+   "end": 11.205,
+   "hold": 11.365,
    "lines": [
     [
      0
@@ -1149,37 +1149,37 @@
     {
      "clip": "p2",
      "text": "préstamos",
-     "start": 14.598,
-     "end": 15.041
+     "start": 11.365,
+     "end": 11.808
     },
     {
      "clip": "p2",
      "text": "sin",
-     "start": 15.041,
-     "end": 15.199
+     "start": 11.808,
+     "end": 11.966
     },
     {
      "clip": "p2",
      "text": "intereses",
-     "start": 15.199,
-     "end": 15.786
+     "start": 11.966,
+     "end": 12.553
     },
     {
      "clip": "p2",
      "text": "de",
-     "start": 15.786,
-     "end": 15.944
+     "start": 12.553,
+     "end": 12.711
     },
     {
      "clip": "p2",
      "text": "hasta",
-     "start": 15.944,
-     "end": 16.244
+     "start": 12.711,
+     "end": 13.011
     }
    ],
-   "start": 14.598,
-   "end": 16.244,
-   "hold": 16.244,
+   "start": 11.365,
+   "end": 13.011,
+   "hold": 13.011,
    "lines": [
     [
      0,
@@ -1197,43 +1197,43 @@
     {
      "clip": "p2",
      "text": "cincuenta",
-     "start": 16.244,
-     "end": 16.688
+     "start": 13.011,
+     "end": 13.455
     },
     {
      "clip": "p2",
      "text": "mil",
-     "start": 16.688,
-     "end": 16.846
+     "start": 13.455,
+     "end": 13.613
     },
     {
      "clip": "p2",
      "text": "euros",
-     "start": 16.846,
-     "end": 17.146
+     "start": 13.613,
+     "end": 13.913
     },
     {
      "clip": "p2",
      "text": "para",
-     "start": 17.146,
-     "end": 17.447
+     "start": 13.913,
+     "end": 14.214
     },
     {
      "clip": "p2",
      "text": "pagar",
-     "start": 17.447,
-     "end": 17.748
+     "start": 14.214,
+     "end": 14.515
     },
     {
      "clip": "p2",
      "text": "la",
-     "start": 17.748,
-     "end": 17.906
+     "start": 14.515,
+     "end": 14.673
     }
    ],
-   "start": 16.244,
-   "end": 17.906,
-   "hold": 17.906,
+   "start": 13.011,
+   "end": 14.673,
+   "hold": 14.673,
    "lines": [
     [
      0,
@@ -1252,13 +1252,13 @@
     {
      "clip": "p2",
      "text": "entrada.",
-     "start": 17.906,
-     "end": 18.349
+     "start": 14.673,
+     "end": 15.116
     }
    ],
-   "start": 17.906,
-   "end": 18.349,
-   "hold": 18.849,
+   "start": 14.673,
+   "end": 15.116,
+   "hold": 15.616,
    "lines": [
     [
      0
@@ -1270,13 +1270,13 @@
     {
      "clip": "p3",
      "text": "Tres:",
-     "start": 21.314,
-     "end": 21.472
+     "start": 16.047,
+     "end": 16.205
     }
    ],
-   "start": 21.314,
-   "end": 21.472,
-   "hold": 21.632,
+   "start": 16.047,
+   "end": 16.205,
+   "hold": 16.365,
    "lines": [
     [
      0
@@ -1288,31 +1288,31 @@
     {
      "clip": "p3",
      "text": "un",
-     "start": 21.632,
-     "end": 21.79
+     "start": 16.365,
+     "end": 16.523
     },
     {
      "clip": "p3",
      "text": "millón",
-     "start": 21.79,
-     "end": 22.09
+     "start": 16.523,
+     "end": 16.823
     },
     {
      "clip": "p3",
      "text": "de",
-     "start": 22.09,
-     "end": 22.248
+     "start": 16.823,
+     "end": 16.981
     },
     {
      "clip": "p3",
      "text": "viviendas,",
-     "start": 22.248,
-     "end": 22.692
+     "start": 16.981,
+     "end": 17.425
     }
    ],
-   "start": 21.632,
-   "end": 22.692,
-   "hold": 22.812,
+   "start": 16.365,
+   "end": 17.425,
+   "hold": 17.545,
    "lines": [
     [
      0,
@@ -1329,43 +1329,43 @@
     {
      "clip": "p3",
      "text": "y",
-     "start": 22.812,
-     "end": 22.97
+     "start": 17.545,
+     "end": 17.703
     },
     {
      "clip": "p3",
      "text": "si",
-     "start": 22.97,
-     "end": 23.128
+     "start": 17.703,
+     "end": 17.861
     },
     {
      "clip": "p3",
      "text": "el",
-     "start": 23.128,
-     "end": 23.285
+     "start": 17.861,
+     "end": 18.018
     },
     {
      "clip": "p3",
      "text": "ayuntamiento",
-     "start": 23.285,
-     "end": 24.015
+     "start": 18.018,
+     "end": 18.748
     },
     {
      "clip": "p3",
      "text": "no",
-     "start": 24.015,
-     "end": 24.173
+     "start": 18.748,
+     "end": 18.906
     },
     {
      "clip": "p3",
      "text": "responde",
-     "start": 24.173,
-     "end": 24.616
+     "start": 18.906,
+     "end": 19.349
     }
    ],
-   "start": 22.812,
-   "end": 24.616,
-   "hold": 24.616,
+   "start": 17.545,
+   "end": 19.349,
+   "hold": 19.349,
    "lines": [
     [
      0,
@@ -1384,43 +1384,43 @@
     {
      "clip": "p3",
      "text": "a",
-     "start": 24.616,
-     "end": 24.774
+     "start": 19.349,
+     "end": 19.507
     },
     {
      "clip": "p3",
      "text": "una",
-     "start": 24.774,
-     "end": 25.075
+     "start": 19.507,
+     "end": 19.808
     },
     {
      "clip": "p3",
      "text": "licencia",
-     "start": 25.075,
-     "end": 25.518
+     "start": 19.808,
+     "end": 20.251
     },
     {
      "clip": "p3",
      "text": "en",
-     "start": 25.518,
-     "end": 25.676
+     "start": 20.251,
+     "end": 20.409
     },
     {
      "clip": "p3",
      "text": "noventa",
-     "start": 25.676,
-     "end": 26.12
+     "start": 20.409,
+     "end": 20.853
     },
     {
      "clip": "p3",
      "text": "días,",
-     "start": 26.12,
-     "end": 26.42
+     "start": 20.853,
+     "end": 21.153
     }
    ],
-   "start": 24.616,
-   "end": 26.42,
-   "hold": 26.54,
+   "start": 19.349,
+   "end": 21.153,
+   "hold": 21.273,
    "lines": [
     [
      0,
@@ -1439,19 +1439,19 @@
     {
      "clip": "p3",
      "text": "queda",
-     "start": 26.54,
-     "end": 26.841
+     "start": 21.273,
+     "end": 21.574
     },
     {
      "clip": "p3",
      "text": "aprobada.",
-     "start": 26.841,
-     "end": 27.428
+     "start": 21.574,
+     "end": 22.161
     }
    ],
-   "start": 26.54,
-   "end": 27.428,
-   "hold": 27.928,
+   "start": 21.273,
+   "end": 22.161,
+   "hold": 22.661,
    "lines": [
     [
      0,
@@ -1464,13 +1464,13 @@
     {
      "clip": "p4",
      "text": "Cuatro:",
-     "start": 28.347,
-     "end": 28.648
+     "start": 23.08,
+     "end": 23.381
     }
    ],
-   "start": 28.347,
-   "end": 28.648,
-   "hold": 28.808,
+   "start": 23.08,
+   "end": 23.381,
+   "hold": 23.541,
    "lines": [
     [
      0
@@ -1482,49 +1482,49 @@
     {
      "clip": "p4",
      "text": "que",
-     "start": 28.808,
-     "end": 28.966
+     "start": 23.541,
+     "end": 23.699
     },
     {
      "clip": "p4",
      "text": "ningún",
-     "start": 28.966,
-     "end": 29.266
+     "start": 23.699,
+     "end": 23.999
     },
     {
      "clip": "p4",
      "text": "hogar",
-     "start": 29.266,
-     "end": 29.567
+     "start": 23.999,
+     "end": 24.3
     },
     {
      "clip": "p4",
      "text": "pague",
-     "start": 29.567,
-     "end": 29.868
+     "start": 24.3,
+     "end": 24.601
     },
     {
      "clip": "p4",
      "text": "más",
-     "start": 29.868,
-     "end": 30.026
+     "start": 24.601,
+     "end": 24.759
     },
     {
      "clip": "p4",
      "text": "del",
-     "start": 30.026,
-     "end": 30.183
+     "start": 24.759,
+     "end": 24.916
     },
     {
      "clip": "p4",
      "text": "treinta",
-     "start": 30.183,
-     "end": 30.484
+     "start": 24.916,
+     "end": 25.217
     }
    ],
-   "start": 28.808,
-   "end": 30.484,
-   "hold": 30.484,
+   "start": 23.541,
+   "end": 25.217,
+   "hold": 25.217,
    "lines": [
     [
      0,
@@ -1546,49 +1546,49 @@
     {
      "clip": "p4",
      "text": "por",
-     "start": 30.484,
-     "end": 30.642
+     "start": 25.217,
+     "end": 25.375
     },
     {
      "clip": "p4",
      "text": "ciento",
-     "start": 30.642,
-     "end": 30.943
+     "start": 25.375,
+     "end": 25.676
     },
     {
      "clip": "p4",
      "text": "de",
-     "start": 30.943,
-     "end": 31.101
+     "start": 25.676,
+     "end": 25.834
     },
     {
      "clip": "p4",
      "text": "sus",
-     "start": 31.101,
-     "end": 31.258
+     "start": 25.834,
+     "end": 25.991
     },
     {
      "clip": "p4",
      "text": "ingresos",
-     "start": 31.258,
-     "end": 31.702
+     "start": 25.991,
+     "end": 26.435
     },
     {
      "clip": "p4",
      "text": "en",
-     "start": 31.702,
-     "end": 31.86
+     "start": 26.435,
+     "end": 26.593
     },
     {
      "clip": "p4",
      "text": "alquiler.",
-     "start": 31.86,
-     "end": 32.303
+     "start": 26.593,
+     "end": 27.036
     }
    ],
-   "start": 30.484,
-   "end": 32.303,
-   "hold": 32.803,
+   "start": 25.217,
+   "end": 27.036,
+   "hold": 27.536,
    "lines": [
     [
      0,
@@ -1610,13 +1610,13 @@
     {
      "clip": "p5",
      "text": "Cinco:",
-     "start": 35.38,
-     "end": 35.681
+     "start": 27.947,
+     "end": 28.248
     }
    ],
-   "start": 35.38,
-   "end": 35.681,
-   "hold": 35.841,
+   "start": 27.947,
+   "end": 28.248,
+   "hold": 28.408,
    "lines": [
     [
      0
@@ -1628,43 +1628,43 @@
     {
      "clip": "p5",
      "text": "prohibir",
-     "start": 35.841,
-     "end": 36.284
+     "start": 28.408,
+     "end": 28.851
     },
     {
      "clip": "p5",
      "text": "que",
-     "start": 36.284,
-     "end": 36.442
+     "start": 28.851,
+     "end": 29.009
     },
     {
      "clip": "p5",
      "text": "fondos",
-     "start": 36.442,
-     "end": 36.743
+     "start": 29.009,
+     "end": 29.31
     },
     {
      "clip": "p5",
      "text": "y",
-     "start": 36.743,
-     "end": 36.901
+     "start": 29.31,
+     "end": 29.468
     },
     {
      "clip": "p5",
      "text": "empresas",
-     "start": 36.901,
-     "end": 37.344
+     "start": 29.468,
+     "end": 29.911
     },
     {
      "clip": "p5",
      "text": "compren",
-     "start": 37.344,
-     "end": 37.645
+     "start": 29.911,
+     "end": 30.212
     }
    ],
-   "start": 35.841,
-   "end": 37.645,
-   "hold": 37.645,
+   "start": 28.408,
+   "end": 30.212,
+   "hold": 30.212,
    "lines": [
     [
      0,
@@ -1683,13 +1683,13 @@
     {
      "clip": "p5",
      "text": "viviendas.",
-     "start": 37.645,
-     "end": 38.089
+     "start": 30.212,
+     "end": 30.656
     }
    ],
-   "start": 37.645,
-   "end": 38.089,
-   "hold": 38.589,
+   "start": 30.212,
+   "end": 30.656,
+   "hold": 31.156,
    "lines": [
     [
      0
@@ -1701,31 +1701,31 @@
     {
      "clip": "q1",
      "text": "¿Ya",
-     "start": 42.664,
-     "end": 42.822
+     "start": 31.83,
+     "end": 31.988
     },
     {
      "clip": "q1",
      "text": "tienes",
-     "start": 42.822,
-     "end": 43.123
+     "start": 31.988,
+     "end": 32.289
     },
     {
      "clip": "q1",
      "text": "la",
-     "start": 43.123,
-     "end": 43.28
+     "start": 32.289,
+     "end": 32.446
     },
     {
      "clip": "q1",
      "text": "tuya?",
-     "start": 43.28,
-     "end": 43.581
+     "start": 32.446,
+     "end": 32.747
     }
    ],
-   "start": 42.664,
-   "end": 43.581,
-   "hold": 43.821,
+   "start": 31.83,
+   "end": 32.747,
+   "hold": 32.987,
    "lines": [
     [
      0,
@@ -1740,25 +1740,25 @@
     {
      "clip": "q1",
      "text": "Comenta",
-     "start": 43.821,
-     "end": 44.265
+     "start": 32.987,
+     "end": 33.431
     },
     {
      "clip": "q1",
      "text": "el",
-     "start": 44.265,
-     "end": 44.423
+     "start": 33.431,
+     "end": 33.589
     },
     {
      "clip": "q1",
      "text": "número…",
-     "start": 44.423,
-     "end": 44.866
+     "start": 33.589,
+     "end": 34.032
     }
    ],
-   "start": 43.821,
-   "end": 44.866,
-   "hold": 45.366,
+   "start": 32.987,
+   "end": 34.032,
+   "hold": 34.532,
    "lines": [
     [
      0,
@@ -1772,43 +1772,43 @@
     {
      "clip": "q2",
      "text": "y",
-     "start": 47.216,
-     "end": 47.374
+     "start": 36.382,
+     "end": 36.54
     },
     {
      "clip": "q2",
      "text": "ahora",
-     "start": 47.374,
-     "end": 47.817
+     "start": 36.54,
+     "end": 36.983
     },
     {
      "clip": "q2",
      "text": "mira",
-     "start": 47.817,
-     "end": 48.118
+     "start": 36.983,
+     "end": 37.284
     },
     {
      "clip": "q2",
      "text": "de",
-     "start": 48.118,
-     "end": 48.276
+     "start": 37.284,
+     "end": 37.442
     },
     {
      "clip": "q2",
      "text": "quién",
-     "start": 48.276,
-     "end": 48.434
+     "start": 37.442,
+     "end": 37.6
     },
     {
      "clip": "q2",
      "text": "es.",
-     "start": 48.434,
-     "end": 48.592
+     "start": 37.6,
+     "end": 37.758
     }
    ],
-   "start": 47.216,
-   "end": 48.592,
-   "hold": 49.092,
+   "start": 36.382,
+   "end": 37.758,
+   "hold": 38.258,
    "lines": [
     [
      0,
@@ -1827,19 +1827,19 @@
     {
      "clip": "r1",
      "text": "Uno,",
-     "start": 49.345,
-     "end": 49.646
+     "start": 38.511,
+     "end": 38.812
     },
     {
      "clip": "r1",
      "text": "Vox.",
-     "start": 49.766,
-     "end": 49.924
+     "start": 38.932,
+     "end": 39.09
     }
    ],
-   "start": 49.345,
-   "end": 49.924,
-   "hold": 50.424,
+   "start": 38.511,
+   "end": 39.09,
+   "hold": 39.59,
    "lines": [
     [
      0,
@@ -1852,19 +1852,19 @@
     {
      "clip": "r2",
      "text": "Dos,",
-     "start": 51.454,
-     "end": 51.612
+     "start": 40.621,
+     "end": 40.779
     },
     {
      "clip": "r2",
      "text": "PSOE.",
-     "start": 51.732,
-     "end": 52.033
+     "start": 40.899,
+     "end": 41.2
     }
    ],
-   "start": 51.454,
-   "end": 52.033,
-   "hold": 52.533,
+   "start": 40.621,
+   "end": 41.2,
+   "hold": 41.7,
    "lines": [
     [
      0,
@@ -1877,19 +1877,19 @@
     {
      "clip": "r3",
      "text": "Tres,",
-     "start": 53.421,
-     "end": 53.579
+     "start": 42.588,
+     "end": 42.746
     },
     {
      "clip": "r3",
      "text": "PP.",
-     "start": 53.699,
-     "end": 53.857
+     "start": 42.866,
+     "end": 43.024
     }
    ],
-   "start": 53.421,
-   "end": 53.857,
-   "hold": 54.357,
+   "start": 42.588,
+   "end": 43.024,
+   "hold": 43.524,
    "lines": [
     [
      0,
@@ -1902,19 +1902,19 @@
     {
      "clip": "r4",
      "text": "Cuatro,",
-     "start": 55.245,
-     "end": 55.546
+     "start": 44.411,
+     "end": 44.712
     },
     {
      "clip": "r4",
      "text": "Podemos.",
-     "start": 55.666,
-     "end": 56.109
+     "start": 44.832,
+     "end": 45.275
     }
    ],
-   "start": 55.245,
-   "end": 56.109,
-   "hold": 56.609,
+   "start": 44.411,
+   "end": 45.275,
+   "hold": 45.775,
    "lines": [
     [
      0,
@@ -1927,19 +1927,19 @@
     {
      "clip": "r5",
      "text": "Cinco,",
-     "start": 57.211,
-     "end": 57.512
+     "start": 46.378,
+     "end": 46.679
     },
     {
      "clip": "r5",
      "text": "Sumar.",
-     "start": 57.632,
-     "end": 57.932
+     "start": 46.799,
+     "end": 47.099
     }
    ],
-   "start": 57.211,
-   "end": 57.932,
-   "hold": 58.432,
+   "start": 46.378,
+   "end": 47.099,
+   "hold": 47.599,
    "lines": [
     [
      0,

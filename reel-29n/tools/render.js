@@ -72,7 +72,17 @@ function sceneRanges(tl) {
 async function scenes(only) {
   const { srv, browser, page, timings } = await open();
   const dir = path.join(ROOT, 'build', 'scenes'); fs.mkdirSync(dir, { recursive: true });
-  const ranges = sceneRanges(timings).filter((r) => !only || only.includes(r.name));
+  // "s3#1/2" renderiza la primera mitad de la escena 3 en s3_p1.mp4 (para repartir entre procesos)
+  let ranges = [];
+  for (const r of sceneRanges(timings)) {
+    const specs = only ? only.filter((o) => o.split('#')[0] === r.name) : [r.name];
+    for (const sp of specs) {
+      const m = sp.match(/#(\d+)\/(\d+)$/);
+      if (!m) { ranges.push(r); continue; }
+      const i = +m[1], n = +m[2], len = r.b - r.a;
+      ranges.push({ name: `${r.name}_p${i}`, a: r.a + Math.floor(len * (i - 1) / n), b: r.a + Math.floor(len * i / n) });
+    }
+  }
   for (const r of ranges) {
     const out = path.join(dir, `${r.name}.mp4`);
     const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(timings.fps), '-c:v', 'mjpeg', '-i', '-',

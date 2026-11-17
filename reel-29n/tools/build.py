@@ -42,9 +42,9 @@ def main():
     os.makedirs(os.path.join(BUILD, "scenes"), exist_ok=True)
     if not a.solo_audio:
         todo = a.escenas or scenes
-        # reparto en dos procesos: la escena 3 (propuestas) es la más larga
-        g1 = [s for s in todo if s == "s3"]
-        g2 = [s for s in todo if s != "s3"]
+        # reparto en dos procesos: la escena 3 (propuestas) se parte en dos mitades
+        g1 = [x for x in todo if x in ("s1", "s2", "s6")] + (["s3#1/2"] if "s3" in todo else [])
+        g2 = [x for x in todo if x in ("s4", "s5")] + (["s3#2/2"] if "s3" in todo else [])
         procs = []
         for g in (g1, g2):
             if g:
@@ -54,7 +54,7 @@ def main():
                 sys.exit("[build] fallo en el render")
     lst = os.path.join(BUILD, "scenes", "lista.txt")
     with open(lst, "w") as f:
-        for s in scenes:
+        for s in ["s1", "s2", "s3_p1", "s3_p2", "s4", "s5", "s6"]:
             f.write("file '%s.mp4'\n" % s)
     mudo = os.path.join(BUILD, "video_mudo.mp4")
     run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", mudo])

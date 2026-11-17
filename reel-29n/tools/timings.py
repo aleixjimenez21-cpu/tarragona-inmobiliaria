@@ -290,18 +290,20 @@ def build(voice_path=None):
     s3 = max(s2 + 3.7, v0 + clips["intro"]["dur"] + 0.40)
     T["s2"] = [s2, s3]
     T["title_rules"] = v0 + wstart("intro", i_no)
-    # Escena 3 — propuestas (bloques idénticos)
+    # Escena 3 — propuestas: cada bloque dura lo que su frase + el MISMO margen
+    # antes y después (mismo tratamiento; la duración se adapta al texto)
     lead = 0.30
     tail = 0.60
-    P = max(4.0, max(clips["p%d" % k]["dur"] for k in range(1, 6)) + lead + tail)
-    P = math.ceil(P * FPS) / FPS
-    T["P"] = P
     T["blocks_p"] = []
+    b0 = s3
     for k in range(1, 6):
-        b0 = s3 + (k - 1) * P
-        T["blocks_p"].append([b0, b0 + P])
+        Pk = max(3.6, clips["p%d" % k]["dur"] + lead + tail)
+        Pk = math.ceil(Pk * FPS) / FPS
+        T["blocks_p"].append([b0, b0 + Pk])
         place["p%d" % k] = b0 + lead
-    s4 = s3 + 5 * P
+        b0 += Pk
+    T["P"] = max(b[1] - b[0] for b in T["blocks_p"])
+    s4 = b0
     # Escena 4 — la elección
     place["q1"] = s4 + 0.55
     quiet = 2.2

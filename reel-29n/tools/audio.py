@@ -267,13 +267,15 @@ def build(timings, voice_path=None):
     # propuestas: barrido + papel + tecleo IDÉNTICOS
     whoosh = sfx_whoosh_light()
     pslide = sfx_paper_slide(0.75)
-    typing = typing_bed(2.6)
-    for k in range(6):
-        c = T["s3"][0] + k * T["P"]
+    cuts = [b[0] for b in T["blocks_p"]] + [T["blocks_p"][4][1]]
+    for c in cuts:
         place(sfx, whoosh, c - 0.42, db(-16), width=0.8)
     for k in range(5):
         b0 = T["blocks_p"][k][0]
         place(sfx, pslide, b0 + 0.30, db(-16), width=0.4)
+        # mismo patrón y misma velocidad de tecleo; dura lo que dura el texto
+        nchar = sum(1 for ch in timings["proposals"][k] if ch != " ")
+        typing = typing_bed(nchar / 32.0)
         place(sfx, typing, b0 + 1.0, db(-17), width=0.3)
     # reloj durante la elección
     tick, tock = sfx_clock(0), sfx_clock(1)
