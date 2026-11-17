@@ -5,3 +5,4 @@ build/
 *.pyc
 __pycache__/
 output/*.mp4
+output/previa/

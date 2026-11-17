@@ -162,6 +162,85 @@ def align_script(words):
     return script, times
 
 
+def voiced_parts(x, sr, a, b):
+    """Tramos con voz dentro de [a, b] (huecos de >= 0,15 s se consideran pausa)."""
+    import numpy as np
+    hop = int(sr * 0.01)
+    seg = x[int(a * sr):int(b * sr)]
+    n = max(1, len(seg) // hop)
+    db = 20 * np.log10(np.sqrt(np.array([np.mean(seg[i * hop:(i + 1) * hop] ** 2) + 1e-12 for i in range(n)])))
+    thr = max(np.percentile(db, 90) - 28, np.percentile(db, 5) + 6)
+    v = db > thr
+    out, i = [], 0
+    while i < n:
+        if v[i]:
+            j = i
+            while j < n and (v[j] or v[j:j + 15].any()):
+                j += 1
+            out.append((a + i / 100, a + j / 100)); i = j
+        else:
+            i += 1
+    return out or [(a, b)]
+
+
+def manual_align(x, sr, cuts):
+    """Cortes por frase dados a mano. Dentro de cada frase, cada grupo de palabras entre
+    signos de puntuación se asigna a su tramo de voz (las pausas reales), y dentro del
+    tramo las palabras se reparten por sílabas."""
+    script, times = [], []
+    for cid, text in CLIPS:
+        a, b = cuts[cid]
+        parts = voiced_parts(x, sr, a, b)
+        toks = tokens(text)
+        groups, cur = [], []
+        for t in toks:
+            cur.append(t)
+            if t.endswith((",", ":", ".", "?", "…")):
+                groups.append(cur); cur = []
+        if cur:
+            groups.append(cur)
+        gsyl = [sum(syllables(t) for t in g) for g in groups]
+        # demasiados tramos: unir por los huecos más pequeños
+        while len(parts) > len(groups):
+            gaps = [parts[i + 1][0] - parts[i][1] for i in range(len(parts) - 1)]
+            i = gaps.index(min(gaps))
+            parts = parts[:i] + [(parts[i][0], parts[i + 1][1])] + parts[i + 2:]
+        # asignación monótona grupos -> tramos (partición contigua con ritmo más uniforme)
+        G, Pn = len(groups), len(parts)
+        rate = sum(gsyl) / sum(q - p for p, q in parts)
+        best = {}
+
+        def cost(gi, gj, pi):
+            d = parts[pi][1] - parts[pi][0]
+            return abs(math.log(max(1e-3, sum(gsyl[gi:gj]) / max(d, 1e-3)) / rate))
+
+        def solve(gi, pi):
+            if pi == Pn - 1:
+                return (cost(gi, G, pi), [G])
+            key = (gi, pi)
+            if key in best:
+                return best[key]
+            res = (1e9, None)
+            for gj in range(gi + 1, G - (Pn - pi - 1) + 1):
+                c, rest = solve(gj, pi + 1)
+                c += cost(gi, gj, pi)
+                if c < res[0]:
+                    res = (c, [gj] + rest)
+            best[key] = res
+            return res
+        _, ends = solve(0, 0)
+        gi = 0
+        for pi, gj in enumerate(ends):
+            p, q = parts[pi]
+            ws = [t for g in groups[gi:gj] for t in g]
+            sy = [syllables(t) for t in ws]
+            tot, acc = float(sum(sy)), 0
+            for t, n in zip(ws, sy):
+                script.append((cid, t)); times.append((p + (q - p) * acc / tot, p + (q - p) * (acc + n) / tot)); acc += n
+            gi = gj
+    return script, times
+
+
 def silence_align(x, sr):
     """Alineador sin modelos: busca los 12 silencios que separan los 13 clips."""
     import numpy as np
@@ -241,10 +320,17 @@ def build(voice_path=None):
     if voice_path and os.path.exists(voice_path):
         x, sr = load_wav_mono(voice_path)
         script = times = None
+        cortes_p = os.path.join(os.path.dirname(os.path.abspath(voice_path)), "cortes_limpios.json")
         try:
+            if os.path.exists(cortes_p):
+                script, times = manual_align(x, sr, json.load(open(cortes_p)))
+                method = "cortes manuales"
+                raise StopIteration
             words = whisper_words(voice_path)
             script, times = align_script(words)
             method = "faster-whisper"
+        except StopIteration:
+            pass
         except Exception as e:  # noqa
             print("[timings] faster-whisper no disponible (%s). Uso alineador por silencios." % e)
             script, times = silence_align(x, sr)

@@ -1,0 +1,68 @@
+{
+ "_nota": "Tiempos en segundos sobre input/voz.mp3 (archivo original). 'quitar' elimina tramos (tomas falsas) y 'clips' marca dónde empieza y acaba cada frase del guion. Si no existe este archivo, los cortes se detectan solos por las pausas.",
+ "quitar": [
+  [
+   3.25,
+   6.3
+  ],
+  [
+   20.0,
+   21.5
+  ]
+ ],
+ "clips": {
+  "intro": [
+   1.24,
+   10.9
+  ],
+  "p1": [
+   11.64,
+   14.61
+  ],
+  "p2": [
+   15.21,
+   19.51
+  ],
+  "p3": [
+   21.65,
+   27.0
+  ],
+  "p4": [
+   27.91,
+   32.27
+  ],
+  "p5": [
+   33.17,
+   36.25
+  ],
+  "q1": [
+   36.99,
+   40.28
+  ],
+  "q2": [
+   41.12,
+   42.32
+  ],
+  "r1": [
+   42.89,
+   43.88
+  ],
+  "r2": [
+   44.27,
+   45.34
+  ],
+  "r3": [
+   45.82,
+   46.78
+  ],
+  "r4": [
+   47.28,
+   48.5
+  ],
+  "r5": [
+   48.99,
+   50.04
+  ]
+ },
+ "_tomas": "Tomas descartadas: arranque en falso de 'Cinco' (4,47 s) y primer 'Tres:' (20,26 s), repetido a los 21,65 s."
+}

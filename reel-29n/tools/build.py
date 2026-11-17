@@ -22,13 +22,17 @@ def run(cmd, **kw):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--voz", default=os.path.join(ROOT, "input", "voz.wav"))
+    ap.add_argument("--voz", default="")
     ap.add_argument("--solo-audio", action="store_true")
     ap.add_argument("--escenas", nargs="*")
     ap.add_argument("--sin-portada", action="store_true")
     a = ap.parse_args()
 
-    voz = a.voz if os.path.exists(a.voz) else None
+    # narración: input/voz.(wav|mp3|m4a…) -> limpieza, tomas descartadas y mejora (tools/voz.py)
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import voz as vozmod
+    src = a.voz if os.path.exists(a.voz) else vozmod.find_input()
+    voz = vozmod.prepare(src) if src else None
     if voz:
         # la voz se copia como referencia; nunca se cambia su velocidad
         run([sys.executable, "tools/timings.py", voz])
