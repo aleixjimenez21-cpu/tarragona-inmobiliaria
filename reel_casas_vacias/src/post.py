@@ -31,11 +31,15 @@ def read_exr(fn):
             d[k] = v.pixels
     rgb = d['ViewLayer.Combined'][..., :3].astype(np.float32)
     z = d['ViewLayer.Depth.Z'].astype(np.float32)
-    return rgb, z
+    ik = [k for k in d if 'IndexOB' in k or 'Object Index' in k]
+    idx = d[ik[0]].astype(np.float32) if ik else np.zeros_like(z)
+    if idx.ndim == 3:
+        idx = idx[..., 0]
+    return rgb, z, idx
 
 # ------------------------------------------------------------------ óptica
 
-def tilt_shift(rgb, z, focus_d, fy, strength, rmax):
+def tilt_shift(rgb, z, focus_d, fy, strength, rmax, keep=None):
     """Desenfoque variable: círculo de confusión por profundidad + banda de pantalla."""
     h, w = z.shape
     zz = np.minimum(z, focus_d * 40)
@@ -46,6 +50,8 @@ def tilt_shift(rgb, z, focus_d, fy, strength, rmax):
     band = band * band * (3 - 2 * band)
     r = np.maximum(r_depth, band * 0.7) * strength
     r = cv2.GaussianBlur(r.astype(np.float32), (0, 0), 3)
+    if keep is not None:
+        r = r * (1 - keep)
     radii = [0, 1.2, 2.6, 4.5, 7.5, 11.0, 16.0]
     rr = np.clip(r, 0, 1) * rmax
     levels = []
@@ -201,7 +207,7 @@ def draw_subs(im, t):
         return im
     # maquetación: siempre la del bloque completo (sin saltos al aparecer palabras)
     full = [w['w'] for w in active]
-    space = F_SUB.getlength(' ')
+    space = F_SUB.getlength(' ') + 6
     maxw = 820
     lines, line, lw = [], [], 0
     for i, wd in enumerate(full):
@@ -210,7 +216,7 @@ def draw_subs(im, t):
             lines.append(line); line, lw = [], 0
         line.append(i); lw += (space if len(line) > 1 else 0) + wl
     lines.append(line)
-    lh = 92
+    lh = 100
     cy = 1350
     y0 = cy - lh * len(lines) / 2
     layer = Image.new('RGBA', im.size, (0, 0, 0, 0))
@@ -227,14 +233,21 @@ def draw_subs(im, t):
             wl = F_SUB.getlength(wd)
             if i <= cur_i:
                 age = t - (active[i]['s'] - 0.05)
-                a = int(255 * min(1, age / 0.08))
-                col = RED if (i == cur_i and t < active[i]['e'] + 0.25) else CREAM
+                a = int(255 * min(1, age / 0.05))
+                act = (i == cur_i and t < active[i]['e'] + 0.25)
                 dy = 6 * max(0, 1 - age / 0.12)
-                ds.text((x, y + 4 + dy), wd, font=F_SUB, fill=(0, 0, 0, int(a * 0.85)))
-                dl.text((x, y + dy), wd, font=F_SUB, fill=col + (a,))
+                ds.text((x, y + 6 + dy), wd, font=F_SUB, fill=(0, 0, 0, int(a * 0.7)), stroke_width=8,
+                        stroke_fill=(0, 0, 0, int(a * 0.7)))
+                if act:
+                    # cápsula negra al 60 % + rojo con contorno blanco
+                    bb = F_SUB.getbbox(wd)
+                    dl.rounded_rectangle((x + bb[0] - 16, y + dy + bb[1] - 12, x + bb[2] + 16, y + dy + bb[3] + 14),
+                                         radius=22, fill=(0, 0, 0, int(a * 0.6)))
+                    dl.text((x, y + dy), wd, font=F_SUB, fill=RED + (a,), stroke_width=4, stroke_fill=(255, 255, 255, a))
+                else:
+                    dl.text((x, y + dy), wd, font=F_SUB, fill=(255, 255, 255, a), stroke_width=6, stroke_fill=(0, 0, 0, a))
             x += wl + space
-    shadow = shadow.filter(ImageFilter.GaussianBlur(9))
-    im = Image.alpha_composite(im, shadow)
+    shadow = shadow.filter(ImageFilter.GaussianBlur(8))
     im = Image.alpha_composite(im, shadow)
     return Image.alpha_composite(im, layer)
 
@@ -300,12 +313,19 @@ def draw_cta(im, t, t_cta, t_end):
 
 
 def process(exr, meta, frame, t, shot, dim=1.0, overlays=True, tail=False):
-    rgb, z = read_exr(exr)
+    rgb, z, idx = read_exr(exr)
+    # rótulos de cartón: siempre dentro de la franja de foco (sin desenfoque)
+    m = (np.abs(idx - 1) < 0.5).astype(np.float32)
+    keep = None
+    if m.any():
+        k = int(max(5, 14 * z.shape[1] / 720)) | 1
+        keep = cv2.dilate(m, np.ones((k, k), np.uint8))
+        keep = np.clip(cv2.GaussianBlur(keep, (0, 0), k / 3) * 1.6, 0, 1)
     fm = meta['focus'][str(frame)] if str(frame) in meta['focus'] else meta['focus'][str(meta['f0'])]
     h, w = z.shape
     rmax = 12.0 * w / 720
     strength = fm['ts']
-    rgb = tilt_shift(rgb, z, fm['d'], fm.get('fy', 0.5), strength, rmax)
+    rgb = tilt_shift(rgb, z, fm['d'], fm.get('fy', 0.5), strength, rmax, keep)
     rgb = bloom(rgb)
     y = tonemap(rgb, exposure=EXPO.get(shot, 1.0))
     y = grade(y)

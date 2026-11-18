@@ -271,8 +271,9 @@ if cand:
             off = side * 2.25
             x = p.x + ux * along + vx * off
             y = p.y + uy * along + vy * off
-            rot = th + math.pi / 2 + srng.uniform(-.04, .04)
-            houses.append(dict(x=x, y=y, rot=rot, units=1, prov='05', tag='street', d=0, village=None))
+            rot = th + srng.uniform(-.04, .04)
+            houses.append(dict(x=x, y=y, rot=rot, units=1, prov='05', tag='street', d=0, village=None,
+                               sk=(k + 4) * 2 + (side > 0)))
     street = dict(x=p.x, y=p.y, th=th, i0=i0, i1=len(houses))
 
 # pueblos héroe (escena 6) en Zamora: 4 pueblos de 12-18 casas con iglesia
@@ -329,10 +330,13 @@ for pid, (pop, vac) in P.items():
         if h['tag'].startswith('hero'):
             rate = .78
         if h['tag'] == 'street':
-            rate = .45
+            rate = -1
         if h['units'] > 1:
             rate *= .7
         h['vac'] = 1 if rng.random() < min(rate, .92) else 0
+        if h['tag'] == 'street':
+            k = hs.index(h) if False else h.get('sk', 0)
+            h['vac'] = [0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1][k % 14]
 
 # ---------------------------------------------------------------- parcelas
 parcels = []

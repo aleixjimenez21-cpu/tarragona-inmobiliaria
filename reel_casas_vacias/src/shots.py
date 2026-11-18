@@ -176,6 +176,22 @@ class Card:
         return times
 
 
+def card_hide_at(card, t, dur=0.15):
+    for ob, _, _ in card.letters:
+        ob.scale = (1, 1, 1); key(ob, 'scale', t, ob.scale.copy())
+        ob.scale = (0.001,) * 3; key(ob, 'scale', t + dur, ob.scale.copy())
+
+
+def contour_pts(pid, buf=1.5, simp=0.5):
+    from shapely.geometry import Polygon
+    O = DATA['provinces'][pid]
+    poly = max(O['polys'], key=lambda p: Polygon(p['ext']).area)
+    pg = Polygon(poly['ext']).buffer(buf).simplify(simp)
+    pts = list(pg.exterior.coords)
+    k0 = int(np.argmax([p[1] for p in pts]))
+    return pts[k0:] + pts[1:k0 + 1]
+
+
 def hide_before(ob, t):
     ob.hide_render = True
     ob.keyframe_insert('hide_render', frame=max(1, 1 + t * 30 - 1))
@@ -223,10 +239,14 @@ SU = Vector((math.cos(STREET['th']), math.sin(STREET['th']), 0))
 SV = Vector((-SU.y, SU.x, 0))
 
 
+WAVE_O = SP + SU * 15.0   # la ola nace al fondo de la calle y avanza hacia la cámara
+
+
 def wave_tw(i, h):
-    d = math.hypot(h[0] - SP.x, h[1] - SP.y)
+    d = math.hypot(h[0] - WAVE_O.x, h[1] - WAVE_O.y)
     r = random.Random(i).random()
-    return W('España') + 0.1 + d * 0.0062 + r * 0.12
+    # ya en marcha en el fotograma 0: el fondo de la calle es vidrio y el frente llega a cámara en ~0,3 s
+    return -0.18 + min(d, 40) * 0.026 + max(0.0, d - 40) * 0.0055 + r * 0.04
 
 
 _PC = None
@@ -266,55 +286,104 @@ def build_parcels(mat, width, select=None, t0_fn=parcel_t0, rect=(1.55, 1.25), n
     return M.stroke_mesh(name, lines, mat, width)
 
 
-def common(sc, parcel_width=0.12, sun=(150, 22, 3.2)):
+def scene_key(name, t, value):
+    sc = bpy.context.scene
+    sc[name] = value
+    sc.keyframe_insert('["%s"]' % name, frame=1 + t * 30)
+
+
+def province_outlines(width, name='contornos'):
+    lines = []
+    for pid, p in DATA['provinces'].items():
+        for poly in p['polys']:
+            ring = poly['ext'] + [poly['ext'][0]]
+            lines.append(dict(pts=ring, t0=-10, dur=0.1, width=width))
+    mat = M.mat_flat('contorno', tuple(x * 0.8 for x in M.srgb('#3B2B1B')), 0.8)
+    return M.stroke_mesh(name, lines, mat, width, z=TOP + 0.015)
+
+
+def common(sc, parcel_width=0.12, sun=(150, 22, 3.2), outline=0.12):
     pv = M.build_world()
-    hm = M.mat_houses()
+    hm = M.house_mats()
     pm = M.mat_pencil()
-    pc = build_parcels(pm, parcel_width)
     s = add_sun_from(sc, *sun)
     CARDS.clear()
-    return dict(prov=pv, hmat=hm, pmat=pm, parcels=pc, sun=s)
+    for k, v in (('dimrest', 0.0), ('rim', 1.4 if outline < 0.5 else 2.2), ('win', 9.0), ('recover_t', 1e6)):
+        sc[k] = v
+    ol = province_outlines(outline)
+    return dict(prov=pv, hmat=hm, pmat=pm, sun=s, pw=parcel_width, outline=ol)
+
+
+def card_rects():
+    out = []
+    for card, pose in CARDS:
+        pts = [project(pose, q) for q in card.corners()]
+        if any(p is None for p in pts):
+            continue
+        xs = [p[0] for p in pts]; ys = [p[1] for p in pts]
+        out.append((card, pose, min(xs), max(xs), min(ys), max(ys), max(p[2] for p in pts)))
+    return out
 
 
 def occluders():
     """Índices de casitas que taparían algún rótulo de cartón."""
     ex = set()
     H = DATA['houses']
-    for card, pose in CARDS:
-        pts = [project(pose, q) for q in card.corners()]
-        if any(p is None for p in pts):
-            continue
-        xs = [p[0] for p in pts]; ys = [p[1] for p in pts]
-        x0, x1, y0, y1 = min(xs) - 30, max(xs) + 30, min(ys) - 40, max(ys) + 30
-        dmax = max(p[2] for p in pts) + 3
+    for card, pose, x0, x1, y0, y1, dmax in card_rects():
+        x0 -= 30; x1 += 30; y0 -= 40; y1 += 8; dmax += 3
         P = Vector(card.root.location)
         rr = card.width_world / 2 + 2.5
+        R = Vector((math.cos(card.yaw), math.sin(card.yaw), 0))
         for i, h in enumerate(H):
-            if abs(h[0] - P.x) > 400 or abs(h[1] - P.y) > 400:
+            if abs(h[0] - P.x) > 500 or abs(h[1] - P.y) > 500:
                 continue
             if card.standing:
-                # dentro de la huella de las letras
                 d = Vector((h[0] - P.x, h[1] - P.y, 0))
-                R = Vector((math.cos(card.yaw), math.sin(card.yaw), 0))
-                if abs(d.dot(R)) < rr and abs(d.cross(R).z) < 2.0:
+                if abs(d.dot(R)) < rr and abs(d.cross(R).z) < 2.2:
                     ex.add(i); continue
-            for z in (TOP + 0.2, TOP + 2.2):
-                q = project(pose, (h[0], h[1], z))
-                if q and x0 < q[0] < x1 and y0 < q[1] < y1 and q[2] < dmax:
-                    ex.add(i); break
+            hit = False
+            for z in (TOP + 0.2, TOP + 1.6, TOP + 3.4):
+                for dx, dy in ((0, 0), (0.8, 0.8), (-0.8, -0.8), (0.8, -0.8), (-0.8, 0.8)):
+                    q = project(pose, (h[0] + dx, h[1] + dy, z))
+                    if q and x0 < q[0] < x1 and y0 < q[1] < y1 and q[2] < dmax:
+                        hit = True; break
+                if hit:
+                    break
+            if hit:
+                ex.add(i)
     return ex
 
 
-def houses_mesh(c, select=None, name='casas', tw_fn=wave_tw, rec_fn=None):
+def parcels_behind_text():
+    """Parcelas rojas que caerían dentro (o detrás) de un rótulo: se quitan."""
+    ex = set()
+    for card, pose, x0, x1, y0, y1, dmax in card_rects():
+        for i, p in enumerate(DATA['parcels']):
+            q = project(pose, (p[0], p[1], TOP))
+            if q and x0 - 45 < q[0] < x1 + 45 and y0 - 45 < q[1] < y1 + 45:
+                ex.add(i)
+    return ex
+
+
+def houses_mesh(c, select=None, name='casas', tw_fn=wave_tw, rec_fn=None, hlt_fn=None):
     ex = c.setdefault('exclude', occluders())
     sel = (lambda i, h: i not in ex and (select is None or select(i, h)))
-    return M.build_houses(c['hmat'], select=sel, tw_fn=tw_fn, name=name, rec_fn=rec_fn,
-                          house_scale=c.get('hscale', 1.0))
+    return M.build_houses(c['hmat'], select=sel, tw_fn=tw_fn, name=name, rec_fn=rec_fn, hlt_fn=hlt_fn,
+                          house_scale=c.get('hscale', 1.0), edge_t=c.get('edge_t', 0.05))
+
+
+def finish(c, parcels=True, **kw):
+    """Casas y parcelas, una vez colocados los rótulos (para no taparlos)."""
+    hs = houses_mesh(c, **kw)
+    if parcels:
+        pex = parcels_behind_text()
+        c['parcels'] = build_parcels(c['pmat'], c['pw'], select=lambda i, p: i not in pex)
+    return hs
 
 
 def add_sun_from(sc, phi, el, energy, angle=3.5):
     """Sol que llega DESDE el azimut phi (grados; 0=este, 90=norte)."""
-    return M.add_sun(sc, az=phi + 90, el=el, energy=energy, angle=angle)
+    return M.add_sun(sc, az=phi + 90, el=el, energy=energy * 1.3, angle=angle)
 
 
 def cam_keys(cam, tgt, poses):
@@ -381,24 +450,25 @@ def overview_pose(lens=35):
 
 def shot_A(sc):
     """Hook: calle de casitas, ola de vidrio, cae 3.800.000."""
-    c = common(sc, parcel_width=0.08, sun=(math.degrees(STREET['th']) + 120, 16, 3.0))
+    c = common(sc, parcel_width=0.08, sun=(math.degrees(STREET['th']) + 120, 16, 3.0), outline=0.1)
     cam, tgt = M.add_camera(sc, 50)
     fe = focus_empty(sc)
     t0, t1 = SHOTS['A_hook']['start'], SHOTS['A_hook']['end']
-    L0 = SP - SU * 10.5 + SV * 2.6 + Vector((0, 0, 6.2))
-    G0 = SP + SU * 3.5 + SV * 0.2 + Vector((0, 0, 0.0))
-    L1 = SP - SU * 11.5 + SV * 2.0 + Vector((0, 0, 10.5))
+    cu, cv, cz, gu, gv = [float(x) for x in os.environ.get('A_CAM', '-4,-7.5,5.5,5,1.0').split(',')]
+    L0 = SP + SU * cu + SV * cv + Vector((0, 0, cz))
+    G0 = SP + SU * gu + SV * gv + Vector((0, 0, 0.0))
+    L1 = SP - SU * 8.0 - SV * 6.5 + Vector((0, 0, 11.0))
     G1 = SP + SU * 14.0 + Vector((0, 0, 0.4))
-    poses = [(t0, L0, G0, 50), (t1 + 0.15, L1, G1, 50)]
-    cam_keys(cam, tgt, poses)
     land = W('cuatro') - 0.05
-    pose = pose_eval(sc, cam, tgt, land + 0.45)
+    poses = [(t0, L0, G0, 50), (land + 0.3, L1 - SU * 0.8, G1 - SU * 0.5, 50), (t1 + 0.15, L1, G1, 50)]
+    cam_keys(cam, tgt, poses)
+    pose = pose_eval(sc, cam, tgt, land + 0.8)
     card_mat = M.mat_card(M.C_WHITE)
     num = card_on_screen('3.800.000', card_mat, pose, 515, 640, 800)
     tl = num.drop(land, stagger=0.045)
     sub = card_on_screen('VACÍAS', card_mat, pose, 515, 790, 330)
     sub.pop(W('viviendas') + 0.05, stagger=0.03)
-    houses_mesh(c)
+    finish(c)
     key(fe, 'location', t0, SP + SU * 1.0)
     key(fe, 'location', land - 0.3, SP + SU * 2.5)
     key(fe, 'location', land + 0.2, num.root.location.copy())
@@ -416,7 +486,7 @@ def b_frame():
 
 def shot_B(sc):
     """Contraste: parcelas rojas a lápiz, se levanta 750.000."""
-    c = common(sc, parcel_width=0.085, sun=(205, 20, 3.0))
+    c = common(sc, parcel_width=0.085, sun=(205, 20, 3.0), outline=0.1)
     cam, tgt = M.add_camera(sc, 55)
     fe = focus_empty(sc)
     t0, t1 = SHOTS['B_contraste']['start'], SHOTS['B_contraste']['end']
@@ -427,13 +497,13 @@ def shot_B(sc):
     cam_keys(cam, tgt, poses)
     red = M.mat_card(M.C_RED, 'carton_rojo')
     white = M.mat_card(M.C_WHITE)
-    tr = W('setecientas') - 0.1
+    tr = W('setecientas') - 0.35
     pose = pose_eval(sc, cam, tgt, tr + 0.6)
     num = card_on_screen('750.000', red, pose, 510, 860, 780)
-    times = num.rise(tr, stagger=0.07)
+    times = num.rise(tr, stagger=0.05)
     lab = card_on_screen('FALTAN', white, pose, 510, 1040, 330)
     lab.rise(W('faltan') - 0.05, stagger=0.05, dur=0.25)
-    houses_mesh(c)
+    finish(c)
     key(fe, 'location', t0, P)
     key(fe, 'location', tr, num.root.location.copy())
     fill_light(sc, L1 + Vector((0, 0, 10)) - Rr * 10, P, power=0.22)
@@ -442,7 +512,8 @@ def shot_B(sc):
 
 def shot_C(sc):
     """Grúa rápida a cenital de toda la maqueta. ¿CÓMO?"""
-    c = common(sc, parcel_width=0.9, sun=(200, 30, 3.2))
+    c = common(sc, parcel_width=0.9, sun=(200, 30, 3.2), outline=1.4)
+    c['edge_t'] = 0.09
     c['hscale'] = 1.9
     cam, tgt = M.add_camera(sc, 55)
     fe = focus_empty(sc)
@@ -462,7 +533,7 @@ def shot_C(sc):
     q = card_on_screen('¿CÓMO?', white, pose, 510, 1010, 600, standing=False, extrude=0.05)
     q.root.location.z = TOP + 0.4
     tl = q.drop(t_land, h=90 / q.scale, stagger=0.035, fall=0.32, wobble=False)
-    houses_mesh(c)
+    finish(c)
     key(fe, 'location', t0, P)
     key(fe, 'location', t_land, ov[1])
     fe['ts'] = 0.7
@@ -471,8 +542,9 @@ def shot_C(sc):
 
 def shot_D(sc):
     """Picado sobre Galicia. Ourense iluminada, cota roja, +40 %."""
-    c = common(sc, parcel_width=0.5, sun=(210, 26, 3.2))
+    c = common(sc, parcel_width=0.5, sun=(210, 26, 3.2), outline=0.8)
     pv = c['prov']
+    c['edge_t'] = 0.09
     c['hscale'] = 1.9
     cam, tgt = M.add_camera(sc, 35)
     fe = focus_empty(sc)
@@ -489,39 +561,32 @@ def shot_D(sc):
              (t1 + 0.1, L_end - look * 6 + Vector((8, 0, -8)), G_end, 46)]
     cam_keys(cam, tgt, poses)
     t_on = W('Ourense') - 0.05
-    set_dim(pv, t_on - 0.2, 0.72, except_=('32',), dur=0.6)
-    sp, e = spot_for(sc, oc, 60, power=6.0, name='foco_ourense')
-    light_energy(sp, t0, 0, 0, 0.01)
-    light_energy(sp, t_on - 0.1, 0, e, 0.25)
-    light_energy(c['sun'], t_on - 0.2, 3.2, 1.0, 0.6)
+    set_dim(pv, t_on - 0.2, 0.62, except_=('32',), dur=0.5)
+    scene_key('dimrest', t_on - 0.2, 0.0); scene_key('dimrest', t_on + 0.3, 0.62)
     ob = pv['32']
     key(ob, 'location', t_on - 0.1, Vector((0, 0, 0)))
     key(ob, 'location', t_on + 0.5, Vector((0, 0, 1.6)))
-    from shapely.geometry import Polygon
-    poly = max(O['polys'], key=lambda p: len(p['ext']))
-    pg = Polygon(poly['ext']).buffer(2.2).simplify(0.4)
-    pts = list(pg.exterior.coords)
-    k0 = int(np.argmax([p[1] for p in pts]))
-    pts = pts[k0:] + pts[1:k0 + 1]
+    pts = contour_pts('32', 2.2, 0.4)
     tc = WE('Ourense') + 0.05
     stroke = M.stroke_mesh('cota', [dict(pts=pts, t0=tc, dur=1.0, width=0.9)], M.mat_pencil('lapiz_cota'),
                            z=TOP + 0.04)
     stroke.parent = ob
-    rim = c['hmat'].node_tree.nodes['rim'].outputs[0]
-    for t, v in ((t0, 1.6), (W('viviendas', 3) - 0.2, 1.6), (W('vacías', 2), 4.5)):
-        rim.default_value = v
-        rim.keyframe_insert('default_value', frame=1 + t * 30)
+    for t, v in ((t0, 2.2), (W('viviendas', 3) - 0.2, 2.2), (W('vacías', 2), 3.6)):
+        scene_key('rim', t, v)
     white = M.mat_card(M.C_WHITE)
     pose = pose_eval(sc, cam, tgt, W('cuarenta') + 0.4)
-    card = card_on_screen('+40 %', white, pose, 520, 700, 560)
+    card = card_on_screen('+40 %', white, pose, 520, 690, 560)
     tl = card.drop(W('cuarenta') - 0.02, stagger=0.05)
-    houses_mesh(c, select=lambda i, h: h[4] != 32, name='casas_resto')
-    ho = houses_mesh(c, select=lambda i, h: h[4] == 32, name='casas_ourense')
+    name = card_on_screen('OURENSE', white, pose, 520, 860, 400)
+    name.root.parent = ob
+    name.pop(W('Ourense') - 0.1, stagger=0.03)
+    finish(c, select=lambda i, h: h[4] != 32, name='casas_resto')
+    ho = houses_mesh(c, select=lambda i, h: h[4] == 32, name='casas_ourense', hlt_fn=lambda i, h: -10)
     ho.parent = ob
     key(fe, 'location', t0, ov[1])
     key(fe, 'location', t0 + 1.3, oc)
     key(fe, 'location', W('cuarenta'), card.root.location.copy() * .5 + oc * .5)
-    return cam, fe, (t0, t1), dict(impacts=tl, spot=t_on, pencil=(tc, tc + 1.0))
+    return cam, fe, (t0, t1), dict(impacts=tl, spot=t_on, pops=[W('Ourense') - 0.1], pencil=(tc, tc + 1.0))
 
 
 SIX = [('28', 'Madrid'), ('08', 'Barcelona'), ('46', 'Valencia'), ('03', 'Alicante'), ('30', 'Murcia'), ('29', 'Málaga')]
@@ -529,13 +594,15 @@ SIX = [('28', 'Madrid'), ('08', 'Barcelona'), ('46', 'Valencia'), ('03', 'Alican
 
 def shot_E(sc):
     """Travelling por las 6 provincias del déficit."""
-    c = common(sc, parcel_width=0.55, sun=(220, 24, 3.0))
+    c = common(sc, parcel_width=0.55, sun=(220, 24, 3.0), outline=1.1)
     pv = c['prov']
+    c['edge_t'] = 0.09
     c['hscale'] = 1.9
     cam, tgt = M.add_camera(sc, 40)
     fe = focus_empty(sc)
     t0, t1 = SHOTS['E_provincias']['start'], SHOTS['E_provincias']['end']
-    pts = [Vector((DATA['cities'][n][0], DATA['cities'][n][1], TOP)) for _, n in SIX]
+    pts = [Vector((DATA['cities'][n][0] * 0.5 + DATA['provinces'][p]['c'][0] * 0.5,
+                   DATA['cities'][n][1] * 0.5 + DATA['provinces'][p]['c'][1] * 0.5, TOP)) for p, n in SIX]
     look = Vector((0.15, 1.0, 0)).normalized()
     side = Vector((look.y, -look.x, 0))
     tt = np.linspace(W('seis') - 0.05, W('mitad') - 0.15, 6)
@@ -554,25 +621,30 @@ def shot_E(sc):
              (W('mitad') - 0.1, ovE[0], ovE[1], 35),
              (t1 + 0.1, ovE[0] + Vector((0, -20, 60)), ovE[1] + Vector((0, 4, 0)), 35)]
     cam_keys(cam, tgt, poses)
-    set_dim(pv, t0 + 0.1, 0.42, except_=tuple(p for p, _ in SIX), dur=0.6)
-    light_energy(c['sun'], t0 + 0.1, 3.0, 1.6, 0.6)
+    six = [p for p, _ in SIX]
+    set_dim(pv, t0 + 0.05, 0.62, dur=0.4)
+    scene_key('dimrest', t0 + 0.05, 0.0); scene_key('dimrest', t0 + 0.45, 0.62)
     white = M.mat_card(M.C_WHITE)
     red = M.mat_card(M.C_RED, 'carton_rojo')
-    impacts = []
+    impacts, pops, lines = [], [], []
+    NAMES = dict(zip(six, ['MADRID', 'BARCELONA', 'VALENCIA', 'ALICANTE', 'MURCIA', 'MÁLAGA']))
     for k, (pid, name) in enumerate(SIX):
         pr = DATA['provinces'][pid]
         bb = pr['bbox']
         r = max(bb[2] - bb[0], bb[3] - bb[1]) / 2
-        cc = pts[k]
-        sp, e = spot_for(sc, cc, r * 0.8 + 20, power=5.0, name='foco_' + pid)
-        light_energy(sp, t0, 0, 0, 0.01)
-        light_energy(sp, tt[k], 0, e, 0.12)
-        pose = pose_eval(sc, cam, tgt, tt[k] + 0.3)
-        Pn = cc + side * (-(r * 0.2 + 25)) + look * 8
+        cc = Vector((pr['c'][0], pr['c'][1], TOP))
+        ob = pv[pid]
+        key(ob, '["dim"]', tt[k] - 0.05, 0.62)
+        key(ob, '["dim"]', tt[k] + 0.2, 0.0)
+        lines.append(dict(pts=contour_pts(pid, 1.6, 0.6), t0=tt[k], dur=0.45, width=1.5))
+        pose = pose_eval(sc, cam, tgt, tt[k] + 0.25)
+        Pn = cc + look * (r * 0.62 + 10)
         Pn.z = TOP
-        card = Card(str(k + 1), red, Pn, yaw_facing(Pn, pose[0]), 34.0)
-        CARDS.append((card, pose))
-        impacts += card.drop(tt[k] + 0.06, stagger=0, fall=0.3)
+        lab = card_at(NAMES[pid], white, Pn, pose, 300 if len(NAMES[pid]) < 8 else 360)
+        pops += lab.pop(tt[k] + 0.02, stagger=0.025)[:1]
+        card_hide_at(lab, W('mitad') - 0.35)
+    M.stroke_mesh('bordes_6', lines, M.mat_pencil('lapiz_6'), z=TOP + 0.05)
+    hl = {int(p): tt[k] for k, p in enumerate(six)}
     pose = pose_eval(sc, cam, tgt, W('déficit') + 0.3)
     a = card_on_screen('+50 %', red, pose, 510, 545, 520, standing=False, extrude=0.05, lift=0.3 - TOP)
     a.root.location.z = TOP * 0 + 0.3
@@ -580,17 +652,17 @@ def shot_E(sc):
     b = card_on_screen('DEL DÉFICIT', white, pose, 510, 690, 540, standing=False, extrude=0.05, lift=0.3 - TOP)
     b.root.location.z = 0.3
     b.drop(W('déficit') - 0.1, h=80 / b.scale, stagger=0.025, fall=0.28, wobble=False)
-    houses_mesh(c)
+    finish(c, hlt_fn=lambda i, h: hl.get(h[4], 1e6))
     key(fe, 'location', t0, pts[0])
     for k in range(6):
         key(fe, 'location', tt[k], pts[k])
     key(fe, 'location', W('mitad') + 0.1, a.root.location.copy())
-    return cam, fe, (t0, t1), dict(impacts=impacts + ta, spots=list(tt))
+    return cam, fe, (t0, t1), dict(impacts=ta, spots=list(tt), pops=pops, pencil6=list(tt))
 
 
 def shot_F(sc):
     """Pueblos del interior casi vacíos (Zamora)."""
-    c = common(sc, parcel_width=0.08, sun=(222, 15, 3.0))
+    c = common(sc, parcel_width=0.08, sun=(222, 15, 3.0), outline=0.1)
     cam, tgt = M.add_camera(sc, 55)
     fe = focus_empty(sc)
     t0, t1 = SHOTS['F_pueblos']['start'], SHOTS['F_pueblos']['end']
@@ -598,20 +670,20 @@ def shot_F(sc):
     A = Vector((hv['Muelas del Pan']['x'], hv['Muelas del Pan']['y'], TOP))
     look = Vector((0.2, 1.0, 0)).normalized()
     side = Vector((look.y, -look.x, 0))
-    poses = [(t0, A - look * 17 + side * 5 + Vector((0, 0, 4.2)), A + Vector((0, 0, .6)), 55),
-             (W('mitad', 2) + 0.4, A - look * 15 - side * 1 + Vector((0, 0, 5.4)), A + look * 3 + Vector((0, 0, 1.0)), 55),
-             (t1 + 0.1, A - look * 14 - side * 6 + Vector((0, 0, 6.2)), A + look * 4 - side * 2 + Vector((0, 0, 1.0)), 55)]
+    poses = [(t0, A - look * 16 + side * 3 + Vector((0, 0, 6.5)), A + look * 2 + Vector((0, 0, .4)), 55),
+             (W('mitad', 2) + 0.4, A - look * 14 + side * 0.5 + Vector((0, 0, 8.5)), A + look * 3.5 + Vector((0, 0, 0.4)), 55),
+             (t1 + 0.1, A - look * 13 + side * 0.3 + Vector((0, 0, 9.5)), A + look * 3.0 + Vector((0, 0, 0.4)), 55)]
     cam_keys(cam, tgt, poses)
     white = M.mat_card(M.C_WHITE)
     pose = pose_eval(sc, cam, tgt, W('mitad', 2) + 0.6)
-    num = card_on_screen('45 %', white, pose, 520, 700, 430)
+    num = card_on_screen('45 %', white, pose, 520, 520, 400)
     tl = num.drop(W('mitad', 2) - 0.02, stagger=0.06)
     pose2 = pose_eval(sc, cam, tgt, W('menos') + 0.5)
-    l1 = card_on_screen('EN PUEBLOS DE', white, pose2, 510, 860, 500, extrude=0.05)
+    l1 = card_on_screen('EN PUEBLOS DE', white, pose2, 510, 650, 470, extrude=0.05)
     l1.pop(W('municipios'), stagger=0.03)
-    l2 = card_on_screen('MENOS DE 10.000 HAB.', white, pose2, 510, 975, 620, extrude=0.05)
+    l2 = card_on_screen('MENOS DE 10.000 HAB.', white, pose2, 510, 755, 600, extrude=0.05)
     l2.pop(W('menos'), stagger=0.025)
-    houses_mesh(c)
+    finish(c)
     key(fe, 'location', t0, A)
     key(fe, 'location', W('mitad', 2), num.root.location.copy() * 0.6 + A * 0.4)
     fill_light(sc, A - look * 10 + side * 14 + Vector((0, 0, 8)), A, power=0.2)
@@ -620,7 +692,8 @@ def shot_F(sc):
 
 def shot_G(sc):
     """Síntesis cenital con time-lapse de luz y líneas rojas que no llegan."""
-    c = common(sc, parcel_width=1.1, sun=(160, 30, 3.0))
+    c = common(sc, parcel_width=1.1, sun=(160, 30, 3.0), outline=1.4)
+    c['edge_t'] = 0.09
     c['hscale'] = 1.9
     cam, tgt = M.add_camera(sc, 35)
     fe = focus_empty(sc)
@@ -633,8 +706,7 @@ def shot_G(sc):
     for t, phi, el in ((t0, 120, 20), (t0 + 2.5, 200, 34), (t1, 290, 18)):
         s.rotation_euler = (math.radians(90 - el), 0, math.radians(phi + 90))
         key(s, 'rotation_euler', t, s.rotation_euler.copy())
-    rim = c['hmat'].node_tree.nodes['rim'].outputs[0]
-    rim.default_value = 5.0
+    sc['rim'] = 2.6
     srcs = [(-354, 259), (-300, 300), (-190, 190), (-90, 230), (-130, 30), (-250, -60), (90, 240), (40, -60),
             (-40, 150), (150, 120)]
     dsts = ['Madrid', 'Barcelona', 'Valencia', 'Málaga', 'Alicante', 'Murcia', 'Sevilla', 'Palma']
@@ -654,7 +726,7 @@ def shot_G(sc):
             pts.append(tuple(p))
         lines.append(dict(pts=pts, t0=tl0 + k * 0.12, dur=1.3, cut=rnd.uniform(.42, .62), width=3.6))
     M.stroke_mesh('lineas', lines, M.mat_pencil('lapiz_lineas'), z=TOP + 2.2)
-    houses_mesh(c)
+    finish(c)
     key(fe, 'location', t0, ov[1])
     fe['ts'] = 0.35
     return cam, fe, (t0, t1), dict(pencil=(tl0, tl0 + 2.5), thud=WE('falta') + 0.1)
@@ -676,7 +748,7 @@ def hand_shape():
 
 def shot_H(sc):
     """Dilema: el cúter parte la maqueta. CONSTRUIR / RECUPERAR."""
-    c = common(sc, parcel_width=0.09, sun=(215, 24, 2.0))
+    c = common(sc, parcel_width=0.09, sun=(215, 24, 2.0), outline=0.1)
     pv = c['prov']
     cam, tgt = M.add_camera(sc, 45)
     fe = focus_empty(sc)
@@ -695,9 +767,9 @@ def shot_H(sc):
     Hs = DATA['houses']
     side = lambda x, y: (Vector((x, y, 0)) - P).dot(R)
     # parcela y casa protagonistas, colocadas a cada lado del corte
-    lpv = P - R * 2.7 - look * 0.4
+    lpv = P - R * 2.7 + look * 3.6
     lp = [lpv.x, lpv.y, math.atan2(R.y, R.x) + 0.05, 28]
-    rhv = P + R * 2.7 - look * 0.4
+    rhv = P + R * 2.7 + look * 3.6
     Hs.append([rhv.x, rhv.y, math.atan2(R.y, R.x) + math.pi / 2, 1, 28, 1, 0, -1])
     rh_i = len(Hs) - 1
     clear = [i for i, h in enumerate(Hs[:-1]) if min((Vector((h[0], h[1], TOP)) - lpv).length,
@@ -739,15 +811,14 @@ def shot_H(sc):
             o2.parent = g
         bpy.data.objects.remove(ob)
     # casas: la de la derecha se recupera
-    hm = c['hmat']
-    hm.node_tree.nodes['recover_t'].outputs[0].default_value = W('recuperar') + 0.35
+    sc['recover_t'] = W('recuperar') + 0.35
 
     def tw(i, h):
         return -10.0
     white = M.mat_card(M.C_WHITE)
     pose = pose_eval(sc, cam, tgt, W('recuperar') + 0.5)
-    lab_l = card_on_screen('CONSTRUIR', white, pose, 290, 560, 380)
-    lab_r = card_on_screen('RECUPERAR', white, pose, 750, 560, 380)
+    lab_l = card_on_screen('CONSTRUIR', white, pose, 285, 1170, 400)
+    lab_r = card_on_screen('RECUPERAR', white, pose, 745, 1170, 400)
     lab_l.root.parent = gL; lab_r.root.parent = gR
     lab_l.pop(W('construir'), stagger=0.03)
     lab_r.pop(W('recuperar'), stagger=0.03)
@@ -768,10 +839,10 @@ def shot_H(sc):
     for i, h in enumerate(old):
         Hs[i][5] = h[5]
     # parcelas partidas
-    c['parcels'].parent = None
-    bpy.data.objects.remove(c['parcels'])
+    pex = parcels_behind_text()
     for gsel, g in ((lambda i, p: side(p[0], p[1]) < 0, gL), (lambda i, p: side(p[0], p[1]) >= 0, gR)):
-        o = build_parcels(c['pmat'], 0.09, select=gsel, t0_fn=lambda p, i: -10, name='parc_' + g.name)
+        o = build_parcels(c['pmat'], 0.09, select=lambda i, p, gsel=gsel: gsel(i, p) and i not in pex,
+                          t0_fn=lambda p, i: -10, name='parc_' + g.name)
         o.parent = g
     # grúa de maqueta sobre la parcela izquierda
     crane_mat = M.mat_card(M.C_WHITE, 'grua')
@@ -845,7 +916,7 @@ def shot_H(sc):
     hand.visible_glossy = False
     hand.visible_transmission = False
     sp_loc = hpos + R * 6 - look * 10 + Vector((0, 0, 34))
-    spot = M.add_spot(sc, sp_loc, hpos, energy=9.0 * 4 * math.pi * 36 ** 2, size_deg=24, blend=0.55, radius=0.25,
+    spot = M.add_spot(sc, sp_loc, hpos, energy=6.0 * 4 * math.pi * 36 ** 2, size_deg=13, blend=0.5, radius=0.25,
                       name='foco_mano')
     spot.parent = gR
     tr_ = W('recuperar')
@@ -864,7 +935,8 @@ def shot_H(sc):
 
 def shot_P(sc):
     """Portada: maqueta de España, casas de vidrio y cifras recortadas."""
-    c = common(sc, parcel_width=1.0, sun=(215, 26, 3.0))
+    c = common(sc, parcel_width=1.0, sun=(215, 26, 3.0), outline=1.4)
+    c['edge_t'] = 0.09
     c['hscale'] = 1.9
     cam, tgt = M.add_camera(sc, 40)
     fe = focus_empty(sc)
@@ -873,8 +945,7 @@ def shot_P(sc):
     look = Vector((0.08, 1.0, 0)).normalized()
     L = ctr - look * 1250 + Vector((0, 0, 1650))
     cam_keys(cam, tgt, [(t0, L, ctr, 40), (t1, L, ctr, 40)])
-    rim = c['hmat'].node_tree.nodes['rim'].outputs[0]
-    rim.default_value = 4.5
+    sc['rim'] = 2.6
     white = M.mat_card(M.C_WHITE)
     red = M.mat_card(M.C_RED, 'carton_rojo')
     pose = pose_eval(sc, cam, tgt, t0)
@@ -883,7 +954,7 @@ def shot_P(sc):
     b = card_on_screen('VACÍAS', white, pose, 530, 615, 400, lift=v)
     d = card_on_screen('FALTAN', white, pose, 530, 1395, 380, lift=v)
     e = card_on_screen('750.000', red, pose, 530, 1600, 760, lift=v)
-    houses_mesh(c)
+    finish(c)
     key(fe, 'location', t0, ctr)
     fe['ts'] = 0.45
     fill_light(sc, L + Vector((300, 0, 200)), ctr, power=0.15)

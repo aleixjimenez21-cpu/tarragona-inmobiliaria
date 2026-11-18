@@ -81,120 +81,162 @@ def math_node(nodes, links, op, a, b=None, val=None):
 
 # ===================================================================== materials
 
+def prop_node(N, name, default=0.0):
+    """Nodo Value enlazado a una propiedad de la escena (animable): scene[name]."""
+    sc = bpy.context.scene
+    if name not in sc.keys():
+        sc[name] = default
+    v = N.new('ShaderNodeValue'); v.name = name
+    d = v.outputs[0].driver_add('default_value').driver
+    d.type = 'AVERAGE'
+    var = d.variables.new(); var.name = 'v'; var.type = 'SINGLE_PROP'
+    var.targets[0].id_type = 'SCENE'; var.targets[0].id = sc
+    var.targets[0].data_path = '["%s"]' % name
+    return v.outputs[0]
+
+
 def mat_wood():
+    """Madera clara lisa (sin veta granulosa), 20 % más oscura que antes."""
     m, N, L = new_mat('madera')
-    out = N['Material Output']; bsdf = N['Principled BSDF']
+    bsdf = N['Principled BSDF']
     tc = N.new('ShaderNodeTexCoord')
-    obinfo = N.new('ShaderNodeObjectInfo')
-    # dirección de la veta distinta por pieza
-    mapn = N.new('ShaderNodeMapping')
-    links = L
-    L.new(tc.outputs['Object'], mapn.inputs['Vector'])
-    rot = math_node(N, L, 'MULTIPLY', obinfo.outputs['Random'], 3.1416)
-    comb = N.new('ShaderNodeCombineXYZ'); L.new(rot, comb.inputs['Z'])
-    L.new(comb.outputs[0], mapn.inputs['Rotation'])
-    mapn.inputs['Scale'].default_value = (1.0, 9.0, 1.0)
-    noise = N.new('ShaderNodeTexNoise'); noise.inputs['Scale'].default_value = 0.25
-    noise.inputs['Detail'].default_value = 6
-    L.new(mapn.outputs[0], noise.inputs['Vector'])
-    wave = N.new('ShaderNodeTexWave'); wave.wave_type = 'BANDS'; wave.bands_direction = 'X'
-    wave.inputs['Scale'].default_value = 4.0
-    wave.inputs['Distortion'].default_value = 5.0
-    wave.inputs['Detail'].default_value = 3.0
-    wave.inputs['Detail Roughness'].default_value = 0.6
-    L.new(mapn.outputs[0], wave.inputs['Vector'])
-    fine = N.new('ShaderNodeTexNoise'); fine.inputs['Scale'].default_value = 30.0
-    L.new(mapn.outputs[0], fine.inputs['Vector'])
-    mix1 = math_node(N, L, 'MULTIPLY', wave.outputs['Fac'], 0.55)
-    mix2 = math_node(N, L, 'MULTIPLY_ADD', noise.outputs['Fac'], 0.6)
-    tot = math_node(N, L, 'ADD', mix1, mix2)
-    tot = math_node(N, L, 'ADD', tot, math_node(N, L, 'MULTIPLY', fine.outputs['Fac'], 0.2))
+    noise = N.new('ShaderNodeTexNoise'); noise.inputs['Scale'].default_value = 0.012
+    noise.inputs['Detail'].default_value = 1.0
+    L.new(tc.outputs['Object'], noise.inputs['Vector'])
     ramp = N.new('ShaderNodeValToRGB')
-    ramp.color_ramp.elements[0].position = 0.35
-    ramp.color_ramp.elements[0].color = (*srgb('#BE9C6C'), 1)
-    ramp.color_ramp.elements[1].position = 1.0
-    ramp.color_ramp.elements[1].color = (*srgb('#DCC39A'), 1)
-    e = ramp.color_ramp.elements.new(0.62); e.color = (*srgb('#C9A97A'), 1)
-    L.new(tot, ramp.inputs['Fac'])
-    # brillo extra por pieza (iluminar provincia)
-    att = N.new('ShaderNodeAttribute'); att.attribute_type = 'OBJECT'; att.attribute_name = 'glow'
-    hsv = N.new('ShaderNodeMixRGB'); hsv.blend_type = 'MULTIPLY'; hsv.inputs['Fac'].default_value = 1
-    L.new(ramp.outputs['Color'], hsv.inputs[1])
+    c0 = tuple(x * 0.8 for x in srgb('#C2A170')); c1 = tuple(x * 0.8 for x in srgb('#CCAD80'))
+    ramp.color_ramp.elements[0].color = (*c0, 1)
+    ramp.color_ramp.elements[1].color = (*c1, 1)
+    L.new(noise.outputs['Fac'], ramp.inputs['Fac'])
     dim = N.new('ShaderNodeAttribute'); dim.attribute_type = 'OBJECT'; dim.attribute_name = 'dim'
     dimv = math_node(N, L, 'SUBTRACT', 1.0, dim.outputs['Fac'])
-    comb2 = N.new('ShaderNodeCombineColor')
+    mul = N.new('ShaderNodeMixRGB'); mul.blend_type = 'MULTIPLY'; mul.inputs['Fac'].default_value = 1
+    L.new(ramp.outputs['Color'], mul.inputs[1])
+    cc = N.new('ShaderNodeCombineColor')
     for k in ('Red', 'Green', 'Blue'):
-        L.new(dimv, comb2.inputs[k])
-    L.new(comb2.outputs[0], hsv.inputs[2])
-    L.new(hsv.outputs[0], bsdf.inputs['Base Color'])
-    bsdf.inputs['Roughness'].default_value = 0.62
-    bump = N.new('ShaderNodeBump'); bump.inputs['Strength'].default_value = 0.03
-    bump.inputs['Distance'].default_value = 0.02
-    L.new(wave.outputs['Fac'], bump.inputs['Height'])
-    L.new(bump.outputs['Normal'], bsdf.inputs['Normal'])
+        L.new(dimv, cc.inputs[k])
+    L.new(cc.outputs[0], mul.inputs[2])
+    L.new(mul.outputs[0], bsdf.inputs['Base Color'])
+    bsdf.inputs['Roughness'].default_value = 0.55
     return m
 
 
 def mat_velvet():
     m, N, L = new_mat('terciopelo')
     b = N['Principled BSDF']
-    b.inputs['Base Color'].default_value = (0.004, 0.004, 0.004, 1)
+    b.inputs['Base Color'].default_value = (0.0025, 0.0025, 0.0025, 1)
     b.inputs['Roughness'].default_value = 1.0
-    b.inputs['Sheen Weight'].default_value = 0.35
+    b.inputs['Sheen Weight'].default_value = 0.25
     b.inputs['Sheen Roughness'].default_value = 0.4
-    b.inputs['Sheen Tint'].default_value = (0.09, 0.085, 0.08, 1)
+    b.inputs['Sheen Tint'].default_value = (0.06, 0.056, 0.052, 1)
     return m
 
 
-def mat_houses():
-    """Blanco maqueta que pasa a vidrio según el atributo vac y la ola tw."""
-    m, N, L = new_mat('casas')
-    out = N['Material Output']; white = N['Principled BSDF']
-    white.inputs['Base Color'].default_value = (*C_WHITE, 1)
-    white.inputs['Roughness'].default_value = 0.78
-    glass = N.new('ShaderNodeBsdfPrincipled')
-    glass.inputs['Base Color'].default_value = (0.9, 0.95, 1.0, 1)
-    glass.inputs['Roughness'].default_value = 0.04
-    glass.inputs['Transmission Weight'].default_value = 1.0
-    glass.inputs['IOR'].default_value = 1.35
-    lw = N.new('ShaderNodeLayerWeight'); lw.inputs['Blend'].default_value = 0.35
-    rim_s = N.new('ShaderNodeValue'); rim_s.name = 'rim'; rim_s.outputs[0].default_value = 1.6
-    rim = math_node(N, L, 'POWER', lw.outputs['Facing'], 2.2)
-    rim = math_node(N, L, 'MULTIPLY', rim, rim_s.outputs[0])
-    glass.inputs['Emission Color'].default_value = (*C_GLASS, 1)
-    L.new(rim, glass.inputs['Emission Strength'])
-    # sombra suave de cristal
-    lp = N.new('ShaderNodeLightPath')
-    transp = N.new('ShaderNodeBsdfTransparent'); transp.inputs[0].default_value = (0.78, 0.84, 0.95, 1)
-    gmix = N.new('ShaderNodeMixShader')
-    L.new(lp.outputs['Is Shadow Ray'], gmix.inputs['Fac'])
-    L.new(glass.outputs[0], gmix.inputs[1]); L.new(transp.outputs[0], gmix.inputs[2])
-    # factor de vidrio
+def mat_flat(name, color, rough=0.7):
+    m, N, L = new_mat(name)
+    b = N['Principled BSDF']
+    b.inputs['Base Color'].default_value = (*color, 1)
+    b.inputs['Roughness'].default_value = rough
+    return m
+
+
+def _house_logic(N, L):
+    """f = factor de vidrio (0 habitada, 1 vacía); dm = oscurecimiento (0..1)."""
     clk = clock_node(N)
     a_vac = N.new('ShaderNodeAttribute'); a_vac.attribute_name = 'vac'
     a_tw = N.new('ShaderNodeAttribute'); a_tw.attribute_name = 'tw'
-    rec = N.new('ShaderNodeValue'); rec.name = 'recover_t'; rec.outputs[0].default_value = 1e6
     a_rec = N.new('ShaderNodeAttribute'); a_rec.attribute_name = 'rec'
+    a_hl = N.new('ShaderNodeAttribute'); a_hl.attribute_name = 'hlt'
+    rec_t = prop_node(N, 'recover_t', 1e6)
+    dimrest = prop_node(N, 'dimrest', 0.0)
     dt = math_node(N, L, 'SUBTRACT', clk.outputs[0], a_tw.outputs['Fac'])
-    s = smoothstep_nodes(N, L, dt, 0.0, 0.18)
+    s = smoothstep_nodes(N, L, dt, 0.0, 0.16)
     f = math_node(N, L, 'MULTIPLY', s, a_vac.outputs['Fac'])
-    # recuperar: casas marcadas con rec vuelven a blanco a partir de recover_t
-    dtr = math_node(N, L, 'SUBTRACT', clk.outputs[0], rec.outputs[0])
+    dtr = math_node(N, L, 'SUBTRACT', clk.outputs[0], rec_t)
     sr = smoothstep_nodes(N, L, dtr, 0.0, 0.9)
     srm = math_node(N, L, 'MULTIPLY', sr, a_rec.outputs['Fac'])
     f = math_node(N, L, 'MULTIPLY', f, math_node(N, L, 'SUBTRACT', 1.0, srm))
-    # destello en la transición
-    flash = smoothstep_nodes(N, L, dt, -0.02, 0.05)
-    flash2 = smoothstep_nodes(N, L, dt, 0.05, 0.5)
-    fl = math_node(N, L, 'SUBTRACT', flash, flash2)
-    fl = math_node(N, L, 'MULTIPLY', fl, a_vac.outputs['Fac'])
+    # casas resaltadas (hlt <= reloj) no se oscurecen
+    lit = smoothstep_nodes(N, L, math_node(N, L, 'SUBTRACT', clk.outputs[0], a_hl.outputs['Fac']), 0.0, 0.25)
+    dm = math_node(N, L, 'MULTIPLY', dimrest, math_node(N, L, 'SUBTRACT', 1.0, lit))
+    flash = math_node(N, L, 'SUBTRACT', smoothstep_nodes(N, L, dt, -0.02, 0.04), smoothstep_nodes(N, L, dt, 0.04, 0.45))
+    flash = math_node(N, L, 'MULTIPLY', flash, a_vac.outputs['Fac'])
+    return f, dm, flash
+
+
+def mat_houses():
+    """Slot 0: casa. Habitada = blanco sólido; vacía = vidrio casi invisible."""
+    m, N, L = new_mat('casas')
+    out = N['Material Output']; white = N['Principled BSDF']
+    f, dm, flash = _house_logic(N, L)
+    col = N.new('ShaderNodeMixRGB'); col.blend_type = 'MULTIPLY'; col.inputs['Fac'].default_value = 1
+    col.inputs[1].default_value = (*C_WHITE, 1)
+    k = math_node(N, L, 'SUBTRACT', 1.0, math_node(N, L, 'MULTIPLY', dm, 0.8))
+    cc = N.new('ShaderNodeCombineColor')
+    for ch in ('Red', 'Green', 'Blue'):
+        L.new(k, cc.inputs[ch])
+    L.new(cc.outputs[0], col.inputs[2])
+    L.new(col.outputs[0], white.inputs['Base Color'])
+    white.inputs['Roughness'].default_value = 0.8
     white.inputs['Emission Color'].default_value = (*C_GLASS, 1)
-    L.new(math_node(N, L, 'MULTIPLY', fl, 2.5), white.inputs['Emission Strength'])
+    L.new(math_node(N, L, 'MULTIPLY', flash, 3.0), white.inputs['Emission Strength'])
+    # vidrio casi invisible: transparente + reflejo frío débil en ángulo rasante
+    tr = N.new('ShaderNodeBsdfTransparent'); tr.inputs[0].default_value = (0.97, 0.98, 1.0, 1)
+    gl = N.new('ShaderNodeBsdfGlossy'); gl.inputs['Roughness'].default_value = 0.05
+    gl.inputs['Color'].default_value = (*C_GLASS, 1)
+    fr = N.new('ShaderNodeLayerWeight'); fr.inputs['Blend'].default_value = 0.2
+    gmix = N.new('ShaderNodeMixShader')
+    L.new(math_node(N, L, 'MULTIPLY', fr.outputs['Fresnel'], 0.55), gmix.inputs['Fac'])
+    L.new(tr.outputs[0], gmix.inputs[1]); L.new(gl.outputs[0], gmix.inputs[2])
+    lp = N.new('ShaderNodeLightPath')
+    sh = N.new('ShaderNodeMixShader')
+    L.new(lp.outputs['Is Shadow Ray'], sh.inputs['Fac'])
+    L.new(gmix.outputs[0], sh.inputs[1]); L.new(tr.outputs[0], sh.inputs[2])
     mix = N.new('ShaderNodeMixShader')
     L.new(f, mix.inputs['Fac'])
-    L.new(white.outputs[0], mix.inputs[1]); L.new(gmix.outputs[0], mix.inputs[2])
+    L.new(white.outputs[0], mix.inputs[1]); L.new(sh.outputs[0], mix.inputs[2])
     L.new(mix.outputs[0], out.inputs['Surface'])
     return m
+
+
+def mat_window():
+    """Slot 1: ventana encendida cálida (#FFC27A) solo en casas habitadas."""
+    m, N, L = new_mat('ventana')
+    out = N['Material Output']
+    N.remove(N['Principled BSDF'])
+    f, dm, flash = _house_logic(N, L)
+    em = N.new('ShaderNodeEmission'); em.inputs['Color'].default_value = (*srgb('#FFC27A'), 1)
+    win = prop_node(N, 'win', 9.0)
+    L.new(math_node(N, L, 'MULTIPLY', win, math_node(N, L, 'SUBTRACT', 1.0, math_node(N, L, 'MULTIPLY', dm, 0.85))),
+          em.inputs['Strength'])
+    tr = N.new('ShaderNodeBsdfTransparent')
+    mix = N.new('ShaderNodeMixShader')
+    L.new(f, mix.inputs['Fac'])
+    L.new(em.outputs[0], mix.inputs[1]); L.new(tr.outputs[0], mix.inputs[2])
+    L.new(mix.outputs[0], out.inputs['Surface'])
+    return m
+
+
+def mat_edges():
+    """Slot 2: aristas iluminadas en azul frío (#BFD8FF) de las casas vacías."""
+    m, N, L = new_mat('aristas')
+    out = N['Material Output']
+    N.remove(N['Principled BSDF'])
+    f, dm, flash = _house_logic(N, L)
+    em = N.new('ShaderNodeEmission'); em.inputs['Color'].default_value = (0.30, 0.52, 1.0, 1)
+    rim = prop_node(N, 'rim', 1.4)
+    L.new(math_node(N, L, 'MULTIPLY', rim, math_node(N, L, 'SUBTRACT', 1.0, math_node(N, L, 'MULTIPLY', dm, 0.6))),
+          em.inputs['Strength'])
+    tr = N.new('ShaderNodeBsdfTransparent')
+    mix = N.new('ShaderNodeMixShader')
+    L.new(f, mix.inputs['Fac'])
+    L.new(tr.outputs[0], mix.inputs[1]); L.new(em.outputs[0], mix.inputs[2])
+    L.new(mix.outputs[0], out.inputs['Surface'])
+    return m
+
+
+def house_mats():
+    return [mat_houses(), mat_window(), mat_edges()]
 
 
 def mat_card(color=C_WHITE, name='carton'):
@@ -362,46 +404,118 @@ def church_template():
     return V, F
 
 
-def build_houses(mat, select=None, tw_fn=None, extra_attrs=None, name='casas', house_scale=1.0, rec_fn=None):
-    """Une todas las casitas en un único mesh con atributos vac, tw, rec."""
-    HV, HF = house_template()
-    HV = HV * house_scale
-    BV, BF = block_template()
+def house_parts(w, d, h, r, windows=True, ov=0.07):
+    """Casa con tejado a dos aguas (cumbrera según x). Devuelve V, F, ventanas (lista de quads) y aristas."""
+    V, F = house_template(w, d, h, r, ov)
+    hw, hd = w / 2, d / 2
+    wins = []
+    if windows:
+        ws = min(0.3, h * 0.34)
+        rows = max(1, int(h / 0.9))
+        for row in range(rows):
+            zc = h * (row + 0.55) / rows
+            for xc in (-hw * 0.45, hw * 0.45):
+                for sgn in (-1, 1):
+                    y = sgn * (hd + 0.012)
+                    q = [(xc - ws / 2, y, zc - ws / 2), (xc + ws / 2, y, zc - ws / 2),
+                         (xc + ws / 2, y, zc + ws / 2), (xc - ws / 2, y, zc + ws / 2)]
+                    wins.append(q if sgn > 0 else q[::-1])
+            for sgn in (-1, 1):
+                x = sgn * (hw + 0.012)
+                q = [(x, -ws / 2, zc - ws / 2), (x, ws / 2, zc - ws / 2), (x, ws / 2, zc + ws / 2), (x, -ws / 2, zc + ws / 2)]
+                wins.append(q[::-1] if sgn > 0 else q)
+    c = [(-hw, -hd, 0), (hw, -hd, 0), (hw, hd, 0), (-hw, hd, 0),
+         (-hw, -hd, h), (hw, -hd, h), (hw, hd, h), (-hw, hd, h), (-hw, 0, h + r), (hw, 0, h + r)]
+    E = [(0, 1), (1, 2), (2, 3), (3, 0), (0, 4), (1, 5), (2, 6), (3, 7), (4, 5), (6, 7),
+         (4, 8), (7, 8), (5, 9), (6, 9), (8, 9)]
+    edges = [(c[a], c[b]) for a, b in E]
+    return V, F, wins, edges
+
+
+def edge_box(p0, p1, t):
+    p0 = np.array(p0, float); p1 = np.array(p1, float)
+    u = p1 - p0; L_ = np.linalg.norm(u); u /= L_
+    a = np.cross(u, [0, 0, 1.0])
+    if np.linalg.norm(a) < 1e-6:
+        a = np.array([1.0, 0, 0])
+    a /= np.linalg.norm(a); b = np.cross(u, a)
+    p0 = p0 - u * t / 2; p1 = p1 + u * t / 2
+    V = []
+    for p in (p0, p1):
+        for sa, sb in ((-1, -1), (1, -1), (1, 1), (-1, 1)):
+            V.append(p + a * sa * t / 2 + b * sb * t / 2)
+    F = [(0, 3, 2, 1), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)]
+    return V, F
+
+
+def build_houses(mats, select=None, tw_fn=None, name='casas', house_scale=1.0, rec_fn=None, hlt_fn=None,
+                 edge_t=0.045):
+    """Todas las casitas en un mesh: slot 0 casa, 1 ventanas, 2 aristas (solo vacías)."""
+    if not isinstance(mats, (list, tuple)):
+        mats = [mats]
     CV, CF = church_template()
-    verts, faces = [], []
-    A = {'vac': [], 'tw': [], 'rec': [], 'pid': [], 'seed': []}
+    verts, faces, fmat = [], [], []
+    A = {'vac': [], 'tw': [], 'rec': [], 'hlt': [], 'seed': []}
     rnd = random.Random(3)
-    hv = DATA['hero_villages']
-    hero_first = {v['i0'] for v in hv}
+    hero_first = {v['i0'] for v in DATA['hero_villages']}
+    s_ = house_scale
+    zs = 1 + (s_ - 1) * 0.6
     for idx, h in enumerate(DATA['houses']):
         x, y, rot, units, pid, vac, kind, vil = h
+        r1, r2, r3, r4 = rnd.random(), rnd.random(), rnd.random(), rnd.random()
         if select and not select(idx, h):
             continue
+        wins, edges = [], []
         if idx in hero_first:
-            V, F = CV * house_scale, CF
-        elif units > 1:
-            V = BV.copy(); F = BF
-            hz = 1.15 + 0.42 * units + rnd.uniform(-.15, .25)
-            V[:, 2] = np.where(V[:, 2] > 0.1, V[:, 2] / 2.0 * hz, V[:, 2])
-            V[4:8, 2] = hz; V[8:12, 2] = hz; V[12:16, 2] = hz - .12
-            if house_scale != 1.0:
-                V = V * np.array([house_scale, house_scale, 1 + (house_scale - 1) * 0.6])
+            V, F = CV * np.array([s_, s_, zs]), CF
         else:
-            V = HV.copy(); F = HF
-            s = rnd.uniform(.85, 1.12)
-            V = V * np.array([s * rnd.uniform(.9, 1.15), s, s * rnd.uniform(.9, 1.2)])
+            if units > 1:
+                hz = 0.95 + 0.38 * units + (r1 - .4) * 0.35
+                w, d, hh, rr = 1.45, 1.12, hz, 0.62
+            else:
+                s = 0.88 + r1 * 0.24
+                w, d, hh, rr = 1.3 * s * (0.92 + r2 * 0.2), 1.0 * s, 0.85 * s * (0.92 + r3 * 0.25), 0.55 * s
+            V, F, wins, edges = house_parts(w * s_, d * s_, hh * zs, rr * zs, windows=True)
         c, si = math.cos(rot), math.sin(rot)
         R = np.array([[c, -si, 0], [si, c, 0], [0, 0, 1]])
-        W = V @ R.T + np.array([x, y, TOP])
-        base = len(verts)
-        verts.extend(W.tolist())
-        faces.extend([tuple(base + i for i in f) for f in F])
+        off = np.array([x, y, TOP])
         tw = tw_fn(idx, h) if tw_fn else -10.0
-        seed = rnd.random()
-        rec = rec_fn(idx, h) if rec_fn else 0
-        for k, v in (('vac', vac), ('tw', tw), ('rec', rec), ('pid', pid), ('seed', seed)):
-            A[k].extend([v] * len(V))
-    ob = mesh_obj(name, verts, faces, mat, A)
+        rec = rec_fn(idx, h) if rec_fn else 0.0
+        hlt = hlt_fn(idx, h) if hlt_fn else 1e6
+        attrs = (vac, tw, rec, hlt, r4)
+
+        def add(Vl, Fl, mi):
+            Vw = np.asarray(Vl, float) @ R.T + off
+            base = len(verts)
+            verts.extend(Vw.tolist())
+            faces.extend([tuple(base + i for i in f) for f in Fl])
+            fmat.extend([mi] * len(Fl))
+            for k, v in zip(('vac', 'tw', 'rec', 'hlt', 'seed'), attrs):
+                A[k].extend([v] * len(Vl))
+        add(V, F, 0)
+        # ventana encendida: una por fachada visible (algunas apagadas al azar)
+        if wins:
+            lit = [q for j, q in enumerate(wins) if (j + int(r4 * 7)) % 3 != 0]
+            WV = [p for q in lit for p in q]
+            WF = [(4 * j, 4 * j + 1, 4 * j + 2, 4 * j + 3) for j in range(len(lit))]
+            add(WV, WF, 1)
+        if vac and edges and len(mats) > 2:
+            EV, EF = [], []
+            for p0, p1 in edges:
+                bv, bf = edge_box(p0, p1, edge_t * s_)
+                b0 = len(EV); EV.extend(bv); EF.extend([tuple(b0 + i for i in f) for f in bf])
+            add(EV, EF, 2)
+    me = bpy.data.meshes.new(name)
+    me.from_pydata(verts, [], faces)
+    me.update()
+    for k, vals in A.items():
+        a = me.attributes.new(k, 'FLOAT', 'POINT')
+        a.data.foreach_set('value', np.asarray(vals, dtype=np.float32))
+    for m in mats:
+        me.materials.append(m)
+    me.polygons.foreach_set('material_index', np.asarray(fmat, dtype=np.int32))
+    ob = bpy.data.objects.new(name, me)
+    bpy.context.scene.collection.objects.link(ob)
     return ob
 
 
@@ -417,6 +531,7 @@ def text_obj(txt, size, extrude=0.18, font='Anton-Regular.ttf', mat=None, align=
     cu.space_character = spacing
     cu.resolution_u = 4
     ob = bpy.data.objects.new('t_' + txt, cu)
+    ob.pass_index = 1   # máscara de rótulos: sin desenfoque en post
     bpy.context.scene.collection.objects.link(ob)
     if mat:
         cu.materials.append(mat)
@@ -531,6 +646,7 @@ def setup_render(sc, res=(1080, 1920), samples=48, pct=100):
     sc.render.use_persistent_data = True
     vl = sc.view_layers[0]
     vl.use_pass_z = True
+    vl.use_pass_object_index = True
     try:
         sc.render.image_settings.media_type = 'MULTI_LAYER_IMAGE'
         sc.render.image_settings.file_format = 'OPEN_EXR'
