@@ -1,0 +1,642 @@
+{
+ "source": "guion (ritmo estimado, sin voz)",
+ "fps": 30,
+ "duration": 34.0,
+ "sentences": [
+  {
+   "text": "España tiene casi cuatro millones de viviendas vacías.",
+   "s": 0.15,
+   "e": 2.4
+  },
+  {
+   "text": "Y aun así… faltan unas setecientas cincuenta mil.",
+   "s": 2.6,
+   "e": 4.95
+  },
+  {
+   "text": "¿Cómo es posible?",
+   "s": 5.4,
+   "e": 6.3
+  },
+  {
+   "text": "Mira este dato.",
+   "s": 6.55,
+   "e": 7.35
+  },
+  {
+   "text": "En la provincia de Ourense, más del cuarenta por ciento de las viviendas están vacías.",
+   "s": 7.6,
+   "e": 11.9
+  },
+  {
+   "text": "Mientras tanto, seis provincias concentran más de la mitad del déficit.",
+   "s": 12.1,
+   "e": 16.8
+  },
+  {
+   "text": "Y aquí está el problema: casi la mitad de las viviendas vacías están en municipios de menos de diez mil habitantes.",
+   "s": 17.1,
+   "e": 23.0
+  },
+  {
+   "text": "Tenemos millones de casas vacías… pero no necesariamente donde hacen falta.",
+   "s": 23.3,
+   "e": 27.5
+  },
+  {
+   "text": "¿La solución es construir más o recuperar las que ya tenemos?",
+   "s": 28.4,
+   "e": 31.6
+  }
+ ],
+ "shots": [
+  {
+   "name": "A_hook",
+   "start": 0.0,
+   "end": 2.466666666666667
+  },
+  {
+   "name": "B_contraste",
+   "start": 2.466666666666667,
+   "end": 5.0
+  },
+  {
+   "name": "C_pregunta",
+   "start": 5.0,
+   "end": 7.5
+  },
+  {
+   "name": "D_ourense",
+   "start": 7.5,
+   "end": 12.0
+  },
+  {
+   "name": "E_provincias",
+   "start": 12.0,
+   "end": 17.0
+  },
+  {
+   "name": "F_pueblos",
+   "start": 17.0,
+   "end": 23.0
+  },
+  {
+   "name": "G_sintesis",
+   "start": 23.0,
+   "end": 28.0
+  },
+  {
+   "name": "H_dilema",
+   "start": 28.0,
+   "end": 34.0
+  }
+ ],
+ "words": [
+  {
+   "w": "España",
+   "s": 0.15,
+   "e": 0.525,
+   "sent": 0
+  },
+  {
+   "w": "tiene",
+   "s": 0.525,
+   "e": 0.775,
+   "sent": 0
+  },
+  {
+   "w": "casi",
+   "s": 0.775,
+   "e": 1.025,
+   "sent": 0
+  },
+  {
+   "w": "cuatro",
+   "s": 1.025,
+   "e": 1.275,
+   "sent": 0
+  },
+  {
+   "w": "millones",
+   "s": 1.275,
+   "e": 1.65,
+   "sent": 0
+  },
+  {
+   "w": "de",
+   "s": 1.65,
+   "e": 1.775,
+   "sent": 0
+  },
+  {
+   "w": "viviendas",
+   "s": 1.775,
+   "e": 2.15,
+   "sent": 0
+  },
+  {
+   "w": "vacías.",
+   "s": 2.15,
+   "e": 2.4,
+   "sent": 0
+  },
+  {
+   "w": "Y",
+   "s": 2.6,
+   "e": 2.724,
+   "sent": 1
+  },
+  {
+   "w": "aun",
+   "s": 2.724,
+   "e": 2.847,
+   "sent": 1
+  },
+  {
+   "w": "así…",
+   "s": 2.847,
+   "e": 3.095,
+   "sent": 1
+  },
+  {
+   "w": "faltan",
+   "s": 3.466,
+   "e": 3.713,
+   "sent": 1
+  },
+  {
+   "w": "unas",
+   "s": 3.713,
+   "e": 3.961,
+   "sent": 1
+  },
+  {
+   "w": "setecientas",
+   "s": 3.961,
+   "e": 4.455,
+   "sent": 1
+  },
+  {
+   "w": "cincuenta",
+   "s": 4.455,
+   "e": 4.826,
+   "sent": 1
+  },
+  {
+   "w": "mil.",
+   "s": 4.826,
+   "e": 4.95,
+   "sent": 1
+  },
+  {
+   "w": "¿Cómo",
+   "s": 5.4,
+   "e": 5.7,
+   "sent": 2
+  },
+  {
+   "w": "es",
+   "s": 5.7,
+   "e": 5.85,
+   "sent": 2
+  },
+  {
+   "w": "posible?",
+   "s": 5.85,
+   "e": 6.3,
+   "sent": 2
+  },
+  {
+   "w": "Mira",
+   "s": 6.55,
+   "e": 6.817,
+   "sent": 3
+  },
+  {
+   "w": "este",
+   "s": 6.817,
+   "e": 7.083,
+   "sent": 3
+  },
+  {
+   "w": "dato.",
+   "s": 7.083,
+   "e": 7.35,
+   "sent": 3
+  },
+  {
+   "w": "En",
+   "s": 7.6,
+   "e": 7.756,
+   "sent": 4
+  },
+  {
+   "w": "la",
+   "s": 7.756,
+   "e": 7.912,
+   "sent": 4
+  },
+  {
+   "w": "provincia",
+   "s": 7.912,
+   "e": 8.379,
+   "sent": 4
+  },
+  {
+   "w": "de",
+   "s": 8.379,
+   "e": 8.535,
+   "sent": 4
+  },
+  {
+   "w": "Ourense,",
+   "s": 8.535,
+   "e": 9.002,
+   "sent": 4
+  },
+  {
+   "w": "más",
+   "s": 9.251,
+   "e": 9.407,
+   "sent": 4
+  },
+  {
+   "w": "del",
+   "s": 9.407,
+   "e": 9.563,
+   "sent": 4
+  },
+  {
+   "w": "cuarenta",
+   "s": 9.563,
+   "e": 10.03,
+   "sent": 4
+  },
+  {
+   "w": "por",
+   "s": 10.03,
+   "e": 10.186,
+   "sent": 4
+  },
+  {
+   "w": "ciento",
+   "s": 10.186,
+   "e": 10.498,
+   "sent": 4
+  },
+  {
+   "w": "de",
+   "s": 10.498,
+   "e": 10.654,
+   "sent": 4
+  },
+  {
+   "w": "las",
+   "s": 10.654,
+   "e": 10.809,
+   "sent": 4
+  },
+  {
+   "w": "viviendas",
+   "s": 10.809,
+   "e": 11.277,
+   "sent": 4
+  },
+  {
+   "w": "están",
+   "s": 11.277,
+   "e": 11.588,
+   "sent": 4
+  },
+  {
+   "w": "vacías.",
+   "s": 11.588,
+   "e": 11.9,
+   "sent": 4
+  },
+  {
+   "w": "Mientras",
+   "s": 12.1,
+   "e": 12.535,
+   "sent": 5
+  },
+  {
+   "w": "tanto,",
+   "s": 12.535,
+   "e": 12.97,
+   "sent": 5
+  },
+  {
+   "w": "seis",
+   "s": 13.319,
+   "e": 13.536,
+   "sent": 5
+  },
+  {
+   "w": "provincias",
+   "s": 13.536,
+   "e": 14.189,
+   "sent": 5
+  },
+  {
+   "w": "concentran",
+   "s": 14.189,
+   "e": 14.842,
+   "sent": 5
+  },
+  {
+   "w": "más",
+   "s": 14.842,
+   "e": 15.059,
+   "sent": 5
+  },
+  {
+   "w": "de",
+   "s": 15.059,
+   "e": 15.277,
+   "sent": 5
+  },
+  {
+   "w": "la",
+   "s": 15.277,
+   "e": 15.494,
+   "sent": 5
+  },
+  {
+   "w": "mitad",
+   "s": 15.494,
+   "e": 15.93,
+   "sent": 5
+  },
+  {
+   "w": "del",
+   "s": 15.93,
+   "e": 16.147,
+   "sent": 5
+  },
+  {
+   "w": "déficit.",
+   "s": 16.147,
+   "e": 16.8,
+   "sent": 5
+  },
+  {
+   "w": "Y",
+   "s": 17.1,
+   "e": 17.249,
+   "sent": 6
+  },
+  {
+   "w": "aquí",
+   "s": 17.249,
+   "e": 17.547,
+   "sent": 6
+  },
+  {
+   "w": "está",
+   "s": 17.547,
+   "e": 17.845,
+   "sent": 6
+  },
+  {
+   "w": "el",
+   "s": 17.845,
+   "e": 17.994,
+   "sent": 6
+  },
+  {
+   "w": "problema:",
+   "s": 17.994,
+   "e": 18.441,
+   "sent": 6
+  },
+  {
+   "w": "casi",
+   "s": 18.679,
+   "e": 18.977,
+   "sent": 6
+  },
+  {
+   "w": "la",
+   "s": 18.977,
+   "e": 19.126,
+   "sent": 6
+  },
+  {
+   "w": "mitad",
+   "s": 19.126,
+   "e": 19.424,
+   "sent": 6
+  },
+  {
+   "w": "de",
+   "s": 19.424,
+   "e": 19.573,
+   "sent": 6
+  },
+  {
+   "w": "las",
+   "s": 19.573,
+   "e": 19.722,
+   "sent": 6
+  },
+  {
+   "w": "viviendas",
+   "s": 19.722,
+   "e": 20.169,
+   "sent": 6
+  },
+  {
+   "w": "vacías",
+   "s": 20.169,
+   "e": 20.467,
+   "sent": 6
+  },
+  {
+   "w": "están",
+   "s": 20.467,
+   "e": 20.765,
+   "sent": 6
+  },
+  {
+   "w": "en",
+   "s": 20.765,
+   "e": 20.914,
+   "sent": 6
+  },
+  {
+   "w": "municipios",
+   "s": 20.914,
+   "e": 21.51,
+   "sent": 6
+  },
+  {
+   "w": "de",
+   "s": 21.51,
+   "e": 21.659,
+   "sent": 6
+  },
+  {
+   "w": "menos",
+   "s": 21.659,
+   "e": 21.957,
+   "sent": 6
+  },
+  {
+   "w": "de",
+   "s": 21.957,
+   "e": 22.106,
+   "sent": 6
+  },
+  {
+   "w": "diez",
+   "s": 22.106,
+   "e": 22.255,
+   "sent": 6
+  },
+  {
+   "w": "mil",
+   "s": 22.255,
+   "e": 22.404,
+   "sent": 6
+  },
+  {
+   "w": "habitantes.",
+   "s": 22.404,
+   "e": 23.0,
+   "sent": 6
+  },
+  {
+   "w": "Tenemos",
+   "s": 23.3,
+   "e": 23.734,
+   "sent": 7
+  },
+  {
+   "w": "millones",
+   "s": 23.734,
+   "e": 24.169,
+   "sent": 7
+  },
+  {
+   "w": "de",
+   "s": 24.169,
+   "e": 24.314,
+   "sent": 7
+  },
+  {
+   "w": "casas",
+   "s": 24.314,
+   "e": 24.603,
+   "sent": 7
+  },
+  {
+   "w": "vacías…",
+   "s": 24.603,
+   "e": 24.893,
+   "sent": 7
+  },
+  {
+   "w": "pero",
+   "s": 25.328,
+   "e": 25.617,
+   "sent": 7
+  },
+  {
+   "w": "no",
+   "s": 25.617,
+   "e": 25.762,
+   "sent": 7
+  },
+  {
+   "w": "necesariamente",
+   "s": 25.762,
+   "e": 26.631,
+   "sent": 7
+  },
+  {
+   "w": "donde",
+   "s": 26.631,
+   "e": 26.921,
+   "sent": 7
+  },
+  {
+   "w": "hacen",
+   "s": 26.921,
+   "e": 27.21,
+   "sent": 7
+  },
+  {
+   "w": "falta.",
+   "s": 27.21,
+   "e": 27.5,
+   "sent": 7
+  },
+  {
+   "w": "¿La",
+   "s": 28.4,
+   "e": 28.568,
+   "sent": 8
+  },
+  {
+   "w": "solución",
+   "s": 28.568,
+   "e": 29.074,
+   "sent": 8
+  },
+  {
+   "w": "es",
+   "s": 29.074,
+   "e": 29.242,
+   "sent": 8
+  },
+  {
+   "w": "construir",
+   "s": 29.242,
+   "e": 29.579,
+   "sent": 8
+  },
+  {
+   "w": "más",
+   "s": 29.579,
+   "e": 29.747,
+   "sent": 8
+  },
+  {
+   "w": "o",
+   "s": 29.747,
+   "e": 29.916,
+   "sent": 8
+  },
+  {
+   "w": "recuperar",
+   "s": 29.916,
+   "e": 30.589,
+   "sent": 8
+  },
+  {
+   "w": "las",
+   "s": 30.589,
+   "e": 30.758,
+   "sent": 8
+  },
+  {
+   "w": "que",
+   "s": 30.758,
+   "e": 30.926,
+   "sent": 8
+  },
+  {
+   "w": "ya",
+   "s": 30.926,
+   "e": 31.095,
+   "sent": 8
+  },
+  {
+   "w": "tenemos?",
+   "s": 31.095,
+   "e": 31.6,
+   "sent": 8
+  }
+ ]
+}
