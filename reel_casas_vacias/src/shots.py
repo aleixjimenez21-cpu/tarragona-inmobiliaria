@@ -657,6 +657,7 @@ def shot_E(sc):
     for k in range(6):
         key(fe, 'location', tt[k], pts[k])
     key(fe, 'location', W('mitad') + 0.1, a.root.location.copy())
+    fe['ts'] = 0.45
     return cam, fe, (t0, t1), dict(impacts=ta, spots=list(tt), pops=pops, pencil6=list(tt))
 
 

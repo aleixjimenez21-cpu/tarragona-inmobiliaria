@@ -65,6 +65,10 @@ Cómo se hizo la maqueta (`src/prep.py`):
   - nada importante en los 250 px superiores ni a menos de 120 px del borde derecho.
 - Sonoridad integrada de −14 LUFS medida con pyloudnorm (ITU-R BS.1770-4).
 
+## Archivos de vídeo
+
+Los MP4 (≈100 MB cada uno, H.264 CRF 17 con el grano intacto) no se suben al repositorio: es la web en Cloudflare Pages, que no admite archivos de más de 25 MiB y publicaría vistas previas de la rama. Se regeneran con `./make.sh`, o solo la codificación con `python src/deliver.py` si existen `post_frames/` y el audio.
+
 ## Licencias
 
 Ver `licencias/LEEME.md`. La música y los efectos son originales (síntesis por código, CC0). Las tipografías tienen licencia OFL y los contornos son del IGN (CC BY 4.0).

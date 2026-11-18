@@ -2,3 +2,5 @@
 renders/
 post_frames/
 __pycache__/
+output/*.mp4
+post_frames_portada/
