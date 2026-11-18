@@ -392,16 +392,16 @@ def shot_A(sc):
     poses = [(t0, L0, G0, 50), (t1 + 0.15, L1, G1, 50)]
     cam_keys(cam, tgt, poses)
     land = W('cuatro') - 0.05
-    pose = pose_eval(sc, cam, tgt, land + 0.5)
+    pose = pose_eval(sc, cam, tgt, land + 0.45)
     card_mat = M.mat_card(M.C_WHITE)
-    num = card_at('3.800.000', card_mat, SP + SU * 24.0, pose, 790)
+    num = card_on_screen('3.800.000', card_mat, pose, 515, 640, 800)
     tl = num.drop(land, stagger=0.045)
-    sub = card_at('VACÍAS', card_mat, SP + SU * 19.2, pose, 330)
+    sub = card_on_screen('VACÍAS', card_mat, pose, 515, 790, 330)
     sub.pop(W('viviendas') + 0.05, stagger=0.03)
     houses_mesh(c)
     key(fe, 'location', t0, SP + SU * 1.0)
     key(fe, 'location', land - 0.3, SP + SU * 2.5)
-    key(fe, 'location', land + 0.2, SP + SU * 21)
+    key(fe, 'location', land + 0.2, num.root.location.copy())
     fill_light(sc, L1 + SV * 8 + Vector((0, 0, 8)), SP, power=0.22)
     return cam, fe, (t0, t1), dict(glass=W('España') + 0.1, impacts=tl, pop=[W('viviendas') + 0.05])
 
