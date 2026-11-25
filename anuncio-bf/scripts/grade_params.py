@@ -6,7 +6,7 @@ sys.path.insert(0, "scripts")
 from edl import TAKES
 tr = json.load(open("work/face_tracks.json"))
 WALL_TARGET = 0.70      # pared blanca en lineal (~ 218/255 en sRGB)
-WARM = np.array([1.035, 1.0, 0.955])   # un punto cálido para la piel
+WARM = np.array([1.015, 1.0, 0.98])    # apenas cálido: piel natural, sin tono anaranjado
 lin = lambda x: (x / 255.0) ** 2.2
 out = {}
 for k, n in TAKES.items():

@@ -77,7 +77,7 @@ def build_curve():
     """curva fílmica en gamma: contraste en S suave, negros asentados, hombro suave en altas"""
     x = np.linspace(0, 1, 4096)
     s = x * x * (3 - 2 * x)
-    y = x + 0.30 * (s - x)
+    y = x + 0.24 * (s - x)
     y = np.clip((y - 0.018) / (1 - 0.018), 0, 1)
     return x, y
 CX, CY = build_curve()
@@ -89,9 +89,9 @@ def grade(img, take):
     lin = lin / (1 + lin ** 4) ** 0.25                                   # hombro: las luces no se queman
     v = np.power(np.clip(lin, 0, 1), 1 / 2.2)
     v = np.interp(v, CX, CY).astype(np.float32)
-    # saturación +8 % respetando la luminancia
+    # saturación algo más baja (-8 %) para un look natural y sobrio
     Y = (0.2126 * v[..., 0] + 0.7152 * v[..., 1] + 0.0722 * v[..., 2])[..., None]
-    v = Y + (v - Y) * 1.08
+    v = Y + (v - Y) * 0.92
     return np.clip(v * 255, 0, 255).astype(np.uint8)
 
 
