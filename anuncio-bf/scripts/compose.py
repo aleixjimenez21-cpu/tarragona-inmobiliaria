@@ -230,6 +230,13 @@ def base_frame(t):
     if e.get("trans") == "zoom" and dt < TR:
         k = 1 - dt / TR
         img = zoomblur(img, 0.22 * k)
+    if e.get("trans") == "whipr" and dt < TR:
+        k = 1 - dt / TR
+        img = hblur(img, 120 * k, -140 * k)
+    if e.get("trans") in ("flash", "flashlite") and dt < 5 / FPS:
+        k = 1 - dt / (5 / FPS)
+        img = scale_center(img, 1 + 0.07 * k * k)
+        img = whiten(img, (0.85 if e["trans"] == "flash" else 0.35) * k * k)
     if e.get("trans") == "dissolve" and dt < 8 / FPS and i > 0:
         prev = P["video"][i - 1]
         k = smooth(dt / (8 / FPS))
@@ -243,6 +250,40 @@ def base_frame(t):
         if nxt.get("trans") == "zoom" and rem < TR:
             k = 1 - rem / TR
             img = zoomblur(img, 0.22 * k)
+        if nxt.get("trans") == "whipr" and rem < TR:
+            k = 1 - rem / TR
+            img = hblur(img, 120 * k, 140 * k)
+        if nxt.get("trans") == "flash" and rem < 3 / FPS:
+            k = 1 - rem / (3 / FPS)
+            img = whiten(scale_center(img, 1 + 0.04 * k), 0.5 * k)
+    return img
+
+
+def whiten(img, a):
+    if a <= 0.002: return img
+    return cv2.addWeighted(img, 1 - a, np.full_like(img, 255), a, 0)
+
+
+def scale_center(img, s):
+    if abs(s - 1) < 1e-3: return img
+    h, w = img.shape[:2]
+    M = cv2.getRotationMatrix2D((w / 2, h / 2), 0, s)
+    return cv2.warpAffine(img, M, (w, h), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+
+
+def shake(img, t):
+    """sacudida de cámara amortiguada en los impactos"""
+    for t0, amp, dur in P.get("shakes", []):
+        d = t - t0
+        if 0 <= d < dur:
+            k = (1 - d / dur) ** 2
+            dx = amp * k * math.sin(d * 2 * math.pi * 11)
+            dy = amp * 0.7 * k * math.cos(d * 2 * math.pi * 9)
+            rot = 0.35 * k * math.sin(d * 2 * math.pi * 7)
+            h, w = img.shape[:2]
+            M = cv2.getRotationMatrix2D((w / 2, h / 2), rot, 1 + 0.025 * k)
+            M[0, 2] += dx; M[1, 2] += dy
+            return cv2.warpAffine(img, M, (w, h), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
     return img
 
 
@@ -311,6 +352,9 @@ def composite_pip(img, crop, k):
 # ------------------------------------------------------------------ tarjeta final: fondo desenfocado
 def end_bg(img, t):
     a = P["cues"]["end_full"]
+    if a - 4 / FPS <= t < a + 5 / FPS:                      # golpe de zoom al entrar la tarjeta final
+        k = 1 - abs(t - a) / (5 / FPS)
+        img = zoomblur(img, 0.2 * max(0, k))
     if t < a: return img
     k = smooth((t - a) / 0.35)
     bl = cv2.GaussianBlur(img, (0, 0), 6 + 22 * k)
@@ -375,6 +419,7 @@ def frame(i):
     t = i / FPS
     img = base_frame(t)
     img = behind(img, i, t)
+    img = shake(img, t)
     img = end_bg(img, t)
     img = glass(img, i)
     return overlay(img, i)

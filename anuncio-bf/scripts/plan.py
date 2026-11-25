@@ -39,29 +39,29 @@ T_B = tl[1][3]; T_C = tl[2][3]; T_D = tl[4][3]
 V = []
 # face_y45: dónde cae la cara en el 4:5 (1080x1350), reencuadre propio
 FY45 = {"A": 600, "B": 770, "C": 560, "D": 470}
-def aroll(t0, t1, take, fw0, fw1, face_y, punch=False):
+def aroll(t0, t1, take, fw0, fw1, face_y, punch=False, trans=None):
     """fw0/fw1: ancho de cara en pantalla (px) al principio/final del plano; el zoom se calcula con el seguimiento de cara"""
-    V.append(dict(kind="a", t0=round(t0, 3), t1=round(t1, 3), take=take, fw0=fw0, fw1=fw1, face_y=face_y, punch=punch, face_y45=FY45[take]))
+    V.append(dict(kind="a", t0=round(t0, 3), t1=round(t1, 3), take=take, fw0=fw0, fw1=fw1, face_y=face_y, punch=punch, face_y45=FY45[take], trans=trans))
 def broll(t0, t1, clip, src, speed=1.0, trans=None, shift_y=0):
     V.append(dict(kind="b", t0=round(t0, 3), t1=round(t1, 3), clip=clip, src=src, speed=speed, trans=trans, shift_y=shift_y))
 
 # GANCHO 0 – B: punch-in sutil + golpe de zoom en "cientos de miles"
 aroll(0.0, W("cientos"), "A", 365, 375, 1010)
-aroll(W("cientos"), T_B, "A", 380, 395, 1045, punch=True)
+aroll(W("cientos"), T_B, "A", 380, 395, 1045, punch=True, trans="flashlite")
 # OFERTA
-aroll(T_B, W("tour"), "B", 340, 350, 1035, punch=True)
+aroll(T_B, W("tour"), "B", 340, 350, 1035, punch=True, trans="flash")
 broll(W("tour"), W("cuesta"), "v07_piscina", 0.6, 1.0, trans="whip")          # "el tour virtual de tu promoción"
-aroll(W("cuesta"), T_C, "B", 365, 380, 1065, punch=True)                         # "te cuesta la mitad, solo para…"
+aroll(W("cuesta"), T_C, "B", 365, 380, 1065, punch=True, trans="whipr")                        # "te cuesta la mitad, solo para…"
 # QUÉ HACEMOS
-aroll(T_C, W("tu", 2) , "C", 420, 440, 900, punch=True)                         # "En Prospectus convertimos"
+aroll(T_C, W("tu", 2) , "C", 420, 440, 900, punch=True, trans="zoom")                         # "En Prospectus convertimos"
 broll(W("tu", 2), W("tour", 2), "s04_descenso", 0.2, 1.0, trans="zoom")          # "tu promoción" (edificio real)
 broll(W("tour", 2), W("entra"), "v01_aire_atardecer", 1.2, 1.0, trans="dissolve") # "en un tour virtual" (+ paso a noche)
 broll(W("entra"), W("lo"), "v04_salon", 0.5, 1.0, trans="whip")                   # "entra en el piso antes de que exista"
-broll(W("lo"), W("móvil"), "v05_cocina", 1.0, 1.15)                               # "lo recorre"
-broll(W("móvil"), W("reserva"), "v06_dormitorio", 1.6, 1.25)                      # "desde el móvil"
-broll(W("reserva"), T_D, "s03_fachada", 4.6, 1.0, shift_y=200)                               # "y reserva" (vivienda DISPONIBLE)
+broll(W("lo"), W("móvil"), "v05_cocina", 1.0, 1.15, trans="whipr")                               # "lo recorre"
+broll(W("móvil"), W("reserva"), "v06_dormitorio", 1.6, 1.25, trans="zoom")                      # "desde el móvil"
+broll(W("reserva"), T_D, "s03_fachada", 4.6, 1.0, shift_y=200, trans="flash")                               # "y reserva" (vivienda DISPONIBLE)
 # CIERRE: plano cerrado
-aroll(T_D, TOTAL, "D", 500, 520, 720, punch=True)
+aroll(T_D, TOTAL, "D", 500, 520, 720, punch=True, trans="zoom")
 
 # noche sobre el plano aéreo (cambio de hora del tour)
 NIGHT = dict(clip="v02_aire_noche", t0=round(W("tour", 2) + 0.55, 3), dur=0.45)
@@ -137,6 +137,24 @@ plan = dict(fps=FPS, total=TOTAL, vdur=VDUR, accent=ACCENT, accent_deep=ACCENT_D
 json.dump(plan, open("work/plan.json", "w"), ensure_ascii=False, indent=1)
 # transiciones con whoosh
 json.dump([v["t0"] for v in V if v.get("trans") in ("whip", "zoom")], open("work/transitions.json", "w"))
+
+# ---------------------------------------------------------------- efectos de sonido y sacudidas de cámara
+# (tipo, instante en s, ganancia relativa en dB, parámetro opcional)
+T_END = CUES["end_full"]
+SFX = [("impact", 0.0, -3), ("swish", W("cientos") - 0.05, -4, 1),
+       ("whoosh", T_B - 0.08, 0, 1), ("impact", W("esta") + 0.02, -6),
+       ("whoosh", W("tour"), -2, 1), ("whoosh", W("cuesta"), -3, -1),
+       ("riser", T_C - 0.02, -7), ("whoosh", T_C, -3, 1), ("pop", W("prospectus"), -6),
+       ("whoosh", W("tu", 2), -3, -1), ("shimmer", W("tour", 2), -3), ("shimmer", NIGHT["t0"], -4),
+       ("whoosh", W("entra"), -2, 1), ("swish", W("lo"), -3, -1), ("swish", W("móvil"), -3, 1),
+       ("swish", W("reserva"), -3, -1), ("ding", W("reserva") + 0.28, -6),
+       ("whoosh", T_D - 0.04, -1, 1), ("impact", T_D + 0.06, -6),
+       ("pop", CUES["end_panel"] + 0.05, -5),
+       ("whoosh", T_END - 0.05, 0, -1), ("impact", T_END + 0.03, 0), ("shimmer", T_END + 0.12, -6)]
+SHAKES = [(W("esta") + 0.02, 9, 0.35), (T_D + 0.06, 8, 0.32), (T_END + 0.03, 10, 0.4)]
+json.dump(SFX, open("work/sfx.json", "w"))
+plan["shakes"] = SHAKES
+json.dump(plan, open("work/plan.json", "w"), ensure_ascii=False, indent=1)
 if __name__ == "__main__":
     for v in V: print(v)
     print("subs:", len(SUBS)); [print(round(s["t0"], 2), round(s["t1"], 2), " ".join(w["w"] for w in s["words"])) for s in SUBS]

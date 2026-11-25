@@ -1,7 +1,7 @@
 """Monta la pista de voz según la EDL, la procesa (EQ, de-esser, compresión, limitador),
 genera la música de fondo (sintetizada, libre de derechos), hace ducking y normaliza a -14 LUFS / -1 dBTP.
 Uso: python3 build_audio.py  (desde anuncio-bf/)"""
-import json, subprocess, sys
+import json, subprocess, sys, os
 import numpy as np, soundfile as sf
 sys.path.insert(0, "scripts")
 from edl import TAKES, SEGMENTS, END_HOLD, XF, timeline
@@ -178,7 +178,7 @@ def make_whoosh(times, total):
 
 
 # ---------------------------------------------------------------- 5. mezcla + ducking + loudnorm
-def mix(music_below=23.0, whoosh_db=-14.0):
+def mix(music_below=23.0, sfx_below_peak=7.0):
     """La música queda `music_below` dB por debajo de la voz (medido en LUFS, ya con ducking)."""
     v_l = lufs(f"{W}/voice_proc.wav")
     duck = ("[m][scs]sidechaincompress=threshold=0.03:ratio=3:attack=80:release=500:makeup=1[md]")
@@ -192,9 +192,13 @@ def mix(music_below=23.0, whoosh_db=-14.0):
         gain += (v_l - music_below) - lufs(f"{W}/music_ducked.wav")
     render_music(gain, f"{W}/music_ducked.wav")
     print(f"voz {v_l:.1f} LUFS | música con ducking {lufs(W + '/music_ducked.wav'):.1f} LUFS (ganancia {gain:.1f} dB)")
-    fc = (f"[2:a]volume={whoosh_db}dB[w];[0:a]aformat=channel_layouts=stereo[vs];"
+    # efectos: su pico queda `sfx_below_peak` dB por debajo del pico de la voz
+    vx, _ = sf.read(f"{W}/voice_proc.wav")
+    vpk = 20 * np.log10(np.max(np.abs(vx)) + 1e-9)
+    whoosh_db = (vpk - sfx_below_peak) - 20 * np.log10(0.5)
+    fc = (f"[2:a]volume={whoosh_db:.2f}dB[w];[0:a]aformat=channel_layouts=stereo[vs];"
           "[vs][1:a][w]amix=inputs=3:normalize=0:duration=first[mx]")
-    sh(f"ffmpeg -v error -y -i {W}/voice_proc.wav -i {W}/music_ducked.wav -i {W}/whoosh.wav -filter_complex '{fc}' -map '[mx]' -c:a pcm_s24le {W}/mix_pre.wav")
+    sh(f"ffmpeg -v error -y -i {W}/voice_proc.wav -i {W}/music_ducked.wav -i {W}/sfx.wav -filter_complex '{fc}' -map '[mx]' -c:a pcm_s24le {W}/mix_pre.wav")
     # loudnorm en dos pasadas (lineal) -> -14 LUFS, TP <= -1
     st = sh(f"ffmpeg -hide_banner -y -i {W}/mix_pre.wav -af loudnorm=I=-14:TP=-1.5:LRA=7:print_format=json -f null -")
     js = json.loads(st[st.rfind('{'):st.rfind('}') + 1])
@@ -208,7 +212,9 @@ if __name__ == "__main__":
     total = cut_voice()
     process_voice()
     make_music(total)
-    wt = json.load(open("work/transitions.json")) if len(sys.argv) > 1 else []
-    make_whoosh(wt, total)
+    # efectos de sonido de las transiciones (scripts/sfx.py, eventos en work/sfx.json)
+    from sfx import render as render_sfx
+    ev = json.load(open("work/sfx.json")) if os.path.exists("work/sfx.json") else []
+    sf.write(f"{W}/sfx.wav", render_sfx(ev, total), SR, subtype="PCM_24")
     js = mix()
     print("total", round(total, 2), "s; pre-loudnorm", js["input_i"], "LUFS")
