@@ -42,7 +42,7 @@ Diferencias con el guion: dices "**en** inmobiliarias", "entra en **el** piso", 
 - **Duración**: 24,5 s (22,5 s de voz + 2 s de tarjeta final).
 - **Zonas seguras 9:16**: todo lo importante entre y = 286 px y y = 1536 px (nada en el 14 % superior ni el 20 % inferior).
 - **Cuenta atrás**: "ACABA EN 5d 13h 59m 00s", calculada para publicar el **miércoles 25/11 a las 10:00** y terminar el **lunes 30/11 a las 23:59**; los segundos corren durante el vídeo. Si se publica otro día, cambia `PUBLISH` en `scripts/plan.py` y vuelve a renderizar.
-- Mientras hablo del tour, el tour ocupa toda la pantalla y yo aparezco en un PiP redondeado arriba a la derecha.
+- Mientras hablo del tour, el tour ocupa toda la pantalla con mi voz en off (se probó un PiP mío en pequeño y se quitó porque restaba calidad).
 - Serra: sus panorámicas 360 son de 1774 px (se ven blandas a 1080x1920), así que de Serra se usan el dron y la fachada interactiva, que sí son nítidos.
 - Las transiciones son cortes; whip en la entrada a la piscina y al salón, zoom en la entrada al edificio real y fundido de "tu promoción" a "tour virtual".
 - **4:5**: reencuadre propio: cara más arriba, titular y tarjeta arriba, cuenta atrás y rótulos abajo, PiP arriba a la derecha y clips del tour recortados algo por encima del centro.
@@ -79,7 +79,7 @@ Los textos (CTA, fechas, color de acento) están en `scripts/plan.py`; los corte
 | Subtítulos vs. audio final (Whisper large-v3 sobre el mp4) | 98 % de coincidencia; la única diferencia es "sobreplano" (Whisper lo junta) | — |
 | Sincronía de subtítulos | mediana 0 ms, p90 55 ms | — |
 
-Fotogramas revisados: 0,5 s, oferta, mitad, cierre y tarjeta final, además de todas las transiciones. Se corrigió: espaciado entre palabras de los subtítulos, PiP que tapaba el panel de Serra, panel de cierre que rozaba la barbilla y encuadres que no seguían tu movimiento.
+Fotogramas revisados: 0,5 s, oferta, mitad, cierre y tarjeta final, además de todas las transiciones. Se corrigió: espaciado entre palabras de los subtítulos, PiP eliminado, panel de cierre que rozaba la barbilla y encuadres que no seguían tu movimiento.
 
 ## Qué conviene que revises
 1. **CTA**: "ESCRÍBENOS YA" (lo que dices) frente a "ESCRÍBEME YA" (brief).

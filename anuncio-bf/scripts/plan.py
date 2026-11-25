@@ -66,7 +66,8 @@ aroll(T_D, TOTAL, "D", 500, 520, 720, punch=True)
 NIGHT = dict(clip="v02_aire_noche", t0=round(W("tour", 2) + 0.55, 3), dur=0.45)
 
 # PiP mío mientras el tour ocupa la pantalla en "qué hacemos"
-PIP = [dict(t0=round(W("tu", 2), 3), t1=round(T_D, 3), take="C")]
+# (desactivado: el tour va a pantalla completa con mi voz en off, sin mi imagen en pequeño)
+PIP = []
 
 # ---------------------------------------------------------------- subtítulos (frases cortas)
 def chunks(maxc=17):
