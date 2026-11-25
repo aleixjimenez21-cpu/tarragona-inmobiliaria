@@ -80,7 +80,7 @@ python3 scripts/qc.py output/prospectus_bf_9x16.mp4
 Los textos (CTA, fechas, color de acento) están en `scripts/plan.py`; los cortes, en `scripts/edl.py`.
 
 ## Efectos de sonido y transiciones (`scripts/sfx.py`, `work/sfx.json`, `compose.py`)
-Todos los efectos están **sintetizados por código** (sin derechos de terceros): whoosh con barrido de filtro y paneo L→R / R→L, swish corto, impacto (sub con caída de tono + golpe + clic), riser, pop de interfaz, "ding" de dos tonos y shimmer. Su pico queda 7 dB por debajo del pico de la voz; durante el habla quedan entre 6 y 15 dB por debajo (no tapan la voz) y los golpes fuertes caen en las pausas.
+Todos los efectos están **sintetizados por código** (sin derechos de terceros): whoosh con barrido de filtro y paneo L→R / R→L, swish corto, impacto (sub con caída de tono + golpe + clic), riser, pop de interfaz, "ding" de dos tonos y shimmer. Su pico queda 7 dB por debajo del pico de la voz; durante el habla quedan entre 6 y 15 dB por debajo (no tapan la voz), ningún efecto pisa el final de una frase (comprobado: Whisper sobre el vídeo final reconoce el 100 % de las palabras de los subtítulos) y los golpes fuertes caen en las pausas.
 
 | Momento | Transición de vídeo | Sonido |
 |---|---|---|
@@ -88,14 +88,14 @@ Todos los efectos están **sintetizados por código** (sin derechos de terceros)
 | "cientos" | destello suave + punch-in | swish |
 | → oferta | destello blanco + zoom | whoosh + impacto en "-50 %" + sacudida de cámara |
 | piscina (ida / vuelta) | whip pan / whip pan inverso | whoosh L→R / R→L |
-| "En Prospectus" | zoom de paso | riser + pop al aparecer el logo |
+| "En Prospectus" | zoom de paso | swish + pop al aparecer el logo |
 | edificio real | zoom con desenfoque | whoosh |
 | → tour 360 | fundido + paso a noche | shimmer ×2 |
 | estancias | whip / whip inverso / zoom | whoosh y swish |
 | "y reserva" | destello | swish + "ding" cuando aparece "DISPONIBLE" |
-| "1 plaza" | zoom + sacudida | whoosh + impacto |
+| "1 plaza" | zoom + sacudida | swish + impacto |
 | panel de cierre | — | pop |
-| tarjeta final | golpe de zoom con desenfoque + sacudida | whoosh + impacto + shimmer |
+| tarjeta final | golpe de zoom con desenfoque + sacudida | swish + impacto + shimmer |
 
 ## Revisión final (QC)
 | Comprobación | 9:16 | 4:5 |

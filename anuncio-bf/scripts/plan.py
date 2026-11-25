@@ -143,14 +143,14 @@ json.dump([v["t0"] for v in V if v.get("trans") in ("whip", "zoom")], open("work
 T_END = CUES["end_full"]
 SFX = [("impact", 0.0, -3), ("swish", W("cientos") - 0.05, -4, 1),
        ("whoosh", T_B - 0.08, 0, 1), ("impact", W("esta") + 0.02, -6),
-       ("whoosh", W("tour"), -2, 1), ("whoosh", W("cuesta"), -3, -1),
-       ("riser", T_C - 0.02, -7), ("whoosh", T_C, -3, 1), ("pop", W("prospectus"), -6),
-       ("whoosh", W("tu", 2), -3, -1), ("shimmer", W("tour", 2), -3), ("shimmer", NIGHT["t0"], -4),
-       ("whoosh", W("entra"), -2, 1), ("swish", W("lo"), -3, -1), ("swish", W("móvil"), -3, 1),
-       ("swish", W("reserva"), -3, -1), ("ding", W("reserva") + 0.28, -6),
-       ("whoosh", T_D - 0.04, -1, 1), ("impact", T_D + 0.06, -6),
+       ("whoosh", W("tour"), -5, 1), ("whoosh", W("cuesta"), -6, -1),
+       ("swish", T_C + 0.02, -2, 1), ("pop", W("prospectus"), -6),
+       ("whoosh", W("tu", 2), -6, -1), ("shimmer", W("tour", 2), -8), ("shimmer", NIGHT["t0"], -4),
+       ("whoosh", W("entra"), -5, 1), ("swish", W("lo"), -8, -1), ("swish", W("móvil"), -6, 1),
+       ("swish", W("reserva"), -3, -1), ("ding", W("reserva") + 0.48, -6),
+       ("swish", T_D + 0.02, -1, 1), ("impact", T_D + 0.06, -6),
        ("pop", CUES["end_panel"] + 0.05, -5),
-       ("whoosh", T_END - 0.05, 0, -1), ("impact", T_END + 0.03, 0), ("shimmer", T_END + 0.12, -6)]
+       ("swish", T_END + 0.02, 0, -1), ("impact", T_END + 0.05, 0), ("shimmer", T_END + 0.12, -6)]
 SHAKES = [(W("esta") + 0.02, 9, 0.35), (T_D + 0.06, 8, 0.32), (T_END + 0.03, 10, 0.4)]
 json.dump(SFX, open("work/sfx.json", "w"))
 plan["shakes"] = SHAKES
