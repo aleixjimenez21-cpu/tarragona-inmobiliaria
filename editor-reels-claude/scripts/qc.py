@@ -1,6 +1,6 @@
 """Control de calidad del archivo final: duración, loudness (EBU R128 / true peak),
 clics o saltos bruscos en los cortes, y extracción de fotogramas de revisión.
-Uso: python3 scripts/qc.py output/prospectus_bf_9x16.mp4"""
+Uso (desde la carpeta del proyecto): python3 <skill>/scripts/qc.py output/<nombre>_9x16.mp4"""
 import json, subprocess, sys
 import numpy as np
 
@@ -27,7 +27,11 @@ for c in cuts:
     ref = d[i - 24000:i - 2400]
     ratio = w.max() / (np.percentile(ref, 99.9) + 1e-9)
     worst.append(ratio)
-    print(f"  corte {c:6.2f}s: pico de derivada / p99.9 del entorno = {ratio:.2f} {'(posible clic)' if ratio > 1.5 else 'ok'}")
+    import os
+    sfx = json.load(open("work/sfx.json")) if os.path.exists("work/sfx.json") else []
+    near = [e["id"] for e in sfx if abs(e["at"] - c) < 0.2]
+    estado = "ok" if ratio <= 1.5 else (f"transitorio del efecto {near[0]} colocado en el corte (normal)" if near else "posible clic: revisa el corte")
+    print(f"  corte {c:6.2f}s: pico de derivada / p99.9 del entorno = {ratio:.2f} {estado}")
 # clics en todo el archivo: derivadas aisladas muy por encima del entorno
 win = 4800
 flags = []
