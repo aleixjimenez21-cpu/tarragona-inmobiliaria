@@ -1,0 +1,7 @@
+input/
+work/
+__pycache__/
+# medios con mi imagen y voz: no se suben al repo (se entregan aparte)
+output/*.mp4
+output/*.wav
+output/*.jpg
