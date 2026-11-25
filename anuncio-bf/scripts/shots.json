@@ -1,0 +1,210 @@
+[
+ {
+  "id": "v01_aire_atardecer",
+  "site": "villa",
+  "station": "ext_aire",
+  "hora": "atardecer",
+  "file": "ext_aire_atardecer",
+  "dur": 4,
+  "fps": 30,
+  "yaw": [
+   -4,
+   4
+  ],
+  "pitch": [
+   -17,
+   -22
+  ],
+  "zoom": [
+   0,
+   45
+  ]
+ },
+ {
+  "id": "v02_aire_noche",
+  "site": "villa",
+  "station": "ext_aire",
+  "hora": "noche",
+  "file": "ext_aire_noche",
+  "dur": 4,
+  "fps": 30,
+  "yaw": [
+   -4,
+   4
+  ],
+  "pitch": [
+   -17,
+   -22
+  ],
+  "zoom": [
+   0,
+   45
+  ]
+ },
+ {
+  "id": "v03_comedor",
+  "site": "villa",
+  "station": "pb_comedor",
+  "hora": "atardecer",
+  "file": "pb_comedor_atardecer",
+  "dur": 3,
+  "fps": 30,
+  "yaw": [
+   95,
+   140
+  ],
+  "pitch": [
+   -8,
+   -8
+  ],
+  "zoom": [
+   5,
+   5
+  ]
+ },
+ {
+  "id": "v04_salon",
+  "site": "villa",
+  "station": "pb_salon",
+  "hora": "atardecer",
+  "file": "pb_salon_atardecer",
+  "dur": 4,
+  "fps": 30,
+  "yaw": [
+   -105,
+   -170
+  ],
+  "pitch": [
+   -4,
+   -6
+  ],
+  "zoom": [
+   8,
+   8
+  ]
+ },
+ {
+  "id": "v05_cocina",
+  "site": "villa",
+  "station": "pb_cocina",
+  "hora": "atardecer",
+  "file": "pb_cocina_atardecer",
+  "dur": 4,
+  "fps": 30,
+  "yaw": [
+   -95,
+   -150
+  ],
+  "pitch": [
+   -8,
+   -8
+  ],
+  "zoom": [
+   5,
+   5
+  ]
+ },
+ {
+  "id": "v06_dormitorio",
+  "site": "villa",
+  "station": "a_dorm",
+  "hora": "atardecer",
+  "file": "a_dorm_atardecer",
+  "dur": 4,
+  "fps": 30,
+  "yaw": [
+   -95,
+   -35
+  ],
+  "pitch": [
+   -8,
+   -8
+  ],
+  "zoom": [
+   5,
+   5
+  ]
+ },
+ {
+  "id": "v07_piscina",
+  "site": "villa",
+  "station": "ext_piscina",
+  "hora": "atardecer",
+  "file": "ext_piscina_atardecer",
+  "dur": 4,
+  "fps": 30,
+  "yaw": [
+   -95,
+   -25
+  ],
+  "pitch": [
+   -4,
+   -4
+  ],
+  "zoom": [
+   0,
+   0
+  ]
+ },
+ {
+  "id": "v08_mirador",
+  "site": "villa",
+  "station": "a_mirador",
+  "hora": "atardecer",
+  "file": "a_mirador_atardecer",
+  "dur": 4,
+  "fps": 30,
+  "yaw": [
+   35,
+   100
+  ],
+  "pitch": [
+   -6,
+   -6
+  ],
+  "zoom": [
+   5,
+   5
+  ]
+ },
+ {
+  "id": "s01_balcon",
+  "site": "serra",
+  "station": "balcon",
+  "file": "balcon.webp",
+  "dur": 4,
+  "fps": 30,
+  "yaw": [
+   -125,
+   -60
+  ],
+  "pitch": [
+   2,
+   0
+  ],
+  "zoom": [
+   0,
+   0
+  ]
+ },
+ {
+  "id": "s02_salon",
+  "site": "serra",
+  "station": "salon",
+  "file": "salon.webp",
+  "dur": 4,
+  "fps": 30,
+  "yaw": [
+   -80,
+   -10
+  ],
+  "pitch": [
+   -8,
+   -8
+  ],
+  "zoom": [
+   0,
+   0
+  ]
+ }
+]
