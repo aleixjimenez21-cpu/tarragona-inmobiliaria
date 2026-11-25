@@ -90,7 +90,7 @@ Cada sonido se coloca según su **punto de sincronía** del kit (el pico del who
 | → oferta | destello blanco + zoom | `whoosh-fast-medium` |
 | aparece "-50 %" | sacudida de cámara | `money-register` + `boom-hit-medium` |
 | piscina (ida / vuelta) | whip pan / whip pan inverso | `whoosh-fast-soft` L→R / R→L |
-| "En Prospectus" | zoom de paso | `swish-medium` + `pop-medium-in` cuando el logo llega a su tamaño |
+| "En Prospectus" | zoom de paso | `swish-medium` antes de la frase (sin pop: caía en mitad de la palabra) |
 | edificio real | zoom con desenfoque | `whoosh-fast-soft` |
 | → tour 360 / paso a noche | fundido | `shimmer-short-soft` ×2 |
 | estancias | whip / whip inverso / zoom | `whoosh-fast-soft`, `swish-medium` |

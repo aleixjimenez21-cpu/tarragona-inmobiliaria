@@ -148,8 +148,7 @@ SFX = [S("cinematic-drum-big", 0.0, -2),                                 # apert
        S("whoosh-fast-medium", T_B, 0, 1),                               # destello hacia la oferta
        S("money-register", W("esta") + 0.05, 2), S("boom-hit-medium", W("esta"), -2),   # aparece el -50 %
        S("whoosh-fast-soft", W("tour"), 0, 1), S("whoosh-fast-soft", W("cuesta"), 0, -1), # whip pans de la piscina
-       S("swish-medium", T_C + 0.02),                                    # zoom a "En Prospectus"
-       S("pop-medium-in", W("prospectus") + 0.2),                        # el logo llega a su tamaño
+       S("swish-medium", T_C - 0.03, -3),                               # zoom a "En Prospectus" (sin pop: pisaba la palabra)
        S("whoosh-fast-soft", W("tu", 2), 0, -1),                         # al edificio real
        S("shimmer-short-soft", W("tour", 2)), S("shimmer-short-soft", NIGHT["t0"]),     # al tour / paso a noche
        S("whoosh-fast-soft", W("entra"), 0, 1),                          # whip al salón
