@@ -91,7 +91,7 @@
     </div>
   </div>
   <div id="subs" class="abs front glass"><div class="ico"></div><div class="txt"></div></div>
-  <div id="count" class="abs front glass"><svg width="24" height="28" viewBox="0 0 26 30"><path d="M4 2h18M4 28h18M6 2c0 8 7 9 7 13s-7 5-7 13M20 2c0 8-7 9-7 13s7 5 7 13" fill="none" stroke="#9CC3E2" stroke-width="2.4" stroke-linecap="round"/><path d="M9 25.5c1.5-2.5 6.5-2.5 8 0z" fill="#9CC3E2"/></svg><span class="lbl">acaba en</span><span class="v"></span></div>
+  <div id="count" class="abs front glass"><svg width="24" height="28" viewBox="0 0 26 30"><path d="M4 2h18M4 28h18M6 2c0 8 7 9 7 13s-7 5-7 13M20 2c0 8-7 9-7 13s7 5 7 13" fill="none" stroke="#9CC3E2" stroke-width="2.4" stroke-linecap="round"/><path d="M9 25.5c1.5-2.5 6.5-2.5 8 0z" fill="#9CC3E2"/></svg><span class="lbl">hasta el</span><span class="v">30 de noviembre</span></div>
 
 <script>
 let P = null, L = null, HT = {};
@@ -261,7 +261,6 @@ function render(t, layer) {
     }
   }
   // ---- cuenta atrás
-  $('count').querySelector('.v').textContent = fmtCount(t);
   if (layer === 'front') glass.push(rect($('count'), 100, 1));
   return glass;
 }

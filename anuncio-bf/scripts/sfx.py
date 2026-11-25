@@ -122,3 +122,39 @@ def render(events, total):
         e = min(N, s0 + len(y)); out[s0:e] += y[:e - s0]
     out = out[:int(total * SR)]
     return out / max(1e-9, np.max(np.abs(out))) * 0.5
+
+
+# ------------------------------------------------------------------ sonidos del pack (Wyzowl SFX Kit, CC0)
+import json as _json, os as _os
+import soundfile as _sf
+_HERE = _os.path.dirname(_os.path.abspath(__file__))
+PACK_DIR = _os.path.join(_HERE, "..", "sfx")
+PACK_REF_VO_LUFS = -16.0   # el kit equilibra sus niveles para una voz en off a unos -16 LUFS
+PACK_BOOST_DB = 4.0        # +4 dB sobre lo que recomienda el kit: edición de reel con más energía
+
+
+def render_pack(events, total, words):
+    """events: [{"id", "at" (instante que debe encontrar su punto de sincronía), "db", "pan"}]
+    Aplica el sync.at de cada sonido y su reducción "under_voiceover_db" si cae sobre una palabra.
+    Devuelve la pista estéreo en la escala del kit (para una voz a -16 LUFS)."""
+    meta = _json.load(open(_os.path.join(PACK_DIR, "sfx_meta.json")))["sounds"]
+    N = int(total * SR) + SR
+    out = np.zeros((N, 2))
+    for ev in events:
+        m = meta[ev["id"]]
+        x, sr = _sf.read(_os.path.join(PACK_DIR, ev["id"] + ".wav"), dtype="float64")
+        assert sr == SR
+        x = np.stack([x, x], 1) if x.ndim == 1 else x
+        start = ev["at"] - m["sync"]
+        # ¿cae sobre la voz? (cuerpo del sonido: hasta 0,6 s tras la sincronía)
+        a, b = start, ev["at"] + min(0.6, m["duration"] - m["sync"])
+        on_voice = any(w["s"] < b and w["e"] > a for w in words)
+        g = 10 ** ((ev.get("db", 0) + (m["under_voiceover_db"] if on_voice else 0)) / 20)
+        pan = ev.get("pan", 0)
+        if pan:
+            p = np.linspace(-0.6 * pan, 0.6 * pan, len(x)); ang = (p + 1) * np.pi / 4
+            mono = x.mean(1); x = np.stack([mono * np.cos(ang) * 1.414, mono * np.sin(ang) * 1.414], 1)
+        s0 = int(round(start * SR))
+        if s0 < 0: x = x[-s0:]; s0 = 0
+        e = min(N, s0 + len(x)); out[s0:e] += x[:e - s0] * g
+    return out[:int(total * SR)]

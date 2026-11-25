@@ -141,16 +141,23 @@ json.dump([v["t0"] for v in V if v.get("trans") in ("whip", "zoom")], open("work
 # ---------------------------------------------------------------- efectos de sonido y sacudidas de cámara
 # (tipo, instante en s, ganancia relativa en dB, parámetro opcional)
 T_END = CUES["end_full"]
-SFX = [("impact", 0.0, -3), ("swish", W("cientos") - 0.05, -4, 1),
-       ("whoosh", T_B - 0.08, 0, 1), ("impact", W("esta") + 0.02, -6),
-       ("whoosh", W("tour"), -5, 1), ("whoosh", W("cuesta"), -6, -1),
-       ("swish", T_C + 0.02, -2, 1), ("pop", W("prospectus"), -6),
-       ("whoosh", W("tu", 2), -6, -1), ("shimmer", W("tour", 2), -8), ("shimmer", NIGHT["t0"], -4),
-       ("whoosh", W("entra"), -5, 1), ("swish", W("lo"), -8, -1), ("swish", W("móvil"), -6, 1),
-       ("swish", W("reserva"), -3, -1), ("ding", W("reserva") + 0.48, -6),
-       ("swish", T_D + 0.02, -1, 1), ("impact", T_D + 0.06, -6),
-       ("pop", CUES["end_panel"] + 0.05, -5),
-       ("swish", T_END + 0.02, 0, -1), ("impact", T_END + 0.05, 0), ("shimmer", T_END + 0.12, -6)]
+# Sonidos del pack (sfx/, Wyzowl SFX Kit CC0). "at" = instante que debe coincidir con el punto de sincronía del sonido.
+def S(id, at, db=0, pan=0): return dict(id=id, at=round(at, 3), db=db, pan=pan)
+SFX = [S("cinematic-drum-big", 0.0, -2),                                 # apertura del gancho
+       S("swish-medium", W("cientos") - 0.02),                           # punch en "cientos de miles"
+       S("whoosh-fast-medium", T_B, 0, 1),                               # destello hacia la oferta
+       S("money-register", W("esta") + 0.05, 2), S("boom-hit-medium", W("esta"), -2),   # aparece el -50 %
+       S("whoosh-fast-soft", W("tour"), 0, 1), S("whoosh-fast-soft", W("cuesta"), 0, -1), # whip pans de la piscina
+       S("swish-medium", T_C + 0.02),                                    # zoom a "En Prospectus"
+       S("pop-medium-in", W("prospectus") + 0.2),                        # el logo llega a su tamaño
+       S("whoosh-fast-soft", W("tu", 2), 0, -1),                         # al edificio real
+       S("shimmer-short-soft", W("tour", 2)), S("shimmer-short-soft", NIGHT["t0"]),     # al tour / paso a noche
+       S("whoosh-fast-soft", W("entra"), 0, 1),                          # whip al salón
+       S("swish-medium", W("lo"), -4, -1), S("swish-medium", W("móvil"), -3, 1), S("swish-medium", W("reserva"), -3),
+       S("notification-success-soft", W("reserva") + 0.48),              # "DISPONIBLE"
+       S("swish-medium", T_D + 0.02), S("boom-hit-medium", T_D + 0.06),  # "1 plaza"
+       S("pop-medium-in", CUES["end_panel"] + 0.25),                     # panel de cierre
+       S("swish-medium", T_END + 0.02), S("sting-minimal-short", T_END + 0.12), S("cinematic-drum-big", T_END + 0.05, -4)]
 SHAKES = [(W("esta") + 0.02, 9, 0.35), (T_D + 0.06, 8, 0.32), (T_END + 0.03, 10, 0.4)]
 json.dump(SFX, open("work/sfx.json", "w"))
 plan["shakes"] = SHAKES

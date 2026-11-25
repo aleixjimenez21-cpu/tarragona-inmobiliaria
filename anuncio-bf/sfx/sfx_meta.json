@@ -1,0 +1,65 @@
+{
+ "source": "Wyzowl SFX Kit (CC0) via github.com/juantoc7755-alt/sfx-pack-editores",
+ "sounds": {
+  "cinematic-drum-big": {
+   "sync": 0.011,
+   "under_voiceover_db": -8,
+   "duration": 2.178,
+   "lufs": -20
+  },
+  "swish-medium": {
+   "sync": 0.076,
+   "under_voiceover_db": -3,
+   "duration": 0.201,
+   "lufs": -21
+  },
+  "whoosh-fast-medium": {
+   "sync": 0.096,
+   "under_voiceover_db": -3,
+   "duration": 0.252,
+   "lufs": -20.5
+  },
+  "whoosh-fast-soft": {
+   "sync": 0.099,
+   "under_voiceover_db": -2,
+   "duration": 0.25,
+   "lufs": -24
+  },
+  "money-register": {
+   "sync": 0.093,
+   "under_voiceover_db": -3,
+   "duration": 0.912,
+   "lufs": -22
+  },
+  "boom-hit-medium": {
+   "sync": 0.038,
+   "under_voiceover_db": -8,
+   "duration": 1.301,
+   "lufs": -24.5
+  },
+  "pop-medium-in": {
+   "sync": 0.011,
+   "under_voiceover_db": -2,
+   "duration": 0.06,
+   "lufs": -22.5
+  },
+  "shimmer-short-soft": {
+   "sync": 0.012,
+   "under_voiceover_db": -3,
+   "duration": 0.478,
+   "lufs": -25
+  },
+  "notification-success-soft": {
+   "sync": 0,
+   "under_voiceover_db": -3,
+   "duration": 0.53,
+   "lufs": -24
+  },
+  "sting-minimal-short": {
+   "sync": 0.1,
+   "under_voiceover_db": -6,
+   "duration": 1.263,
+   "lufs": -24
+  }
+ }
+}

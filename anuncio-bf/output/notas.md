@@ -51,7 +51,7 @@ Diferencias con el guion: dices "**en** inmobiliarias", "entra en **el** piso", 
 ## Decisiones
 - **Duración**: 24,5 s (22,5 s de voz + 2 s de tarjeta final).
 - **Zonas seguras 9:16**: todo lo importante entre y = 286 px y y = 1536 px (nada en el 14 % superior ni el 20 % inferior).
-- **Cuenta atrás**: "ACABA EN 5d 13h 59m 00s", calculada para publicar el **miércoles 25/11 a las 10:00** y terminar el **lunes 30/11 a las 23:59**; los segundos corren durante el vídeo. Si se publica otro día, cambia `PUBLISH` en `scripts/plan.py` y vuelve a renderizar.
+- **Rótulo de plazo** (arriba a la derecha): "⏳ hasta el 30 de noviembre", fijo (ya no depende del día de publicación), coherente con "acaba el lunes 30 a las 23:59" del cierre.
 - Mientras hablo del tour, el tour ocupa toda la pantalla con mi voz en off (se probó un PiP mío en pequeño y se quitó porque restaba calidad).
 - Serra: sus panorámicas 360 son de 1774 px (se ven blandas a 1080x1920), así que de Serra se usan el dron y la fachada interactiva, que sí son nítidos.
 - Las transiciones son cortes; whip en la entrada a la piscina y al salón, zoom en la entrada al edificio real y fundido de "tu promoción" a "tour virtual".
@@ -79,23 +79,25 @@ python3 scripts/qc.py output/prospectus_bf_9x16.mp4
 ```
 Los textos (CTA, fechas, color de acento) están en `scripts/plan.py`; los cortes, en `scripts/edl.py`.
 
-## Efectos de sonido y transiciones (`scripts/sfx.py`, `work/sfx.json`, `compose.py`)
-Todos los efectos están **sintetizados por código** (sin derechos de terceros): whoosh con barrido de filtro y paneo L→R / R→L, swish corto, impacto (sub con caída de tono + golpe + clic), riser, pop de interfaz, "ding" de dos tonos y shimmer. Su pico queda 7 dB por debajo del pico de la voz; durante el habla quedan entre 6 y 15 dB por debajo (no tapan la voz), ningún efecto pisa el final de una frase (comprobado: Whisper sobre el vídeo final reconoce el 100 % de las palabras de los subtítulos) y los golpes fuertes caen en las pausas.
+## Efectos de sonido y transiciones (`sfx/`, `scripts/sfx.py`, `compose.py`)
+Los efectos son del **Wyzowl SFX Kit** (licencia **CC0**, uso comercial sin atribución), sacados del pack que me pasaste (`github.com/juantoc7755-alt/sfx-pack-editores`). Los 10 que se usan están copiados en `sfx/` con su metadato (`sfx_meta.json`).
+Cada sonido se coloca según su **punto de sincronía** del kit (el pico del whoosh en el centro del movimiento, el golpe en el fotograma exacto, la campana de la caja registradora cuando aparece el precio) y, si cae sobre una palabra, con la **reducción "bajo voz" que recomienda el kit**. Nivel general: el del kit (referencia: voz a −16 LUFS) +4 dB para dar más energía de reel. Los whooshes se panean izquierda↔derecha siguiendo el movimiento de cámara. Ningún efecto pisa el final de una frase.
 
-| Momento | Transición de vídeo | Sonido |
+| Momento | Transición de vídeo | Sonido (Wyzowl SFX Kit) |
 |---|---|---|
-| 0,0 s gancho | — | impacto de apertura |
-| "cientos" | destello suave + punch-in | swish |
-| → oferta | destello blanco + zoom | whoosh + impacto en "-50 %" + sacudida de cámara |
-| piscina (ida / vuelta) | whip pan / whip pan inverso | whoosh L→R / R→L |
-| "En Prospectus" | zoom de paso | swish + pop al aparecer el logo |
-| edificio real | zoom con desenfoque | whoosh |
-| → tour 360 | fundido + paso a noche | shimmer ×2 |
-| estancias | whip / whip inverso / zoom | whoosh y swish |
-| "y reserva" | destello | swish + "ding" cuando aparece "DISPONIBLE" |
-| "1 plaza" | zoom + sacudida | swish + impacto |
-| panel de cierre | — | pop |
-| tarjeta final | golpe de zoom con desenfoque + sacudida | swish + impacto + shimmer |
+| 0,0 s gancho | — | `cinematic-drum-big` |
+| "cientos de miles" | destello suave + punch-in | `swish-medium` |
+| → oferta | destello blanco + zoom | `whoosh-fast-medium` |
+| aparece "-50 %" | sacudida de cámara | `money-register` + `boom-hit-medium` |
+| piscina (ida / vuelta) | whip pan / whip pan inverso | `whoosh-fast-soft` L→R / R→L |
+| "En Prospectus" | zoom de paso | `swish-medium` + `pop-medium-in` cuando el logo llega a su tamaño |
+| edificio real | zoom con desenfoque | `whoosh-fast-soft` |
+| → tour 360 / paso a noche | fundido | `shimmer-short-soft` ×2 |
+| estancias | whip / whip inverso / zoom | `whoosh-fast-soft`, `swish-medium` |
+| "y reserva" → "DISPONIBLE" | destello | `swish-medium` + `notification-success-soft` |
+| "1 plaza" | zoom + sacudida | `swish-medium` + `boom-hit-medium` |
+| panel de cierre | — | `pop-medium-in` |
+| tarjeta final | golpe de zoom + sacudida | `swish-medium` + `sting-minimal-short` (sting de logo) + `cinematic-drum-big` |
 
 ## Revisión final (QC)
 | Comprobación | 9:16 | 4:5 |
@@ -111,7 +113,7 @@ Fotogramas revisados: 0,5 s, oferta, mitad, cierre y tarjeta final, además de t
 
 ## Qué conviene que revises
 1. **CTA**: "escríbenos ya" (lo que dices) frente a "ESCRÍBEME YA" (brief).
-2. **Cuenta atrás**: fijada para publicar el 25/11 a las 10:00. Si se publica otro día, cambia `PUBLISH` y vuelve a renderizar.
+2. **Plazo**: arriba pone "hasta el 30 de noviembre" y en el cierre "acaba el lunes 30 a las 23:59". Si cambiáis la fecha, se cambia en `scripts/overlay.html` y `scripts/plan.py`.
 3. **Música**: generada por código (discreta, −23 dB bajo la voz). Si preferís una pista de librería, se cambia `work/audio/music.wav` y se vuelve a ejecutar `build_audio.py`.
 4. **Logo**: se usa el logo real que me pasaste, extraído con fondo transparente y en versión blanca con el punto morado (`input/brand/`, no versionado). Es un PNG de 618 px de ancho: si tienes el SVG, el logo de la tarjeta final quedará aún más nítido.
 5. **Precio visible**: en el plano de "y reserva" sale la ficha real de Serra (Vivienda P2 B · 450.000 € · DISPONIBLE). Confirma que se puede enseñar.

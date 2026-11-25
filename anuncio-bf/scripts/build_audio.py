@@ -192,10 +192,10 @@ def mix(music_below=23.0, sfx_below_peak=7.0):
         gain += (v_l - music_below) - lufs(f"{W}/music_ducked.wav")
     render_music(gain, f"{W}/music_ducked.wav")
     print(f"voz {v_l:.1f} LUFS | música con ducking {lufs(W + '/music_ducked.wav'):.1f} LUFS (ganancia {gain:.1f} dB)")
-    # efectos: su pico queda `sfx_below_peak` dB por debajo del pico de la voz
-    vx, _ = sf.read(f"{W}/voice_proc.wav")
-    vpk = 20 * np.log10(np.max(np.abs(vx)) + 1e-9)
-    whoosh_db = (vpk - sfx_below_peak) - 20 * np.log10(0.5)
+    # efectos del pack: el kit equilibra sus niveles para una voz a -16 LUFS -> se desplazan igual que mi voz
+    from sfx import PACK_REF_VO_LUFS
+    from sfx import PACK_BOOST_DB
+    whoosh_db = v_l - PACK_REF_VO_LUFS + PACK_BOOST_DB
     fc = (f"[2:a]volume={whoosh_db:.2f}dB[w];[0:a]aformat=channel_layouts=stereo[vs];"
           "[vs][1:a][w]amix=inputs=3:normalize=0:duration=first[mx]")
     sh(f"ffmpeg -v error -y -i {W}/voice_proc.wav -i {W}/music_ducked.wav -i {W}/sfx.wav -filter_complex '{fc}' -map '[mx]' -c:a pcm_s24le {W}/mix_pre.wav")
@@ -213,8 +213,8 @@ if __name__ == "__main__":
     process_voice()
     make_music(total)
     # efectos de sonido de las transiciones (scripts/sfx.py, eventos en work/sfx.json)
-    from sfx import render as render_sfx
+    from sfx import render_pack
     ev = json.load(open("work/sfx.json")) if os.path.exists("work/sfx.json") else []
-    sf.write(f"{W}/sfx.wav", render_sfx(ev, total), SR, subtype="PCM_24")
+    sf.write(f"{W}/sfx.wav", render_pack(ev, total, json.load(open("work/words_tl.json"))), SR, subtype="FLOAT")
     js = mix()
     print("total", round(total, 2), "s; pre-loudnorm", js["input_i"], "LUFS")
