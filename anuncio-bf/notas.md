@@ -36,7 +36,7 @@ Diferencias con el guion: dices "**en** inmobiliarias", "entra en **el** piso", 
   - Descenso con dron de Serra: es el vídeo vertical que la web usa como intro en móvil (1080x1936).
   - Villa Aurea: hora **atardecer** en todas las estancias; el plano aéreo pasa a **noche** (función "HORA" de la web).
 - **Montaje** (`scripts/plan.py` → `work/plan.json`, `scripts/compose.py`): mis planos se decodifican del original 4K y se reencuadran con **seguimiento de cara** (`scripts/track_faces.py`, Haar de OpenCV + suavizado): en las tomas A, C y D te acercas a cámara, así que el zoom se calcula para mantener el tamaño de cara objetivo (como un travelling) y el encuadre te sigue suavemente; punch-in (escalado INTER_AREA desde 4K, nunca se amplía por encima de la resolución original), corrección de color suave (curva S ligera, +6 % saturación, un punto más cálido) y enfoque suave; las dos tomas comprimidas llevan además un desruido ligero (hqdn3d).
-- **Gráficos** (`scripts/overlay.html`, renderizado fotograma a fotograma con fondo transparente): Montserrat 800/900, negro + blanco + un único acento ámbar `#FFC247`.
+- **Gráficos** (`scripts/overlay.html`, renderizado fotograma a fotograma con fondo transparente): Montserrat 800/900, negro + blanco + un único acento ámbar `#FFC247` (el morado de la marca `#4700FB` solo aparece en el punto del logo: sobre negro y sobre la pared blanca el ámbar se lee mucho mejor). Logo real en blanco en "En Prospectus" y en la tarjeta final.
 
 ## Decisiones
 - **Duración**: 24,5 s (22,5 s de voz + 2 s de tarjeta final).
@@ -85,6 +85,6 @@ Fotogramas revisados: 0,5 s, oferta, mitad, cierre y tarjeta final, además de t
 1. **CTA**: "ESCRÍBENOS YA" (lo que dices) frente a "ESCRÍBEME YA" (brief).
 2. **Cuenta atrás**: fijada para publicar el 25/11 a las 10:00. Si se publica otro día, cambia `PUBLISH` y vuelve a renderizar.
 3. **Música**: generada por código (discreta, −23 dB bajo la voz). Si preferís una pista de librería, se cambia `work/audio/music.wav` y se vuelve a ejecutar `build_audio.py`.
-4. **Logo**: no había logo de Prospectus en `input/`; se usa un wordmark tipográfico con un icono "P" provisional. Si me pasas el logo (SVG/PNG), lo sustituyo.
+4. **Logo**: se usa el logo real que me pasaste, extraído con fondo transparente y en versión blanca con el punto morado (`input/brand/`, no versionado). Es un PNG de 618 px de ancho: si tienes el SVG, el logo de la tarjeta final quedará aún más nítido.
 5. **Precio visible**: en el plano de "y reserva" sale la ficha real de Serra (Vivienda P2 B · 450.000 € · DISPONIBLE). Confirma que se puede enseñar.
 6. Escucha el antes/después (`antes_despues_10s.wav`) en auriculares: la reverberación de la sala baja mucho; si notas la voz algo "seca", se puede subir el límite de atenuación de DeepFilterNet (`-a 40` → `-a 30`).

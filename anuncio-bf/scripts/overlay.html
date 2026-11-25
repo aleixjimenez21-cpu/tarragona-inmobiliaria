@@ -34,9 +34,9 @@
 
   /* ---------- marca */
   .brand { font-weight: 800; letter-spacing: 14px; color: #fff; display: inline-flex; align-items: center; gap: 20px; }
-  .brand svg { flex: none; }
+  .brand { justify-content: center; }
   #brandpop { left: 0; right: 0; text-align: center; }
-  #brandpop .pill { display: inline-flex; align-items: center; gap: 18px; background: rgba(11,11,12,.9); padding: 20px 34px 20px 28px; border-radius: 100px;
+  #brandpop .pill { display: inline-flex; align-items: center; gap: 18px; background: rgba(11,11,12,.9); padding: 24px 40px 26px 40px; border-radius: 100px;
                     box-shadow: 0 14px 40px rgba(0,0,0,.3); font-size: 42px; }
 
   /* ---------- subtítulos */
@@ -88,7 +88,7 @@
     <div class="big">-50 %</div>
     <div class="solo"><div>SOLO <span class="acc">1</span> PROMOTORA</div></div>
   </div>
-  <div id="brandpop" class="abs"><span class="pill brand"><span id="logo1"></span>PROSPECTUS</span></div>
+  <div id="brandpop" class="abs"><span class="pill"><img class="logo" src="../input/brand/prospectus_logo_blanco.png" style="height:58px;display:block"></span></div>
   <div id="chip" class="abs"><span class="dot"></span><span class="txt"></span></div>
   <div id="endpanel" class="abs">
     <div class="l1"><span class="acc">-50 %</span> · SOLO 1 PLAZA</div>
@@ -98,7 +98,7 @@
   <div id="endcard" class="abs">
     <div class="bg"></div>
     <div class="inner">
-      <div class="brand"><span id="logo2"></span>PROSPECTUS</div>
+      <div class="brand"><img class="logo" src="../input/brand/prospectus_logo_blanco.png" style="width:440px;display:block"></div>
       <div class="sub">Tours virtuales 3D para obra nueva</div>
       <div class="tag">BLACK FRIDAY</div>
       <div class="big">-50 %</div>
@@ -112,9 +112,6 @@
   <div id="count" class="abs"><svg width="26" height="30" viewBox="0 0 26 30"><path d="M4 2h18M4 28h18M6 2c0 8 7 9 7 13s-7 5-7 13M20 2c0 8-7 9-7 13s7 5 7 13" fill="none" stroke="#FFC247" stroke-width="2.6" stroke-linecap="round"/><path d="M9 25.5c1.5-2.5 6.5-2.5 8 0z" fill="#FFC247"/></svg><span class="lbl">ACABA EN</span><span class="v"></span></div>
 
 <script>
-const LOGO = (s) => `<svg width="${s}" height="${s}" viewBox="0 0 48 48"><rect x="3" y="3" width="42" height="42" rx="11" fill="none" stroke="#FFC247" stroke-width="3.2"/><path d="M15 34V14h10.5a7 7 0 0 1 0 14H15" fill="none" stroke="#fff" stroke-width="3.6" stroke-linejoin="round"/></svg>`;
-document.getElementById('logo1').innerHTML = LOGO(54);
-document.getElementById('logo2').innerHTML = LOGO(64);
 
 let P = null, L = null;
 const $ = (id) => document.getElementById(id);
@@ -160,7 +157,8 @@ function setup(plan, fmt) {
   }
   // subtítulos: se construye cada bloque una vez
   P._subs = P.subs.map(s => s.words.map(w => ({ ...w, txt: w.w.replace(/[,.]$/, ''), hl: hl(w.w) })));
-  document.fonts.ready.then(() => { window.__ready = true; });
+  const imgs = [...document.querySelectorAll('img.logo')].map(i => i.complete ? Promise.resolve() : new Promise(r => { i.onload = i.onerror = r; }));
+  Promise.all([document.fonts.ready, ...imgs]).then(() => { window.__ready = true; });
 }
 
 function fmtCount(t) {
