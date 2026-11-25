@@ -45,7 +45,7 @@ Diferencias con el guion: dices "**en** inmobiliarias", "entra en **el** piso", 
 - Mientras hablo del tour, el tour ocupa toda la pantalla con mi voz en off (se probó un PiP mío en pequeño y se quitó porque restaba calidad).
 - Serra: sus panorámicas 360 son de 1774 px (se ven blandas a 1080x1920), así que de Serra se usan el dron y la fachada interactiva, que sí son nítidos.
 - Las transiciones son cortes; whip en la entrada a la piscina y al salón, zoom en la entrada al edificio real y fundido de "tu promoción" a "tour virtual".
-- **4:5**: reencuadre propio: cara más arriba, titular y tarjeta arriba, cuenta atrás y rótulos abajo, PiP arriba a la derecha y clips del tour recortados algo por encima del centro.
+- **4:5**: reencuadre propio: cara más arriba, titular y tarjeta arriba, cuenta atrás y rótulos abajo y clips del tour recortados algo por encima del centro.
 
 ## Cómo regenerarlo
 ```bash
