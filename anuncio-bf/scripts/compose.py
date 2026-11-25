@@ -68,33 +68,51 @@ def reader(key, path, size, pre=""):
 
 
 # ------------------------------------------------------------------ color de mis planos
-def build_lut():
-    x = np.arange(256) / 255.0
-    s = x * x * (3 - 2 * x)                       # curva en S
-    y = x + 0.16 * (s - x)                         # contraste ligeramente más alto
-    y = 0.012 + y * (1 - 0.012)                    # negros sin aplastar
-    return np.clip(y * 255, 0, 255).astype(np.uint8)
-LUT = build_lut()
-# equilibrio por toma (las dos tomas comprimidas vienen algo más frías/planas): ganancias RGB
-WB = {k: (1.025, 1.0, 0.97) for k in "ABCD"}   # un punto más cálido: piel natural frente a la luz fría de la oficina
-if os.path.exists("work/wb.json"): WB.update({k: tuple(v) for k, v in json.load(open("work/wb.json")).items()})
+# Corrección por toma (scripts/grade_params.py): balance de blancos medido en la pared + exposición
+GRADE = json.load(open("work/grade.json"))
+LIN = ((np.arange(256) / 255.0) ** 2.2).astype(np.float32)          # sRGB aprox. -> lineal
+
+
+def build_curve():
+    """curva fílmica en gamma: contraste en S suave, negros asentados, hombro suave en altas"""
+    x = np.linspace(0, 1, 4096)
+    s = x * x * (3 - 2 * x)
+    y = x + 0.30 * (s - x)
+    y = np.clip((y - 0.018) / (1 - 0.018), 0, 1)
+    return x, y
+CX, CY = build_curve()
 
 
 def grade(img, take):
-    f = img.astype(np.float32)
-    g = WB.get(take, (1, 1, 1))
-    f *= np.array(g, np.float32)
-    f = np.clip(f, 0, 255).astype(np.uint8)
-    f = cv2.LUT(f, LUT)
-    # saturación +6 % (vibrance suave)
-    hsv = cv2.cvtColor(f, cv2.COLOR_RGB2HSV).astype(np.float32)
-    hsv[..., 1] = np.clip(hsv[..., 1] * 1.06, 0, 255)
-    return cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2RGB)
+    g = GRADE[take]
+    lin = LIN[img] * (np.array(g["gain"], np.float32) * g["expo"])
+    lin = lin / (1 + lin ** 4) ** 0.25                                   # hombro: las luces no se queman
+    v = np.power(np.clip(lin, 0, 1), 1 / 2.2)
+    v = np.interp(v, CX, CY).astype(np.float32)
+    # saturación +8 % respetando la luminancia
+    Y = (0.2126 * v[..., 0] + 0.7152 * v[..., 1] + 0.0722 * v[..., 2])[..., None]
+    v = Y + (v - Y) * 1.08
+    return np.clip(v * 255, 0, 255).astype(np.uint8)
+
+
+def detail(img, t, sharp=0.6, clarity=0.28):
+    """nitidez y claridad solo en luminancia (sin halos de color) + grano fino para quitar el aspecto plástico"""
+    ycc = cv2.cvtColor(img, cv2.COLOR_RGB2YCrCb).astype(np.float32)
+    Y = ycc[..., 0]
+    Y = Y + clarity * (Y - cv2.GaussianBlur(Y, (0, 0), 14))           # contraste local
+    Y = Y + sharp * (Y - cv2.GaussianBlur(Y, (0, 0), 0.9))             # detalle fino
+    rng = np.random.default_rng(int(t * 1000))
+    Y = Y + rng.normal(0, 1.8, Y.shape).astype(np.float32)             # grano muy sutil
+    ycc[..., 0] = Y
+    return cv2.cvtColor(np.clip(ycc, 0, 255).astype(np.uint8), cv2.COLOR_YCrCb2RGB)
 
 
 def sharpen(img, amount=0.28, sigma=1.1):
     b = cv2.GaussianBlur(img, (0, 0), sigma)
     return cv2.addWeighted(img, 1 + amount, b, -amount, 0)
+
+
+ZCAP = {"A": 1.75, "B": 1.6, "C": 1.6, "D": 1.75}   # siempre con sobremuestreo desde 4K (más en las tomas comprimidas)
 
 
 # ------------------------------------------------------------------ fuentes
@@ -125,16 +143,16 @@ def face_of(take, src=None):
 def a_frame(entry, t, zoom_mul=1.0):
     take = entry["take"]
     path = f"input/{P['takes'][take]}.mov"
-    r = reader("A" + take, path, INTER, "hqdn3d=1.2:1.2:4:4," if take in ("B", "C") else "")
+    r = reader("A" + take, path, INTER, "hqdn3d=1.4:3:4:5," if take in ("B", "C") else "hqdn3d=0.8:2:2:3,")
     src = take_src_time(take, t)
     img = r.get(src)
     k = (t - entry["t0"]) / max(0.001, entry["t1"] - entry["t0"])
     fx, fy, fw = face_of(take, src)
     fwt = (entry["fw0"] + (entry["fw1"] - entry["fw0"]) * smooth(k)) * (1.0 if FMT == "9x16" else 0.82)
-    z = min(2.0, max(1.0, fwt / fw))
+    z = min(ZCAP[take], max(1.0, fwt / fw))
     if entry.get("punch"):
         z *= 1 + 0.05 * (1 - ease_out((t - entry["t0"]) / 0.22))
-    z = min(2.0, z * zoom_mul)
+    z = min(ZCAP[take] * 1.05, z * zoom_mul)
     s = INTER[0] / 1080.0                           # base 1080x1920 -> intermedia
     # ventana de recorte en coordenadas base: ancho OW/z, alto OH/z, con la cara en (540, face_y)
     face_y = entry["face_y"] if FMT == "9x16" else entry.get("face_y45", entry["face_y"] * OH / 1920 * 0.86)
@@ -146,7 +164,7 @@ def a_frame(entry, t, zoom_mul=1.0):
     small = cv2.resize(img, (int(math.ceil(INTER[0] * scale)) + 2, int(math.ceil(INTER[1] * scale)) + 2), interpolation=cv2.INTER_AREA)
     M2 = np.array([[1, 0, -x0 * z], [0, 1, -y0 * z]], np.float32)
     out = cv2.warpAffine(small, M2, (OW, OH), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
-    return sharpen(grade(out, take))
+    return detail(grade(out, take), t)
 
 
 def b_frame(entry, t, clip=None):
