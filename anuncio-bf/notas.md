@@ -24,7 +24,14 @@ Diferencias con el guion: dices "**en** inmobiliarias", "entra en **el** piso", 
 - **ffmpeg 6.1**, **Python 3.13** (numpy, scipy, OpenCV, soundfile, pyloudnorm), **Node 22 + Playwright/Chromium**.
 - **Transcripción**: faster-whisper con `large-v3` (int8, CPU), español, marcas por palabra. Los inicios de palabra se ajustan con la envolvente de energía de la voz limpia (`scripts/words.py`); hay una corrección manual documentada ("Tu" estaba fundido con "comprador").
 - **Audio** (`scripts/build_audio.py`):
-  - Reducción de ruido/reverberación: **DeepFilterNet 3** (binario `deep-filter` 0.5.6, compensación de latencia, límite de atenuación 40 dB).
+  - **Análisis de la sala** (`scripts/reverb_analysis.py`): la oficina vacía tiene mucha reverberación: **RT60 equivalente ≈ 1,0 s** y cola de solo −12,7 dB tras cada frase en la grabación original.
+  - **Aislamiento y desreverberación** (`scripts/dereverb.py`): **WPE multicanal** (nara_wpe, 20 taps, 3 iteraciones) sobre el **estéreo original del iPhone** (2 micrófonos) → **DeepFilterNet 3** sin límite de atenuación y con **post-filtro** (`deep-filter -D -a 100 --pf`).
+
+    | Cadena | Cola tras frase | RT60 equiv. | Inteligibilidad (Whisper) |
+    |---|---|---|---|
+    | Original | −12,7 dB | 0,99 s | 0,972 |
+    | Versión anterior (DeepFilterNet −40 dB) | −33,9 dB | 0,28 s | 0,972 |
+    | **Actual: WPE + DeepFilterNet + post-filtro** | **−48,2 dB** | **0,20 s** | 0,969 (texto idéntico en las 4 tomas, desfase 0 ms) |
     - Se probó **resemble-enhance** primero (como pedía el orden): el modo *enhance* alucinaba en CPU (Whisper oía frases que no existen, p. ej. "Gracias por ver este vídeo") → descartado; el modo *denoise* funcionaba pero hacía que Whisper confundiera "tour" con "course" → peor inteligibilidad que DeepFilterNet (confianza media 0,98). Se eligió DeepFilterNet.
   - Cadena: paso alto 80 Hz (24 dB/oct) → EQ −3 dB a 320 Hz (caja), +1 dB a 140 Hz, +3 dB a 3,6 kHz (presencia), +1,5 dB shelf 9,5 kHz → etapa de ganancia a −20 LUFS → de-esser → compresión 2,5:1 (≈3 dB de reducción) → limitador → loudnorm lineal en dos pasadas a **−14 LUFS / TP ≤ −1,5 dBTP**.
   - **Música**: generada por código (pad cálido + bajo + arpegio + percusión suave, 100 BPM, Am9–Fmaj7–Cmaj7–G6). Sin derechos de terceros. Queda **23 dB por debajo de la voz** con ducking (sidechain).
@@ -36,7 +43,10 @@ Diferencias con el guion: dices "**en** inmobiliarias", "entra en **el** piso", 
   - Descenso con dron de Serra: es el vídeo vertical que la web usa como intro en móvil (1080x1936).
   - Villa Aurea: hora **atardecer** en todas las estancias; el plano aéreo pasa a **noche** (función "HORA" de la web).
 - **Montaje** (`scripts/plan.py` → `work/plan.json`, `scripts/compose.py`): mis planos se decodifican del original 4K y se reencuadran con **seguimiento de cara** (`scripts/track_faces.py`, Haar de OpenCV + suavizado): en las tomas A, C y D te acercas a cámara, así que el zoom se calcula para mantener el tamaño de cara objetivo (como un travelling) y el encuadre te sigue suavemente; punch-in (escalado INTER_AREA desde 4K, nunca se amplía por encima de la resolución original), etalonaje por toma (`scripts/grade_params.py`): balance de blancos medido sobre la pared blanca (venía con dominante verde/cian), exposición corregida en lineal (C y D venían ~1 paso subexpuestas), hombro suave en altas, curva fílmica y +8 % de saturación con un punto cálido para la piel; después claridad (contraste local) y nitidez solo en luminancia y un grano muy fino para quitar el aspecto "plástico" del procesado del iPhone. El zoom se limita a 1,6× en las tomas comprimidas y 1,75× en las .mov para mantener siempre sobremuestreo desde 4K; desruido ligero (hqdn3d) antes de escalar.
-- **Gráficos** (`scripts/overlay.html`, renderizado fotograma a fotograma con fondo transparente): Montserrat 800/900, negro + blanco + un único acento ámbar `#FFC247` (el morado de la marca `#4700FB` solo aparece en el punto del logo: sobre negro y sobre la pared blanca el ámbar se lee mucho mejor). Logo real en blanco en "En Prospectus" y en la tarjeta final.
+- **Gráficos** (`scripts/overlay.html`), estilo del reel de referencia:
+  - **Palabra grande detrás de la cabeza**: Inter Display SemiBold en minúsculas con una frase pequeña encima ("inmobiliarias?", "-50 %", el logo "Prospectus.", "1 plaza"). La cabeza la tapa en parte gracias a una **segmentación de persona fotograma a fotograma** (rembg `u2net_human_seg`, suavizado temporal, erosión de 2 px + difuminado contra el halo del pelo). La altura de la palabra se calcula midiendo dónde queda tu cabeza en cada rótulo (`scripts/head_tops.py`).
+  - **Tarjetas de cristal**: subtítulos, cuenta atrás, rótulos del tour y panel de cierre con **desenfoque real del vídeo** debajo (compose.py desenfoca esa zona) y un tinte oscuro translúcido.
+  - Un solo color de acento: **azul suave desaturado** (`#5A8BB5` sobre la pared blanca, `#9CC3E2` sobre fondos oscuros). Logo real en "En Prospectus" (grande, detrás de la cabeza) y en la tarjeta final.
 
 ## Decisiones
 - **Duración**: 24,5 s (22,5 s de voz + 2 s de tarjeta final).
@@ -82,7 +92,7 @@ Los textos (CTA, fechas, color de acento) están en `scripts/plan.py`; los corte
 Fotogramas revisados: 0,5 s, oferta, mitad, cierre y tarjeta final, además de todas las transiciones. Se corrigió: espaciado entre palabras de los subtítulos, PiP eliminado, panel de cierre que rozaba la barbilla y encuadres que no seguían tu movimiento.
 
 ## Qué conviene que revises
-1. **CTA**: "ESCRÍBENOS YA" (lo que dices) frente a "ESCRÍBEME YA" (brief).
+1. **CTA**: "escríbenos ya" (lo que dices) frente a "ESCRÍBEME YA" (brief).
 2. **Cuenta atrás**: fijada para publicar el 25/11 a las 10:00. Si se publica otro día, cambia `PUBLISH` y vuelve a renderizar.
 3. **Música**: generada por código (discreta, −23 dB bajo la voz). Si preferís una pista de librería, se cambia `work/audio/music.wav` y se vuelve a ejecutar `build_audio.py`.
 4. **Logo**: se usa el logo real que me pasaste, extraído con fondo transparente y en versión blanca con el punto morado (`input/brand/`, no versionado). Es un PNG de 618 px de ancho: si tienes el SVG, el logo de la tarjeta final quedará aún más nítido.

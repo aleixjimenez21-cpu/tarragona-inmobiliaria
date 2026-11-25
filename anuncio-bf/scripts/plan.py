@@ -5,7 +5,8 @@ import json, sys
 sys.path.insert(0, "scripts")
 from edl import TAKES, SEGMENTS, END_HOLD, FPS, timeline
 
-ACCENT = "#FFC247"          # único color de acento (ámbar cálido)
+ACCENT = "#9CC3E2"          # acento único: azul suave desaturado (versión clara, sobre fondos oscuros)
+ACCENT_DEEP = "#5A8BB5"     # mismo tono, más profundo, para texto grande sobre la pared blanca
 CTA = "ESCRÍBENOS YA"        # lo que digo en la toma es "escríbenos" (el brief decía "ESCRÍBEME YA")
 DEADLINE = "2026-11-30T23:59:00+01:00"   # lunes 30 a las 23:59 (Madrid)
 PUBLISH = "2026-11-25T10:00:00+01:00"    # momento de publicación supuesto para la cuenta atrás
@@ -110,6 +111,15 @@ SUBS = chunks_by_size()
 # palabras que van en el color de acento
 HIGHLIGHT = ["cientos", "miles", "mitad", "primera", "prospectus", "tour", "virtual", "móvil", "reserva", "sola", "plaza", "acabó", "escríbenos"]
 
+# ---------------------------------------------------------------- palabras detrás de la cabeza (estilo "words behind his head")
+# frase pequeña (fina, minúsculas) + palabra grande que la cabeza tapa en parte
+BEHIND = [
+    dict(id="hook", t0=0.0, t1=T_B, small="¿cansado de pagar cientos de miles a", big="inmobiliarias?"),
+    dict(id="offer", t0=W("esta") - 0.05, t1=T_C - 0.05, small="black friday", small2=(W("solo"), "black friday · solo 1 promotora"), big="-50 %"),
+    dict(id="brand", t0=W("prospectus") - 0.08, t1=W("tu", 2) - 0.02, small="en", big="@logo"),
+    dict(id="plaza", t0=T_D + 0.04, t1=W("así") - 0.02, small="solo queda", big="1 plaza"),
+]
+
 # ---------------------------------------------------------------- rótulos
 CUES = dict(
     hook=[0.0, T_B],
@@ -121,7 +131,7 @@ CUES = dict(
     end_panel=W("así"), end_full=round(VDUR - 0.05, 3), total=TOTAL,
 )
 
-plan = dict(fps=FPS, total=TOTAL, vdur=VDUR, accent=ACCENT, cta=CTA, deadline=DEADLINE, publish=PUBLISH,
+plan = dict(fps=FPS, total=TOTAL, vdur=VDUR, accent=ACCENT, accent_deep=ACCENT_DEEP, behind=BEHIND, cta=CTA, deadline=DEADLINE, publish=PUBLISH,
             faces=FACES, video=V, pip=PIP, night=NIGHT, subs=SUBS, highlight=HIGHLIGHT, cues=CUES,
             takes={k: TAKES[k] for k in TAKES}, segments=[list(s) + [t0] for s, (_, _, _, t0) in zip(SEGMENTS, tl)])
 json.dump(plan, open("work/plan.json", "w"), ensure_ascii=False, indent=1)

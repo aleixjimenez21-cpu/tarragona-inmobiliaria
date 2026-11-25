@@ -21,7 +21,7 @@ def sh(cmd):
 def cut_voice():
     parts = []
     for k, a, b in SEGMENTS:
-        x, sr = sf.read(f"{W}/df_final/{TAKES[k].replace('take_', '')}.wav", dtype="float64")
+        x, sr = sf.read(f"{W}/df_wpe20_pf/{TAKES[k].replace('take_', '')}.wav", dtype="float64")
         assert sr == SR
         seg = x[int(round(a * SR)):int(round(b * SR))].copy()
         n = int(XF * SR)

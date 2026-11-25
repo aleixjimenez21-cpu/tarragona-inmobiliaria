@@ -4,161 +4,135 @@
 <meta charset="utf-8">
 <title>Prospectus BF overlay</title>
 <style>
-  @font-face { font-family: M; font-weight: 600; src: url(../work/node_modules/@fontsource/montserrat/files/montserrat-latin-600-normal.woff2); }
-  @font-face { font-family: M; font-weight: 700; src: url(../work/node_modules/@fontsource/montserrat/files/montserrat-latin-700-normal.woff2); }
-  @font-face { font-family: M; font-weight: 800; src: url(../work/node_modules/@fontsource/montserrat/files/montserrat-latin-800-normal.woff2); }
-  @font-face { font-family: M; font-weight: 900; src: url(../work/node_modules/@fontsource/montserrat/files/montserrat-latin-900-normal.woff2); }
-  :root { --acc: #FFC247; --ink: #0B0B0C; --W: 1080px; --H: 1920px; }
+  /* Estilo de referencia: palabra grande detrás de la cabeza + tarjetas de cristal. Inter Display, minúsculas. */
+  :root { --acc: #9CC3E2; --deep: #5A8BB5; --W: 1080px; --H: 1920px; --ink: #1d1e21; }
   html, body { margin: 0; padding: 0; background: transparent; }
-  body { width: var(--W); height: var(--H); position: relative; overflow: hidden; font-family: M, sans-serif; color: #fff;
-         -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+  body { width: var(--W); height: var(--H); position: relative; overflow: hidden; font-family: 'Inter Display', 'Inter', sans-serif;
+         color: #fff; -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
   .abs { position: absolute; }
-  .acc { color: var(--acc); }
+  body[data-layer="back"] .front { display: none !important; }
+  body[data-layer="front"] .back { display: none !important; }
+  body[data-layer="front"] #behind .big { visibility: hidden; }   /* la palabra grande va detrás de la cabeza */
+  body[data-layer="back"] #behind .small { visibility: hidden; }  /* la frase pequeña va delante: nunca se tapa */
 
-  /* ---------- gancho */
-  #hook { left: 56px; right: 56px; text-align: center; }
-  #hook .ln { display: inline-block; background: var(--ink); color: #fff; font-weight: 900; font-size: 74px; line-height: 1;
-              letter-spacing: -0.5px; padding: 14px 24px 16px; margin: 0 0 10px; border-radius: 14px; text-transform: uppercase;
-              box-shadow: 0 10px 34px rgba(0,0,0,.28); }
-  #hook .ln .acc { color: var(--acc); }
+  /* ---------- capa trasera: frase pequeña + palabra grande */
+  #behind { left: 0; right: 0; text-align: center; }
+  #behind .small { font-weight: 400; font-size: 54px; letter-spacing: -0.5px; color: var(--ink); line-height: 1.1; padding: 0 70px;
+                  text-shadow: 0 0 14px rgba(255,255,255,.75), 0 0 30px rgba(255,255,255,.45); }
+  #behind .big { display: inline-block; font-weight: 600; letter-spacing: -0.045em; line-height: .86; color: var(--deep); white-space: nowrap; margin-top: 6px; }
+  #behind .big img { display: block; margin: 0 auto; }
+  #behind.ondark .small { color: #fff; text-shadow: 0 2px 18px rgba(0,0,0,.35); }
+  #behind.ondark .big { color: var(--acc); }
 
-  /* ---------- tarjeta de oferta */
-  #offer { left: 50%; width: 820px; margin-left: -410px; text-align: center; background: rgba(11,11,12,.94);
-           border-radius: 30px; padding: 30px 40px 34px; box-shadow: 0 24px 70px rgba(0,0,0,.35); box-sizing: border-box;
-           border: 1.5px solid rgba(255,255,255,.08); }
-  #offer .tag { font-weight: 800; font-size: 34px; letter-spacing: 9px; color: #fff; }
-  #offer .tag i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--acc); margin: 0 18px 6px; font-style: normal; }
-  #offer .big { font-weight: 900; font-size: 176px; line-height: .95; color: var(--acc); letter-spacing: -6px; margin: 8px 0 4px; }
-  #offer .solo { overflow: hidden; }
-  #offer .solo div { font-weight: 800; font-size: 44px; letter-spacing: 3px; padding-top: 16px; border-top: 2px solid rgba(255,255,255,.14); margin-top: 8px; }
+  /* ---------- cristal (el desenfoque real del vídeo lo hace compose.py en estos rectángulos) */
+  .glass { background: rgba(22,23,27,.46); border: 1.5px solid rgba(255,255,255,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 18px 50px rgba(0,0,0,.18); }
 
-  /* ---------- marca */
-  .brand { font-weight: 800; letter-spacing: 14px; color: #fff; display: inline-flex; align-items: center; gap: 20px; }
-  .brand { justify-content: center; }
-  #brandpop { left: 0; right: 0; text-align: center; }
-  #brandpop .pill { display: inline-flex; align-items: center; gap: 18px; background: rgba(11,11,12,.9); padding: 24px 40px 26px 40px; border-radius: 100px;
-                    box-shadow: 0 14px 40px rgba(0,0,0,.3); font-size: 42px; }
-
-  /* ---------- subtítulos */
-  #subs { left: 60px; right: 60px; text-align: center; }
-  #subs .line { display: inline; word-spacing: 2px; font-weight: 800; font-size: 64px; line-height: 1.12; text-transform: uppercase; letter-spacing: -0.3px;
-                paint-order: stroke fill; -webkit-text-stroke: 11px rgba(8,8,9,.92);
-                text-shadow: 0 4px 18px rgba(0,0,0,.45); }
-  #subs .w { display: inline-block; transition: none; margin: 0 4px; }
+  /* ---------- subtítulos en tarjeta de cristal */
+  #subs { left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 22px; padding: 22px 34px 22px 22px; border-radius: 30px;
+          max-width: 940px; box-sizing: border-box; white-space: nowrap; }
+  #subs .ico { width: 58px; height: 58px; border-radius: 16px; background: rgba(255,255,255,.12); display: grid; place-items: center; flex: none; }
+  #subs .ico svg { width: 30px; height: 30px; }
+  #subs .txt { font-weight: 500; font-size: 46px; letter-spacing: -0.4px; color: rgba(255,255,255,.62); }
+  #subs .w { display: inline-block; margin: 0 6px 0 0; }
+  #subs .w.said { color: #fff; }
   #subs .w.on { color: var(--acc); }
 
   /* ---------- cuenta atrás */
-  #count { display: flex; align-items: center; gap: 12px; background: rgba(11,11,12,.72); padding: 12px 20px 12px 16px; border-radius: 100px;
-           font-weight: 700; font-size: 28px; letter-spacing: .5px; font-variant-numeric: tabular-nums; border: 1px solid rgba(255,255,255,.12); }
-  #count .lbl { color: rgba(255,255,255,.7); font-weight: 600; font-size: 22px; letter-spacing: 2px; }
+  #count { display: flex; align-items: center; gap: 12px; padding: 13px 24px 13px 18px; border-radius: 100px; font-weight: 500; font-size: 29px;
+           font-variant-numeric: tabular-nums; letter-spacing: .2px; }
+  #count .lbl { color: rgba(255,255,255,.66); font-weight: 400; }
 
   /* ---------- chip del proyecto */
-  #chip { display: flex; align-items: center; gap: 12px; background: rgba(11,11,12,.66); padding: 11px 20px 11px 14px; border-radius: 100px;
-          font-weight: 700; font-size: 24px; letter-spacing: 1px; border: 1px solid rgba(255,255,255,.12); }
+  #chip { display: flex; align-items: center; gap: 12px; padding: 12px 22px 12px 16px; border-radius: 100px; font-weight: 500; font-size: 26px; }
   #chip .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--acc); }
 
-  /* ---------- panel de cierre (sobre el plano mío) */
-  #endpanel { left: 50%; width: 900px; margin-left: -450px; background: rgba(11,11,12,.93); border-radius: 30px; padding: 30px 36px 34px;
-              box-sizing: border-box; text-align: center; box-shadow: 0 24px 70px rgba(0,0,0,.35); border: 1.5px solid rgba(255,255,255,.08); }
-  #endpanel .l1 { font-weight: 900; font-size: 62px; letter-spacing: -.5px; }
-  #endpanel .l2 { font-weight: 700; font-size: 31px; letter-spacing: 2.5px; color: rgba(255,255,255,.82); margin-top: 10px; }
+  /* ---------- panel de cierre */
+  #endpanel { left: 50%; width: 880px; margin-left: -440px; border-radius: 34px; padding: 30px 36px 34px; box-sizing: border-box; text-align: center; }
+  #endpanel .l1 { font-weight: 600; font-size: 58px; letter-spacing: -1.2px; }
+  #endpanel .l2 { font-weight: 300; font-size: 33px; color: rgba(255,255,255,.85); margin-top: 6px; }
+  .cta { display: inline-flex; align-items: center; gap: 16px; background: #fff; color: #111; font-weight: 600; font-size: 40px; letter-spacing: -0.4px;
+         padding: 22px 42px; border-radius: 100px; box-shadow: 0 14px 40px rgba(0,0,0,.25); }
+  #endpanel .cta { margin-top: 24px; }
 
   /* ---------- tarjeta final */
   #endcard { left: 0; top: 0; width: var(--W); height: var(--H); }
-  #endcard .bg { position: absolute; inset: 0; background: radial-gradient(120% 70% at 50% 45%, rgba(11,11,12,.72), rgba(11,11,12,.94)); }
+  #endcard .bg { position: absolute; inset: 0; background: radial-gradient(120% 70% at 50% 45%, rgba(14,15,18,.70), rgba(14,15,18,.93)); }
   #endcard .inner { position: absolute; left: 70px; right: 70px; text-align: center; }
-  #endcard .brand { font-size: 46px; }
-  #endcard .sub { font-weight: 600; font-size: 25px; letter-spacing: 4px; color: rgba(255,255,255,.62); margin-top: 16px; text-transform: uppercase; }
-  #endcard .tag { font-weight: 800; font-size: 32px; letter-spacing: 9px; margin-top: 70px; }
-  #endcard .big { font-weight: 900; font-size: 230px; line-height: .92; color: var(--acc); letter-spacing: -8px; margin-top: 10px; }
-  #endcard .plaza { font-weight: 900; font-size: 64px; letter-spacing: 1px; margin-top: 18px; }
-  #endcard .rule { width: 120px; height: 3px; background: rgba(255,255,255,.22); margin: 34px auto; }
-  #endcard .dl { font-weight: 700; font-size: 34px; letter-spacing: 2px; line-height: 1.35; color: rgba(255,255,255,.9); }
-  #endcard .dl b { color: #fff; font-weight: 900; }
-  .cta { display: inline-flex; align-items: center; gap: 18px; background: var(--acc); color: var(--ink); font-weight: 900; font-size: 46px;
-         letter-spacing: 2px; padding: 26px 46px; border-radius: 100px; box-shadow: 0 18px 50px rgba(255,194,71,.28); }
-  #endpanel .cta { font-size: 40px; padding: 22px 40px; margin-top: 24px; }
-  #endcard .cta { margin-top: 56px; }
+  #endcard .sub { font-weight: 300; font-size: 30px; color: rgba(255,255,255,.7); margin-top: 18px; }
+  #endcard .tag { font-weight: 300; font-size: 50px; margin-top: 80px; letter-spacing: -0.3px; }
+  #endcard .big { font-weight: 600; font-size: 270px; line-height: .9; color: var(--acc); letter-spacing: -0.05em; }
+  #endcard .plaza { font-weight: 600; font-size: 66px; letter-spacing: -1.2px; margin-top: 12px; }
+  #endcard .rule { width: 110px; height: 2px; background: rgba(255,255,255,.22); margin: 36px auto; }
+  #endcard .dl { font-weight: 300; font-size: 38px; line-height: 1.3; color: rgba(255,255,255,.88); }
+  #endcard .dl b { font-weight: 600; color: #fff; }
+  #endcard .cta { margin-top: 56px; font-size: 46px; padding: 26px 50px; }
 </style>
 </head>
-<body>
-  <div id="hook" class="abs"></div>
-  <div id="offer" class="abs">
-    <div class="tag">BLACK FRIDAY<i></i>-50 %</div>
-    <div class="big">-50 %</div>
-    <div class="solo"><div>SOLO <span class="acc">1</span> PROMOTORA</div></div>
-  </div>
-  <div id="brandpop" class="abs"><span class="pill"><img class="logo" src="../input/brand/prospectus_logo_blanco.png" style="height:58px;display:block"></span></div>
-  <div id="chip" class="abs"><span class="dot"></span><span class="txt"></span></div>
-  <div id="endpanel" class="abs">
-    <div class="l1"><span class="acc">-50 %</span> · SOLO 1 PLAZA</div>
-    <div class="l2">ACABA EL LUNES 30 A LAS 23:59</div>
+<body data-layer="front">
+  <div id="behind" class="abs"><div class="small"></div><div class="big"></div></div>
+
+  <div id="chip" class="abs front glass"><span class="dot"></span><span class="txt"></span></div>
+  <div id="endpanel" class="abs front glass">
+    <div class="l1"><span style="color:var(--acc)">-50 %</span> · solo 1 plaza</div>
+    <div class="l2">acaba el lunes 30 a las 23:59</div>
     <div class="cta"><span class="ctatxt"></span><span>→</span></div>
   </div>
-  <div id="endcard" class="abs">
+  <div id="endcard" class="abs front">
     <div class="bg"></div>
     <div class="inner">
-      <div class="brand"><img class="logo" src="../input/brand/prospectus_logo_blanco.png" style="width:440px;display:block"></div>
-      <div class="sub">Tours virtuales 3D para obra nueva</div>
-      <div class="tag">BLACK FRIDAY</div>
+      <img id="endlogo" class="logo" src="../input/brand/prospectus_logo_blanco_hd.png" style="width:470px;display:block;margin:0 auto">
+      <div class="sub">tours virtuales 3d para obra nueva</div>
+      <div class="tag">black friday</div>
       <div class="big">-50 %</div>
-      <div class="plaza">SOLO <span class="acc">1</span> PLAZA</div>
+      <div class="plaza">solo 1 plaza</div>
       <div class="rule"></div>
-      <div class="dl">ACABA EL <b>LUNES 30</b><br>A LAS <b>23:59</b></div>
+      <div class="dl">acaba el <b>lunes 30</b> a las <b>23:59</b></div>
       <div class="cta"><span class="ctatxt"></span><span>→</span></div>
     </div>
   </div>
-  <div id="subs" class="abs"></div>
-  <div id="count" class="abs"><svg width="26" height="30" viewBox="0 0 26 30"><path d="M4 2h18M4 28h18M6 2c0 8 7 9 7 13s-7 5-7 13M20 2c0 8-7 9-7 13s7 5 7 13" fill="none" stroke="#FFC247" stroke-width="2.6" stroke-linecap="round"/><path d="M9 25.5c1.5-2.5 6.5-2.5 8 0z" fill="#FFC247"/></svg><span class="lbl">ACABA EN</span><span class="v"></span></div>
+  <div id="subs" class="abs front glass"><div class="ico"></div><div class="txt"></div></div>
+  <div id="count" class="abs front glass"><svg width="24" height="28" viewBox="0 0 26 30"><path d="M4 2h18M4 28h18M6 2c0 8 7 9 7 13s-7 5-7 13M20 2c0 8-7 9-7 13s7 5 7 13" fill="none" stroke="#9CC3E2" stroke-width="2.4" stroke-linecap="round"/><path d="M9 25.5c1.5-2.5 6.5-2.5 8 0z" fill="#9CC3E2"/></svg><span class="lbl">acaba en</span><span class="v"></span></div>
 
 <script>
-
-let P = null, L = null;
+let P = null, L = null, HT = {};
 const $ = (id) => document.getElementById(id);
 const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
-const eo = (x) => 1 - Math.pow(1 - clamp(x), 3);              // ease out cubic
-const eback = (x) => { x = clamp(x); const c = 1.6; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
-const win = (t, a, b, fi = .18, fo = .15) => clamp(Math.min((t - a) / fi, (b - t) / fo));   // opacidad de ventana
-
-// Disposición por formato
-const LAYOUTS = {
-  '9x16': { W: 1080, H: 1920, hookTop: 362, offerTop: 362, subsY: 1405, countTop: 286, countRight: 44, chipLeft: 48, chipTop: 1235,
-            brandTop: 372, endPanelTop: 1075, endInnerTop: 440, pip: null },
-  '4x5':  { W: 1080, H: 1350, hookTop: 56, offerTop: 52, subsY: 1130, countTop: 1262, countRight: 40, chipLeft: 40, chipTop: 1262,
-            brandTop: 60, endPanelTop: 780, endInnerTop: 120, pip: null },
+const eo = (x) => 1 - Math.pow(1 - clamp(x), 3);
+const ICONS = {
+  house: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>',
+  tag: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.6" fill="#fff"/></svg>',
+  cube: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  chat: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>',
 };
 
-function setup(plan, fmt) {
-  P = plan; L = LAYOUTS[fmt];
-  document.documentElement.style.setProperty('--W', L.W + 'px');
-  document.documentElement.style.setProperty('--H', L.H + 'px');
-  document.documentElement.style.setProperty('--acc', plan.accent);
-  document.querySelectorAll('.ctatxt').forEach(e => e.textContent = plan.cta);
-  const hl = (w) => P.highlight.includes(w.toLowerCase().replace(/[¿?,.]/g, ''));
-  // gancho
-  $('hook').innerHTML = ['¿CANSADO DE PAGAR', '<span class="acc">CIENTOS DE MILES</span>', 'A INMOBILIARIAS?']
-    .map(s => `<div class="ln">${s}</div>`).join('<br>');
-  if (fmt === '4x5') { document.querySelectorAll('#hook .ln').forEach(e => { e.style.fontSize = '54px'; e.style.marginBottom = '6px'; }); }
-  $('hook').style.top = L.hookTop + 'px';
-  $('offer').style.top = L.offerTop + 'px';
-  if (fmt === '4x5') { $('offer').style.transformOrigin = '50% 0'; }
-  $('brandpop').style.top = L.brandTop + 'px';
+const LAYOUTS = {
+  '9x16': { W: 1080, H: 1920, subsY: 1440, countTop: 286, countRight: 44, chipLeft: 48, chipTop: 1290, endPanelTop: 1075, endInnerTop: 380, minTop: 362 },
+  '4x5':  { W: 1080, H: 1350, subsY: 1225, countTop: 36, countRight: 36, chipLeft: 40, chipTop: 1110, endPanelTop: 800, endInnerTop: 70, minTop: 100 },
+};
+
+function setup(plan, fmt, headtops) {
+  P = plan; L = LAYOUTS[fmt]; HT = headtops || {};
+  const r = document.documentElement.style;
+  r.setProperty('--W', L.W + 'px'); r.setProperty('--H', L.H + 'px'); r.setProperty('--acc', plan.accent); r.setProperty('--deep', plan.accent_deep);
+  document.querySelectorAll('.ctatxt').forEach(e => e.textContent = plan.cta.toLowerCase());
   $('count').style.top = L.countTop + 'px'; $('count').style.right = L.countRight + 'px';
   $('chip').style.left = L.chipLeft + 'px'; $('chip').style.top = L.chipTop + 'px';
   $('endpanel').style.top = L.endPanelTop + 'px';
   document.querySelector('#endcard .inner').style.top = L.endInnerTop + 'px';
   if (fmt === '4x5') {
-    const ec = document.querySelector('#endcard');
-    ec.querySelector('.tag').style.marginTop = '38px';
-    ec.querySelector('.big').style.fontSize = '190px';
+    const ec = $('endcard');
+    $('endlogo').style.width = '380px';
+    ec.querySelector('.tag').style.marginTop = '40px';
+    ec.querySelector('.big').style.fontSize = '210px';
     ec.querySelector('.rule').style.margin = '22px auto';
     ec.querySelector('.cta').style.marginTop = '34px';
-    $('subs').querySelectorAll;
+    $('endpanel').style.transform = 'scale(.9)';
   }
-  // subtítulos: se construye cada bloque una vez
-  P._subs = P.subs.map(s => s.words.map(w => ({ ...w, txt: w.w.replace(/[,.]$/, ''), hl: hl(w.w) })));
-  const imgs = [...document.querySelectorAll('img.logo')].map(i => i.complete ? Promise.resolve() : new Promise(r => { i.onload = i.onerror = r; }));
-  Promise.all([document.fonts.ready, ...imgs]).then(() => { window.__ready = true; });
+  P._subs = P.subs.map(s => s.words.map(w => ({ ...w, txt: w.w.toLowerCase().replace(/[,.]$/, '') })));
+  const imgs = [...document.querySelectorAll('img')].map(i => i.complete ? Promise.resolve() : new Promise(r => { i.onload = i.onerror = r; }));
+  Promise.all([document.fonts.load('600 100px "Inter Display"'), document.fonts.load('300 50px "Inter Display"'), document.fonts.load('500 50px "Inter Display"'), ...imgs])
+    .then(() => { window.__ready = true; });
 }
 
 function fmtCount(t) {
@@ -168,122 +142,133 @@ function fmtCount(t) {
   return `${d}d ${h}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s`;
 }
 
-function render(t) {
+function iconFor(t) {
   const C = P.cues;
-  // ---- gancho: visible desde el primer fotograma (sin fundido de entrada), sale con un pequeño desplazamiento
-  {
-    const o = clamp((C.hook[1] - t) / 0.18);
-    const lines = document.querySelectorAll('#hook .ln');
-    lines.forEach((ln, i) => {
-      // en el fotograma 0 ya está todo; un leve "asentado" en los primeros 0.3 s
-      const k = eo((t + 0.12 - i * 0.04) / 0.3);
-      ln.style.transform = `translateY(${(1 - k) * 14}px) scale(${0.985 + 0.015 * k})`;
-    });
-    $('hook').style.opacity = o;
-    $('hook').style.display = o > 0 ? 'block' : 'none';
+  if (t < P.segments[1][3]) return 'house';
+  if (t < P.segments[2][3]) return 'tag';
+  if (t < P.segments[4][3]) return 'cube';
+  if (t < C.end_panel) return 'clock';
+  return 'chat';
+}
+
+let _lastBehind = null;
+function layoutBehind(b) {
+  // tamaño de la palabra grande: lo más grande posible dentro de 960 px de ancho
+  const el = $('behind'), big = el.querySelector('.big'), small = el.querySelector('.small');
+  small.textContent = b.small;
+  if (b.big === '@logo') {
+    big.innerHTML = '<img class="logo" src="../input/brand/prospectus_logo_negro_hd.png" style="width:900px">';
+    big.style.fontSize = '';
+  } else {
+    big.textContent = b.big;
+    let fs = 320; big.style.fontSize = fs + 'px';
+    while (big.getBoundingClientRect().width > 980 && fs > 80) { fs -= 4; big.style.fontSize = fs + 'px'; }
   }
-  // ---- oferta
+  // colocación: la cabeza tapa ~45 % de la parte baja de la palabra grande
+  const ht = HT[b.id];
+  const bigH = big.getBoundingClientRect().height, smallH = small.getBoundingClientRect().height;
+  let bigTop = ht ? ht.top - bigH * 0.55 : 380;
+  bigTop = Math.max(bigTop, L.minTop + smallH + 6);
+  el.style.top = (bigTop - smallH - 6) + 'px';
+  _lastBehind = b.id;
+}
+
+function render(t, layer) {
+  document.body.dataset.layer = layer;
+  const C = P.cues;
+  const glass = [];
+  // ---- palabras detrás de la cabeza
   {
-    const a = C.offer_in, b = C.offer_out;
-    const vis = t >= a - 0.01 && t <= b + 0.2;
-    $('offer').style.display = vis ? 'block' : 'none';
-    if (vis) {
-      const k = eback((t - a) / 0.42);
-      const out = clamp((b + 0.2 - t) / 0.2);
-      let s = 0.86 + 0.14 * k;
-      const pulse = t - C.offer_pulse;
-      if (pulse > 0 && pulse < 0.45) s *= 1 + 0.06 * Math.sin(Math.PI * pulse / 0.45);
-      $('offer').style.opacity = clamp((t - a) / 0.16) * out;
-      $('offer').style.transform = `translateY(${(1 - k) * -30}px) scale(${s})`;
-      // "BLACK FRIDAY · -50 %" en la etiqueta: el -50 % grande ya lo dice, la etiqueta queda solo como BLACK FRIDAY
-      const tag = document.querySelector('#offer .tag');
-      tag.innerHTML = 'BLACK FRIDAY';
-      const so = document.querySelector('#offer .solo');
-      const ks = eo((t - C.offer_solo) / 0.3);
-      so.style.maxHeight = (t < C.offer_solo ? 0 : 90 * ks) + 'px';
-      so.style.opacity = ks;
-      const big = document.querySelector('#offer .big');
-      const kb = eo((t - a - 0.12) / 0.4);
-      big.style.transform = `scale(${0.7 + 0.3 * kb})`; big.style.opacity = kb;
+    let cur = null; for (const b of P.behind) if (t >= b.t0 && t < b.t1) cur = b;
+    const el = $('behind');
+    el.style.display = cur ? 'block' : 'none';
+    if (cur) {
+      if (_lastBehind !== cur.id) layoutBehind(cur);
+      const small = el.querySelector('.small'), big = el.querySelector('.big');
+      if (cur.small2) small.textContent = t >= cur.small2[0] ? cur.small2[1] : cur.small;
+      const first = cur.t0 <= 0.001;   // el gancho se ve completo desde el primer fotograma
+      const kin = first ? 1 : eo((t - cur.t0) / 0.38), kout = clamp((cur.t1 - t) / 0.14);
+      const ks = first ? 1 : eo((t - cur.t0 - 0.06) / 0.3);
+      small.style.opacity = ks * kout;
+      small.style.transform = `translateY(${(1 - ks) * 14}px)`;
+      big.style.opacity = kin * kout;
+      big.style.transform = `scale(${1.08 - 0.08 * kin})`;
+      big.style.filter = `blur(${(1 - kin) * 10}px)`;
+      // sobre clips del tour (sin persona) se usa la versión clara del color
+      const e = P.video.find(v => t >= v.t0 && t < v.t1);
+      el.classList.toggle('ondark', false);   // los clips bajo estos rótulos son claros: se mantiene el azul profundo
     }
   }
-  // ---- marca "En Prospectus"
+  // ---- chip del proyecto
   {
-    const a = C.brand_in, b = C.brand_out;
-    const vis = t >= a && t <= b;
-    $('brandpop').style.display = vis ? 'block' : 'none';
-    if (vis) {
-      const k = eback((t - a) / 0.4), o = clamp(Math.min((t - a) / 0.14, (b - t) / 0.14));
-      $('brandpop').style.opacity = o; $('brandpop').style.transform = `translateY(${(1 - k) * -24}px) scale(${0.9 + 0.1 * k})`;
-    }
-  }
-  // ---- chip de proyecto durante el tour
-  {
-    let cur = null;
-    for (const c of C.chip) if (t >= c[0] && t < c[1]) cur = c;
+    let cur = null; for (const c of C.chip) if (t >= c[0] && t < c[1]) cur = c;
     $('chip').style.display = cur ? 'flex' : 'none';
     if (cur) {
-      $('chip').querySelector('.txt').textContent = cur[2];
+      $('chip').querySelector('.txt').textContent = cur[2].toLowerCase();
       const o = clamp(Math.min((t - cur[0]) / 0.15, (cur[1] - t) / 0.1));
-      $('chip').style.opacity = o; $('chip').style.transform = `translateX(${(1 - eo((t - cur[0]) / 0.3)) * -16}px)`;
+      $('chip').style.opacity = o;
+      if (layer === 'front' && o > 0.02) glass.push(rect($('chip'), 100, o));
     }
   }
-  // ---- panel de cierre sobre mi plano
+  // ---- panel de cierre
   {
     const a = C.end_panel, b = C.end_full + 0.1;
     const vis = t >= a && t <= b + 0.25;
     $('endpanel').style.display = vis ? 'block' : 'none';
     if (vis) {
-      const k = eback((t - a) / 0.45);
-      $('endpanel').style.opacity = clamp((t - a) / 0.16) * clamp((b + 0.25 - t) / 0.25);
-      $('endpanel').style.transform = `translateY(${(1 - k) * 60}px)`;
-      const cta = $('endpanel').querySelector('.cta');
-      const p = t - C.end_panel - 0.6; cta.style.transform = `scale(${1 + (p > 0 ? 0.035 * Math.sin(p * 2 * Math.PI / 1.1) : 0)})`;
+      const k = eo((t - a) / 0.4);
+      const o = clamp((t - a) / 0.16) * clamp((b + 0.25 - t) / 0.25);
+      $('endpanel').style.opacity = o;
+      $('endpanel').style.marginTop = ((1 - k) * 50) + 'px';
+      const cta = $('endpanel').querySelector('.cta'); const p = t - a - 0.6;
+      cta.style.transform = `scale(${1 + (p > 0 ? 0.03 * Math.sin(p * 2 * Math.PI / 1.1) : 0)})`;
+      if (layer === 'front' && o > 0.02) glass.push(rect($('endpanel'), 34, o));
     }
   }
   // ---- tarjeta final
   {
-    const a = C.end_full;
-    const vis = t >= a;
+    const a = C.end_full; const vis = t >= a;
     $('endcard').style.display = vis ? 'block' : 'none';
     if (vis) {
       const ec = $('endcard');
       ec.querySelector('.bg').style.opacity = clamp((t - a) / 0.3);
       const parts = ec.querySelectorAll('.inner > *');
-      parts.forEach((el, i) => { const k = eo((t - a - 0.05 - i * 0.05) / 0.4); el.style.opacity = k; el.style.transform = `translateY(${(1 - k) * 26}px)`; });
-      const cta = ec.querySelector('.cta'); const p = t - a - 0.8;
-      const k = eo((t - a - 0.05 - 7 * 0.05) / 0.4);
-      cta.style.transform = `translateY(${(1 - k) * 26}px) scale(${1 + (p > 0 ? 0.04 * Math.sin(p * 2 * Math.PI / 1.1) : 0)})`;
+      parts.forEach((el, i) => { const k = eo((t - a - 0.05 - i * 0.05) / 0.4); el.style.opacity = k; el.style.transform = `translateY(${(1 - k) * 24}px)`; });
+      const cta = ec.querySelector('.cta'); const p = t - a - 0.8; const k = eo((t - a - 0.05 - 7 * 0.05) / 0.4);
+      cta.style.transform = `translateY(${(1 - k) * 24}px) scale(${1 + (p > 0 ? 0.035 * Math.sin(p * 2 * Math.PI / 1.1) : 0)})`;
     }
   }
-  // ---- subtítulos (palabra que suena resaltada)
+  // ---- subtítulos en tarjeta de cristal
   {
     let idx = -1;
     for (let i = 0; i < P.subs.length; i++) if (t >= P.subs[i].t0 && t < P.subs[i].t1) idx = i;
-    const hide = t >= C.end_full + 0.1;
     const el = $('subs');
-    if (idx < 0 || hide) { el.innerHTML = ''; }
-    else {
-      const ws = P._subs[idx];
-      const appear = eo((t - P.subs[idx].t0) / 0.12);
-      el.innerHTML = '<div class="line">' + ws.map(w => {
-        const on = t >= w.s - 0.03 && t < Math.max(w.e, w.s + 0.12) + 0.02;
-        const cls = 'w' + ((on || (w.hl && t >= w.s)) ? ' on' : '');
-        const sc = on ? 1.06 : 1;
-        return `<span class="${cls}" style="transform:scale(${sc})">${w.txt}</span>`;
-      }).join(' ') + '</div>';
-      // posición: en el cierre el panel ocupa la zona baja -> los subtítulos suben encima del panel
+    const first = P.subs[0].t0, last = P.subs[P.subs.length - 1].t1;
+    const on = t >= first && t < Math.min(last, C.end_full + 0.1);
+    el.style.display = on ? 'flex' : 'none';
+    if (on) {
+      el.querySelector('.ico').innerHTML = ICONS[iconFor(t)];
+      const ws = idx >= 0 ? P._subs[idx] : [];
+      el.querySelector('.txt').innerHTML = ws.map(w => {
+        const cls = 'w' + (t >= w.s - 0.03 && t < Math.max(w.e, w.s + 0.12) + 0.02 ? ' on' : (t >= w.s ? ' said' : ''));
+        return `<span class="${cls}">${w.txt}</span>`;
+      }).join(' ') || '&nbsp;';
       const h = el.getBoundingClientRect().height;
-      let y = L.subsY;
-      if (t >= C.end_panel && L.H === 1920) y = 1462;
-      if (t >= C.end_panel && L.H === 1350) y = 1190;
-      el.style.top = (y - h / 2) + 'px';
-      el.style.opacity = appear;
-      el.style.transform = `translateY(${(1 - appear) * 8}px)`;
+      el.style.top = (L.subsY - h / 2) + 'px';
+      const o = clamp(Math.min((t - first) / 0.2, (C.end_full + 0.1 - t) / 0.15));
+      el.style.opacity = o;
+      if (layer === 'front' && o > 0.02) glass.push(rect(el, 30, o));
     }
   }
   // ---- cuenta atrás
   $('count').querySelector('.v').textContent = fmtCount(t);
+  if (layer === 'front') glass.push(rect($('count'), 100, 1));
+  return glass;
+}
+
+function rect(el, r, o) {
+  const b = el.getBoundingClientRect();
+  return { x: Math.round(b.left), y: Math.round(b.top), w: Math.round(b.width), h: Math.round(b.height), r, o: +o.toFixed(3) };
 }
 window.setup = setup; window.render = render;
 </script>

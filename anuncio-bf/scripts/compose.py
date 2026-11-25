@@ -7,6 +7,7 @@
 Uso: python3 compose.py <9x16|4x5> [--test t1,t2,...]"""
 import json, subprocess, sys, os, math
 import numpy as np, cv2
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
@@ -325,12 +326,57 @@ def overlay(img, i):
     return np.clip(img.astype(np.float32) * (1 - a) + o[..., :3] * a, 0, 255).astype(np.uint8)
 
 
+# ------------------------------------------------------------------ capa trasera (palabras detrás de la cabeza)
+_prev_mask = {"i": -9, "m": None}
+
+
+def behind(img, i, t):
+    path = f"work/ovl_{FMT}/b_{i:04d}.png"
+    b = cv2.imread(path, cv2.IMREAD_UNCHANGED)
+    if b is None: return img
+    b = cv2.cvtColor(b, cv2.COLOR_BGRA2RGBA).astype(np.float32)
+    a = b[..., 3] / 255.0
+    e = entry_at(t)
+    if e["kind"] == "a":
+        from segment import person_mask, refine
+        m = person_mask(img)
+        if _prev_mask["i"] == i - 1 and _prev_mask["m"] is not None:
+            m = 0.6 * m + 0.4 * _prev_mask["m"]            # suavizado temporal: el borde no parpadea
+        _prev_mask.update(i=i, m=m)
+        a = a * (1 - refine(m))
+    a = a[..., None]
+    return np.clip(img.astype(np.float32) * (1 - a) + b[..., :3] * a, 0, 255).astype(np.uint8)
+
+
+# ------------------------------------------------------------------ tarjetas de cristal: desenfoque real del vídeo
+GLASS = json.load(open(f"work/ovl_{FMT}/glass.json")) if os.path.exists(f"work/ovl_{FMT}/glass.json") else {}
+
+
+def glass(img, i):
+    rects = GLASS.get(str(i), [])
+    if not rects: return img
+    out = img.astype(np.float32)
+    for g in rects:
+        x, y, w, h = g["x"], g["y"], g["w"], g["h"]
+        if w < 4 or h < 4: continue
+        M = 40
+        x0, y0, x1, y1 = max(0, x - M), max(0, y - M), min(OW, x + w + M), min(OH, y + h + M)
+        reg = out[y0:y1, x0:x1]
+        bl = cv2.GaussianBlur(reg, (0, 0), 22)
+        mk = np.zeros(reg.shape[:2], np.float32)
+        r = min(g["r"], h // 2, w // 2)
+        mk[y - y0:y - y0 + h, x - x0:x - x0 + w] = rounded_mask(w, h, r)[:mk.shape[0] - (y - y0), :mk.shape[1] - (x - x0)]
+        mk *= g["o"]
+        reg[:] = reg * (1 - mk[..., None]) + bl * mk[..., None]
+    return np.clip(out, 0, 255).astype(np.uint8)
+
+
 def frame(i):
     t = i / FPS
     img = base_frame(t)
-    crop, k = pip_layer(t)
-    img = composite_pip(img, crop, k)
+    img = behind(img, i, t)
     img = end_bg(img, t)
+    img = glass(img, i)
     return overlay(img, i)
 
 
