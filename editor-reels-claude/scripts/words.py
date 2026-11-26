@@ -13,6 +13,9 @@ THR = -52.0  # dBFS (ventanas de 10 ms) para considerar que hay voz
 # Correcciones manuales comprobadas con la envolvente de energía (toma, índice de palabra) -> (inicio, fin)
 # Whisper coloca "Tu" dentro de la pausa y lo funde con "comprador".
 OVERRIDES = getattr(edl, "WORD_OVERRIDES", {})   # {(id_toma, índice_palabra): (inicio, fin)} definidos en edl.py
+# Correcciones de TEXTO (Whisper oye mal una palabra): {(id_toma, índice): "texto"}; "" elimina la palabra
+# (útil para juntar dos palabras en una: se corrige la primera con su nuevo fin en WORD_OVERRIDES y se borran las demás)
+TEXTS = getattr(edl, "WORD_TEXT", {})
 
 
 def envelope(take):
@@ -46,6 +49,10 @@ def build():
         for (tk, idx), (s0, e0) in OVERRIDES.items():
             if tk == take:
                 ws[idx] = {**ws[idx], "s": s0, "e": e0}
+        for (tk, idx), txt in TEXTS.items():
+            if tk == take:
+                ws[idx] = {**ws[idx], "w": txt}
+        ws = [w for w in ws if w["w"].strip()]
         for w in ws:
             ov = min(w["e"], b) - max(w["s"], a)
             if ov <= 0.04 and not (w["s"] >= a and w["e"] <= b):

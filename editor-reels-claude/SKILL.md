@@ -50,7 +50,9 @@ Escribe `SEGMENTS` en `edl.py`: entra ~0,04 s antes de la voz y sal ~0,08 s desp
 Luego `python3 <skill>/scripts/words.py`: pasa las palabras a la línea de tiempo final. **Revisa la salida**:
 si una palabra sale duplicada, desaparece o empieza en un silencio, corrige con `WORD_OVERRIDES` en `edl.py`
 mirando la envolvente (`cut_finder.py --detalle <toma> <ini> <fin>`). Pasa casi siempre con la primera palabra de
-una toma y con las palabras pegadas a una pausa recortada.
+una toma y con las palabras pegadas a una pausa recortada. Si Whisper oye mal una palabra ("hobby" por "móvil",
+"contacta a nosotros" por "contáctanos"), compruébalo con una segunda transcripción con `VOCAB` y corrígela con
+`WORD_TEXT` en `edl.py` ("" borra una palabra, para juntar dos en una).
 
 ### 3. Cara y color
 ```bash
@@ -63,7 +65,10 @@ por tono de piel. Revisa que ninguna exposición salga disparatada (>4) y que el
 ### 4. Clips de apoyo, logo
 - Clips propios en `input/broll/` → `python3 <skill>/scripts/prep_broll.py` (1080x1920, 30 fps + hoja de contactos).
 - Captura de una web/tour 360: `references/broll.md` (captura fotograma a fotograma, fluida y sin interfaz).
-- Logo → `python3 <skill>/scripts/prep_logo.py logo.png` (versión blanca y oscura, transparentes y nítidas).
+- Imágenes fijas (planos, renders, capturas, PDF) → `python3 <skill>/scripts/make_stills.py <nombre> <seg> img1 img2…`:
+  tarjetas con sombra sobre fondo desenfocado. Muy útil para enseñar "lo de antes" frente al producto en movimiento.
+- Logo → `python3 <skill>/scripts/prep_logo.py logo.png` (versión blanca y oscura, transparentes y nítidas). Sin él no
+  sale el logo en la tarjeta final ni detrás de la cabeza.
 
 ### 5. Plan de montaje (`plan.py`)
 Es el guion del montaje: planos, clips, palabras detrás de la cabeza, subtítulos, textos finales y efectos. La

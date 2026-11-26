@@ -10,6 +10,12 @@
 4. **Cierre**: vuelta a la persona en plano cerrado, palabra grande con la condición ("1 plaza"), panel de cristal con
    oferta + botón cuando dice la llamada a la acción, y tarjeta final 2 s.
 
+## Formato lista ("3 errores", "5 claves")
+Gancho con la pregunta + "uno de estos 3 errores" (palabra grande "3 errores"), y en cada punto: contador arriba
+("error 1 de 3"), nota de marimba que sube un paso (`tone-step-1`, `-2`, `-3`), destello + whoosh al entrar y una palabra
+grande con la idea clave. Apoyo visual de cada error con su contraste: lo de antes en imágenes fijas
+(`make_stills.py`: planos, render, PDF) y la solución en movimiento al final, con el panel de cierre encima.
+
 ## Cortes
 Sin aire muerto: fuera silencios iniciales/finales, muletillas, repeticiones, tomas falsas y frases tipo "lo veo
 bien". Recorta pausas internas >0,2 s. Microfundido de 10 ms en cada corte de audio (`XF`).

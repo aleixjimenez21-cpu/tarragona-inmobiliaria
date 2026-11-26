@@ -2,7 +2,7 @@
  "$schema": "./sounds.schema.json",
  "name": "SFX Kit",
  "version": "1.0.0",
- "description": "Selección de 44 sonidos del SFX Kit de Wyzowl (CC0) para anuncios tipo reel. Mismo formato que sounds.json del kit completo.",
+ "description": "Selección de 51 sonidos del SFX Kit de Wyzowl (CC0) para anuncios tipo reel. Mismo formato que sounds.json del kit completo.",
  "homepage": "https://github.com/wyzowl/sfx-kit",
  "license": "CC0-1.0",
  "credit": "Not required. If you'd like to: \"SFX Kit by Wyzowl\" (https://github.com/wyzowl/sfx-kit).",
@@ -3129,6 +3129,464 @@
    ],
    "character": "crisp, plastic click",
    "sha256": "7ce9dde81146c6791f90e2dcc09c9be90be31e51fd604a2b580b967289605a7f"
+  },
+  {
+   "id": "tone-step-1",
+   "name": "Step 1 of 5",
+   "category": "tones",
+   "file": "sounds/tone-step-1.wav",
+   "variant": {
+    "kind": "step",
+    "step": "1"
+   },
+   "description": "Step 1 of 5: a soft marimba note (C), each one higher.",
+   "use_for": [
+    "Words, lines or list items appearing one by one: step 1 for the first, 2 for the second…",
+    "Bullet points and checklists building up",
+    "Icons or cards appearing in a row"
+   ],
+   "avoid_for": [
+    "Items appearing all at once (use a single pop)",
+    "Lists longer than five: there are five steps"
+   ],
+   "tags": [
+    "tone",
+    "step",
+    "marimba",
+    "step 1",
+    "note",
+    "musical",
+    "natural"
+   ],
+   "duration": 0.513,
+   "channels": 1,
+   "sync": {
+    "at": 0,
+    "meets": "instant",
+    "how": "Sync point on the frame each item appears; use the steps in order."
+   },
+   "timing": {
+    "audible_start": 0,
+    "onset": 0,
+    "peak": 0.012,
+    "body_end": 0.252,
+    "audible_end": 0.469
+   },
+   "level": {
+    "lufs": -26,
+    "true_peak_dbtp": -20.8,
+    "tier": "step"
+   },
+   "under_voiceover_db": -2,
+   "adapt": {
+    "rate": [
+     1,
+     1
+    ],
+    "notes": "Don't change the rate: it detunes the note."
+   },
+   "tuning": "C major pentatonic",
+   "pairs_with": [
+    {
+     "category": "pops",
+     "how": "Items popping in: the pop for each item and its step on top at −3 dB."
+    }
+   ],
+   "character": "warm marimba, C5",
+   "sha256": "425c4981f965f7db88f9d1971b6c9747539dc5209c52935319a7451feb5ec571"
+  },
+  {
+   "id": "tone-step-2",
+   "name": "Step 2 of 5",
+   "category": "tones",
+   "file": "sounds/tone-step-2.wav",
+   "variant": {
+    "kind": "step",
+    "step": "2"
+   },
+   "description": "Step 2 of 5: a soft marimba note (E), each one higher.",
+   "use_for": [
+    "Words, lines or list items appearing one by one: step 1 for the first, 2 for the second…",
+    "Bullet points and checklists building up",
+    "Icons or cards appearing in a row"
+   ],
+   "avoid_for": [
+    "Items appearing all at once (use a single pop)",
+    "Lists longer than five: there are five steps"
+   ],
+   "tags": [
+    "tone",
+    "step",
+    "marimba",
+    "step 2",
+    "note",
+    "musical",
+    "natural"
+   ],
+   "duration": 0.445,
+   "channels": 1,
+   "sync": {
+    "at": 0,
+    "meets": "instant",
+    "how": "Sync point on the frame each item appears; use the steps in order."
+   },
+   "timing": {
+    "audible_start": 0,
+    "onset": 0,
+    "peak": 0.011,
+    "body_end": 0.227,
+    "audible_end": 0.406
+   },
+   "level": {
+    "lufs": -26,
+    "true_peak_dbtp": -19.9,
+    "tier": "step"
+   },
+   "under_voiceover_db": -2,
+   "adapt": {
+    "rate": [
+     1,
+     1
+    ],
+    "notes": "Don't change the rate: it detunes the note."
+   },
+   "tuning": "C major pentatonic",
+   "pairs_with": [
+    {
+     "category": "pops",
+     "how": "Items popping in: the pop for each item and its step on top at −3 dB."
+    }
+   ],
+   "character": "warm marimba, E5",
+   "sha256": "249b0751f67d067ec6c680cd236658d78a836562dc4fdac5f801a1235717a09f"
+  },
+  {
+   "id": "tone-step-3",
+   "name": "Step 3 of 5",
+   "category": "tones",
+   "file": "sounds/tone-step-3.wav",
+   "variant": {
+    "kind": "step",
+    "step": "3"
+   },
+   "description": "Step 3 of 5: a soft marimba note (G), each one higher.",
+   "use_for": [
+    "Words, lines or list items appearing one by one: step 1 for the first, 2 for the second…",
+    "Bullet points and checklists building up",
+    "Icons or cards appearing in a row"
+   ],
+   "avoid_for": [
+    "Items appearing all at once (use a single pop)",
+    "Lists longer than five: there are five steps"
+   ],
+   "tags": [
+    "tone",
+    "step",
+    "marimba",
+    "step 3",
+    "note",
+    "musical",
+    "natural"
+   ],
+   "duration": 0.403,
+   "channels": 1,
+   "sync": {
+    "at": 0,
+    "meets": "instant",
+    "how": "Sync point on the frame each item appears; use the steps in order."
+   },
+   "timing": {
+    "audible_start": 0,
+    "onset": 0,
+    "peak": 0.011,
+    "body_end": 0.206,
+    "audible_end": 0.364
+   },
+   "level": {
+    "lufs": -26,
+    "true_peak_dbtp": -18.5,
+    "tier": "step"
+   },
+   "under_voiceover_db": -2,
+   "adapt": {
+    "rate": [
+     1,
+     1
+    ],
+    "notes": "Don't change the rate: it detunes the note."
+   },
+   "tuning": "C major pentatonic",
+   "pairs_with": [
+    {
+     "category": "pops",
+     "how": "Items popping in: the pop for each item and its step on top at −3 dB."
+    }
+   ],
+   "character": "warm marimba, G5",
+   "sha256": "f994c56e0c78fd3d87780e1f2c1819678029042a785fa7db859483a97ca2f30c"
+  },
+  {
+   "id": "tone-step-4",
+   "name": "Step 4 of 5",
+   "category": "tones",
+   "file": "sounds/tone-step-4.wav",
+   "variant": {
+    "kind": "step",
+    "step": "4"
+   },
+   "description": "Step 4 of 5: a soft marimba note (A), each one higher.",
+   "use_for": [
+    "Words, lines or list items appearing one by one: step 1 for the first, 2 for the second…",
+    "Bullet points and checklists building up",
+    "Icons or cards appearing in a row"
+   ],
+   "avoid_for": [
+    "Items appearing all at once (use a single pop)",
+    "Lists longer than five: there are five steps"
+   ],
+   "tags": [
+    "tone",
+    "step",
+    "marimba",
+    "step 4",
+    "note",
+    "musical",
+    "natural"
+   ],
+   "duration": 0.372,
+   "channels": 1,
+   "sync": {
+    "at": 0,
+    "meets": "instant",
+    "how": "Sync point on the frame each item appears; use the steps in order."
+   },
+   "timing": {
+    "audible_start": 0,
+    "onset": 0,
+    "peak": 0.011,
+    "body_end": 0.176,
+    "audible_end": 0.335
+   },
+   "level": {
+    "lufs": -26,
+    "true_peak_dbtp": -18,
+    "tier": "step"
+   },
+   "under_voiceover_db": -2,
+   "adapt": {
+    "rate": [
+     1,
+     1
+    ],
+    "notes": "Don't change the rate: it detunes the note."
+   },
+   "tuning": "C major pentatonic",
+   "pairs_with": [
+    {
+     "category": "pops",
+     "how": "Items popping in: the pop for each item and its step on top at −3 dB."
+    }
+   ],
+   "character": "warm marimba, A5",
+   "sha256": "6a85540d361ee17199ed769f77b873c9c747cb5bf3e331299030fdc2e5467a84"
+  },
+  {
+   "id": "tone-step-5",
+   "name": "Step 5 of 5",
+   "category": "tones",
+   "file": "sounds/tone-step-5.wav",
+   "variant": {
+    "kind": "step",
+    "step": "5"
+   },
+   "description": "Step 5 of 5: a soft marimba note (C), each one higher.",
+   "use_for": [
+    "Words, lines or list items appearing one by one: step 1 for the first, 2 for the second…",
+    "Bullet points and checklists building up",
+    "Icons or cards appearing in a row"
+   ],
+   "avoid_for": [
+    "Items appearing all at once (use a single pop)",
+    "Lists longer than five: there are five steps"
+   ],
+   "tags": [
+    "tone",
+    "step",
+    "marimba",
+    "step 5",
+    "note",
+    "musical",
+    "natural"
+   ],
+   "duration": 0.347,
+   "channels": 1,
+   "sync": {
+    "at": 0,
+    "meets": "instant",
+    "how": "Sync point on the frame each item appears; use the steps in order."
+   },
+   "timing": {
+    "audible_start": 0,
+    "onset": 0,
+    "peak": 0.011,
+    "body_end": 0.169,
+    "audible_end": 0.309
+   },
+   "level": {
+    "lufs": -26,
+    "true_peak_dbtp": -19.3,
+    "tier": "step"
+   },
+   "under_voiceover_db": -2,
+   "adapt": {
+    "rate": [
+     1,
+     1
+    ],
+    "notes": "Don't change the rate: it detunes the note."
+   },
+   "tuning": "C major pentatonic",
+   "pairs_with": [
+    {
+     "category": "pops",
+     "how": "Items popping in: the pop for each item and its step on top at −3 dB."
+    }
+   ],
+   "character": "warm marimba, C6",
+   "sha256": "d9ae370878290e3e8710accdaa283a3fec6d9aabd641d75807befa12dd2b0a5e"
+  },
+  {
+   "id": "notification-error-soft",
+   "name": "Error, soft",
+   "category": "notifications",
+   "file": "sounds/notification-error-soft.wav",
+   "variant": {
+    "kind": "error",
+    "intensity": "soft"
+   },
+   "description": "A soft, falling two-note marimba: something's not right, gently.",
+   "use_for": [
+    "A failed action or a wrong input",
+    "A cross or warning icon",
+    "Something that needs fixing"
+   ],
+   "avoid_for": [
+    "Positive moments",
+    "Moments that must cut through loud music (use clear)"
+   ],
+   "tags": [
+    "notification",
+    "error",
+    "soft",
+    "ui",
+    "tone",
+    "marimba",
+    "natural"
+   ],
+   "duration": 0.567,
+   "channels": 1,
+   "sync": {
+    "at": 0,
+    "meets": "instant",
+    "how": "Sync point on the frame the notification, tick or message appears."
+   },
+   "timing": {
+    "audible_start": 0,
+    "onset": 0,
+    "peak": 0.133,
+    "body_end": 0.33,
+    "audible_end": 0.528
+   },
+   "level": {
+    "lufs": -24,
+    "true_peak_dbtp": -16.3,
+    "tier": "soft"
+   },
+   "under_voiceover_db": -3,
+   "adapt": {
+    "rate": [
+     1,
+     1
+    ],
+    "notes": "Don't change the rate: it detunes the notes."
+   },
+   "tuning": "C major pentatonic",
+   "pairs_with": [
+    {
+     "category": "pops",
+     "how": "A badge or bubble appearing: the pop as it appears, the notification 40–80 ms after."
+    },
+    {
+     "category": "interface",
+     "how": "A button that confirms: the click first, the notification 60–120 ms after."
+    }
+   ],
+   "character": "warm marimba, D5 → A4",
+   "sha256": "a4fbba71503798c6c3f375b41e69d2f4dcf43866a1a29273eaa54a0280c8f339"
+  },
+  {
+   "id": "notification-failure-knock",
+   "name": "Failure, knock",
+   "category": "notifications",
+   "file": "sounds/notification-failure-knock.wav",
+   "variant": {
+    "outcome": "failure",
+    "style": "knock"
+   },
+   "description": "Two wooden knocks, the second lower: nope.",
+   "use_for": [
+    "A wrong answer, a mistake or a failed attempt",
+    "A cross, a warning or something that didn't work",
+    "Before and after: the 'before' moment"
+   ],
+   "avoid_for": [
+    "Positive moments",
+    "Serious errors that need urgency (use an alert)"
+   ],
+   "tags": [
+    "notification",
+    "failure",
+    "wrong",
+    "knock",
+    "ui",
+    "tone",
+    "natural"
+   ],
+   "duration": 0.318,
+   "channels": 1,
+   "sync": {
+    "at": 0,
+    "meets": "instant",
+    "how": "Sync point on the frame the tick, cross or result appears."
+   },
+   "timing": {
+    "audible_start": 0,
+    "onset": 0,
+    "peak": 0.151,
+    "body_end": 0.188,
+    "audible_end": 0.285
+   },
+   "level": {
+    "lufs": -23.5,
+    "true_peak_dbtp": -11.1,
+    "tier": "failure"
+   },
+   "under_voiceover_db": -3,
+   "adapt": {
+    "rate": [
+     1,
+     1
+    ],
+    "notes": "Don't change the rate: it detunes the notes."
+   },
+   "pairs_with": [
+    {
+     "category": "pops",
+     "how": "An icon appearing with it: the pop as it appears, the tone 40–80 ms after."
+    }
+   ],
+   "character": "failure, knock",
+   "sha256": "12b1ef87204233247ae2226e21fe9c2e25efa0c7e1eba55c407bc8c61015f04b"
   }
  ]
 }

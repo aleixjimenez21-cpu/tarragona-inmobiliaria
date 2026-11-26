@@ -122,7 +122,7 @@ function setup(plan, fmt, headtops) {
   const T = plan.texts || {};
   window.__brand = T.brand || '';
   document.querySelectorAll('[data-t]').forEach(e => { const v = T[e.dataset.t]; if (v) e.innerHTML = v; else e.style.display = 'none'; });
-  if (!T.badge_label && !T.badge_value) $('count').style.visibility = 'hidden';
+  if (!T.badge_label && !T.badge_value && !(T.badge_steps || []).length) $('count').style.visibility = 'hidden';
   if (!T.end_line && !T.end_deadline) document.querySelector('#endcard .rule').style.display = 'none';
   $('count').style.top = L.countTop + 'px'; $('count').style.right = L.countRight + 'px';
   $('chip').style.left = L.chipLeft + 'px'; $('chip').style.top = L.chipTop + 'px';
@@ -272,7 +272,14 @@ function render(t, layer) {
     }
   }
   // ---- cuenta atrás
-  if (layer === 'front') glass.push(rect($('count'), 100, 1));
+  // rótulo de arriba que cambia con el tiempo (p. ej. "error 1 de 3"): texts.badge_steps = [[t0, "texto"], …]
+  const bs = (P.texts || {}).badge_steps;
+  if (bs && bs.length) {
+    let v = bs[0][1], t0 = bs[0][0]; for (const [a, txt] of bs) if (t >= a) { v = txt; t0 = a; }
+    const el = $('count').querySelector('.v'); el.style.display = ''; el.innerHTML = v;
+    const k = eo((t - t0) / 0.25); $('count').style.transform = `scale(${0.94 + 0.06 * k})`;
+  }
+  if (layer === 'front' && $('count').style.visibility !== 'hidden') glass.push(rect($('count'), 100, 1));
   return glass;
 }
 

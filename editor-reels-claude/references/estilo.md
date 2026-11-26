@@ -29,7 +29,8 @@ el estilo "words behind his head" (palabra enorme detrás de la cabeza) con tarj
 
 ## Posiciones (9:16, 1080x1920)
 - Zonas seguras de Reels: nada importante por encima de y=269 (14 %) ni por debajo de y=1536 (20 %).
-- Rótulo de plazo: cristal arriba a la derecha (y≈286). Todo lo demás empieza en y≥362.
+- Rótulo de arriba: cristal a la derecha (y≈286): un plazo fijo ("hasta el 30 de noviembre") o un contador por pasos
+  con `texts.badge_steps = [[t, "error 1 de 3"], …]` en formatos de lista ("3 errores", "5 claves"). Todo lo demás empieza en y≥362.
 - Palabra grande: su altura se calcula con la posición de la cabeza (`head_tops.py`) para que la cabeza tape
   ~45 % (`cover`); con palabras cortas y clave (gancho) baja a ~0,3 para que se lean desde el primer fotograma.
 - Subtítulos: centro en y=1440. Etiqueta del clip: izquierda, y≈1290. Panel de cierre: y≈1075 (bajo la barbilla).
